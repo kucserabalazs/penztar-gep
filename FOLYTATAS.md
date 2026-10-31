@@ -63,6 +63,16 @@
 - CP2200: a régi oldalon a 2 500 Ft a belövőszál-csomag ára volt, a pisztoly most „ár kérésre”.
 - Műszaki adatok és leírások kiegészítve a régi oldal szövegei alapján (méretek, nyomtató, akku, csatlakozók, hitelesítési díjak, NR-440 kasszafiók nélküli ára, +2 év garancia).
 
+## Főoldal sorrend, lábléc, jogi oldalak, ügyfélkezelő (2026-10-31)
+- Főoldal szekciói: Amivel foglalkozunk, Kiemelt termékek, Kapcsolat, Vásárlás lépései, E-pénztárgép, GYIK, Rólunk (utolsó). Teljes lábléc: termékek, szolgáltatások, információk, elérhetőség, élő nyitva/zárva, Admin belépés.
+- Webáruház: #impresszum és #adatkezeles oldal; adószám, cégjegyzékszám, tárhelyszolgáltató az adminban (Cégadatok) tölthető ki.
+- Ügyfélkezelő (Admin › Ügyfelek): titkosított tárolás (data/clients.php, AES-256-GCM, kulcs: config.local.php 'kulcs' – ha elveszik, a lista nem olvasható vissza), napló (data/clients.log.php), 30 perc tétlenség után kiléptetés.
+  - Távolság légvonalban az üzlettől, zónák (alap: 3/10/25/50 km + távoli), zónánként kiszállási díj; szűrés, keresés, rendezés, saját SVG térkép (külső térképszolgáltató nélkül), kijelölt ügyfelekhez Google Térkép útvonal (legközelebbi szomszéd sorrend).
+  - Címből hely: OpenStreetMap Nominatim, szerveroldalon, csak a cím megy ki, 1 kérés/mp; nem talált cím esetén település szerint; kézi koordináta.
+  - Import Excel/CSV (böngészőben olvasva, Windows-1250 is), oszlop-felismerés, előnézet; export CSV (csak tulajdonos, naplózva). Törlés, import, export, zónák: csak tulajdonos.
+- Kezelő app: webaruhaz/kezelo.webmanifest + ikonok – iPhone Safari › Megosztás › Hozzáadás a Főképernyőhöz.
+- Az ügyféllista fájlja még nincs meg (a meghajtó csatolt mappájában nincs); a felhasználó adja meg a helyét.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).

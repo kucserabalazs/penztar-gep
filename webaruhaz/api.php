@@ -15,6 +15,8 @@ $PRODUCTS = DATA . '/products.json';
 $ORDERS   = DATA . '/orders.php';         // védett: közvetlenül nem tölthető le
 $USERS    = DATA . '/admin.users.php';    // admin felhasználók: jelszó-ujjlenyomat, telefonos app, zárolás
 $LOG      = DATA . '/admin.log.php';      // utolsó belépések
+$CLIENTS  = DATA . '/clients.php';        // ügyféllista – titkosítva (AES-256-GCM)
+$CLOG     = DATA . '/clients.log.php';    // ki mit csinált az ügyféllistával
 
 /* ===== Tulajdonosok =====
    Csak ők léphetnek be alapból, és csak ők adhatnak (vagy vonhatnak vissza) további admin hozzáférést.
@@ -70,7 +72,12 @@ function mask_mail(string $e): string { if (!str_contains($e, '@')) return ''; [
 function norm_tel(string $t): string { $d = preg_replace('/\D/', '', $t); if (str_starts_with($d, '06')) $d = '36' . substr($d, 2); return $d === '' ? '' : '+' . $d; }
 function pub_user(array $u): array { return ['id' => $u['id'], 'nev' => $u['nev'], 'tel' => mask_tel($u['tel'] ?? ''), 'szerep' => $u['szerep'] ?? 'admin', 'aktiv' => !empty($u['hash']), 'email' => !empty($u['email'])]; }
 function me(): ?array { return !empty($_SESSION['uid']) ? user((string)$_SESSION['uid']) : null; }
-function authed(): bool { return !empty($_SESSION['admin']) && me() !== null; }
+function authed(): bool {
+  if (empty($_SESSION['admin'])) return false;
+  if (time() - ($_SESSION['seen'] ?? time()) > 1800) { $_SESSION = []; return false; }   // 30 perc tétlenség után kiléptet
+  $_SESSION['seen'] = time();
+  return me() !== null;
+}
 function need_auth(): void { if (!authed()) out(['error' => 'Be kell jelentkezni.'], 401); }
 function need_owner(): void { need_auth(); if ((me()['szerep'] ?? '') !== 'tulajdonos') out(['error' => 'Ezt csak a tulajdonosok végezhetik el.'], 403); }
 
@@ -115,7 +122,7 @@ function totp_check(string $secret, string $code, int $last = 0): ?int { $code=p
 function log_login(array $u, string $how): void { global $LOG; locked(function () use ($u, $how, $LOG) { $l = read_json($LOG, []); array_unshift($l, ['ido' => date('c'), 'uid' => $u['id'], 'nev' => $u['nev'], 'ip' => $_SERVER['REMOTE_ADDR'] ?? '', 'mod' => $how, 'eszkoz' => mb_substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 160)]); write_json($LOG, array_slice($l, 0, 60)); }); }
 function grant(array $u, string $how): void {
   session_regenerate_id(true);
-  $_SESSION['admin'] = true; $_SESSION['uid'] = $u['id']; $_SESSION['csrf'] = bin2hex(random_bytes(16));
+  $_SESSION['admin'] = true; $_SESSION['seen'] = time(); $_SESSION['uid'] = $u['id']; $_SESSION['csrf'] = bin2hex(random_bytes(16));
   unset($_SESSION['pw_ok'], $_SESSION['code']);
   update_user($u['id'], function ($x) { $x['fail'] = 0; $x['lockUntil'] = 0; $x['utolso'] = date('c'); return $x; });
   log_login($u, $how);
@@ -124,6 +131,47 @@ function grant(array $u, string $how): void {
 function guard_user(array $u): void { if (($u['lockUntil'] ?? 0) > time()) out(['error' => 'Túl sok hibás próbálkozás miatt ez a hozzáférés ' . date('H:i', (int)$u['lockUntil']) . '-ig zárolva van.'], 429); }
 function fail_user(string $id, string $msg): void { update_user($id, function ($x) { $x['fail'] = ($x['fail'] ?? 0) + 1; if ($x['fail'] >= 8) { $x['lockUntil'] = time() + 900; $x['fail'] = 0; } return $x; }); usleep(400000); out(['error' => $msg], 401); }
 function pw_ok(string $pw): void { if (mb_strlen($pw) < 10) out(['error' => 'A jelszó legalább 10 karakter legyen.'], 400); }
+
+/* ===== Ügyféllista: titkosított tárolás, távolság az üzlettől, zónák ===== */
+function ckey(): string { global $LOCAL; $k = base64_decode((string)($LOCAL['kulcs'] ?? ''), true); if (!$k || strlen($k) !== 32) out(['error' => 'Hiányzik a titkosító kulcs a config.local.php fájlból, ezért az ügyféllista nem kezelhető.'], 500); return $k; }
+function c_read(): array {
+  global $CLIENTS; $raw = read_json($CLIENTS, null);
+  $def = ['clients' => [], 'meta' => ['bolt' => ['lat' => 46.0786, 'lon' => 18.2318, 'cim' => '7625 Pécs, Hunyadi János utca 34.', 'ellenorzott' => false], 'zonak' => [
+    ['nev' => 'Pécs belváros', 'km' => 3, 'szin' => '#1f9d55', 'dij' => ''], ['nev' => 'Pécs', 'km' => 10, 'szin' => '#2b6cb0', 'dij' => ''],
+    ['nev' => 'Pécs környéke', 'km' => 25, 'szin' => '#c98e2b', 'dij' => ''], ['nev' => 'Baranya', 'km' => 50, 'szin' => '#dd6b20', 'dij' => ''], ['nev' => 'Távoli', 'km' => null, 'szin' => '#c0352b', 'dij' => '']]]];
+  if (!$raw) return $def;
+  $plain = openssl_decrypt(base64_decode($raw['data']), 'aes-256-gcm', ckey(), OPENSSL_RAW_DATA, base64_decode($raw['iv']), base64_decode($raw['tag']));
+  if ($plain === false) out(['error' => 'Az ügyféllista nem fejthető vissza – a config.local.php kulcsa nem egyezik.'], 500);
+  return json_decode($plain, true) ?: $def;
+}
+function c_write(array $d): void {
+  global $CLIENTS; $iv = random_bytes(12); $tag = '';
+  $ct = openssl_encrypt(json_encode($d, JSON_UNESCAPED_UNICODE), 'aes-256-gcm', ckey(), OPENSSL_RAW_DATA, $iv, $tag);
+  write_json($CLIENTS, ['v' => 1, 'iv' => base64_encode($iv), 'tag' => base64_encode($tag), 'data' => base64_encode($ct)]);
+}
+function c_log(string $mit): void { global $CLOG; $u = me(); $l = read_json($CLOG, []); array_unshift($l, ['ido' => date('c'), 'nev' => $u['nev'] ?? '?', 'ip' => $_SERVER['REMOTE_ADDR'] ?? '', 'mit' => mb_substr($mit, 0, 200)]); write_json($CLOG, array_slice($l, 0, 300)); }
+const C_FIELDS = ['nev' => 160, 'kapcsolattarto' => 120, 'telefon' => 60, 'email' => 120, 'irsz' => 10, 'varos' => 80, 'cim' => 160, 'adoszam' => 20, 'gep' => 120, 'ap' => 40, 'felulvizsgalat' => 10, 'megjegyzes' => 2000, 'cimkek' => 200];
+function c_clean(array $in, array $old = []): array {
+  $c = $old;
+  foreach (C_FIELDS as $k => $max) if (array_key_exists($k, $in)) $c[$k] = mb_substr(trim((string)$in[$k]), 0, $max);
+  if (!empty($c['felulvizsgalat']) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $c['felulvizsgalat'])) $c['felulvizsgalat'] = '';
+  $addrChanged = !$old || ($old['irsz'] ?? '') !== ($c['irsz'] ?? '') || ($old['varos'] ?? '') !== ($c['varos'] ?? '') || ($old['cim'] ?? '') !== ($c['cim'] ?? '');
+  if (isset($in['lat'], $in['lon']) && is_numeric($in['lat']) && is_numeric($in['lon']) && abs((float)$in['lat']) <= 90 && abs((float)$in['lon']) <= 180 && ($in['geo'] ?? '') === 'kezi') { $c['lat'] = round((float)$in['lat'], 6); $c['lon'] = round((float)$in['lon'], 6); $c['geo'] = 'kezi'; }
+  elseif ($addrChanged) { $c['lat'] = null; $c['lon'] = null; $c['geo'] = 'nincs'; }
+  $c['id'] = $old['id'] ?? bin2hex(random_bytes(6));
+  $c['letrehozva'] = $old['letrehozva'] ?? date('c'); $c['modositva'] = date('c'); $c['modositotta'] = me()['nev'] ?? '';
+  return $c;
+}
+// cím → koordináta az OpenStreetMap ingyenes Nominatim szolgáltatásával (csak a cím megy ki, név soha)
+function geocode(string $q): ?array {
+  $url = 'https://nominatim.openstreetmap.org/search?' . http_build_query(['format' => 'jsonv2', 'limit' => 1, 'countrycodes' => 'hu', 'accept-language' => 'hu', 'q' => $q]);
+  $ctx = stream_context_create(['http' => ['timeout' => 12, 'header' => "User-Agent: penztar-gep.hu-kezelo/1.0 (" . MAIL_FROM . ")\r\nAccept: application/json\r\n"]]);
+  $r = @file_get_contents($url, false, $ctx); if ($r === false) return null;
+  $j = json_decode($r, true); if (!is_array($j)) return null;
+  if (!$j) return ['nincs' => true];
+  return ['lat' => round((float)$j[0]['lat'], 6), 'lon' => round((float)$j[0]['lon'], 6)];
+}
+function addr(array $c): string { return trim(implode(', ', array_filter([trim(($c['irsz'] ?? '') . ' ' . ($c['varos'] ?? '')), $c['cim'] ?? '']))); }
 
 $a = $_GET['a'] ?? '';
 $m = $_SERVER['REQUEST_METHOD'];
@@ -229,6 +277,70 @@ switch ($a) {
     need_auth(); $u = me(); $log = read_json($LOG, []);
     if ($u['szerep'] !== 'tulajdonos') $log = array_values(array_filter($log, fn($l) => ($l['uid'] ?? '') === $u['id']));
     out(['me' => pub_user($u) + ['emailMask' => mask_mail((string)$u['email'])], 'totp' => !empty($u['totp']['enabled']), 'since' => $u['totp']['since'] ?? null, 'recoveryLeft' => count($u['totp']['recovery'] ?? []), 'log' => array_slice($log, 0, 30)]);
+
+  /* ---- ügyféllista ---- */
+  case 'clients':
+    need_auth(); $d = c_read();
+    if (time() - ($_SESSION['clog'] ?? 0) > 600) { $_SESSION['clog'] = time(); locked(fn() => c_log('megnyitotta az ügyféllistát')); }
+    out(['clients' => $d['clients'], 'meta' => $d['meta'], 'tulajdonos' => me()['szerep'] === 'tulajdonos']);
+
+  case 'client-save':
+    need_auth(); check_csrf(); $in = (array)(body()['c'] ?? []);
+    $res = locked(function () use ($in) { $d = c_read(); $i = null;
+      foreach ($d['clients'] as $k => $c) if ($c['id'] === ($in['id'] ?? '')) $i = $k;
+      if (trim((string)($in['nev'] ?? ($i !== null ? $d['clients'][$i]['nev'] : ''))) === '') out(['error' => 'Adja meg az ügyfél nevét.'], 400);
+      $c = c_clean($in, $i !== null ? $d['clients'][$i] : []);
+      if ($i === null) $d['clients'][] = $c; else $d['clients'][$i] = $c;
+      c_write($d); c_log(($i === null ? 'új ügyfél: ' : 'módosította: ') . $c['nev']); return $c; });
+    out(['ok' => true, 'c' => $res]);
+
+  case 'client-del':
+    need_owner(); check_csrf(); $id = (string)(body()['id'] ?? '');
+    locked(function () use ($id) { $d = c_read(); $n = '';
+      $d['clients'] = array_values(array_filter($d['clients'], function ($c) use ($id, &$n) { if ($c['id'] === $id) { $n = $c['nev']; return false; } return true; }));
+      c_write($d); c_log('törölte: ' . $n); });
+    out(['ok' => true]);
+
+  case 'clients-import':   // a böngésző beolvassa a fájlt, ide már csak a mezőkre bontott sorok jönnek
+    need_owner(); check_csrf(); $b = body(); $rows = array_slice((array)($b['rows'] ?? []), 0, 5000); $mode = ($b['mode'] ?? '') === 'csere' ? 'csere' : 'hozza';
+    $n = locked(function () use ($rows, $mode) { $d = c_read(); if ($mode === 'csere') $d['clients'] = [];
+      $cnt = 0; foreach ($rows as $r) { if (!is_array($r) || trim((string)($r['nev'] ?? '')) === '') continue; $d['clients'][] = c_clean($r); $cnt++; }
+      c_write($d); c_log("importált $cnt ügyfelet (" . ($mode === 'csere' ? 'teljes csere' : 'hozzáadás') . ')'); return $cnt; });
+    out(['ok' => true, 'db' => $n]);
+
+  case 'clients-meta':     // üzlet helye és a zónák
+    need_owner(); check_csrf(); $b = body();
+    locked(function () use ($b) { $d = c_read();
+      if (isset($b['bolt']['lat'], $b['bolt']['lon']) && is_numeric($b['bolt']['lat']) && is_numeric($b['bolt']['lon'])) $d['meta']['bolt'] = ['lat' => (float)$b['bolt']['lat'], 'lon' => (float)$b['bolt']['lon'], 'cim' => mb_substr((string)($b['bolt']['cim'] ?? ''), 0, 160), 'ellenorzott' => true];
+      if (is_array($b['zonak'] ?? null)) { $z = [];
+        foreach (array_slice($b['zonak'], 0, 10) as $x) $z[] = ['nev' => mb_substr(trim((string)($x['nev'] ?? 'Zóna')), 0, 40), 'km' => is_numeric($x['km'] ?? null) ? (float)$x['km'] : null, 'szin' => preg_match('/^#[0-9a-f]{6}$/i', (string)($x['szin'] ?? '')) ? $x['szin'] : '#2b6cb0', 'dij' => mb_substr(trim((string)($x['dij'] ?? '')), 0, 60)];
+        usort($z, fn($p, $q) => ($p['km'] ?? 1e9) <=> ($q['km'] ?? 1e9)); $d['meta']['zonak'] = $z; }
+      c_write($d); c_log('módosította a zónákat / az üzlet helyét'); });
+    out(['ok' => true]);
+
+  case 'geocode':          // legfeljebb 6 cím helyének megkeresése kérésenként (a szolgáltatás szabálya: 1 kérés / mp)
+    need_auth(); check_csrf();
+    $res = locked(function () { $d = c_read(); $done = 0; $t0 = microtime(true);
+      if (empty($d['meta']['bolt']['ellenorzott'])) { $g = geocode($d['meta']['bolt']['cim']); if ($g && empty($g['nincs'])) { $d['meta']['bolt']['lat'] = $g['lat']; $d['meta']['bolt']['lon'] = $g['lon']; $d['meta']['bolt']['ellenorzott'] = true; } usleep(1100000); }
+      foreach ($d['clients'] as &$c) {
+        if (($c['geo'] ?? 'nincs') !== 'nincs') continue; if ($done >= 6 || microtime(true) - $t0 > 20) break;
+        $q = addr($c); if ($q === '') { $c['geo'] = 'hiba'; continue; }
+        $g = geocode($q);
+        if ($g === null) break;                        // a szolgáltatás nem érhető el – később újra
+        if (!empty($g['nincs']) && !empty($c['varos'])) { usleep(1100000); $g = geocode(trim(($c['irsz'] ?? '') . ' ' . $c['varos'])); if ($g && empty($g['nincs'])) $g['kozelito'] = true; }
+        if ($g && empty($g['nincs'])) { $c['lat'] = $g['lat']; $c['lon'] = $g['lon']; $c['geo'] = !empty($g['kozelito']) ? 'telepules' : 'ok'; } else $c['geo'] = 'hiba';
+        $done++; usleep(1100000);
+      } unset($c);
+      c_write($d); $left = count(array_filter($d['clients'], fn($c) => ($c['geo'] ?? 'nincs') === 'nincs'));
+      return ['kesz' => $done, 'hatra' => $left, 'clients' => $d['clients'], 'meta' => $d['meta']]; });
+    out($res);
+
+  case 'clients-export':
+    need_owner(); check_csrf(); $d = c_read(); c_log('exportálta az ügyféllistát (' . count($d['clients']) . ' ügyfél)');
+    out(['clients' => $d['clients']]);
+
+  case 'clients-log':
+    need_owner(); out(read_json($CLOG, []));
 
   /* ---- felhasználók kezelése: csak tulajdonos ---- */
   case 'users':

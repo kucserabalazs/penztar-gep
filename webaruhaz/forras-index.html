@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Webáruház · Totál Pénztárgép Pécs</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="manifest" href="kezelo.webmanifest">
+<link rel="apple-touch-icon" href="kezelo-180.png">
+<meta name="apple-mobile-web-app-title" content="Totál Kezelő">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#082746">
 <meta name="description" content="Online pénztárgépek, POS terminálok, mérlegek, árazógépek és kellékanyagok Pécsen. Kis készlet, alapos bemutatás, 360°-os nézet, helyi szerviz.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap">
@@ -583,6 +589,7 @@ select.i{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='
 footer{position:relative;background:var(--cream);color:var(--muted);border-top:1px solid #eee3cf}
 footer.slim .wrap{display:flex;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;padding-block:14px;font-size:.84rem}
 footer.slim a{font-weight:600;color:var(--n3)}
+footer.slim .flinks{display:inline-flex;gap:6px;flex-wrap:wrap}
 footer::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l) 35%,var(--gold) 70%,var(--gold-l))}
 footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-block:46px}
 footer .cols > *{min-width:0}
@@ -594,6 +601,42 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 @media (max-width:860px){footer .cols{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){footer .cols{grid-template-columns:1fr}}
 
+/* ügyfelek */
+.cl-wrap{display:grid;gap:14px}
+.cl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.cl-head h3{font-size:1.35rem}.cl-head h3 small{font-family:var(--fb);font-size:.9rem;font-weight:500}
+.cl-actions{display:flex;gap:6px;flex-wrap:wrap}
+.zchips{display:flex;gap:8px;flex-wrap:wrap}
+.zc{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:30px;border:1.5px solid var(--line);background:var(--surface);font-weight:600;font-size:.85rem;cursor:pointer}
+.zc i{width:10px;height:10px;border-radius:50%;background:var(--zc,#9aa6b2)}
+.zc small{color:var(--muted);font-weight:500}.zc b{background:var(--surface-2);border-radius:10px;padding:0 7px}
+.zc.on{border-color:var(--zc,var(--n2));box-shadow:inset 0 0 0 1px var(--zc,var(--n2));background:var(--surface-2)}
+.cl-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:1.5px solid var(--line-2);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:9px 14px;font-weight:700;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--n2);color:#fff}
+.routebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid #eedfbf}
+.routebar svg{width:20px;height:20px;color:var(--gold-d)}
+.clist{display:grid;gap:10px}
+.ccard{display:grid;grid-template-columns:auto minmax(0,1.6fr) minmax(0,.8fr) auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--zc);border-radius:12px;padding:12px 14px}
+.ccard .cmain{display:grid;gap:2px;min-width:0}.ccard .cmain b{font-size:1rem}
+.ccard .cmain small{font-size:.82rem}
+.cdist{display:grid;gap:2px;justify-items:start}.cdist b{font-family:var(--fd);font-size:1.15rem;color:var(--n2)}
+.zb{font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:10px;background:color-mix(in srgb,var(--zc) 14%,transparent);color:var(--zc)}
+.cside{display:grid;gap:6px;justify-items:end}
+.csel input{width:20px;height:20px;accent-color:var(--n2)}
+.rev{font-size:.78rem;font-weight:700;color:var(--muted)}.rev.kozel{color:var(--warn)}.rev.lejart{color:var(--bad)}
+@media (max-width:760px){.ccard{grid-template-columns:auto minmax(0,1fr) auto}.cside{grid-column:1/-1;justify-items:start;grid-auto-flow:column;justify-content:start}.cdist{justify-items:end}}
+.radar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px;justify-items:center}
+.radar svg{width:100%;max-width:640px;height:auto}
+.radar .ax{stroke:var(--line-2);stroke-width:1}
+.radar .rl{font:600 12px var(--fb);fill:var(--muted)}
+.radar .pt{cursor:pointer}.radar .pt:hover circle,.radar .pt:focus circle{r:9}
+.mapgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.mapgrid{grid-template-columns:1fr 1fr}}
+.zrow{display:grid;grid-template-columns:44px minmax(0,1fr) 110px auto minmax(0,1fr) 40px;gap:8px;align-items:center;margin-bottom:8px}
+.zrow .zcol{width:44px;height:40px;border:1px solid var(--line-2);border-radius:8px;padding:2px;background:#fff}
+@media (max-width:700px){.zrow{grid-template-columns:44px 1fr 90px 40px}.zrow span,.zrow [data-zd]{display:none}}
 /* admin */
 .adm{padding-block:26px 120px}
 .adm .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
@@ -689,7 +732,7 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
     <div class="sb"><img src="../assets/ikonok/truck.svg" alt=""><span>Országos<br>kiszállítás</span></div>
   </div>
 </section>
-<footer class="slim"><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><a href="#admin">Admin</a></div><ul id="f-cats" hidden></ul></footer>
+<footer class="slim"><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
 
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Kosár" aria-hidden="true"></aside>
@@ -1243,6 +1286,20 @@ function pageBuyInfo(){
   `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><div class="timeline"><div class="ev"><span class="d">1. lépés</span><div><b>Válassza ki a gépet</b><p class="muted">A webáruházban, vagy az üzletben, ahol kipróbálhatja.</p></div></div><div class="ev"><span class="d">2. lépés</span><div><b>Igényeljen üzembe helyezési kódot</b><p class="muted">Ön vagy könyvelője az ügyfélkapun igényli.</p></div></div><div class="ev"><span class="d">3. lépés</span><div><b>Hozza az iratokat</b><p class="muted">Aláírási címpéldány (társaság esetén). Megrendelést aláírásra jogosult vagy meghatalmazottja tehet.</p></div></div><div class="ev"><span class="d">4. lépés</span><div><b>Üzembe helyezés, betanítás</b><p class="muted">A gépet beállítva adjuk át.${uzembeAr()?` Díja: ${ft(uzembeAr())} + ÁFA.`:''}</p></div></div></div></div>
   <div class="panel"><h3>Jó tudni</h3><p>${esc(S().mobildij||'')}</p><p class="muted">Fizetés átvételkor készpénzzel, bankkártyával, vagy díjbekérő alapján átutalással. Az árváltozás jogát fenntartjuk.</p><a class="btn gold" href="#kat-penztargep" style="justify-self:start">${icon('register')} Pénztárgépek</a></div></div>`;
 }
+function pageImpresszum(){ const s=S(), row=(k,v)=>v?`<tr><th scope="row">${k}</th><td>${esc(v)}</td></tr>`:'';
+  return pageHead('Impresszum','','<a href="../">Kezdőlap</a>›<span>Impresszum</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:860px"><div class="panel"><table class="spec"><tbody>
+    ${row('Cégnév',s.cegnev)}${row('Székhely és üzlet',s.cim)}${row('Adószám',s.adoszam)}${row('Cégjegyzékszám',s.cegjegyzekszam)}${row('Telefon',[s.telefon,...(s.mobil||[])].join(', '))}${row('E-mail',s.email)}${row('Nyitvatartás',s.nyitvatartas)}${row('Tárhelyszolgáltató',s.tarhely)}
+  </tbody></table><p class="muted" style="font-size:.88rem">Az árak forintban értendők, az ÁFA-t külön feltüntetjük. Az árváltozás és a készlet erejéig érvényes ajánlat jogát fenntartjuk.</p></div></div>`; }
+function pageAdatkezeles(){ const s=S();
+  const sec=(t,b)=>`<h3 style="margin-top:8px">${t}</h3>${b}`;
+  return pageHead('Adatkezelési tájékoztató','Röviden és érthetően arról, milyen adatot kezelünk és miért.','<a href="../">Kezdőlap</a>›<span>Adatkezelés</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:860px"><div class="panel" style="line-height:1.65">
+  ${sec('Adatkezelő',`<p>${esc(s.cegnev)} · ${esc(s.cim)} · ${esc(s.email)} · ${esc(s.telefon)}</p>`)}
+  ${sec('Milyen adatot kezelünk?',`<p>Megrendelés, ajánlatkérés, szervizbejelentés és üzenet küldésekor a megadott nevet, cégnevet, telefonszámot, e-mail címet, számlázási címet, adószámot és az üzenet tartalmát. Pénztárgép-szervizhez a gép típusát és AP számát.</p>`)}
+  ${sec('Mire használjuk?',`<p>Kizárólag a megrendelés, az ajánlat vagy a szervizmunka teljesítésére, a kapcsolattartásra és a jogszabályban előírt bizonylatolásra (számla, pénztárgép-bejelentés). Hírlevelet nem küldünk, adatot nem adunk el, és harmadik félnek csak a teljesítéshez szükséges mértékben (pl. NAV-bejelentés, futárszolgálat) adunk át.</p>`)}
+  ${sec('Meddig őrizzük?',`<p>A megrendelés teljesítéséig, illetve amíg a jogszabály (számviteli, adózási előírások) megköveteli. A számlázáshoz kapcsolódó adatokat a számviteli törvény szerint 8 évig.</p>`)}
+  ${sec('Sütik és helyi tárolás',`<p>A webáruház nem használ követő vagy reklámcélú sütit. A kosár tartalmát az Ön böngészője tárolja helyben. Az admin belépéshez technikailag szükséges munkamenet-süti tartozik. A főoldalon a térképet a Google Térkép jeleníti meg, a betűtípusokat a Google Fonts szolgálja ki.</p>`)}
+  ${sec('Az Ön jogai',`<p>Kérhet tájékoztatást a kezelt adatairól, kérheti azok helyesbítését, törlését vagy kezelésük korlátozását, és tiltakozhat az adatkezelés ellen. Kérését a <b>${esc(s.email)}</b> címre küldheti. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH, 1055 Budapest, Falk Miksa utca 9–11., naih.hu) fordulhat.</p>`)}
+  </div></div>`; }
 function pageContact(){
   const s=S();
   return pageHead('Kapcsolat','Ingyenes parkolás az üzlet előtt.','<a href="../">Kezdőlap</a>›<span>Kapcsolat</span>') +
@@ -1295,7 +1352,7 @@ async function totpAt(secret,step){ const key=await crypto.subtle.importKey('raw
 async function totpCheck(secret,code,last=0){ code=String(code).replace(/\D/g,''); if(code.length!==6) return null; const t=Math.floor(Date.now()/30000); for(const d of [0,-1,1]){ const st=t+d; if(st>last && await totpAt(secret,st)===code) return st; } return null; }
 
 /* ---- előnézet: a szerver belépés-kezelésének másolata a böngészőben (élesben az api.php dolgozik) ---- */
-const AUTH_ACTIONS=new Set(['status','admins','code-start','set-password','login','login-resend','login2','logout','password','totp-setup','totp-enable','totp-disable','security','users','user-add','user-reset','user-del']);
+const AUTH_ACTIONS=new Set(['clients','client-save','client-del','clients-import','clients-meta','geocode','clients-export','clients-log','status','admins','code-start','set-password','login','login-resend','login2','logout','password','totp-setup','totp-enable','totp-disable','security','users','user-add','user-reset','user-del']);
 const P_OWNERS=[{id:'kucsera-istvan',nev:'Kucsera István',tel:'+36209804748'},{id:'ifj-kucsera-istvan',nev:'Ifj. Kucsera István',tel:'+36203222669'},{id:'kucsera-balazs',nev:'Kucsera Balázs',tel:'+36205363120'}];
 const PV={ sess:{} };
 const maskTel=t=>{ const d=String(t).replace(/\D/g,''); return d.length>=11?`+${d.slice(0,2)} ${d.slice(2,4)} *** ${d.slice(-4)}`:'***'; };
@@ -1313,6 +1370,7 @@ const pMe=()=>PV.sess.uid?pUsers()[PV.sess.uid]:null;
 async function fakeApi(a,b){
   const by=pUsers(), me=pMe(), owner=()=>{ if(!me) pErr('Be kell jelentkezni.'); if(me.szerep!=='tulajdonos') pErr('Ezt csak a tulajdonosok végezhetik el.'); };
   switch(a){
+  case 'clients': case 'client-save': case 'client-del': case 'clients-import': case 'clients-meta': case 'geocode': case 'clients-export': case 'clients-log': if(!me) pErr('Be kell jelentkezni.'); return fakeClients(a,b,me);
   case 'status': return {admin:!!me,csrf:me?'elonezet':null,me:me?pPub(me):null};
   case 'admins': return Object.values(by).map(pPub);
   case 'code-start': { const u=by[b.id]; if(!u) pErr('Ismeretlen felhasználó.'); const cel=u.hash?'visszaallitas':'aktivalas'; return {ok:true,cel,devCode:pSend(u,cel)}; }
@@ -1390,8 +1448,8 @@ function bindLogin(){
 const MODELS=[['kompakt','Pénztárgép'],['nagy','Pénztárgép kasszafiókkal'],['kezi','Hordozható pénztárgép'],['pos','POS terminál'],['merleg','Mérleg'],['arazo','Árazógép'],['scanner','Vonalkódolvasó'],['fiok','Kasszafiók'],['nyomtato','Blokknyomtató'],['printer2','Irodai nyomtató'],['papir','Papírtekercs'],['pc','Számítógép'],['egyeb','Egyéb']];
 function adminHTML(){ const t=ADMIN.tab;
   return `<div class="wrap adm"><div class="bar"><div style="margin-right:auto"><h2 class="it-title">Admin</h2><small class="muted">Belépve: <b>${esc(ADMIN.me?.nev||'')}</b> · ${ADMIN.me?.szerep==='tulajdonos'?'tulajdonos':'admin'}</small></div><span class="pill2">${MODE==='live'?'Élő oldal':'Előnézet'}</span><a class="btn line sm" href="#termekek">Webáruház</a><button class="btn line sm" type="button" id="logout">Kilépés</button></div>
-  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['beallitasok','Cégadatok, nyitvatartás'],...(ADMIN.me?.szerep==='tulajdonos'?[['felhasznalok','Felhasználók']]:[]),['biztonsag','Biztonság']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
-  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':(t==='biztonsag'||t==='felhasznalok')?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
+  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['ugyfelek','Ügyfelek'],['beallitasok','Cégadatok, nyitvatartás'],...(ADMIN.me?.szerep==='tulajdonos'?[['felhasznalok','Felhasználók']]:[]),['biztonsag','Biztonság']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
+  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':(t==='biztonsag'||t==='felhasznalok'||t==='ugyfelek')?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
   <div class="savebar" id="savebar" ${ADMIN.dirty?'':'hidden'}><div class="wrap"><span>Nem mentett változások</span><span style="display:flex;gap:8px"><button class="btn line sm" type="button" id="discard">Elvetés</button><button class="btn gold sm" type="button" id="save">Mentés</button></span></div></div>`; }
 function admProducts(){
   const tot=c=>DB.products.filter(p=>p.kategoria===c&&p.keszletDb!=null).reduce((a,p)=>a+(+p.keszletDb||0),0);
@@ -1440,7 +1498,7 @@ function admSettings(){ const s=S(); const h=s.nyitva||defHours();
     <div class="tablewrap"><table class="ptable"><tbody>${DAYS.map(([d,n])=>`<tr><td><b>${n}</b></td><td data-l="Nyitva"><label class="check" style="margin:0"><input type="checkbox" data-hopen="${d}" id="ho-${d}" ${h[d]?'checked':''}> nyitva</label></td><td data-l="Nyit"><input class="i num" type="time" data-hfrom="${d}" id="hf-${d}" value="${h[d]?h[d][0]:'09:00'}" ${h[d]?'':'disabled'} style="width:120px"></td><td data-l="Zár"><input class="i num" type="time" data-hto="${d}" id="ht-${d}" value="${h[d]?h[d][1]:'15:00'}" ${h[d]?'':'disabled'} style="width:120px"></td></tr>`).join('')}</tbody></table></div>
     <label class="l">Rendkívüli zárva tartás <span class="o">soronként egy nap (2026-12-27) vagy időszak (2026-12-22..2027-01-02), pl. szabadság</span><textarea class="i num" id="set-zarva" style="min-height:70px">${esc((s.zarvaNapok||[]).join('\n'))}</textarea></label>
     <p class="muted" id="htext" style="font-size:.9rem">A weboldalon így jelenik meg: <b>${esc(s.nyitvatartas)}</b></p></div>
-  ${[['cegnev','Cégnév'],['cim','Cím'],['telefon','Telefon'],['email','E-mail (ide jönnek a megrendelések)'],['alapitas','Alapítás éve'],['mobildij','Mobil adatkapcsolat díja (szöveg)']].map(([k,l])=>`<label class="l">${l}<input class="i" data-set="${k}" id="set-${k}" value="${esc(s[k])}"></label>`).join('')}
+  ${[['cegnev','Cégnév'],['cim','Cím'],['telefon','Telefon'],['email','E-mail (ide jönnek a megrendelések)'],['alapitas','Alapítás éve'],['mobildij','Mobil adatkapcsolat díja (szöveg)'],['adoszam','Adószám (Impresszumhoz)'],['cegjegyzekszam','Cégjegyzékszám (Impresszumhoz)'],['tarhely','Tárhelyszolgáltató neve, címe, elérhetősége (Impresszumhoz)']].map(([k,l])=>`<label class="l">${l}<input class="i" data-set="${k}" id="set-${k}" value="${esc(s[k])}"></label>`).join('')}
   <label class="l">Mobilszámok <span class="o">vesszővel elválasztva</span><input class="i" data-set="mobil" id="set-mobil" value="${esc((s.mobil||[]).join(', '))}"></label><label class="l">ÁFA kulcs (%)<input class="i num" data-set="afa" id="set-afa" inputmode="numeric" value="${esc(s.afa)}" style="max-width:120px"></label></form>
   ${MODE==='preview'?`<div class="editor" style="max-width:720px"><h3>Előnézeti adatok</h3><p class="muted">Az itt mentett változások csak ebben a böngészőben vannak.</p><div><button class="btn line" type="button" id="resetprev">Alapadatok visszaállítása</button> <span id="resetconfirm"></span></div></div>`:''}`; }
 function bindHours(){
@@ -1507,7 +1565,7 @@ function bindAdmin(){
   bindLogin(); if(!ADMIN.in) return;
   $('#logout').onclick=async()=>{ if(ADMIN.dirty&&!$('#logout').dataset.sure){ $('#logout').dataset.sure='1'; $('#logout').textContent='Biztos? Nem mentett változás van'; return; } try{ await api('logout',{body:{}}); }catch(e){} ADMIN.in=false; ADMIN.me=null; ADMIN.L={step:'who'}; ADMIN.csrf=null; ADMIN.dirty=false; await load(); route(); };
   $$('[data-tab]').forEach(b=>b.onclick=()=>{ ADMIN.tab=b.dataset.tab; ADMIN.edit=null; renderAdmin(); });
-  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers();
+  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers(); if(ADMIN.tab==='ugyfelek') admClients();
   $$('[data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{ const p=prod(inp.dataset.id), f=inp.dataset.f;
     if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
   const ac=$('#admcat'); if(ac) ac.onchange=()=>$$('.ptable tbody tr').forEach(tr=>tr.hidden=!!ac.value&&tr.dataset.cat!==ac.value);
@@ -1541,6 +1599,186 @@ function bindEditor(){
 }
 function shrink(file,max){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>{ const im=new Image(); im.onload=()=>{ const s=Math.min(1,max/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*s); c.height=Math.round(im.height*s); c.getContext('2d').drawImage(im,0,0,c.width,c.height); res(c.toDataURL('image/jpeg',.82)); }; im.onerror=()=>rej(new Error('Ez a fájl nem kép.')); im.src=r.result; }; r.onerror=()=>rej(new Error('A fájl nem olvasható.')); r.readAsDataURL(file); }); }
 
+
+/* ================= ÜGYFELEK: távolság az üzlettől, zónák, kiszállási kör ================= */
+const C={list:[],meta:null,owner:false,q:'',zone:-1,sort:'tav',view:'lista',sel:new Set(),geoRun:false};
+const DEMO_CLIENTS=[['Minta Pékség (minta)','Pécs','7621','Király utca 1.',46.0768,18.2310,'Sam4s NR-300'],['Példa Trafik (minta)','Pécs','7632','Diana tér 1.',46.0629,18.2026,'Micra Jota E'],['Minta Zöldséges (minta)','Kozármisleny','7761','Fő utca 1.',46.0302,18.2905,'Sam4s NR-240'],['Példa Büfé (minta)','Orfű','7677','Széchenyi tér 1.',46.1497,18.1475,'Micra K10'],['Minta Fodrászat (minta)','Komló','7300','Városház tér 1.',46.1917,18.2618,'Sam4s NR-330'],['Példa Vegyesbolt (minta)','Siklós','7800','Felszabadulás utca 1.',45.8549,18.2985,'Montel Sento'],['Minta Kávézó (minta)','Szigetvár','7900','Zrínyi tér 1.',46.0484,17.8060,'Sam4s NR-440'],['Példa Virágbolt (minta)','Mohács','7700','Széchenyi tér 1.',45.9931,18.6831,'Sam4s NR-300']]
+  .map(([nev,varos,irsz,cim,lat,lon,gep],i)=>({id:'minta'+i,nev,kapcsolattarto:'',telefon:'+36 30 000 00'+String(i).padStart(2,'0'),email:'',irsz,varos,cim,adoszam:'',gep,ap:'',felulvizsgalat:new Date(Date.now()+(i*41-60)*864e5).toISOString().slice(0,10),megjegyzes:'Kitalált mintaadat az előnézethez.',cimkek:'',lat,lon,geo:'ok'}));
+const DEF_META={bolt:{lat:46.0786,lon:18.2318,cim:'7625 Pécs, Hunyadi János utca 34.',ellenorzott:true},zonak:[{nev:'Pécs belváros',km:3,szin:'#1f9d55',dij:''},{nev:'Pécs',km:10,szin:'#2b6cb0',dij:''},{nev:'Pécs környéke',km:25,szin:'#c98e2b',dij:''},{nev:'Baranya',km:50,szin:'#dd6b20',dij:''},{nev:'Távoli',km:null,szin:'#c0352b',dij:''}]};
+function fakeClients(a,b,me){
+  const st=LS.get('ptg-clients-demo',null)||{clients:structuredClone(DEMO_CLIENTS),meta:structuredClone(DEF_META)}, save=()=>LS.set('ptg-clients-demo',st), own=me.szerep==='tulajdonos';
+  const needOwn=()=>{ if(!own) pErr('Ezt csak a tulajdonosok végezhetik el.'); };
+  switch(a){
+    case 'clients': return {clients:st.clients,meta:st.meta,tulajdonos:own};
+    case 'client-save': { const c=b.c||{}; if(!String(c.nev||'').trim()) pErr('Adja meg az ügyfél nevét.'); const i=st.clients.findIndex(x=>x.id===c.id); const old=i>=0?st.clients[i]:{};
+      const n={...old,...c,id:old.id||Math.random().toString(16).slice(2,14)}; const addrCh=['irsz','varos','cim'].some(k=>(old[k]||'')!==(n[k]||'')); if(c.geo==='kezi'){} else if(addrCh||i<0){ n.lat=null; n.lon=null; n.geo='nincs'; }
+      if(i>=0) st.clients[i]=n; else st.clients.push(n); save(); return {ok:true,c:n}; }
+    case 'client-del': needOwn(); st.clients=st.clients.filter(x=>x.id!==b.id); save(); return {ok:true};
+    case 'clients-import': { needOwn(); if(b.mode==='csere') st.clients=[]; let n=0; (b.rows||[]).forEach(r=>{ if(String(r.nev||'').trim()){ st.clients.push({...r,id:Math.random().toString(16).slice(2,14),lat:null,lon:null,geo:'nincs'}); n++; } }); save(); return {ok:true,db:n}; }
+    case 'clients-meta': needOwn(); if(b.bolt) st.meta.bolt={...b.bolt,ellenorzott:true}; if(b.zonak) st.meta.zonak=b.zonak; save(); return {ok:true};
+    case 'geocode': st.clients.forEach(c=>{ if(c.geo==='nincs') c.geo='hiba'; }); save(); return {kesz:0,hatra:0,clients:st.clients,meta:st.meta,elonezet:true};
+    case 'clients-export': needOwn(); return {clients:st.clients};
+    case 'clients-log': return [{ido:new Date().toISOString(),nev:me.nev,ip:'(ez a böngésző)',mit:'előnézet: a napló élesben a szerveren készül'}];
+  }
+}
+const toRad=d=>d*Math.PI/180;
+function kmFrom(c){ const b=C.meta?.bolt; if(!b||c.lat==null||c.lon==null) return null; const R=6371, dLa=toRad(c.lat-b.lat), dLo=toRad(c.lon-b.lon), x=Math.sin(dLa/2)**2+Math.cos(toRad(b.lat))*Math.cos(toRad(c.lat))*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
+function zoneIdx(km){ const z=C.meta?.zonak||[]; if(km==null) return -1; for(let i=0;i<z.length;i++) if(z[i].km==null||km<=z[i].km) return i; return z.length-1; }
+const fkm=k=>k==null?'—':(k<10?k.toFixed(1):Math.round(k)).toString().replace('.',',')+' km';
+const addrOf=c=>[[c.irsz,c.varos].filter(Boolean).join(' '),c.cim].filter(Boolean).join(', ');
+function revState(c){ if(!c.felulvizsgalat) return ''; const d=(new Date(c.felulvizsgalat)-new Date(new Date().toDateString()))/864e5; return d<0?'lejart':(d<=30?'kozel':''); }
+async function admClients(){
+  try{ const r=await api('clients'); C.list=r.clients||[]; C.meta=r.meta||DEF_META; C.owner=!!r.tulajdonos; }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  renderClients();
+  if(C.list.some(c=>(c.geo||'nincs')==='nincs')) runGeocode();
+}
+function clientRows(){
+  const q=C.q.trim().toLowerCase();
+  let l=C.list.map(c=>({c,km:kmFrom(c)})).map(x=>({...x,z:zoneIdx(x.km)}));
+  if(q) l=l.filter(({c})=>[c.nev,c.kapcsolattarto,c.varos,c.cim,c.irsz,c.telefon,c.gep,c.ap,c.cimkek].join(' ').toLowerCase().includes(q));
+  if(C.zone!==-1) l=l.filter(x=>C.zone===-2?x.km==null:x.z===C.zone);
+  const by={tav:(a,b)=>(a.km??1e9)-(b.km??1e9),nev:(a,b)=>a.c.nev.localeCompare(b.c.nev,'hu'),varos:(a,b)=>(a.c.varos||'').localeCompare(b.c.varos||'','hu')||(a.km??1e9)-(b.km??1e9),felul:(a,b)=>(a.c.felulvizsgalat||'9999').localeCompare(b.c.felulvizsgalat||'9999')};
+  return l.sort(by[C.sort]||by.tav);
+}
+function renderClients(){
+  const b=$('#admbody'); if(!b) return; const z=C.meta.zonak, all=C.list.map(c=>zoneIdx(kmFrom(c)));
+  const cnt=i=>all.filter(x=>x===i).length, noGeo=C.list.filter(c=>kmFrom(c)==null).length, rows=clientRows();
+  const zl=(i)=>{ const lo=i>0?z[i-1].km:0, hi=z[i].km; return hi==null?`${lo} km felett`:`${lo}–${hi} km`; };
+  b.innerHTML=`<div class="cl-wrap">
+   <div class="cl-head"><div><h3>Ügyfelek <small class="muted num">${C.list.length} ügyfél</small></h3><p class="muted" style="font-size:.86rem">Távolság légvonalban az üzlettől (${esc(C.meta.bolt.cim)}), úton ennél kb. 25–40%-kal több.${MODE==='preview'?' <b>Előnézet: kitalált mintaadatok.</b>':''}</p></div>
+     <div class="cl-actions">${C.owner?`<button class="btn line sm" type="button" id="cl-imp">${icon('file')} Importálás</button><button class="btn line sm" type="button" id="cl-exp">Exportálás</button><button class="btn line sm" type="button" id="cl-zon">Zónák</button><button class="btn ghost sm" type="button" id="cl-log">Napló</button>`:''}<button class="btn navy sm" type="button" id="cl-new">${icon('plus')} Új ügyfél</button></div></div>
+   <div class="zchips"><button type="button" class="zc ${C.zone===-1?'on':''}" data-z="-1">Mind <b>${C.list.length}</b></button>${z.map((x,i)=>`<button type="button" class="zc ${C.zone===i?'on':''}" data-z="${i}" style="--zc:${esc(x.szin)}"><i></i>${esc(x.nev)} <small>${zl(i)}</small> <b>${cnt(i)}</b></button>`).join('')}${noGeo?`<button type="button" class="zc ${C.zone===-2?'on':''}" data-z="-2" style="--zc:#9aa6b2"><i></i>Hely nélkül <b>${noGeo}</b></button>`:''}</div>
+   <div id="geoprog"></div>
+   <div class="cl-tools"><label class="search-in" style="max-width:none;flex:1">${icon('search')}<input class="i" id="cl-q" type="search" placeholder="Keresés: név, település, telefon, géptípus, AP szám" value="${esc(C.q)}"></label>
+     <select class="i" id="cl-sort" style="width:auto">${[['tav','Legközelebb elöl'],['nev','Név szerint'],['varos','Település szerint'],['felul','Felülvizsgálat szerint']].map(([k,v])=>`<option value="${k}" ${C.sort===k?'selected':''}>${v}</option>`).join('')}</select>
+     <div class="seg"><button type="button" class="${C.view==='lista'?'on':''}" data-v="lista">Lista</button><button type="button" class="${C.view==='terkep'?'on':''}" data-v="terkep">Térkép</button></div></div>
+   ${C.sel.size?`<div class="routebar">${icon('pin')}<span><b>${C.sel.size}</b> ügyfél kijelölve a kiszálláshoz</span><button class="btn gold sm" type="button" id="cl-route">Útvonal Google Térképen</button><button class="btn ghost sm" type="button" id="cl-unsel">Kijelölés törlése</button></div>`:''}
+   ${C.view==='terkep'?radarHTML(rows):(rows.length?`<div class="clist">${rows.map(({c,km,z:zi})=>{ const zz=z[zi], rs=revState(c); return `<article class="ccard" style="--zc:${zz?esc(zz.szin):'#9aa6b2'}">
+      <label class="csel"><input type="checkbox" data-sel="${esc(c.id)}" ${C.sel.has(c.id)?'checked':''} aria-label="Kijelölés kiszálláshoz"></label>
+      <div class="cmain"><b>${esc(c.nev)}</b>${c.kapcsolattarto?`<small>${esc(c.kapcsolattarto)}</small>`:''}<span class="muted">${esc(addrOf(c))||'<i>nincs cím</i>'}</span>${c.gep||c.ap?`<small class="muted">${esc([c.gep,c.ap&&('AP: '+c.ap)].filter(Boolean).join(' · '))}</small>`:''}</div>
+      <div class="cdist"><b class="num">${fkm(km)}</b><span class="zb">${zz?esc(zz.nev):'hely nélkül'}</span>${c.geo==='telepules'?'<small class="muted">település szerint</small>':c.geo==='hiba'?'<small style="color:var(--bad)">a cím nem található</small>':''}${zz&&zz.dij?`<small class="muted">kiszállás: ${esc(zz.dij)}</small>`:''}</div>
+      <div class="cside">${c.felulvizsgalat?`<span class="rev ${rs}">Felülvizsgálat: ${esc(c.felulvizsgalat.replace(/-/g,'.'))}.</span>`:''}${c.telefon?`<a class="btn line sm" href="tel:${esc(c.telefon.replace(/[^\d+]/g,''))}">${icon('phone')} ${esc(c.telefon)}</a>`:''}
+        <div style="display:flex;gap:6px">${addrOf(c)?`<a class="btn line sm" href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(C.meta.bolt.cim)}&destination=${encodeURIComponent(addrOf(c))}&travelmode=driving" target="_blank" rel="noopener">Útvonal</a>`:''}<button class="btn ghost sm" type="button" data-edit-c="${esc(c.id)}">Szerkesztés</button></div></div></article>`; }).join('')}</div>`:`<div class="empty">${icon('search','ic','width:40px;height:40px;color:var(--gold-d)')}<b>${C.list.length?'Nincs a szűrésnek megfelelő ügyfél.':'Még nincs ügyfél a listában.'}</b>${!C.list.length&&C.owner?'<p class="muted">Importálja a meglévő listát Excelből vagy CSV-ből, vagy vegyen fel ügyfelet kézzel.</p>':''}</div>`)}
+  </div>`;
+  let t; $('#cl-q').oninput=e=>{ clearTimeout(t); t=setTimeout(()=>{ C.q=e.target.value; renderClients(); const i=$('#cl-q'); i.focus(); i.setSelectionRange(i.value.length,i.value.length); },250); };
+  $('#cl-sort').onchange=e=>{ C.sort=e.target.value; renderClients(); };
+  $$('[data-z]').forEach(x=>x.onclick=()=>{ C.zone=+x.dataset.z; renderClients(); });
+  $$('[data-v]').forEach(x=>x.onclick=()=>{ C.view=x.dataset.v; renderClients(); });
+  $$('[data-sel]').forEach(x=>x.onchange=()=>{ x.checked?C.sel.add(x.dataset.sel):C.sel.delete(x.dataset.sel); renderClients(); });
+  $$('[data-edit-c]').forEach(x=>x.onclick=()=>clientForm(C.list.find(c=>c.id===x.dataset.editC)));
+  $$('[data-pt]').forEach(x=>x.addEventListener('click',()=>clientForm(C.list.find(c=>c.id===x.dataset.pt))));
+  $('#cl-new').onclick=()=>clientForm(null);
+  $('#cl-unsel')?.addEventListener('click',()=>{ C.sel.clear(); renderClients(); });
+  $('#cl-route')?.addEventListener('click',openRoute);
+  $('#cl-imp')?.addEventListener('click',importForm); $('#cl-zon')?.addEventListener('click',zoneForm);
+  $('#cl-exp')?.addEventListener('click',exportClients); $('#cl-log')?.addEventListener('click',showClientLog);
+}
+function radarHTML(rows){
+  const z=C.meta.zonak, maxKm=Math.max(5,...rows.map(r=>r.km||0).filter(k=>k<200))*1.08, R=300, cx=320, cy=320, b=C.meta.bolt;
+  const kx=111.32*Math.cos(toRad(b.lat)), sc=R/maxKm;
+  const rings=z.filter(x=>x.km!=null&&x.km<=maxKm).map(x=>`<circle cx="${cx}" cy="${cy}" r="${x.km*sc}" fill="${x.szin}" fill-opacity=".06" stroke="${x.szin}" stroke-opacity=".7" stroke-dasharray="4 4"/><text x="${cx+4}" y="${cy-x.km*sc+14}" class="rl" fill="${x.szin}">${esc(x.nev)} · ${x.km} km</text>`).reverse().join('');
+  const pts=rows.filter(r=>r.km!=null).map(({c,z:zi})=>{ const x=cx+(c.lon-b.lon)*kx*sc, y=cy-(c.lat-b.lat)*110.57*sc; const col=z[zi]?.szin||'#9aa6b2';
+    return `<g class="pt" data-pt="${esc(c.id)}" tabindex="0"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${C.sel.has(c.id)?8:6}" fill="${col}" stroke="#fff" stroke-width="2"/><title>${esc(c.nev)} – ${esc(c.varos||'')} (${fkm(kmFrom(c))})</title></g>`; }).join('');
+  return `<div class="radar"><svg viewBox="0 0 640 640" role="img" aria-label="Ügyfelek elhelyezkedése az üzlethez képest">${rings}<line x1="${cx}" y1="14" x2="${cx}" y2="626" class="ax"/><line x1="14" y1="${cy}" x2="626" y2="${cy}" class="ax"/><text x="${cx+6}" y="26" class="rl">É</text>${pts}<g><rect x="${cx-9}" y="${cy-9}" width="18" height="18" rx="4" fill="#082746" stroke="#f4d58d" stroke-width="2"/><text x="${cx+14}" y="${cy+4}" class="rl" fill="#082746">Üzlet</text></g></svg>
+   <p class="muted" style="font-size:.84rem">Az üzlet van középen, felül az észak. A pontra kattintva megnyílik az ügyfél adatlapja. A térkép csak itt, a böngészőben készül, az ügyfelek helye nem megy ki külső szolgáltatóhoz.</p></div>`;
+}
+function openRoute(){
+  const b=C.meta.bolt; let left=C.list.filter(c=>C.sel.has(c.id)&&addrOf(c)), cur={lat:b.lat,lon:b.lon}, ord=[];
+  while(left.length){ left.sort((p,q)=>{ const d=x=>x.lat==null?1e9:Math.hypot(x.lat-cur.lat,(x.lon-cur.lon)*Math.cos(toRad(cur.lat))); return d(p)-d(q); }); const n=left.shift(); ord.push(n); if(n.lat!=null) cur=n; }
+  if(!ord.length){ toast('A kijelölt ügyfeleknek nincs címe.'); return; }
+  if(ord.length>10){ toast('A Google Térkép egyszerre legfeljebb 10 megállót kezel, az első 10-et nyitom meg.'); ord=ord.slice(0,10); }
+  const dest=ord.pop(), wp=ord.map(addrOf).join('|');
+  const url=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(b.cim)}&destination=${encodeURIComponent(addrOf(dest))}${wp?'&waypoints='+encodeURIComponent(wp):''}&travelmode=driving`;
+  window.open(url,'_blank','noopener');
+}
+async function runGeocode(){
+  if(C.geoRun) return; C.geoRun=true;
+  try{ for(let guard=0;guard<400;guard++){
+      const left=C.list.filter(c=>(c.geo||'nincs')==='nincs').length; if(!left) break;
+      const g=$('#geoprog'); if(g) g.innerHTML=`<div class="msg info" style="font-weight:500">Címek helyének keresése az OpenStreetMap térképen: még ${left} cím van hátra. Ez címenként kb. 1 másodperc, nyugodtan dolgozhat közben.</div>`;
+      const r=await api('geocode',{body:{}}); C.list=r.clients; C.meta=r.meta; if(r.elonezet||!r.kesz) break; if(ADMIN.tab==='ugyfelek') renderClients(); }
+  }catch(e){ const g=$('#geoprog'); if(g) g.innerHTML=`<div class="msg err">${esc(e.message)}</div>`; }
+  C.geoRun=false; if(ADMIN.tab==='ugyfelek') renderClients();
+}
+function cModal(html,w=720){ const m=$('#modal'), box=$('.box',m); box.style.maxWidth=w+'px'; box.innerHTML=`<button class="icbtn x" type="button" aria-label="Bezárás">${icon('x')}</button><div style="padding:24px;display:grid;gap:14px">${html}</div>`; m.classList.add('show'); m.setAttribute('aria-hidden','false'); showOverlay(closeModal); $('.x',box).onclick=closeModal; return box; }
+function clientForm(c){
+  const v=k=>esc(c?.[k]??''), f=(k,l,o='')=>`<label class="l">${l}<input class="i" id="cf-${k}" value="${v(k)}" ${o}></label>`;
+  const box=cModal(`<span class="eyebrow">${c?'Ügyfél szerkesztése':'Új ügyfél'}</span><h2 class="it-title" style="font-size:1.5rem">${c?esc(c.nev):'Új ügyfél'}</h2>
+   <form class="f" id="cform">${f('nev','Név / cégnév','required')}<div class="row2">${f('kapcsolattarto','Kapcsolattartó')}${f('telefon','Telefon','type="tel"')}</div><div class="row2">${f('email','E-mail','type="email"')}${f('adoszam','Adószám')}</div>
+    <div class="row2"><div class="row2" style="grid-template-columns:110px 1fr">${f('irsz','Irsz.','inputmode="numeric"')}${f('varos','Település')}</div>${f('cim','Utca, házszám')}</div>
+    <div class="row2">${f('gep','Pénztárgép típusa')}${f('ap','AP szám')}</div><div class="row2"><label class="l">Következő éves felülvizsgálat<input class="i" type="date" id="cf-felulvizsgalat" value="${v('felulvizsgalat')}"></label>${f('cimkek','Címkék <span class="o">vesszővel</span>')}</div>
+    <label class="l">Megjegyzés<textarea class="i" id="cf-megjegyzes">${v('megjegyzes')}</textarea></label>
+    <details class="faq" style="margin:0"><summary>Hely kézi pontosítása</summary><p>Ha a cím alapján rossz helyre kerül, írja be a koordinátát (Google Térképen jobb klikk a helyre → az első sor). ${c&&c.lat!=null?`Most: ${c.lat}, ${c.lon}`:''}</p><div class="row2" style="padding-bottom:14px">${f('lat','Szélesség (pl. 46.0786)','inputmode="decimal"')}${f('lon','Hosszúság (pl. 18.2318)','inputmode="decimal"')}</div></details>
+    <div class="out"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn gold" type="submit">Mentés</button>${c&&C.owner?`<button class="btn ghost" type="button" id="cf-del" style="color:var(--bad)">Törlés</button><span id="cf-delc"></span>`:''}</div></form>`);
+  if(c){ $('#cf-lat').value=''; $('#cf-lon').value=''; }
+  $('#cform').onsubmit=async e=>{ e.preventDefault(); const o={id:c?.id}; ['nev','kapcsolattarto','telefon','email','adoszam','irsz','varos','cim','gep','ap','felulvizsgalat','cimkek','megjegyzes'].forEach(k=>o[k]=$('#cf-'+k).value);
+    const la=$('#cf-lat').value.replace(',','.'), lo=$('#cf-lon').value.replace(',','.'); if(la&&lo){ o.lat=+la; o.lon=+lo; o.geo='kezi'; }
+    try{ const r=await api('client-save',{body:{c:o}}); const i=C.list.findIndex(x=>x.id===r.c.id); if(i>=0) C.list[i]=r.c; else C.list.push(r.c); closeModal(); toast('Mentve'); renderClients(); if(r.c.geo==='nincs') runGeocode(); }catch(err){ $('#cform .out').innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  $('#cf-del')?.addEventListener('click',()=>{ $('#cf-delc').innerHTML='<button class="btn sm" type="button" style="background:var(--bad);color:#fff">Igen, törlöm</button>'; $('#cf-delc button').onclick=async()=>{ try{ await api('client-del',{body:{id:c.id}}); C.list=C.list.filter(x=>x.id!==c.id); C.sel.delete(c.id); closeModal(); toast('Törölve'); renderClients(); }catch(err){ toast(err.message); } }; });
+}
+/* ---- importálás Excelből / CSV-ből: a fájlt a böngésző olvassa be, a szerverre csak a mezők mennek ---- */
+const CF_LABELS={nev:'Név / cégnév',kapcsolattarto:'Kapcsolattartó',telefon:'Telefon',email:'E-mail',irsz:'Irányítószám',varos:'Település',cim:'Utca, házszám (vagy teljes cím)',adoszam:'Adószám',gep:'Pénztárgép típusa',ap:'AP szám',felulvizsgalat:'Felülvizsgálat dátuma',megjegyzes:'Megjegyzés',cimkek:'Címkék'};
+const CF_SYN={nev:['név','nev','ügyfél','ugyfel','cégnév','cegnev','cég','ceg','vállalkozás','partner','megnevezés','vevő','vevo','üzlet','bolt'],kapcsolattarto:['kapcsolattartó','kapcsolattarto','ügyintéző','kontakt','tulajdonos'],telefon:['telefon','tel','mobil','telefonszám','telszám'],email:['e-mail','email','mail'],irsz:['irsz','irányítószám','iranyitoszam','ir.sz','isz'],varos:['város','varos','település','telepules','helység','helyseg'],cim:['cím','cim','utca','házszám','telephely','szállítási cím'],adoszam:['adószám','adoszam'],gep:['pénztárgép','penztargep','gép','gep','típus','tipus','gépszám'],ap:['ap','ap szám','apszám','ap-szám'],felulvizsgalat:['felülvizsgálat','felulvizsgalat','éves','esedékes','következő'],megjegyzes:['megjegyzés','megjegyzes','info','megj'],cimkek:['címke','cimke','csoport','kategória']};
+const norm=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+function guessMap(head){ const m={}; head.forEach((h,i)=>{ const n=norm(h); let best=null; for(const [k,syn] of Object.entries(CF_SYN)) for(const s of syn){ const ns=norm(s); if(n===ns||n.startsWith(ns+' ')||n.endsWith(' '+ns)||(ns.length>3&&n.includes(ns))){ if(!best||ns.length>best[1]) best=[k,ns.length]; } } if(best&&m[best[0]]==null) m[best[0]]=i; }); return m; }
+function parseCSV(txt){ const sep=(txt.split('\n')[0].match(/;/g)||[]).length>=(txt.split('\n')[0].match(/,/g)||[]).length?';':','; const rows=[]; let row=[],cell='',q=false;
+  for(let i=0;i<txt.length;i++){ const ch=txt[i]; if(q){ if(ch==='"'){ if(txt[i+1]==='"'){ cell+='"'; i++; } else q=false; } else cell+=ch; } else if(ch==='"') q=true; else if(ch===sep){ row.push(cell); cell=''; } else if(ch==='\n'){ row.push(cell.replace(/\r$/,'')); rows.push(row); row=[]; cell=''; } else cell+=ch; }
+  if(cell||row.length){ row.push(cell); rows.push(row); } return rows.filter(r=>r.some(x=>String(x).trim())); }
+function loadXLSX(){ return window.XLSX?Promise.resolve():new Promise((ok,no)=>{ const sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload=ok; sc.onerror=()=>no(new Error('Az Excel-olvasó nem töltődött be. Mentse a táblázatot CSV-ként, és azt töltse fel.')); document.head.appendChild(sc); }); }
+async function readTable(file){
+  if(/\.xlsx?$|\.ods$/i.test(file.name)){ await loadXLSX(); const wb=XLSX.read(await file.arrayBuffer(),{type:'array',cellDates:true}); const sh=wb.Sheets[wb.SheetNames[0]]; return XLSX.utils.sheet_to_json(sh,{header:1,raw:false,dateNF:'yyyy-mm-dd',defval:''}).filter(r=>r.some(x=>String(x).trim())); }
+  const buf=await file.arrayBuffer(); let txt; try{ txt=new TextDecoder('utf-8',{fatal:true}).decode(buf); }catch(e){ txt=new TextDecoder('windows-1250').decode(buf); }
+  return parseCSV(txt.replace(/^﻿/,''));
+}
+function toDate(v){ v=String(v||'').trim(); let m=v.match(/^(\d{4})[.\-\/ ]+(\d{1,2})[.\-\/ ]+(\d{1,2})/); if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`; m=v.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})/); if(m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`; return ''; }
+function rowToClient(r,map){ const g=k=>map[k]!=null&&map[k]!==''?String(r[map[k]]??'').trim():''; const c={}; Object.keys(CF_LABELS).forEach(k=>c[k]=g(k));
+  if(!c.irsz&&!c.varos&&c.cim){ const m=c.cim.match(/^(\d{4})\s+([^,]+),\s*(.+)$/); if(m){ c.irsz=m[1]; c.varos=m[2].trim(); c.cim=m[3].trim(); } }
+  if(c.irsz&&!c.varos){ const m=c.irsz.match(/^(\d{4})\s+(.+)$/); if(m){ c.irsz=m[1]; c.varos=m[2]; } }
+  c.felulvizsgalat=toDate(c.felulvizsgalat); return c; }
+function importForm(){
+  const box=cModal(`<span class="eyebrow">Ügyféllista importálása</span><h2 class="it-title" style="font-size:1.5rem">Excel vagy CSV fájlból</h2>
+   <p class="muted">A fájlt a böngészője olvassa be, és csak a kiválasztott oszlopok kerülnek fel a szerverre, ott titkosítva tárolódnak. A címekből a rendszer kiszámolja a távolságot és a zónát.</p>
+   <input type="file" id="imp-file" accept=".xlsx,.xls,.ods,.csv,.txt"><div id="imp-body"></div>`,880);
+  $('#imp-file').onchange=async e=>{ const file=e.target.files[0]; if(!file) return; const out=$('#imp-body'); out.innerHTML='<p class="muted">Beolvasás…</p>';
+    try{ const rows=await readTable(file); if(rows.length<2) throw new Error('A fájlban nem találtam adatsort.');
+      const head=rows[0].map(String), data=rows.slice(1), map=guessMap(head);
+      const sel=k=>`<select class="i" data-map="${k}"><option value="">– nincs –</option>${head.map((h,i)=>`<option value="${i}" ${map[k]===i?'selected':''}>${esc(h||('Oszlop '+(i+1)))}</option>`).join('')}</select>`;
+      out.innerHTML=`<div class="msg info" style="font-weight:500">${data.length} sort találtam. Ellenőrizze, melyik oszlop mit tartalmaz (amit felismertem, előre beállítottam).</div>
+       <div class="mapgrid">${Object.entries(CF_LABELS).map(([k,l])=>`<label class="l">${l}${sel(k)}</label>`).join('')}</div>
+       <div id="imp-prev"></div>
+       <div class="radios"><label><input type="radio" name="imp-mode" value="hozza" checked> Hozzáadás a meglévő ügyfelekhez</label><label><input type="radio" name="imp-mode" value="csere"> A teljes lista cseréje (a mostani ${C.list.length} ügyfél törlődik)</label></div>
+       <div class="out"></div><button class="btn gold" type="button" id="imp-go">Importálás</button>`;
+      const cur=()=>{ const m={}; $$('[data-map]',out).forEach(s=>{ if(s.value!=='') m[s.dataset.map]=+s.value; }); return m; };
+      const prev=()=>{ const m=cur(), p=data.slice(0,4).map(r=>rowToClient(r,m)); $('#imp-prev').innerHTML=`<div class="tablewrap" style="margin-top:6px"><table class="ptable"><thead><tr><th>Név</th><th>Település</th><th>Cím</th><th>Telefon</th><th>Gép</th></tr></thead><tbody>${p.map(c=>`<tr><td>${esc(c.nev)}</td><td>${esc([c.irsz,c.varos].filter(Boolean).join(' '))}</td><td>${esc(c.cim)}</td><td>${esc(c.telefon)}</td><td>${esc(c.gep)}</td></tr>`).join('')}</tbody></table></div><p class="muted" style="font-size:.82rem">Az első ${p.length} sor előnézete.</p>`; };
+      $$('[data-map]',out).forEach(s=>s.onchange=prev); prev();
+      $('#imp-go').onclick=async()=>{ const m=cur(); if(m.nev==null){ $('.out',out).innerHTML='<div class="msg err">Jelölje ki, melyik oszlopban van az ügyfél neve.</div>'; return; }
+        const mode=$('input[name=imp-mode]:checked').value; const list=data.map(r=>rowToClient(r,m)).filter(c=>c.nev);
+        try{ const r=await api('clients-import',{body:{rows:list,mode}}); closeModal(); toast(`${r.db} ügyfél importálva`); await admClients(); }catch(err){ $('.out',out).innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+    }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+}
+function zoneForm(){
+  const z=structuredClone(C.meta.zonak), b=C.meta.bolt;
+  const row=(x,i)=>`<div class="zrow"><input type="color" class="zcol" value="${esc(x.szin)}" aria-label="Szín"><input class="i" value="${esc(x.nev)}" data-zn aria-label="Zóna neve"><input class="i num" value="${x.km??''}" data-zk inputmode="decimal" placeholder="nincs határ" aria-label="Felső határ km"><span class="muted">km-ig</span><input class="i" value="${esc(x.dij||'')}" data-zd placeholder="kiszállási díj (nem kötelező)" aria-label="Kiszállási díj"><button class="icbtn" type="button" data-zdel="${i}" aria-label="Zóna törlése">${icon('x')}</button></div>`;
+  const box=cModal(`<span class="eyebrow">Beállítások</span><h2 class="it-title" style="font-size:1.5rem">Zónák és az üzlet helye</h2>
+   <p class="muted">A zónák az üzlettől mért légvonalbeli távolság szerint sorolják be az ügyfeleket. Az utolsó zóna felső határa maradhat üresen (minden, ami ennél messzebb van).</p>
+   <div id="zlist">${z.map(row).join('')}</div><button class="btn line sm" type="button" id="zadd" style="justify-self:start">${icon('plus')} Új zóna</button>
+   <div class="row2"><label class="l">Üzlet címe<input class="i" id="b-cim" value="${esc(b.cim)}"></label><div class="row2"><label class="l">Szélesség<input class="i num" id="b-lat" value="${b.lat}"></label><label class="l">Hosszúság<input class="i num" id="b-lon" value="${b.lon}"></label></div></div>
+   <p class="muted" style="font-size:.84rem">${b.ellenorzott?'Az üzlet helye be van állítva.':'Az üzlet helyét a rendszer az első címkereséskor magától pontosítja.'} Kézi pontosítás: Google Térképen jobb klikk az üzletre, az első sor a két szám.</p>
+   <div class="out"></div><button class="btn gold" type="button" id="zsave" style="justify-self:start">Mentés</button>`,820);
+  const bind=()=>{ $$('[data-zdel]',box).forEach(x=>x.onclick=()=>{ x.closest('.zrow').remove(); }); };
+  bind(); $('#zadd').onclick=()=>{ $('#zlist').insertAdjacentHTML('beforeend',row({nev:'Új zóna',km:'',szin:'#6b46c1',dij:''},99)); bind(); };
+  $('#zsave').onclick=async()=>{ const zonak=$$('.zrow',box).map(r=>({nev:$('[data-zn]',r).value,km:$('[data-zk]',r).value.trim()===''?null:+$('[data-zk]',r).value.replace(',','.'),szin:$('.zcol',r).value,dij:$('[data-zd]',r).value})).sort((a,b)=>(a.km??1e9)-(b.km??1e9));
+    const bolt={cim:$('#b-cim').value,lat:+$('#b-lat').value.replace(',','.'),lon:+$('#b-lon').value.replace(',','.')};
+    try{ await api('clients-meta',{body:{zonak,bolt}}); closeModal(); toast('Zónák mentve'); await admClients(); }catch(err){ $('.out',box).innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+}
+async function exportClients(){
+  try{ const r=await api('clients-export',{body:{}}); const cols=Object.keys(CF_LABELS), q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+    const csv='﻿'+[[...cols.map(k=>CF_LABELS[k]),'Távolság (km)','Zóna'].map(q).join(';'),...r.clients.map(c=>{ const km=kmFrom(c), zi=zoneIdx(km); return [...cols.map(k=>c[k]),km==null?'':km.toFixed(1).replace('.',','),C.meta.zonak[zi]?.nev||''].map(q).join(';'); })].join('\r\n');
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download='ugyfelek-'+new Date().toISOString().slice(0,10)+'.csv'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500);
+    toast('Exportálva – a fájlt tárolja biztonságos helyen'); }catch(err){ toast(err.message); }
+}
+async function showClientLog(){ try{ const l=await api('clients-log'); cModal(`<span class="eyebrow">Biztonság</span><h2 class="it-title" style="font-size:1.5rem">Ügyféllista napló</h2><p class="muted">Ki, mikor nyitotta meg, módosította, importálta vagy exportálta a listát.</p><div class="tablewrap"><table class="ptable"><thead><tr><th>Időpont</th><th>Ki</th><th>Mit</th></tr></thead><tbody>${l.slice(0,100).map(x=>`<tr><td class="num" data-l="Időpont">${esc(new Date(x.ido).toLocaleString('hu-HU'))}</td><td data-l="Ki"><b>${esc(x.nev)}</b><br><small class="muted num">${esc(x.ip)}</small></td><td data-l="Mit">${esc(x.mit)}</td></tr>`).join('')}</tbody></table></div>`,820); }catch(err){ toast(err.message); } }
+
 /* ================= útválasztás ================= */
 function afterRender(){ const app=$('#app'); STAGES.length=0; initStages(app); fitMinis(app); bindForms(app);
   $$('[data-add]',app).forEach(b=>b.onclick=()=>addCart(b.dataset.add)); $$('[data-qv]',app).forEach(b=>b.onclick=()=>openQuickView(b.dataset.qv)); $$('[data-cmp]',app).forEach(b=>b.onclick=()=>toggleCmp(b.dataset.cmp));
@@ -1562,6 +1800,8 @@ async function route(){
   else if(h==='rolunk'){ html=pageAbout(); nav='rolunk'; }
   else if(h==='vasarlas') html=pageBuyInfo();
   else if(h==='kapcsolat'){ html=pageContact(); nav='kapcsolat'; }
+  else if(h==='impresszum') html=pageImpresszum();
+  else if(h==='adatkezeles') html=pageAdatkezeles();
   else if(h==='admin'){ html=await pageAdmin(); after=bindAdmin; }
   else { app.dataset.view='all'; html=pageCategory(''); after=()=>bindCategory(''); }
   if(!shop && h!=='kosar') app.dataset.view='';

@@ -281,6 +281,28 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .mapcol .photo img{aspect-ratio:16/9}
 /* lábléc (főoldal) */
+.ffoot{background:linear-gradient(180deg,#071f3b,#041a33);color:#b9c7d8;font-size:.94rem;position:relative}
+.ffoot::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#b7832e,#f4d58d 35%,#d6a64e 70%,#f4d58d)}
+.fcols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1.3fr;gap:32px;padding-block:52px 40px}
+.fcols > *{min-width:0}
+.ffoot h4{margin:0 0 14px;font-family:var(--fd);font-weight:700;font-size:1rem;color:#fff;letter-spacing:.02em}
+.ffoot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.ffoot a:hover{color:#f4d58d}
+.fbrand img{width:190px;height:auto;display:block}
+.fbrand p{margin:14px 0 16px;line-height:1.6;max-width:36ch}
+.fopen{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:30px;border:1px solid rgba(255,255,255,.18);font-weight:600;color:#fff}
+.fopen i{width:9px;height:9px;border-radius:50%;background:#9aa6b2}
+.fopen.open i{background:#2ecc71;box-shadow:0 0 0 4px rgba(46,204,113,.2)}.fopen.soon i{background:#f0a020}
+.fcontact{display:grid;gap:11px;align-content:start}
+.fcontact a,.fcontact div{display:flex;gap:11px;align-items:flex-start;line-height:1.4}
+.fcontact svg{width:19px;height:19px;color:#e2b862;flex-shrink:0;margin-top:1px;stroke-width:1.9}
+.fp{width:19px;height:19px;border-radius:4px;background:#1d5fbf;color:#fff;font-family:var(--fd);font-size:.75rem;display:grid;place-items:center;flex-shrink:0;border:1.5px solid #fff}
+.fbottom{border-top:1px solid rgba(255,255,255,.1);font-size:.86rem}
+.fbottom .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px 24px;flex-wrap:wrap;padding-block:16px}
+.fadm{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:1px solid rgba(244,213,141,.4);color:#f4d58d;font-weight:600}
+.fadm svg{width:16px;height:16px}
+@media (max-width:1100px){.fcols{grid-template-columns:1fr 1fr 1fr}.fbrand{grid-column:1/-1}}
+@media (max-width:640px){.fcols{grid-template-columns:1fr 1fr;gap:26px}.fcontact{grid-column:1/-1}.ffoot{padding-bottom:76px}}
 .hfoot{background:#061c35;color:#b9c7d8;font-size:.9rem}
 .hfoot .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-block:22px}
 .hfoot img{width:150px;height:auto;display:block}
@@ -304,7 +326,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .btns .hb{flex:1}
   .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid #dfe5eb;box-shadow:0 -8px 24px rgba(24,46,72,.1)}
   .mbar a{flex:1;min-height:46px;font-size:.92rem;padding:0 10px}
-  .hfoot{padding-bottom:76px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -390,60 +411,9 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   </div>
 </section>
 
-<section class="sec cream2" id="rolunk">
-  <div class="wrap about">
-    <div class="rv">
-      <span class="eye">Rólunk</span><h2 class="sh2">Pécsen, <em>1982 óta</em></h2>
-      <p class="slead" style="margin-bottom:18px">A Totál Pénztárgép és Számítástechnika családi vállalkozás a Hunyadi János utcában.</p>
-      <p>Pénztárgépeket, POS rendszereket, mérlegeket és árazógépeket forgalmazunk, a Sam4s pénztárgépek viszonteladója vagyunk, és saját szervizünkben javítunk. A pécsi és baranyai vállalkozásokat a vásárlástól a hatósági ügyintézésig végigkísérjük.</p>
-      <p>Számítógépeket is árulunk és javítunk, hálózatot építünk – így a bolt teljes technikájáért egy helyen felelünk.</p>
-      <div class="stats">
-        <div class="stat"><b id="evek">44</b><span>év tapasztalat a szakmában</span></div>
-        <div class="stat"><b>1</b><span>helyen vásárlás, beüzemelés és szerviz</span></div>
-        <div class="stat"><b>NAV</b><span>bejelentés és ügyintézés helyben</span></div>
-        <div class="stat"><b>P</b><span>ingyenes parkolás az üzlet előtt</span></div>
-      </div>
-    </div>
-    <figure class="photo rv" style="margin:0"><img src="assets/uzlet-homlokzat.webp" alt="A Totál Pénztárgép és Számítástechnika üzlet homlokzata a pécsi Hunyadi János utcában" width="1190" height="880" loading="lazy"><figcaption><span><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Pécs, Hunyadi János utca 34.</span><span>P&nbsp;Ingyenes parkolás</span></figcaption></figure>
-  </div>
-</section>
 
-<section class="sec" id="vasarlas">
-  <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Pénztárgép vásárlás</span><h2 class="sh2">Így zajlik <em>lépésről lépésre</em></h2><p class="slead">A gépet beállítva, üzemkészen adjuk át – Önnek csak az iratokat kell hoznia.</p></div></div>
-    <div class="steps">
-      <div class="step rv"><h3>Válassza ki a gépet</h3><p>A webáruházban vagy az üzletben, ahol ki is próbálhatja. Segítünk eldönteni, melyik illik a vállalkozásához.</p></div>
-      <div class="step rv"><h3>Üzembe helyezési kód</h3><p>Ön vagy könyvelője igényli az ügyfélkapun. Ha elakad, telefonon segítünk.</p></div>
-      <div class="step rv"><h3>Hozza az iratokat</h3><p>Társaság esetén aláírási címpéldány. Megrendelést aláírásra jogosult vagy meghatalmazottja tehet.</p></div>
-      <div class="step rv"><h3>Üzembe helyezés</h3><p>Beállítjuk, bejelentjük, betanítjuk. A gépet működőképesen viheti haza.</p></div>
-    </div>
-  </div>
-</section>
 
-<section class="sec white" id="e-penztargep">
-  <div class="wrap">
-    <div class="epz rv">
-      <div><span class="eye" style="color:#f4d58d">Fontos határidő</span><h2 class="sh2">Átállás <em>e-pénztárgépre</em></h2><p class="slead">Az online pénztárgépek ideje lejár. Felmérjük, Önnek melyik megoldás kell, és mindent intézünk a NAV felé.</p><div class="btns" style="margin-top:22px"><a class="hb gold" href="webaruhaz/#e-penztargep">Átállási tanácsot kérek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívjon minket</a></div></div>
-      <div class="tl"><div><b>2025. 07. 01.</b><span><strong>Elérhető az e-pénztárgép</strong> – felhőalapú és hardveralapú változatban.</span></div><div><b>2026. 09. 01.</b><span><strong>Adatszolgáltatás a papírnyugtákról</strong> a nyugtatömböt használó vállalkozásoknak.</span></div><div class="key"><b>2028. 07. 01.</b><span><strong>Lejár az online pénztárgépek használata</strong> – addig át kell állni hardveralapú e-pénztárgépre.</span></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="gyik">
-  <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div></div>
-    <div class="faqg rv">
-      <details><summary>Mi kell a pénztárgép üzembe helyezéséhez?</summary><p>Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük.</p></details>
-      <details><summary>Mennyibe kerül a pénztárgép mobil adatkapcsolata?</summary><p>1 500 Ft + ÁFA havonta gépenként. A szerződést a vásárláskor intézzük.</p></details>
-      <details><summary>Meddig használható az online pénztárgépem?</summary><p>A pénztárgép-kötelezett vállalkozások 2028. július 1-ig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk.</p></details>
-      <details><summary>Hol javítják, ha elromlik a gépem?</summary><p>Nálunk, Pécsen, a Hunyadi János utca 34. alatti szervizünkben. Az éves felülvizsgálatot is mi végezzük.</p></details>
-      <details><summary>Hogyan fizethetek?</summary><p>Az üzletben készpénzzel vagy bankkártyával, illetve díjbekérő alapján átutalással. Webáruházas rendelésnél átvételkor fizet.</p></details>
-      <details><summary>Van parkolási lehetőség az üzletnél?</summary><p>Igen, az üzlet előtt ingyenesen parkolhat, így a nagyobb gépeket is kényelmesen elviheti.</p></details>
-    </div>
-  </div>
-</section>
-
-<section class="sec white" id="kapcsolat">
+<section class="sec" id="kapcsolat">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Pécs belvárosához közel, a Hunyadi János utcában. Az üzlet előtt ingyenesen parkolhat.</p></div></div>
     <div class="contactg">
@@ -467,14 +437,88 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     </div>
   </div>
 </section>
+
+<section class="sec white" id="vasarlas">
+  <div class="wrap">
+    <div class="shead rv"><div><span class="eye">Pénztárgép vásárlás</span><h2 class="sh2">Így zajlik <em>lépésről lépésre</em></h2><p class="slead">A gépet beállítva, üzemkészen adjuk át – Önnek csak az iratokat kell hoznia.</p></div></div>
+    <div class="steps">
+      <div class="step rv"><h3>Válassza ki a gépet</h3><p>A webáruházban vagy az üzletben, ahol ki is próbálhatja. Segítünk eldönteni, melyik illik a vállalkozásához.</p></div>
+      <div class="step rv"><h3>Üzembe helyezési kód</h3><p>Ön vagy könyvelője igényli az ügyfélkapun. Ha elakad, telefonon segítünk.</p></div>
+      <div class="step rv"><h3>Hozza az iratokat</h3><p>Társaság esetén aláírási címpéldány. Megrendelést aláírásra jogosult vagy meghatalmazottja tehet.</p></div>
+      <div class="step rv"><h3>Üzembe helyezés</h3><p>Beállítjuk, bejelentjük, betanítjuk. A gépet működőképesen viheti haza.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="e-penztargep">
+  <div class="wrap">
+    <div class="epz rv">
+      <div><span class="eye" style="color:#f4d58d">Fontos határidő</span><h2 class="sh2">Átállás <em>e-pénztárgépre</em></h2><p class="slead">Az online pénztárgépek ideje lejár. Felmérjük, Önnek melyik megoldás kell, és mindent intézünk a NAV felé.</p><div class="btns" style="margin-top:22px"><a class="hb gold" href="webaruhaz/#e-penztargep">Átállási tanácsot kérek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívjon minket</a></div></div>
+      <div class="tl"><div><b>2025. 07. 01.</b><span><strong>Elérhető az e-pénztárgép</strong> – felhőalapú és hardveralapú változatban.</span></div><div><b>2026. 09. 01.</b><span><strong>Adatszolgáltatás a papírnyugtákról</strong> a nyugtatömböt használó vállalkozásoknak.</span></div><div class="key"><b>2028. 07. 01.</b><span><strong>Lejár az online pénztárgépek használata</strong> – addig át kell állni hardveralapú e-pénztárgépre.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec white" id="gyik">
+  <div class="wrap">
+    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div></div>
+    <div class="faqg rv">
+      <details><summary>Mi kell a pénztárgép üzembe helyezéséhez?</summary><p>Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük.</p></details>
+      <details><summary>Mennyibe kerül a pénztárgép mobil adatkapcsolata?</summary><p>1 500 Ft + ÁFA havonta gépenként. A szerződést a vásárláskor intézzük.</p></details>
+      <details><summary>Meddig használható az online pénztárgépem?</summary><p>A pénztárgép-kötelezett vállalkozások 2028. július 1-ig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk.</p></details>
+      <details><summary>Hol javítják, ha elromlik a gépem?</summary><p>Nálunk, Pécsen, a Hunyadi János utca 34. alatti szervizünkben. Az éves felülvizsgálatot is mi végezzük.</p></details>
+      <details><summary>Hogyan fizethetek?</summary><p>Az üzletben készpénzzel vagy bankkártyával, illetve díjbekérő alapján átutalással. Webáruházas rendelésnél átvételkor fizet.</p></details>
+      <details><summary>Van parkolási lehetőség az üzletnél?</summary><p>Igen, az üzlet előtt ingyenesen parkolhat, így a nagyobb gépeket is kényelmesen elviheti.</p></details>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec cream2" id="rolunk">
+  <div class="wrap about">
+    <div class="rv">
+      <span class="eye">Rólunk</span><h2 class="sh2">Pécsen, <em>1982 óta</em></h2>
+      <p class="slead" style="margin-bottom:18px">A Totál Pénztárgép és Számítástechnika családi vállalkozás a Hunyadi János utcában.</p>
+      <p>Pénztárgépeket, POS rendszereket, mérlegeket és árazógépeket forgalmazunk, a Sam4s pénztárgépek viszonteladója vagyunk, és saját szervizünkben javítunk. A pécsi és baranyai vállalkozásokat a vásárlástól a hatósági ügyintézésig végigkísérjük.</p>
+      <p>Számítógépeket is árulunk és javítunk, hálózatot építünk – így a bolt teljes technikájáért egy helyen felelünk.</p>
+      <div class="stats">
+        <div class="stat"><b id="evek">44</b><span>év tapasztalat a szakmában</span></div>
+        <div class="stat"><b>1</b><span>helyen vásárlás, beüzemelés és szerviz</span></div>
+        <div class="stat"><b>NAV</b><span>bejelentés és ügyintézés helyben</span></div>
+        <div class="stat"><b>P</b><span>ingyenes parkolás az üzlet előtt</span></div>
+      </div>
+    </div>
+    <figure class="photo rv" style="margin:0"><img src="assets/uzlet-homlokzat.webp" alt="A Totál Pénztárgép és Számítástechnika üzlet homlokzata a pécsi Hunyadi János utcában" width="1190" height="880" loading="lazy"><figcaption><span><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Pécs, Hunyadi János utca 34.</span><span>P&nbsp;Ingyenes parkolás</span></figcaption></figure>
+  </div>
+</section>
 </main>
 
-<footer class="hfoot">
-  <div class="wrap">
-    <img src="assets/logo.webp" alt="TOTÁL – Pénztárgép és Számítástechnika" width="685" height="216" loading="lazy">
-    <nav aria-label="Lábléc"><a href="webaruhaz/#termekek">Webáruház</a><a href="webaruhaz/#szerviz">Szerviz</a><a href="#rolunk">Rólunk</a><a href="#kapcsolat">Kapcsolat</a><a href="webaruhaz/#admin">Admin belépés</a></nav>
-    <span>© <span id="ev"></span> Totál Pénztárgép és Számítástechnika Kkt.</span>
+<footer class="ffoot">
+  <div class="wrap fcols">
+    <div class="fbrand">
+      <img src="assets/logo.webp" alt="TOTÁL – Pénztárgép és Számítástechnika" width="685" height="216" loading="lazy">
+      <p>Pénztárgép szaküzlet és szerviz Pécsen, 1982 óta. Pénztárgépek, POS rendszerek, mérlegek, árazógépek, számítástechnika – vásárlás, beüzemelés, szerviz egy helyen.</p>
+      <a class="fopen" href="#kapcsolat" data-open2><i></i><span>Nyitvatartás</span></a>
+    </div>
+    <nav aria-label="Termékek"><h4>Termékek</h4><ul>
+      <li><a href="webaruhaz/#kat-penztargep">Pénztárgépek</a></li><li><a href="webaruhaz/#kat-pos">POS terminálok</a></li><li><a href="webaruhaz/#kat-fiok">Kasszafiókok</a></li><li><a href="webaruhaz/#kat-merleg">Mérlegek</a></li><li><a href="webaruhaz/#kat-arazo">Árazógépek</a></li><li><a href="webaruhaz/#kat-irodatechnika">Számítástechnika</a></li><li><a href="webaruhaz/#kat-kellek">Kellékanyagok</a></li></ul></nav>
+    <nav aria-label="Szolgáltatások"><h4>Szolgáltatások</h4><ul>
+      <li><a href="webaruhaz/#szerviz">Szerviz bejelentés</a></li><li><a href="webaruhaz/#szerviz">Éves felülvizsgálat</a></li><li><a href="#vasarlas">Üzembe helyezés</a></li><li><a href="webaruhaz/#e-penztargep">E-pénztárgép átállás</a></li><li><a href="webaruhaz/#szerviz">Számítógépjavítás</a></li></ul></nav>
+    <nav aria-label="Információk"><h4>Információk</h4><ul>
+      <li><a href="webaruhaz/#vasarlas">Vásárlási tudnivalók</a></li><li><a href="#gyik">Gyakori kérdések</a></li><li><a href="#rolunk">Rólunk</a></li><li><a href="webaruhaz/#adatkezeles">Adatkezelési tájékoztató</a></li><li><a href="webaruhaz/#impresszum">Impresszum</a></li></ul></nav>
+    <div class="fcontact"><h4>Elérhetőség</h4>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>7625 Pécs,<br>Hunyadi János utca 34.</span></a>
+      <a href="tel:+3672215652"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>+36 72 215 652</span></a>
+      <a href="mailto:info@penztar-gep.hu"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>info@penztar-gep.hu</span></a>
+      <div><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="fhours">Hétfő–péntek 9:00–15:00</span></div>
+      <div><b class="fp">P</b><span>Ingyenes parkolás az üzlet előtt</span></div>
+    </div>
   </div>
+  <div class="fbottom"><div class="wrap">
+    <span>© <span id="ev"></span> Totál Pénztárgép és Számítástechnika Kkt. · Sam4s viszonteladó</span>
+    <span class="fpay">Fizetés: készpénz · bankkártya · átutalás</span>
+    <a class="fadm" href="webaruhaz/#admin"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Admin belépés</a>
+  </div></div>
 </footer>
 <div class="mbar lt"><a class="hb gold" href="tel:+3672215652"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívás</a><a class="hb navy" href="https://www.google.com/maps/dir/?api=1&amp;destination=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11 21 3l-8 18-2-8z"/></svg>Útvonal</a></div>
 
@@ -497,6 +541,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     else { var d=new Date(now), label; if(h && mins<h[0]){ label='ma'; } else { for(var n=1;n<15;n++){ d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+n); if(hoursOf(d)) break; } label = n===1?'holnap':(n<7?NAMES[d.getDay()].toLowerCase():d.toLocaleDateString('hu-HU',{month:'long',day:'numeric'})); h=hoursOf(d); }
       if(!h){ t='Most zárva'; sub='Hamarosan frissítjük a nyitvatartást'; } else { t='Most zárva'+(holiday(now)?' (ünnepnap)':(extraClosed(now)?' (rendkívüli zárva tartás)':'')); sub='Nyitás: '+label+' '+fmt(h[0])+'-kor'; } }
     st.className='status '+cls; document.getElementById('st-t').textContent=t; document.getElementById('st-s').textContent=sub;
+    var ch2=document.querySelector('[data-open2]'); if(ch2){ ch2.className='fopen '+cls; ch2.querySelector('span').textContent=t+' · '+sub.replace('Ma ','ma ').replace('Nyitás: ','nyit: '); }
     var chip=document.querySelector('[data-open]'); if(chip){ chip.className='openchip '+cls; chip.querySelector('span').textContent=t+' · '+sub.replace('Ma ','ma ').replace('Nyitás: ','nyit: '); }
     var rows='', order=[1,2,3,4,5,6,0], today=now.getDay();
     order.forEach(function(k){ var hh=HOURS[k]; rows+='<tr class="'+(k===today?'today ':'')+(hh?'':'closed')+'"><td>'+NAMES[k]+'</td><td>'+(hh?fmt(hh[0])+' – '+fmt(hh[1]):'Zárva')+'</td></tr>'; });
@@ -513,7 +558,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     if(!d||!d.products) return;
     var st=d.settings||{}; if(st.nyitva){ var H={}; Object.keys(st.nyitva).forEach(function(k){ var v=st.nyitva[k]; if(v){ var a=v[0].split(':'), b=v[1].split(':'); H[k]=[+a[0]*60+(+a[1]||0), +b[0]*60+(+b[1]||0)]; } }); HOURS=H; }
     if(Array.isArray(st.zarvaNapok)) CLOSED=st.zarvaNapok; render();
-    if(st.nyitvatartas){ var cp=document.querySelector('.cream .cb p'); if(cp) cp.innerHTML='<b>Pécs, Hunyadi János utca 34.</b> · '+esc(st.nyitvatartas)+' · Ingyenes parkolás az üzlet előtt'; }
+    if(st.nyitvatartas){ var fh=document.getElementById('fhours'); if(fh) fh.textContent=st.nyitvatartas; var cp=document.querySelector('.cream .cb p'); if(cp) cp.innerHTML='<b>Pécs, Hunyadi János utca 34.</b> · '+esc(st.nyitvatartas)+' · Ingyenes parkolás az üzlet előtt'; }
     var afa=1+((d.settings&&d.settings.afa)||27)/100;
     var list=d.products.filter(function(p){return !p.rejtett && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
     if(list.length<2) return;

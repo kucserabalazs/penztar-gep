@@ -5,3 +5,4 @@ webaruhaz/data/products.backup-*
 webaruhaz/data/.lock
 webaruhaz/uploads/*
 !webaruhaz/uploads/.htaccess
+webaruhaz/data/clients*
