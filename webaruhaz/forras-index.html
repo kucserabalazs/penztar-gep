@@ -90,6 +90,9 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .navbar .nb{position:relative;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:none;border:0;color:#fff;cursor:pointer}
 .navbar .nb:hover{color:var(--gold-l);background:rgba(255,255,255,.06)}
 .navbar .nb svg{width:23px;height:23px}
+.navbar .admbtn{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;border:1.5px solid rgba(244,213,141,.55);height:38px;margin-inline:4px;font-family:var(--fd);font-weight:700;font-size:.85rem}
+.navbar .admbtn svg{width:18px;height:18px;color:var(--gold-l)}
+.navbar .admbtn:hover{border-color:var(--gold-l)}
 .dd{position:relative}
 .dd .menu{position:absolute;top:calc(100% + 8px);left:0;min-width:270px;background:var(--surface);color:var(--ink);border-radius:14px;box-shadow:var(--sh-2);padding:8px;display:none;z-index:70}
 .dd.open .menu{display:grid}
@@ -642,7 +645,7 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
     </div>
     <div class="tools">
       <button class="nb" id="searchbtn" type="button" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg></button>
-      <a class="nb" href="#admin" aria-label="Admin belépés"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></a>
+      <a class="nb admbtn" href="#admin" aria-label="Admin belépés"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Admin</span></a>
       <button class="nb" id="cartbtn" type="button" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="badge num" data-cartcount>0</span></button>
     </div>
   </div>
@@ -1224,16 +1227,48 @@ document.addEventListener('keydown',e=>{ if((e.key==='k'&&(e.metaKey||e.ctrlKey)
   if($('#lightbox').classList.contains('show')){ if(e.key==='ArrowLeft') $('.lb-p').click(); if(e.key==='ArrowRight') $('.lb-n').click(); } });
 
 /* ================= ADMIN ================= */
-async function pageAdmin(){ if(MODE==='live'){ try{ const st=await api('status'); ADMIN.in=st.admin; ADMIN.csrf=st.csrf; ADMIN.needsSetup=st.needsSetup; }catch(e){} } return ADMIN.in?adminHTML():loginHTML(); }
+/* ---- telefonos hitelesítő kód (TOTP) az előnézethez; élesben a szerver ellenőriz ---- */
+const B32='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+function b32enc(bytes){ let bits='',o=''; bytes.forEach(b=>bits+=b.toString(2).padStart(8,'0')); for(let i=0;i<bits.length;i+=5) o+=B32[parseInt(bits.slice(i,i+5).padEnd(5,'0'),2)]; return o; }
+function b32dec(str){ const s=str.toUpperCase().replace(/[^A-Z2-7]/g,''); let bits=''; for(const c of s) bits+=B32.indexOf(c).toString(2).padStart(5,'0'); const out=[]; for(let i=0;i+8<=bits.length;i+=8) out.push(parseInt(bits.slice(i,i+8),2)); return new Uint8Array(out); }
+async function totpAt(secret,step){ const key=await crypto.subtle.importKey('raw',b32dec(secret),{name:'HMAC',hash:'SHA-1'},false,['sign']); const msg=new ArrayBuffer(8), dv=new DataView(msg); dv.setUint32(0,Math.floor(step/4294967296)); dv.setUint32(4,step>>>0); const h=new Uint8Array(await crypto.subtle.sign('HMAC',key,msg)); const o=h[19]&15; const n=((h[o]&127)<<24)|(h[o+1]<<16)|(h[o+2]<<8)|h[o+3]; return String(n%1000000).padStart(6,'0'); }
+async function totpCheck(secret,code,last=0){ code=String(code).replace(/\D/g,''); if(code.length!==6) return null; const t=Math.floor(Date.now()/30000); for(const d of [0,-1,1]){ const st=t+d; if(st>last && await totpAt(secret,st)===code) return st; } return null; }
+const PTOTP={ get(){ return LS.get('ptg-totp',{}); }, set(v){ LS.set('ptg-totp',v); } };
+function logPreview(how){ const l=LS.get('ptg-adminlog',[]); l.unshift({ido:new Date().toISOString(),ip:'(ez a böngésző)',mod:how,eszkoz:navigator.userAgent.slice(0,160)}); LS.set('ptg-adminlog',l.slice(0,30)); }
+function newRecovery(){ return Array.from({length:8},()=>{ const c=b32enc(crypto.getRandomValues(new Uint8Array(8))).slice(0,10); return c.slice(0,5)+'-'+c.slice(5); }); }
+
+async function pageAdmin(){ if(MODE==='live'){ try{ const st=await api('status'); ADMIN.in=st.admin; ADMIN.csrf=st.csrf; ADMIN.needsSetup=st.needsSetup; ADMIN.totp=st.totp; }catch(e){} } else ADMIN.totp=!!PTOTP.get().enabled; return ADMIN.in?adminHTML():loginHTML(); }
 function loginHTML(){ const setup=MODE==='live'&&ADMIN.needsSetup;
-  return `<div class="wrap"><div class="loginbox"><span class="eyebrow">penztar-gep.hu</span><h2 class="it-title">Admin belépés</h2>${MODE==='preview'?'<div class="msg info">Előnézeti mód: bármilyen jelszóval beléphet, a módosítások csak ebben a böngészőben maradnak meg.</div>':''}${setup?'<div class="msg info">Első belépés: az itt megadott jelszó lesz az admin jelszó (legalább 8 karakter). Jegyezze fel!</div>':''}
-  <form class="f" id="loginf"><label class="l">${setup?'Új admin jelszó':'Jelszó'}<input class="i" type="password" id="pw" autocomplete="${setup?'new-password':'current-password'}" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Belépés</button></form></div></div>`; }
-function bindLogin(){ const f=$('#loginf'); if(!f) return; f.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',f); if(MODE==='preview'){ ADMIN.in=true; return route(); } try{ const r=await api('login',{body:{jelszo:$('#pw').value}}); ADMIN.in=true; ADMIN.csrf=r.csrf; route(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } }; }
+  if(ADMIN.step2) return `<div class="wrap"><div class="loginbox"><span class="eyebrow">2. lépés</span><h2 class="it-title">Telefonos kód</h2>
+    <p class="muted">Nyissa meg a telefonján a hitelesítő alkalmazást (iPhone-on: <b>Beállítások › Jelszavak</b>, vagy Google / Microsoft Authenticator), és írja be a „Totál webáruház” mellett látható 6 jegyű kódot.</p>
+    <form class="f" id="loginf2"><label class="l">6 jegyű kód<input class="i num" id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="11" placeholder="123 456" style="font-size:1.6rem;letter-spacing:.3em;text-align:center" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Megerősítés és belépés</button>
+    <details class="faq" style="margin:0"><summary>Nincs Önnél a telefon?</summary><p>Írja be a kód helyére az egyik tartalékkódot (például <b>ABCDE-12345</b>). Mindegyik csak egyszer használható.</p></details>
+    <button class="btn ghost sm" type="button" id="back1">‹ Vissza a jelszóhoz</button></form></div></div>`;
+  return `<div class="wrap"><div class="loginbox"><span class="eyebrow">penztar-gep.hu</span><h2 class="it-title">Admin belépés</h2>${MODE==='preview'?`<div class="msg info">Előnézeti mód: bármilyen jelszóval beléphet${ADMIN.totp?', utána a telefonos kódot kéri':''}. A módosítások csak ebben a böngészőben maradnak meg.</div>`:''}${setup?'<div class="msg info">Első belépés: az itt megadott jelszó lesz az admin jelszó (legalább 8 karakter). Jegyezze fel! Belépés után a Biztonság fülön kapcsolja be a telefonos megerősítést.</div>':''}
+  <form class="f" id="loginf"><label class="l">${setup?'Új admin jelszó':'Jelszó'}<input class="i" type="password" id="pw" autocomplete="${setup?'new-password':'current-password'}" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">${ADMIN.totp?'Tovább a telefonos kódhoz':'Belépés'}</button></form>
+  <p class="muted" style="font-size:.84rem;display:flex;gap:8px;align-items:center">${icon('shield','ic','width:18px;height:18px;color:var(--gold-d)')}${ADMIN.totp?'Kétlépcsős belépés: jelszó + telefonos kód.':'A telefonos megerősítés belépés után, a Biztonság fülön kapcsolható be.'}</p></div></div>`; }
+function bindLogin(){
+  const f=$('#loginf');
+  if(f) f.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',f);
+    if(MODE==='preview'){ if(PTOTP.get().enabled){ ADMIN.step2=true; return renderAdmin(); } ADMIN.in=true; logPreview('jelszó'); return route(); }
+    try{ const r=await api('login',{body:{jelszo:$('#pw').value}}); if(r.need2fa){ ADMIN.step2=true; return renderAdmin(); } ADMIN.in=true; ADMIN.csrf=r.csrf; route(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  const f2=$('#loginf2');
+  if(f2){ const c=$('#code'); setTimeout(()=>c.focus(),50);
+    c.addEventListener('input',()=>{ if(/^\d{6}$/.test(c.value.replace(/\s/g,''))) f2.requestSubmit(); });
+    $('#back1').onclick=()=>{ ADMIN.step2=false; renderAdmin(); };
+    f2.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',f2), btn=$('button[type=submit]',f2); btn.disabled=true;
+      try{
+        if(MODE==='preview'){ const t=PTOTP.get(); const st=await totpCheck(t.secret,c.value,t.last||0); let how='jelszó + telefonos kód';
+          if(st!=null){ t.last=st; } else { const n=c.value.toUpperCase().replace(/[^A-Z0-9]/g,''); const i=(t.recovery||[]).findIndex(x=>x.replace('-','')===n); if(i<0) throw new Error('Hibás vagy lejárt kód. Írja be a telefonján most látható 6 jegyű kódot.'); t.recovery.splice(i,1); how='jelszó + tartalékkód'; }
+          PTOTP.set(t); logPreview(how); ADMIN.in=true; ADMIN.step2=false; return route(); }
+        const r=await api('login2',{body:{kod:c.value}}); ADMIN.in=true; ADMIN.csrf=r.csrf; ADMIN.step2=false; route();
+      }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; c.select(); btn.disabled=false; if(/Lejárt a belépés/.test(err.message)){ ADMIN.step2=false; setTimeout(renderAdmin,1500); } } }; }
+}
 const MODELS=[['kompakt','Pénztárgép'],['nagy','Pénztárgép kasszafiókkal'],['kezi','Hordozható pénztárgép'],['pos','POS terminál'],['merleg','Mérleg'],['arazo','Árazógép'],['scanner','Vonalkódolvasó'],['fiok','Kasszafiók'],['nyomtato','Blokknyomtató'],['printer2','Irodai nyomtató'],['papir','Papírtekercs'],['pc','Számítógép'],['egyeb','Egyéb']];
 function adminHTML(){ const t=ADMIN.tab;
   return `<div class="wrap adm"><div class="bar"><h2 class="it-title" style="margin-right:auto">Admin</h2><span class="pill2">${MODE==='live'?'Élő oldal':'Előnézet'}</span><a class="btn line sm" href="#termekek">Webáruház</a><button class="btn line sm" type="button" id="logout">Kilépés</button></div>
-  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['beallitasok','Beállítások']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
-  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
+  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['beallitasok','Cégadatok, nyitvatartás'],['biztonsag','Biztonság']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
+  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':t==='biztonsag'?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
   <div class="savebar" id="savebar" ${ADMIN.dirty?'':'hidden'}><div class="wrap"><span>Nem mentett változások</span><span style="display:flex;gap:8px"><button class="btn line sm" type="button" id="discard">Elvetés</button><button class="btn gold sm" type="button" id="save">Mentés</button></span></div></div>`; }
 function admProducts(){
   const tot=c=>DB.products.filter(p=>p.kategoria===c&&p.keszletDb!=null).reduce((a,p)=>a+(+p.keszletDb||0),0);
@@ -1270,11 +1305,67 @@ function editorHTML(p){ if(!p) return ''; const opt=(v,l,c)=>`<option value="${v
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn navy" type="button" id="applyed">Módosítások átvétele</button><a class="btn line" href="#t-${esc(p.id)}">Termékoldal megnyitása</a><button class="btn ghost" type="button" id="delp" style="color:var(--bad)">Termék törlése</button><span id="delconfirm"></span></div></form></div>`; }
 function admServices(){ return `<p class="muted" style="margin-bottom:14px">A szervizoldalon megjelenő díjak, nettó forintban. Üresen: „Ár kérésre”.</p><div class="tablewrap"><table class="ptable"><thead><tr><th>Szolgáltatás</th><th>Leírás</th><th>Díj (nettó)</th></tr></thead><tbody>${DB.services.map(s=>`<tr><td data-l="Név"><input class="i" data-s="nev" data-id="${s.id}" id="sn-${s.id}" value="${esc(s.nev)}"></td><td data-l="Leírás"><input class="i" data-s="leiras" data-id="${s.id}" id="sl-${s.id}" value="${esc(s.leiras)}"></td><td data-l="Díj"><input class="i pi num" data-s="ar" data-id="${s.id}" id="sa-${s.id}" inputmode="numeric" value="${s.ar??''}" placeholder="kérésre"></td></tr>`).join('')}</tbody></table></div>`; }
 function admFaq(){ return `<p class="muted" style="margin-bottom:14px">A kategóriánkénti gyakori kérdések minden termékoldalon megjelennek. Soronként: Kérdés | Válasz</p>${DB.categories.map(c=>`<label class="l" style="margin-bottom:14px">${esc(c.nev)}<textarea class="i" data-faq="${c.id}" id="fq-${c.id}" style="min-height:90px">${esc((c.gyik||[]).map(g=>g[0]+' | '+g[1]).join('\n'))}</textarea></label>`).join('')}`; }
-function admSettings(){ const s=S();
-  return `<form class="f" onsubmit="return false" style="max-width:660px">${[['cegnev','Cégnév'],['cim','Cím'],['telefon','Telefon'],['email','E-mail (ide jönnek a megrendelések)'],['nyitvatartas','Nyitvatartás'],['alapitas','Alapítás éve'],['mobildij','Mobil adatkapcsolat díja (szöveg)']].map(([k,l])=>`<label class="l">${l}<input class="i" data-set="${k}" id="set-${k}" value="${esc(s[k])}"></label>`).join('')}
+const DAYS=[[1,'Hétfő'],[2,'Kedd'],[3,'Szerda'],[4,'Csütörtök'],[5,'Péntek'],[6,'Szombat'],[0,'Vasárnap']];
+const defHours=()=>({1:['09:00','15:00'],2:['09:00','15:00'],3:['09:00','15:00'],4:['09:00','15:00'],5:['09:00','15:00'],6:null,0:null});
+function hoursText(h){ const parts=[]; let i=0; const ord=DAYS.map(d=>d[0]), nm={1:'hétfő',2:'kedd',3:'szerda',4:'csütörtök',5:'péntek',6:'szombat',0:'vasárnap'};
+  while(i<ord.length){ const v=h[ord[i]]; let j=i; while(j+1<ord.length && JSON.stringify(h[ord[j+1]])===JSON.stringify(v)) j++;
+    const lbl=i===j?nm[ord[i]]:nm[ord[i]]+'–'+nm[ord[j]]; parts.push(lbl+' '+(v?v[0].replace(/^0/,'')+'–'+v[1].replace(/^0/,''):'zárva')); i=j+1; }
+  const t=parts.join(', '); return t.charAt(0).toUpperCase()+t.slice(1); }
+function admSettings(){ const s=S(); const h=s.nyitva||defHours();
+  return `<form class="f" onsubmit="return false" style="max-width:720px">
+  <div class="editor" style="margin-top:0"><h3>Nyitvatartás</h3><p class="muted">Ebből számolja a főoldal, hogy az üzlet éppen nyitva van-e, és mikor nyit. A magyar ünnepnapokon automatikusan zárva mutatja.</p>
+    <div class="tablewrap"><table class="ptable"><tbody>${DAYS.map(([d,n])=>`<tr><td><b>${n}</b></td><td data-l="Nyitva"><label class="check" style="margin:0"><input type="checkbox" data-hopen="${d}" id="ho-${d}" ${h[d]?'checked':''}> nyitva</label></td><td data-l="Nyit"><input class="i num" type="time" data-hfrom="${d}" id="hf-${d}" value="${h[d]?h[d][0]:'09:00'}" ${h[d]?'':'disabled'} style="width:120px"></td><td data-l="Zár"><input class="i num" type="time" data-hto="${d}" id="ht-${d}" value="${h[d]?h[d][1]:'15:00'}" ${h[d]?'':'disabled'} style="width:120px"></td></tr>`).join('')}</tbody></table></div>
+    <label class="l">Rendkívüli zárva tartás <span class="o">soronként egy nap (2026-12-27) vagy időszak (2026-12-22..2027-01-02), pl. szabadság</span><textarea class="i num" id="set-zarva" style="min-height:70px">${esc((s.zarvaNapok||[]).join('\n'))}</textarea></label>
+    <p class="muted" id="htext" style="font-size:.9rem">A weboldalon így jelenik meg: <b>${esc(s.nyitvatartas)}</b></p></div>
+  ${[['cegnev','Cégnév'],['cim','Cím'],['telefon','Telefon'],['email','E-mail (ide jönnek a megrendelések)'],['alapitas','Alapítás éve'],['mobildij','Mobil adatkapcsolat díja (szöveg)']].map(([k,l])=>`<label class="l">${l}<input class="i" data-set="${k}" id="set-${k}" value="${esc(s[k])}"></label>`).join('')}
   <label class="l">Mobilszámok <span class="o">vesszővel elválasztva</span><input class="i" data-set="mobil" id="set-mobil" value="${esc((s.mobil||[]).join(', '))}"></label><label class="l">ÁFA kulcs (%)<input class="i num" data-set="afa" id="set-afa" inputmode="numeric" value="${esc(s.afa)}" style="max-width:120px"></label></form>
-  ${MODE==='live'?`<div class="editor" style="max-width:660px"><h3>Jelszó módosítása</h3><form class="f" id="pwf"><label class="l">Jelenlegi jelszó<input class="i" type="password" id="pw-old" autocomplete="current-password"></label><label class="l">Új jelszó (min. 8 karakter)<input class="i" type="password" id="pw-new" autocomplete="new-password"></label><div class="out"></div><button class="btn navy" type="submit">Jelszó módosítása</button></form></div>`:''}
-  ${MODE==='preview'?`<div class="editor" style="max-width:660px"><h3>Előnézeti adatok</h3><p class="muted">Az itt mentett változások csak ebben a böngészőben vannak.</p><div><button class="btn line" type="button" id="resetprev">Alapadatok visszaállítása</button> <span id="resetconfirm"></span></div></div>`:''}`; }
+  ${MODE==='preview'?`<div class="editor" style="max-width:720px"><h3>Előnézeti adatok</h3><p class="muted">Az itt mentett változások csak ebben a böngészőben vannak.</p><div><button class="btn line" type="button" id="resetprev">Alapadatok visszaállítása</button> <span id="resetconfirm"></span></div></div>`:''}`; }
+function bindHours(){
+  const s=DB.settings; const upd=()=>{ const h={}; DAYS.forEach(([d])=>{ const on=$('#ho-'+d).checked; $('#hf-'+d).disabled=$('#ht-'+d).disabled=!on; h[d]=on?[$('#hf-'+d).value||'09:00',$('#ht-'+d).value||'15:00']:null; });
+    s.nyitva=h; s.nyitvatartas=hoursText(h); $('#htext').innerHTML='A weboldalon így jelenik meg: <b>'+esc(s.nyitvatartas)+'</b>'; markDirty(); };
+  $$('[data-hopen],[data-hfrom],[data-hto]').forEach(x=>x.addEventListener(x.type==='checkbox'?'change':'input',upd));
+  $('#set-zarva')?.addEventListener('input',e=>{ s.zarvaNapok=e.target.value.split('\n').map(x=>x.trim()).filter(Boolean); markDirty(); });
+}
+/* ---- Biztonság fül: telefonos megerősítés, jelszó, belépési napló ---- */
+function loadQR(){ return window.QRCode?Promise.resolve():new Promise((ok,no)=>{ const sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; sc.onload=ok; sc.onerror=no; document.head.appendChild(sc); }); }
+async function admSecurity(){
+  let info;
+  try{ if(MODE==='live') info=await api('security'); else { const t=PTOTP.get(); info={totp:!!t.enabled,since:t.since,recoveryLeft:(t.recovery||[]).length,log:LS.get('ptg-adminlog',[])}; } }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  ADMIN.totp=info.totp;
+  const b=$('#admbody'); if(!b) return;
+  b.innerHTML=`<div style="display:grid;gap:20px;max-width:760px">
+  <div class="editor" style="margin:0"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><span style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:${info.totp?'#e4f5eb':'var(--gold-soft)'};color:${info.totp?'var(--ok)':'var(--gold-d)'}">${icon('shield','ic','width:30px;height:30px')}</span><div style="flex:1;min-width:220px"><h3>Telefonos megerősítés ${info.totp?'<span class="pill2" style="color:var(--ok);border-color:#bfe5cf;background:#e4f5eb">bekapcsolva</span>':'<span class="pill2">kikapcsolva</span>'}</h3><p class="muted">${info.totp?`Belépéskor a jelszó után a telefonján látható 6 jegyű kódot is kéri. Tartalékkód: ${info.recoveryLeft} db maradt.`:'Kapcsolja be: így a jelszó önmagában nem elég, a belépéshez az Ön telefonja is kell. Nincs SMS-díj, internet sem kell hozzá a telefonon.'}</p></div></div>
+    <div id="totpbox">${info.totp?`<form class="f" id="totpoff" style="margin-top:14px"><div class="row2"><label class="l">Jelszó<input class="i" type="password" id="off-pw" autocomplete="current-password"></label><label class="l">Telefonos kód<input class="i num" id="off-code" inputmode="numeric" autocomplete="one-time-code"></label></div><div class="out"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn line" type="submit">Kikapcsolás</button><button class="btn line" type="button" id="totpnew">Új telefon beállítása</button></div></form>`:`<button class="btn gold" type="button" id="totpstart" style="margin-top:14px">${icon('phone')} Bekapcsolás a telefonommal</button>`}</div></div>
+  ${MODE==='live'?`<div class="editor" style="margin:0"><h3>Jelszó módosítása</h3><form class="f" id="pwf"><div class="row2"><label class="l">Jelenlegi jelszó<input class="i" type="password" id="pw-old" autocomplete="current-password"></label><label class="l">Új jelszó (min. 8 karakter)<input class="i" type="password" id="pw-new" autocomplete="new-password"></label></div><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Jelszó módosítása</button></form></div>`:''}
+  <div class="editor" style="margin:0"><h3>Utolsó belépések</h3>${(info.log||[]).length?`<div class="tablewrap"><table class="ptable"><thead><tr><th>Időpont</th><th>Mód</th><th>Honnan</th></tr></thead><tbody>${info.log.slice(0,10).map(l=>`<tr><td data-l="Időpont" class="num">${esc(new Date(l.ido).toLocaleString('hu-HU'))}</td><td data-l="Mód">${esc(l.mod)}</td><td data-l="Honnan"><span class="num">${esc(l.ip)}</span><br><small class="muted">${esc(/iPhone|iPad/.test(l.eszkoz)?'iPhone / iPad':/Android/.test(l.eszkoz)?'Android telefon':/Mac/.test(l.eszkoz)?'Mac':/Windows/.test(l.eszkoz)?'Windows':'egyéb eszköz')}</small></td></tr>`).join('')}</tbody></table></div><p class="muted" style="font-size:.86rem">Ha ismeretlen belépést lát, azonnal változtasson jelszót.</p>`:'<p class="muted">Még nincs naplózott belépés.</p>'}</div></div>`;
+  const pwf=$('#pwf'); if(pwf) pwf.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',pwf); try{ await api('password',{body:{regi:$('#pw-old').value,uj:$('#pw-new').value}}); out.innerHTML='<div class="msg ok">A jelszó megváltozott.</div>'; pwf.reset(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  $('#totpstart')?.addEventListener('click',totpSetup); $('#totpnew')?.addEventListener('click',totpSetup);
+  const off=$('#totpoff'); if(off) off.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',off);
+    try{ if(MODE==='live') await api('totp-disable',{body:{jelszo:$('#off-pw').value,kod:$('#off-code').value}}); else { const t=PTOTP.get(); if(await totpCheck(t.secret,$('#off-code').value)==null) throw new Error('A telefonos kód nem stimmel.'); PTOTP.set({}); }
+      toast('A telefonos megerősítés kikapcsolva'); admSecurity(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+}
+async function totpSetup(){
+  const box=$('#totpbox'); let sec, uri;
+  try{ if(MODE==='live'){ const r=await api('totp-setup',{body:{}}); sec=r.secret; uri=r.uri; } else { sec=b32enc(crypto.getRandomValues(new Uint8Array(20))); uri=`otpauth://totp/${encodeURIComponent('Totál webáruház:admin')}?secret=${sec}&issuer=${encodeURIComponent('Totál webáruház')}&algorithm=SHA1&digits=6&period=30`; } }catch(err){ toast(err.message); return; }
+  const isPhone=/iPhone|iPad|Android/.test(navigator.userAgent);
+  box.innerHTML=`<div style="display:grid;gap:16px;margin-top:16px">
+    <div class="msg info" style="font-weight:500"><b>1.</b> ${isPhone?'Koppintson a gombra: a telefon megnyitja a hitelesítő alkalmazást (iPhone-on a Jelszavak alkalmazást), és elmenti a „Totál webáruház” kódot.':'Olvassa be a QR-kódot a telefon kamerájával: iPhone-on a Kamera felajánlja a „Hozzáadás a Jelszavakhoz” lehetőséget. Androidon a Google Authenticator alkalmazással olvassa be.'}</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+      <div id="qr" style="width:212px;height:212px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center" aria-label="QR-kód a telefonhoz"><span class="muted" style="font-size:.8rem">QR-kód betöltése…</span></div>
+      <div style="display:grid;gap:10px;flex:1;min-width:220px"><a class="btn gold" href="${esc(uri)}">${icon('phone')} Megnyitás a telefonon</a>
+        <div><span class="muted" style="font-size:.84rem">Vagy írja be kézzel a beállítási kulcsot:</span><div class="num" style="font-weight:700;letter-spacing:.08em;word-break:break-all;user-select:all;padding:8px 10px;background:var(--surface-2);border-radius:8px;margin-top:4px">${esc(sec.match(/.{1,4}/g).join(' '))}</div></div></div></div>
+    <form class="f" id="totpon"><div class="msg info" style="font-weight:500"><b>2.</b> Írja be a telefonon megjelent 6 jegyű kódot, hogy ellenőrizzük a beállítást.</div><label class="l">Kód a telefonról<input class="i num" id="on-code" inputmode="numeric" autocomplete="one-time-code" maxlength="7" style="font-size:1.4rem;letter-spacing:.25em;max-width:220px"></label><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Bekapcsolás</button></form></div>`;
+  loadQR().then(()=>{ const q=$('#qr'); q.innerHTML=''; new QRCode(q,{text:uri,width:200,height:200,correctLevel:QRCode.CorrectLevel.M}); }).catch(()=>{ $('#qr').innerHTML='<span class="muted" style="font-size:.8rem;padding:10px;text-align:center">A QR-kód nem töltődött be. Használja a gombot vagy a kulcsot.</span>'; });
+  $('#totpon').onsubmit=async e=>{ e.preventDefault(); const out=$('#totpon .out');
+    try{ let codes;
+      if(MODE==='live') codes=(await api('totp-enable',{body:{kod:$('#on-code').value}})).recovery;
+      else { const st=await totpCheck(sec,$('#on-code').value); if(st==null) throw new Error('A kód nem egyezik. Ellenőrizze, hogy a legfrissebb kódot írta be.'); codes=newRecovery(); PTOTP.set({enabled:true,secret:sec,last:st,recovery:codes,since:new Date().toISOString()}); }
+      ADMIN.totp=true;
+      box.innerHTML=`<div style="display:grid;gap:12px;margin-top:16px"><div class="msg ok">Kész! A következő belépéstől a jelszó után a telefonos kódot is kéri.</div><div class="msg info" style="font-weight:500"><b>Tartalékkódok</b> arra az esetre, ha a telefon nincs Önnél vagy elveszik. Mindegyik egyszer használható. Írja fel vagy fényképezze le őket, és tegye biztonságos helyre – <b>most látja őket utoljára</b>.</div><div class="num" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-weight:700;font-size:1.05rem;letter-spacing:.06em;user-select:all">${codes.map(c=>`<span style="padding:8px 12px;background:var(--surface-2);border-radius:8px">${esc(c)}</span>`).join('')}</div><button class="btn line" type="button" id="copyrec" style="justify-self:start">Kódok másolása</button><button class="btn gold" type="button" id="recdone" style="justify-self:start">Felírtam, kész</button></div>`;
+      $('#copyrec').onclick=async()=>{ try{ await navigator.clipboard.writeText(codes.join('\n')); toast('Kimásolva'); }catch(e){ toast('Jelölje ki és másolja ki a kódokat'); } };
+      $('#recdone').onclick=()=>admSecurity();
+    }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+}
 async function admOrders(){
   let list=[]; try{ list=MODE==='live'?await api('orders'):LS.get('ptg-orders3',[]); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
   const names={ajanlat:'Ajánlatkérés',megrendeles:'Webáruházas megrendelés',szerviz:'Szerviz bejelentés',atallas:'E-pénztárgép átállás',uzenet:'Üzenet'};
@@ -1287,9 +1378,9 @@ function markDirty(){ ADMIN.dirty=true; const b=$('#savebar'); if(b) b.hidden=fa
 function renderAdmin(){ $('#app').innerHTML=ADMIN.in?adminHTML():loginHTML(); bindAdmin(); }
 function bindAdmin(){
   bindLogin(); if(!ADMIN.in) return;
-  $('#logout').onclick=async()=>{ if(ADMIN.dirty&&!$('#logout').dataset.sure){ $('#logout').dataset.sure='1'; $('#logout').textContent='Biztos? Nem mentett változás van'; return; } if(MODE==='live') try{ await api('logout',{body:{}}); }catch(e){} ADMIN.in=false; ADMIN.csrf=null; ADMIN.dirty=false; await load(); route(); };
+  $('#logout').onclick=async()=>{ if(ADMIN.dirty&&!$('#logout').dataset.sure){ $('#logout').dataset.sure='1'; $('#logout').textContent='Biztos? Nem mentett változás van'; return; } if(MODE==='live') try{ await api('logout',{body:{}}); }catch(e){} ADMIN.in=false; ADMIN.step2=false; ADMIN.csrf=null; ADMIN.dirty=false; await load(); route(); };
   $$('[data-tab]').forEach(b=>b.onclick=()=>{ ADMIN.tab=b.dataset.tab; ADMIN.edit=null; renderAdmin(); });
-  if(ADMIN.tab==='rendelesek') admOrders();
+  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity();
   $$('[data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{ const p=prod(inp.dataset.id), f=inp.dataset.f;
     if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
   const ac=$('#admcat'); if(ac) ac.onchange=()=>$$('.ptable tbody tr').forEach(tr=>tr.hidden=!!ac.value&&tr.dataset.cat!==ac.value);
@@ -1298,8 +1389,8 @@ function bindAdmin(){
   if(ADMIN.edit) bindEditor();
   $$('[data-s]').forEach(inp=>inp.addEventListener('input',()=>{ const s=DB.services.find(x=>x.id===inp.dataset.id); s[inp.dataset.s]=inp.dataset.s==='ar'?numOrNull(inp.value):inp.value; markDirty(); }));
   $$('[data-faq]').forEach(t=>t.addEventListener('input',()=>{ cat(t.dataset.faq).gyik=t.value.split('\n').map(l=>l.split('|')).filter(x=>x[0].trim()&&x[1]).map(x=>[x[0].trim(),x.slice(1).join('|').trim()]); markDirty(); }));
+  if(ADMIN.tab==='beallitasok') bindHours();
   $$('[data-set]').forEach(inp=>inp.addEventListener('input',()=>{ const k=inp.dataset.set; DB.settings[k]=k==='mobil'?inp.value.split(',').map(x=>x.trim()).filter(Boolean):k==='afa'?(numOrNull(inp.value)??27):inp.value; markDirty(); }));
-  const pwf=$('#pwf'); if(pwf) pwf.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',pwf); try{ await api('password',{body:{regi:$('#pw-old').value,uj:$('#pw-new').value}}); out.innerHTML='<div class="msg ok">A jelszó megváltozott.</div>'; pwf.reset(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
   $('#resetprev')?.addEventListener('click',()=>{ $('#resetconfirm').innerHTML='<button class="btn sm" type="button" id="resetyes" style="background:var(--bad);color:#fff">Igen, visszaállítom</button>'; $('#resetyes').onclick=()=>{ try{localStorage.removeItem('ptg-data3')}catch(e){} DB=structuredClone(SEED); ADMIN.dirty=false; fillChrome(); toast('Visszaállítva'); renderAdmin(); }; });
   $('#save')?.addEventListener('click',async e=>{ const sv=e.currentTarget; sv.disabled=true; try{ if(MODE==='live') await api('save',{body:DB}); else if(!LS.set('ptg-data3',DB)) throw new Error('A böngésző nem engedte a mentést (túl sok vagy túl nagy kép?).'); ADMIN.dirty=false; $('#savebar').hidden=true; fillChrome(); toast('Mentve'); }catch(err){ toast(err.message); } sv.disabled=false; });
   $('#discard')?.addEventListener('click',async()=>{ await load(); ADMIN.dirty=false; ADMIN.edit=null; renderAdmin(); toast('Változások elvetve'); });

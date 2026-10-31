@@ -9,12 +9,37 @@
    "+36 20 322 2669"
   ],
   "email": "info@penztar-gep.hu",
-  "nyitvatartas": "Hétfő–péntek 9:00–15:00, hétvégén zárva",
+  "nyitvatartas": "Hétfő–péntek 9:00–15:00, szombat–vasárnap zárva",
   "alapitas": "1982",
   "afa": 27,
   "mobildij": "A pénztárgép mobil adatkapcsolatának díja 1 500 Ft + ÁFA / hó / gép. A szerződést a vásárláskor intézzük.",
   "hirdetes": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
-  "ingyenesSzallitas": ""
+  "ingyenesSzallitas": "",
+  "nyitva": {
+   "1": [
+    "09:00",
+    "15:00"
+   ],
+   "2": [
+    "09:00",
+    "15:00"
+   ],
+   "3": [
+    "09:00",
+    "15:00"
+   ],
+   "4": [
+    "09:00",
+    "15:00"
+   ],
+   "5": [
+    "09:00",
+    "15:00"
+   ],
+   "6": null,
+   "0": null
+  },
+  "zarvaNapok": []
  },
  "categories": [
   {

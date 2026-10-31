@@ -50,6 +50,10 @@ svg.ic{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 .navbar .search{color:var(--txt);display:grid;place-items:center;width:44px;height:44px;margin-left:clamp(8px,4vw,70px)}
 .navbar .search svg{width:28px;height:28px;stroke-width:2.2}
 .navbar .burger{display:none}
+.admbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:9px;border:1.5px solid rgba(255,217,138,.55);color:var(--txt);font-family:var(--fd);font-weight:700;font-size:.92rem;white-space:nowrap;margin-left:clamp(8px,2vw,30px)}
+.admbtn svg{width:19px;height:19px;color:var(--gold-l);stroke-width:2}
+.admbtn:hover{border-color:var(--gold-l);color:var(--gold-l)}
+.navbar .admbtn + .search{margin-left:6px}
 
 /* kezdőkép */
 .hero{position:relative;background:url(assets/hero-hatter.jpg) 50% 50%/cover no-repeat,var(--n3);overflow:hidden}
@@ -100,7 +104,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .top .wrap{min-height:84px}.vbar,.slogan{display:none}.top .pan{height:84px}
   .navbar{height:54px}.navbar .wrap{justify-content:space-between}
   .navbar a.it:not(.on){display:none}.navbar .burger{display:grid;place-items:center;width:44px;height:44px;color:var(--txt)}
-  .navbar .burger svg{width:28px;height:28px;stroke-width:2.2}.navbar .search{margin-left:auto}
+  .navbar .burger svg{width:28px;height:28px;stroke-width:2.2}.navbar .admbtn{margin-left:auto;height:38px;padding:0 10px}.navbar .admbtn span{display:none}
   .navbar.open{height:auto}.navbar.open .wrap{flex-wrap:wrap;padding-block:8px}.navbar.open a.it{display:inline-flex;width:100%;padding:12px 8px}.navbar.open a.it.on{width:auto}
   .hero{background-position:72% 50%}
   .hero .wrap{grid-template-columns:1fr;min-height:0;padding-block:34px 0}
@@ -329,6 +333,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     <a class="it" href="webaruhaz/#kat-kellek">Kellékanyagok</a>
     <a class="it" href="#rolunk">Rólunk</a>
     <a class="it" href="#kapcsolat">Kapcsolat</a>
+    <a class="admbtn" href="webaruhaz/#admin" aria-label="Admin belépés"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Admin</span></a>
     <a class="search" href="webaruhaz/#termekek" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg></a>
   </div>
   <svg class="wave b" viewBox="0 0 1536 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 C 260 18, 620 22, 900 14 S 1350 2, 1536 12" stroke="url(#gw1)" stroke-width="2.4" fill="none"/></svg>
@@ -467,7 +472,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 <footer class="hfoot">
   <div class="wrap">
     <img src="assets/logo.webp" alt="TOTÁL – Pénztárgép és Számítástechnika" width="685" height="216" loading="lazy">
-    <nav aria-label="Lábléc"><a href="webaruhaz/#termekek">Webáruház</a><a href="webaruhaz/#szerviz">Szerviz</a><a href="#rolunk">Rólunk</a><a href="#kapcsolat">Kapcsolat</a><a href="webaruhaz/#admin">Admin</a></nav>
+    <nav aria-label="Lábléc"><a href="webaruhaz/#termekek">Webáruház</a><a href="webaruhaz/#szerviz">Szerviz</a><a href="#rolunk">Rólunk</a><a href="#kapcsolat">Kapcsolat</a><a href="webaruhaz/#admin">Admin belépés</a></nav>
     <span>© <span id="ev"></span> Totál Pénztárgép és Számítástechnika Kkt.</span>
   </div>
 </footer>
@@ -477,18 +482,20 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 (function(){
   "use strict";
   /* nyitvatartás: hétfő–péntek 9:00–15:00 (Europe/Budapest), ünnepnapokon zárva */
-  var HOURS={1:[9,15],2:[9,15],3:[9,15],4:[9,15],5:[9,15]};
+  var HOURS={1:[540,900],2:[540,900],3:[540,900],4:[540,900],5:[540,900]}, CLOSED=[];  /* percben; az admin beállításai felülírják */
   var NAMES=['Vasárnap','Hétfő','Kedd','Szerda','Csütörtök','Péntek','Szombat'];
   function bud(){ var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Budapest',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()), o={}; p.forEach(function(x){o[x.type]=x.value}); return new Date(+o.year,+o.month-1,+o.day,+o.hour,+o.minute); }
   function easter(y){ var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1; return new Date(y,mo-1,da); }
+  function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function extraClosed(d){ var k=ymd(d); return CLOSED.some(function(x){ var p=x.split('..'); return p.length>1 ? (k>=p[0].trim() && k<=p[1].trim()) : k===x.trim(); }); }
   function holiday(d){ var y=d.getFullYear(), md=(d.getMonth()+1)+'-'+d.getDate(); if(['1-1','3-15','5-1','8-20','10-23','11-1','12-24','12-25','12-26'].indexOf(md)>=0) return true; var e=easter(y); return [-2,1,50].some(function(n){ var x=new Date(e); x.setDate(x.getDate()+n); return x.toDateString()===d.toDateString(); }); }
-  function hoursOf(d){ return holiday(d)?null:(HOURS[d.getDay()]||null); }
-  function fmt(h){ return h+':00'; }
+  function hoursOf(d){ return (holiday(d)||extraClosed(d))?null:(HOURS[d.getDay()]||null); }
+  function fmt(m){ return Math.floor(m/60)+':'+String(m%60).padStart(2,'0'); }
   function render(){
     var now=bud(), h=hoursOf(now), mins=now.getHours()*60+now.getMinutes(), st=document.getElementById('status'), t, sub, cls='';
-    if(h && mins>=h[0]*60 && mins<h[1]*60){ var left=h[1]*60-mins; cls=left<=30?'soon':'open'; t=left<=30?'Hamarosan zárunk':'Most nyitva'; sub='Ma '+fmt(h[1])+'-ig várjuk'+(left<=30?' – még '+left+' percig':''); }
-    else { var d=new Date(now), label; if(h && mins<h[0]*60){ label='ma'; } else { for(var n=1;n<15;n++){ d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+n); if(hoursOf(d)) break; } label = n===1?'holnap':(n<7?NAMES[d.getDay()].toLowerCase():d.toLocaleDateString('hu-HU',{month:'long',day:'numeric'})); h=hoursOf(d); }
-      t='Most zárva'+(holiday(now)?' (ünnepnap)':''); sub='Nyitás: '+label+' '+fmt(h[0])+'-kor'; }
+    if(h && mins>=h[0] && mins<h[1]){ var left=h[1]-mins; cls=left<=30?'soon':'open'; t=left<=30?'Hamarosan zárunk':'Most nyitva'; sub='Ma '+fmt(h[1])+'-ig várjuk'+(left<=30?' – még '+left+' percig':''); }
+    else { var d=new Date(now), label; if(h && mins<h[0]){ label='ma'; } else { for(var n=1;n<15;n++){ d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+n); if(hoursOf(d)) break; } label = n===1?'holnap':(n<7?NAMES[d.getDay()].toLowerCase():d.toLocaleDateString('hu-HU',{month:'long',day:'numeric'})); h=hoursOf(d); }
+      if(!h){ t='Most zárva'; sub='Hamarosan frissítjük a nyitvatartást'; } else { t='Most zárva'+(holiday(now)?' (ünnepnap)':(extraClosed(now)?' (rendkívüli zárva tartás)':'')); sub='Nyitás: '+label+' '+fmt(h[0])+'-kor'; } }
     st.className='status '+cls; document.getElementById('st-t').textContent=t; document.getElementById('st-s').textContent=sub;
     var chip=document.querySelector('[data-open]'); if(chip){ chip.className='openchip '+cls; chip.querySelector('span').textContent=t+' · '+sub.replace('Ma ','ma ').replace('Nyitás: ','nyit: '); }
     var rows='', order=[1,2,3,4,5,6,0], today=now.getDay();
@@ -503,7 +510,11 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
   function ft(n){ return Math.round(n).toLocaleString('hu-HU').replace(/\u00a0/g,' ')+' Ft'; }
   function show(d){
-    if(!d||!d.products) return; var afa=1+((d.settings&&d.settings.afa)||27)/100;
+    if(!d||!d.products) return;
+    var st=d.settings||{}; if(st.nyitva){ var H={}; Object.keys(st.nyitva).forEach(function(k){ var v=st.nyitva[k]; if(v){ var a=v[0].split(':'), b=v[1].split(':'); H[k]=[+a[0]*60+(+a[1]||0), +b[0]*60+(+b[1]||0)]; } }); HOURS=H; }
+    if(Array.isArray(st.zarvaNapok)) CLOSED=st.zarvaNapok; render();
+    if(st.nyitvatartas){ var cp=document.querySelector('.cream .cb p'); if(cp) cp.innerHTML='<b>Pécs, Hunyadi János utca 34.</b> · '+esc(st.nyitvatartas)+' · Ingyenes parkolás az üzlet előtt'; }
+    var afa=1+((d.settings&&d.settings.afa)||27)/100;
     var list=d.products.filter(function(p){return !p.rejtett && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
     if(list.length<2) return;
     document.getElementById('featlist').innerHTML=list.map(function(p){ var a=p.keszletDb, pr=p.akciosAr||p.ar, img=p.kepek[0]; if(!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
