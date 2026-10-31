@@ -7,7 +7,7 @@
 <meta name="description" content="Pénztárgép szaküzlet és szerviz Pécsen 1982 óta: online pénztárgépek, POS rendszerek, számítástechnika, kellékanyagok, szerviz. 7625 Pécs, Hunyadi János utca 34.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Layout: az elfogadott terv – sötétkék fejléc logóval és elérhetőségekkel, arany menüsor, kék fénysugaras kezdőkép a termékcsoporttal, arany hullámok, ikonsáv, krémszínű alsó sáv */
 :root{
@@ -330,6 +330,105 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .mbar a{flex:1;min-height:46px;font-size:.92rem;padding:0 10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ===== pénztárgépes motívumok: LCD kijelző, nyugta, billentyűk, vonalkód ===== */
+:root{--bc:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='182' height='40'%3E%3Crect x='0' width='1' height='40'/%3E%3Crect x='2' width='2' height='40'/%3E%3Crect x='5' width='1' height='40'/%3E%3Crect x='9' width='1' height='40'/%3E%3Crect x='12' width='2' height='40'/%3E%3Crect x='15' width='2' height='40'/%3E%3Crect x='18' width='1' height='40'/%3E%3Crect x='20' width='2' height='40'/%3E%3Crect x='24' width='1' height='40'/%3E%3Crect x='26' width='1' height='40'/%3E%3Crect x='30' width='2' height='40'/%3E%3Crect x='33' width='2' height='40'/%3E%3Crect x='36' width='1' height='40'/%3E%3Crect x='40' width='1' height='40'/%3E%3Crect x='44' width='2' height='40'/%3E%3Crect x='48' width='1' height='40'/%3E%3Crect x='50' width='1' height='40'/%3E%3Crect x='54' width='1' height='40'/%3E%3Crect x='57' width='2' height='40'/%3E%3Crect x='60' width='2' height='40'/%3E%3Crect x='63' width='2' height='40'/%3E%3Crect x='67' width='2' height='40'/%3E%3Crect x='70' width='1' height='40'/%3E%3Crect x='74' width='2' height='40'/%3E%3Crect x='77' width='1' height='40'/%3E%3Crect x='79' width='2' height='40'/%3E%3Crect x='82' width='2' height='40'/%3E%3Crect x='85' width='2' height='40'/%3E%3Crect x='88' width='2' height='40'/%3E%3Crect x='93' width='2' height='40'/%3E%3Crect x='97' width='2' height='40'/%3E%3Crect x='102' width='2' height='40'/%3E%3Crect x='106' width='1' height='40'/%3E%3Crect x='108' width='1' height='40'/%3E%3Crect x='110' width='1' height='40'/%3E%3Crect x='114' width='1' height='40'/%3E%3Crect x='118' width='2' height='40'/%3E%3Crect x='122' width='3' height='40'/%3E%3Crect x='127' width='1' height='40'/%3E%3Crect x='131' width='1' height='40'/%3E%3Crect x='133' width='2' height='40'/%3E%3Crect x='137' width='1' height='40'/%3E%3Crect x='140' width='1' height='40'/%3E%3Crect x='143' width='2' height='40'/%3E%3Crect x='146' width='3' height='40'/%3E%3Crect x='150' width='2' height='40'/%3E%3Crect x='155' width='1' height='40'/%3E%3Crect x='158' width='3' height='40'/%3E%3Crect x='163' width='2' height='40'/%3E%3Crect x='167' width='2' height='40'/%3E%3Crect x='171' width='1' height='40'/%3E%3Crect x='173' width='1' height='40'/%3E%3Crect x='176' width='3' height='40'/%3E%3C/svg%3E");--keys:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='56'%3E%3Crect x='5' y='5' width='54' height='42' rx='9' fill='%23ffffff' fill-opacity='.55' stroke='%23082746' stroke-opacity='.07' stroke-width='1.5'/%3E%3Crect x='5' y='45' width='54' height='5' rx='2.5' fill='%23082746' fill-opacity='.04'/%3E%3C/svg%3E");
+  --lcd-a:#2c55d8;--lcd-b:#1a36a6;--lcd-t:#eef4ff;--paper:#fffdf6;--fm:"VT323",ui-monospace,monospace;--fr:"Courier Prime","Courier New",ui-monospace,monospace}
+.zz-b{-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.zz-t{-webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.barcode{display:block;height:34px;background:#1d2530;-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
+/* háttérminta: pénztárgép-billentyűzet */
+.sec:not(.white):not(.cream2){background:radial-gradient(ellipse 80% 70% at 50% 40%,rgba(247,248,250,.92),rgba(247,248,250,.55)),var(--keys) 0 0/64px 56px,#f2f4f7}
+/* szekciócím előtti vonalkód */
+.eye::before{width:46px;height:14px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
+/* LCD kijelző */
+.bezel{position:relative;background:linear-gradient(180deg,#2a2e36,#121419);border-radius:14px;padding:12px 14px 14px;box-shadow:0 18px 40px rgba(4,17,42,.35),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.6)}
+.bezel .lbl{display:block;font-family:var(--fb);font-size:.7rem;letter-spacing:.06em;color:#8a93a3;margin:0 0 6px 4px}
+.lcd{position:relative;overflow:hidden;border-radius:6px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));color:var(--lcd-t);font-family:var(--fm);text-shadow:0 0 8px rgba(190,215,255,.75);box-shadow:inset 0 0 0 2px #0e1f62,inset 0 8px 18px rgba(0,0,0,.35)}
+.lcd::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(90deg,rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(160deg,rgba(255,255,255,.16),transparent 40%)}
+/* kijelző-futószöveg sáv */
+.lcdband{background:var(--cream);padding:0 0 34px;color:var(--cream-ink)}
+.lcdband .bezel{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.lcdband .bezel>div,.lcdband .lcd{min-width:0}
+.lcdband{overflow:hidden}
+.lcdband .tot{font-family:var(--fm);font-size:1.5rem;line-height:1;color:#c7ced9;padding:0 6px;white-space:nowrap}
+.lcdband .tot b{display:block;font-size:.9rem;color:#8a93a3;font-family:var(--fb);font-weight:600;letter-spacing:.08em}
+.marq{display:flex;white-space:nowrap;font-size:clamp(1.6rem,2.6vw,2.3rem);line-height:1;padding:12px 0 10px}
+.marq span{display:inline-block;padding-right:3rem;animation:marq 38s linear infinite}
+@keyframes marq{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.marq span{animation:none}}
+/* márkák pénztárgép-billentyűként */
+.keys{display:flex;flex-wrap:wrap;gap:14px 12px;margin-top:22px}
+.key{display:inline-grid;place-items:center;min-width:112px;height:58px;padding:0 18px;border-radius:10px;font-family:var(--fd);font-weight:800;font-size:1.02rem;letter-spacing:.01em;color:#132235;background:linear-gradient(180deg,#ffffff 0%,#e8ecf1 100%);border:1px solid #c5ced8;box-shadow:0 5px 0 #aeb8c4,0 10px 16px rgba(8,39,70,.14),inset 0 1px 0 #fff;transition:transform .12s,box-shadow .12s;user-select:none}
+.key small{display:block;font-family:var(--fb);font-weight:600;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;opacity:.65;margin-top:-2px}
+.key:hover{transform:translateY(3px);box-shadow:0 2px 0 #aeb8c4,0 5px 10px rgba(8,39,70,.12),inset 0 1px 0 #fff}
+.key.y{background:linear-gradient(180deg,#fff2a8,#f2d23e);border-color:#d6b62a;box-shadow:0 5px 0 #c2a21d,0 10px 16px rgba(8,39,70,.14),inset 0 1px 0 #fffbe0}
+.key.b{background:linear-gradient(180deg,#d6ebff,#93c3f2);border-color:#78a9db;box-shadow:0 5px 0 #6d9bcc,0 10px 16px rgba(8,39,70,.14),inset 0 1px 0 #f1f8ff}
+.key.r{background:linear-gradient(180deg,#f48a78,#d6402c);border-color:#b8321f;color:#fff;box-shadow:0 5px 0 #a42c1b,0 10px 16px rgba(8,39,70,.14),inset 0 1px 0 #ffb2a5}
+.key.k{background:linear-gradient(180deg,#3b4049,#16191e);border-color:#0c0e11;color:#fff;box-shadow:0 5px 0 #050607,0 10px 16px rgba(8,39,70,.2),inset 0 1px 0 #5a606b}
+.key.y:hover,.key.b:hover,.key.r:hover,.key.k:hover{box-shadow:0 2px 0 rgba(0,0,0,.35),0 5px 10px rgba(8,39,70,.12)}
+.key.wide{min-width:200px}
+/* gépválasztó */
+.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.pk{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.pk:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(24,46,72,.16)}
+.pk .ph{position:relative;aspect-ratio:16/11;display:grid;place-items:center;background:radial-gradient(ellipse 70% 60% at 50% 55%,#ffffff,rgba(255,255,255,.4)),var(--keys) 0 0/64px 56px,#eef2f6}
+.pk .ph img{width:78%;height:82%;object-fit:contain;mix-blend-mode:multiply;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.pk:hover .ph img{transform:scale(1.05) rotate(-1deg)}
+.pk .tag{position:absolute;top:14px;right:14px;padding:8px 12px 12px;background:var(--paper);font-family:var(--fr);font-weight:700;font-size:.82rem;color:#1d2530;transform:rotate(3deg)}
+.pk .bd{padding:20px 22px 22px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;flex:1}
+.pk h3{margin:0;font-family:var(--fd);font-weight:800;font-size:1.28rem;color:var(--navy)}
+.pk p{margin:0;color:var(--muted);line-height:1.55}
+.pk .lcd{margin-top:6px;padding:6px 12px 4px;font-size:1.45rem;line-height:1}
+.pk .go{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--fd);font-weight:700;color:var(--navy2)}
+.pk .go svg{width:16px;height:16px;stroke-width:2.6;transition:transform .2s}
+.pk:hover .go{color:var(--goldd)}.pk:hover .go svg{transform:translateX(4px)}
+/* vásárlás lépései: nyugtaszeletek */
+.steps{gap:22px}
+.step{background:none;border:0;padding:0;filter:drop-shadow(0 12px 20px rgba(24,46,72,.13))}
+.step::before{display:none}
+.slip{background:linear-gradient(180deg,var(--paper),#f8f3e6);padding:22px 20px 34px;border-radius:6px 6px 0 0;height:100%;-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.slip .no{display:flex;justify-content:space-between;font-family:var(--fr);font-weight:700;font-size:.85rem;color:#6b6457;border-bottom:2px dashed #d9cfbb;padding-bottom:10px;margin-bottom:12px}
+.slip .no b{color:var(--goldd)}
+.slip h3{margin:0 0 6px;font-family:var(--fd);font-weight:800;font-size:1.08rem;color:var(--navy)}
+.slip p{margin:0;color:#5b6676;font-size:.95rem;line-height:1.55}
+.slip .ok{display:flex;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:2px dashed #d9cfbb;font-family:var(--fr);font-weight:700;font-size:.85rem;color:#1d2530}
+.step:nth-child(odd){transform:rotate(-.6deg)}.step:nth-child(even){transform:rotate(.5deg)}
+.step.rv:not(.in){transform:translateY(26px)}
+/* nyitvatartás nyugtaként */
+.rcpt-w{filter:drop-shadow(0 12px 22px rgba(24,46,72,.14))}
+.rcpt{background:linear-gradient(180deg,var(--paper),#f7f1e2);padding:22px 22px 30px;font-family:var(--fr);color:#1d2530;-webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50% 0/14px 51% repeat-x,conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50% 100%/14px 51% repeat-x;mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50% 0/14px 51% repeat-x,conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50% 100%/14px 51% repeat-x}
+.rcpt .rh{text-align:center;font-weight:700;line-height:1.35;font-size:.9rem;padding:6px 0 10px;border-bottom:2px dashed #cfc5b1;margin-bottom:6px}
+.rcpt .rh big{display:block;font-family:var(--fd);font-style:italic;font-weight:900;font-size:1.5rem;letter-spacing:.02em;color:#0b2a4d}
+.rcpt .hours{font-size:.98rem}
+.rcpt .hours td{border-bottom:1px dotted #d6ccb7;padding:7px 2px}
+.rcpt .hours tr.today td{color:#0b2a4d}
+.rcpt .rf{text-align:center;font-size:.82rem;font-weight:700;padding-top:12px;border-top:2px dashed #cfc5b1;margin-top:8px;display:grid;gap:8px;justify-items:center}
+.rcpt .rf .barcode{width:min(240px,90%);height:40px}
+/* számok LCD-n */
+.stat{background:linear-gradient(180deg,#2a2e36,#121419);box-shadow:0 14px 30px rgba(4,17,42,.25),inset 0 1px 0 rgba(255,255,255,.1)}
+.stat::after{display:none}
+.stat b{font-family:var(--fm);font-style:normal;font-weight:400;font-size:clamp(2.6rem,4.2vw,3.4rem);text-align:right;padding:8px 14px 2px;border-radius:6px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));-webkit-background-clip:border-box;background-clip:border-box;color:var(--lcd-t);-webkit-text-fill-color:var(--lcd-t);text-shadow:0 0 10px rgba(190,215,255,.8);box-shadow:inset 0 0 0 2px #0e1f62,inset 0 8px 18px rgba(0,0,0,.35);position:relative}
+.stat span{color:#c9d2de;font-size:.95rem}
+/* e-pénztárgép idővonal: dátum LCD-n */
+@media (min-width:641px){.tl div{grid-template-columns:150px 1fr}}
+.tl b{justify-self:start;white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.4rem;line-height:1;color:var(--lcd-t);background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));border-radius:6px;padding:6px 10px 3px;align-self:start;text-align:center;text-shadow:0 0 8px rgba(190,215,255,.75);box-shadow:inset 0 0 0 2px #0e1f62}
+.tl div.key b{background:linear-gradient(180deg,#f7dfa6,#d6a64e);color:#172e47;text-shadow:none;box-shadow:inset 0 0 0 2px #a8781f}
+/* kiemelt termékek: vonalkód a kártyán */
+.fp .bd{position:relative}
+.fp .bd::after{content:"";position:absolute;right:14px;bottom:16px;width:54px;height:18px;background:#1d2530;opacity:.22;-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
+/* lábléc: tépett nyugta-él */
+.ffoot{margin-top:14px}
+.ffoot::after{content:"";position:absolute;left:0;right:0;top:-13px;height:14px;background:#071f3b;-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.ffoot::before{top:6px;height:2px;opacity:.7}
+.fbottom .barcode{width:110px;height:22px;background:#c9d4e2;opacity:.5}
+@media (max-width:1100px){.pick{grid-template-columns:1fr 1fr}.pick .pk:last-child{grid-column:1/-1}}
+@media (max-width:640px){
+  .pick{grid-template-columns:1fr}.pick .pk:last-child{grid-column:auto}
+  .lcdband .bezel{grid-template-columns:1fr;gap:6px}.lcdband .tot{display:none}
+  .key{min-width:0;flex:1 1 calc(33% - 12px);height:52px;padding:0 8px;font-size:.92rem}.key.wide{flex-basis:100%}
+  .step:nth-child(n){transform:none}
+}
 </style>
 </head>
 <body>
@@ -397,6 +496,9 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   <img class="dz" src="assets/dzsami.webp" alt="">
   <div class="wrap cb"><p><b>Pécs, Hunyadi János utca 34.</b> · Hétfő–péntek 9:00–15:00 · Ingyenes parkolás az üzlet előtt</p><a class="openchip" href="#kapcsolat" data-open><i></i><span>Nyitvatartás</span></a></div>
 </section>
+<section class="lcdband" aria-label="Kijelző">
+  <div class="wrap"><div class="bezel"><span class="tot"><b>ÖSSZESEN</b>1 HELYEN</span><div><span class="lbl">TOTÁL · Multi-Line Display</span><div class="lcd"><div class="marq" aria-hidden="true"><span>TOTÁL PÉNZTÁRGÉP ★ PÉCS 1982 ÓTA ★ ONLINE PÉNZTÁRGÉPEK ★ POS RENDSZEREK ★ E-PÉNZTÁRGÉP ÁTÁLLÁS ★ SZERVIZ HELYBEN ★ HŐPAPÍR RAKTÁRRÓL ★ INGYENES PARKOLÁS ★</span><span>TOTÁL PÉNZTÁRGÉP ★ PÉCS 1982 ÓTA ★ ONLINE PÉNZTÁRGÉPEK ★ POS RENDSZEREK ★ E-PÉNZTÁRGÉP ÁTÁLLÁS ★ SZERVIZ HELYBEN ★ HŐPAPÍR RAKTÁRRÓL ★ INGYENES PARKOLÁS ★</span></div></div></div></div></div>
+</section>
 
 <main class="lt">
 <section class="sec" id="szolgaltatasok">
@@ -406,7 +508,21 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   </div>
 </section>
 
-<section class="sec white" id="kiemelt" hidden>
+
+<section class="sec white" id="gepvalaszto">
+  <div class="wrap">
+    <div class="shead rv"><div><span class="eye">Gépválasztó</span><h2 class="sh2">Melyik pénztárgép <em>illik Önhöz?</em></h2><p class="slead">Három kérdés helyett három típus. Ha bizonytalan, hívjon – az üzletben ki is próbálhatja mindegyiket.</p></div></div>
+    <div class="pick">
+      <a class="pk rv" href="webaruhaz/#kat-penztargep" data-ids="sam4s-nr-300,sam4s-nr-330,sam4s-nr-240,sam4s-nr-240-pro-4g,montel-sento-h-light,euro-150-flexy,cashcube-light"><span class="ph"><img src="webaruhaz/kepek/termekek/sam4s-nr-300-1.webp" alt="Asztali online pénztárgép" loading="lazy"><span class="tag zz-b">BOLTBA · PULTRA</span></span><span class="bd"><h3>Asztali pénztárgép</h3><p>Üzletbe, pultra: kasszafiók, vonalkódolvasó és mérleg köthető hozzá. Gyors nyomtató, jól olvasható kijelző.</p><span class="lcd" data-min>ÁR KÉRÉSRE</span><span class="go">Asztali gépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></span></a>
+      <a class="pk rv" href="webaruhaz/#kat-penztargep" data-ids="micra-k10,cashcube-mini,montel-mini-h,micra-jota-e,montel-jota-h"><span class="ph"><img src="webaruhaz/kepek/termekek/cashcube-mini-1.webp" alt="Hordozható online pénztárgép" loading="lazy"><span class="tag zz-b">PIAC · KISZÁLLÍTÁS</span></span><span class="bd"><h3>Hordozható pénztárgép</h3><p>Akkumulátorról, GPS-szel: piacon, kiszállításnál, rendezvényen. Zsebben vagy autóban is elfér.</p><span class="lcd" data-min>ÁR KÉRÉSRE</span><span class="go">Hordozható gépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></span></a>
+      <a class="pk rv" href="webaruhaz/#kat-pos" data-ids="imin-d2,imin-15-pos"><span class="ph"><img src="assets/termekcsoport.webp" alt="Érintőképernyős POS rendszer nyugtanyomtatóval és vonalkódolvasóval" style="width:96%;mix-blend-mode:normal" loading="lazy"><span class="tag zz-b">VENDÉGLÁTÁS · NTAK</span></span><span class="bd"><h3>POS rendszer</h3><p>Érintőképernyős kassza étterembe, kávézóba: asztaltérkép, konyhai nyomtató, NTAK-adatszolgáltatás.</p><span class="lcd" data-min>ÁR KÉRÉSRE</span><span class="go">POS rendszerek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></span></a>
+    </div>
+    <div class="shead rv" style="margin:clamp(40px,5vw,64px) 0 0"><div><span class="eye">Forgalmazott márkáink</span><p class="slead" style="margin-top:8px">Minden gépet beállítva, betanítva adunk át – és mi is javítjuk.</p></div></div>
+    <div class="keys rv" aria-label="Márkák"><span class="key k">Sam4s<small>pénztárgép</small></span><span class="key">Micra<small>pénztárgép</small></span><span class="key y">Montel<small>pénztárgép</small></span><span class="key b">CashCube<small>pénztárgép</small></span><span class="key">Elcom<small>pénztárgép</small></span><span class="key k">iMin<small>POS</small></span><span class="key r">CAS<small>mérleg</small></span><span class="key y">Godex<small>címke</small></span><span class="key b">Epson<small>nyomtató</small></span><a class="key b" href="webaruhaz/#termekek">KÉSZPÉNZ<small>Összes termék ›</small></a></div>
+  </div>
+</section>
+
+<section class="sec" id="kiemelt" hidden>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Webáruház</span><h2 class="sh2">Kiemelt <em>termékeink</em></h2><p class="slead">Kis készlettel dolgozunk, a darabszám mindig a valós raktárkészletet mutatja.</p></div><a class="hb line" href="webaruhaz/#termekek">Összes termék <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div>
     <div class="feat" id="featlist"></div>
@@ -415,13 +531,13 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 
 
 
-<section class="sec" id="kapcsolat">
+<section class="sec white" id="kapcsolat">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Pécs belvárosához közel, a Hunyadi János utcában. Az üzlet előtt ingyenesen parkolhat.</p></div></div>
     <div class="contactg">
       <div class="cc rv">
         <div class="status" id="status" aria-live="polite"><i></i><div><b id="st-t">Nyitvatartás</b><span id="st-s">Hétfő–péntek 9:00–15:00</span></div></div>
-        <table class="hours" id="hours" aria-label="Nyitvatartás"></table>
+        <div class="rcpt-w"><div class="rcpt"><div class="rh"><big>TOTÁL</big>PÉNZTÁRGÉP ÉS SZÁMÍTÁSTECHNIKA KKT.<br>7625 PÉCS, HUNYADI J. U. 34.<br>*** NYITVATARTÁS ***</div><table class="hours" id="hours" aria-label="Nyitvatartás"></table><div class="rf"><span>KÖSZÖNJÜK, HOGY MINKET VÁLASZT!</span><i class="barcode" aria-hidden="true"></i></div></div></div>
         <div class="cl">
           <div><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span><b>7625 Pécs, Hunyadi János utca 34.</b><small>Totál Pénztárgép és Számítástechnika Kkt.</small></span></div>
           <a href="tel:+3672215652"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span><b>+36 72 215 652</b><small>vezetékes</small></span></a>
@@ -440,19 +556,16 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   </div>
 </section>
 
-<section class="sec white" id="vasarlas">
+<section class="sec" id="vasarlas">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Pénztárgép vásárlás</span><h2 class="sh2">Így zajlik <em>lépésről lépésre</em></h2><p class="slead">A gépet beállítva, üzemkészen adjuk át – Önnek csak az iratokat kell hoznia.</p></div></div>
     <div class="steps">
-      <div class="step rv"><h3>Válassza ki a gépet</h3><p>A webáruházban vagy az üzletben, ahol ki is próbálhatja. Segítünk eldönteni, melyik illik a vállalkozásához.</p></div>
-      <div class="step rv"><h3>Üzembe helyezési kód</h3><p>Ön vagy könyvelője igényli az ügyfélkapun. Ha elakad, telefonon segítünk.</p></div>
-      <div class="step rv"><h3>Hozza az iratokat</h3><p>Társaság esetén aláírási címpéldány. Megrendelést aláírásra jogosult vagy meghatalmazottja tehet.</p></div>
-      <div class="step rv"><h3>Üzembe helyezés</h3><p>Beállítjuk, bejelentjük, betanítjuk. A gépet működőképesen viheti haza.</p></div>
+      <div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#01</b></span><h3>Válassza ki a gépet</h3><p>A webáruházban vagy az üzletben, ahol ki is próbálhatja. Segítünk eldönteni, melyik illik a vállalkozásához.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#02</b></span><h3>Üzembe helyezési kód</h3><p>Ön vagy könyvelője igényli az ügyfélkapun. Ha elakad, telefonon segítünk.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#03</b></span><h3>Hozza az iratokat</h3><p>Társaság esetén aláírási címpéldány. Megrendelést aláírásra jogosult vagy meghatalmazottja tehet.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#04</b></span><h3>Üzembe helyezés</h3><p>Beállítjuk, bejelentjük, betanítjuk. A gépet működőképesen viheti haza.</p><span class="ok"><span>KÉSZ</span><span>✓ ÜZEMKÉSZ</span></span></div></div>
     </div>
   </div>
 </section>
 
-<section class="sec" id="e-penztargep">
+<section class="sec white" id="e-penztargep">
   <div class="wrap">
     <div class="epz rv">
       <div><span class="eye" style="color:#f4d58d">Fontos határidő</span><h2 class="sh2">Átállás <em>e-pénztárgépre</em></h2><p class="slead">Az online pénztárgépek ideje lejár. Felmérjük, Önnek melyik megoldás kell, és mindent intézünk a NAV felé.</p><div class="btns" style="margin-top:22px"><a class="hb gold" href="webaruhaz/#e-penztargep">Átállási tanácsot kérek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívjon minket</a></div></div>
@@ -461,7 +574,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   </div>
 </section>
 
-<section class="sec white" id="gyik">
+<section class="sec" id="gyik">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div></div>
     <div class="faqg rv">
@@ -518,7 +631,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   </div>
   <div class="fbottom"><div class="wrap">
     <span>© <span id="ev"></span> Totál Pénztárgép és Számítástechnika Kkt. · Sam4s viszonteladó</span>
-    <span class="fpay">Fizetés: készpénz · bankkártya · átutalás</span>
+    <span class="fpay">Fizetés: készpénz · bankkártya · átutalás</span><i class="barcode" aria-hidden="true"></i>
     <a class="fadm" href="webaruhaz/#admin"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Admin belépés</a>
   </div></div>
 </footer>
@@ -567,6 +680,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     document.getElementById('featlist').innerHTML=list.map(function(p){ var a=p.keszletDb, pr=p.akciosAr||p.ar, img=p.kepek[0]; if(!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
       var st=a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last"><span class="ul-d">Utolsó darab</span><span class="ul-m">Raktáron · 1 db</span></span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>'));
       return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="'+esc(p.marka+' '+p.nev)+'" loading="lazy"></span><span class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</span></a>'; }).join('');
+    document.querySelectorAll('.pk[data-ids]').forEach(function(c){ var ids=c.getAttribute('data-ids').split(','), m=null; d.products.forEach(function(p){ var v=p.akciosAr||p.ar; if(ids.indexOf(p.id)>=0 && v && !p.rejtett){ v=v*afa; if(m==null||v<m) m=v; } }); var el=c.querySelector('[data-min]'); if(el && m) el.textContent=ft(m)+'-TÓL'; });
     document.getElementById('kiemelt').hidden=false; observe();
   }
   function get(u){ return fetch(u,{credentials:'same-origin'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }); }

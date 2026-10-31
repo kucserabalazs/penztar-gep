@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#082746">
 <meta name="description" content="Online pénztárgépek, POS terminálok, mérlegek, árazógépek és kellékanyagok Pécsen. Kis készlet, alapos bemutatás, 360°-os nézet, helyi szerviz.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Layout: világos webáruház a főoldal stílusjegyeivel – sötétkék fejléc arany menüvel, krém és fehér felületek, arany kiemelések; a termék a főszereplő */
 :root{
@@ -682,6 +682,25 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 .reveal{animation:rv .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes rv{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ===== pénztárgépes motívumok ===== */
+:root{--bc:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='182' height='40'%3E%3Crect x='0' width='1' height='40'/%3E%3Crect x='2' width='2' height='40'/%3E%3Crect x='5' width='1' height='40'/%3E%3Crect x='9' width='1' height='40'/%3E%3Crect x='12' width='2' height='40'/%3E%3Crect x='15' width='2' height='40'/%3E%3Crect x='18' width='1' height='40'/%3E%3Crect x='20' width='2' height='40'/%3E%3Crect x='24' width='1' height='40'/%3E%3Crect x='26' width='1' height='40'/%3E%3Crect x='30' width='2' height='40'/%3E%3Crect x='33' width='2' height='40'/%3E%3Crect x='36' width='1' height='40'/%3E%3Crect x='40' width='1' height='40'/%3E%3Crect x='44' width='2' height='40'/%3E%3Crect x='48' width='1' height='40'/%3E%3Crect x='50' width='1' height='40'/%3E%3Crect x='54' width='1' height='40'/%3E%3Crect x='57' width='2' height='40'/%3E%3Crect x='60' width='2' height='40'/%3E%3Crect x='63' width='2' height='40'/%3E%3Crect x='67' width='2' height='40'/%3E%3Crect x='70' width='1' height='40'/%3E%3Crect x='74' width='2' height='40'/%3E%3Crect x='77' width='1' height='40'/%3E%3Crect x='79' width='2' height='40'/%3E%3Crect x='82' width='2' height='40'/%3E%3Crect x='85' width='2' height='40'/%3E%3Crect x='88' width='2' height='40'/%3E%3Crect x='93' width='2' height='40'/%3E%3Crect x='97' width='2' height='40'/%3E%3Crect x='102' width='2' height='40'/%3E%3Crect x='106' width='1' height='40'/%3E%3Crect x='108' width='1' height='40'/%3E%3Crect x='110' width='1' height='40'/%3E%3Crect x='114' width='1' height='40'/%3E%3Crect x='118' width='2' height='40'/%3E%3Crect x='122' width='3' height='40'/%3E%3Crect x='127' width='1' height='40'/%3E%3Crect x='131' width='1' height='40'/%3E%3Crect x='133' width='2' height='40'/%3E%3Crect x='137' width='1' height='40'/%3E%3Crect x='140' width='1' height='40'/%3E%3Crect x='143' width='2' height='40'/%3E%3Crect x='146' width='3' height='40'/%3E%3Crect x='150' width='2' height='40'/%3E%3Crect x='155' width='1' height='40'/%3E%3Crect x='158' width='3' height='40'/%3E%3Crect x='163' width='2' height='40'/%3E%3Crect x='167' width='2' height='40'/%3E%3Crect x='171' width='1' height='40'/%3E%3Crect x='173' width='1' height='40'/%3E%3Crect x='176' width='3' height='40'/%3E%3C/svg%3E");--keys:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='56'%3E%3Crect x='5' y='5' width='54' height='42' rx='9' fill='%23ffffff' fill-opacity='.55' stroke='%23082746' stroke-opacity='.07' stroke-width='1.5'/%3E%3Crect x='5' y='45' width='54' height='5' rx='2.5' fill='%23082746' fill-opacity='.04'/%3E%3C/svg%3E");
+  --lcd-a:#2c55d8;--lcd-b:#1a36a6;--lcd-t:#eef4ff;--paper:#fffdf6;--fm:"VT323",ui-monospace,monospace;--fr:"Courier Prime","Courier New",ui-monospace,monospace}
+.wsm-bc{display:block;height:30px;background:#1d2530;-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
+body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),rgba(247,248,250,.6)),var(--keys) 0 0/64px 56px,var(--bg)}
+/* ár: pénztárgép-kijelző */
+.pbox .big{white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.75rem;line-height:1;text-align:right;padding:8px 12px 4px;border-radius:7px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));color:var(--lcd-t);text-shadow:0 0 9px rgba(190,215,255,.8);box-shadow:inset 0 0 0 2px #0e1f62,inset 0 8px 16px rgba(0,0,0,.35),0 0 0 5px #1c1f25,0 6px 14px rgba(4,17,42,.25);margin:4px 5px 8px;position:relative;overflow:hidden}
+.pbox .big::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(90deg,rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(160deg,rgba(255,255,255,.16),transparent 45%)}
+/* kosár összesítő: nyugta */
+.drawer .df{background:linear-gradient(180deg,var(--paper),#f7f1e2);border-top:0;padding-top:26px;font-family:var(--fr);-webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.drawer .df::before{content:"*** KOSÁR ÖSSZESÍTŐ ***";text-align:center;font-weight:700;font-size:.85rem;color:#6b6457;border-bottom:2px dashed #d9cfbb;padding-bottom:8px}
+.drawer .df .sumrow{font-weight:700;color:#1d2530}
+.drawer .df .sumrow.tot{font-family:var(--fr);font-size:1.3rem;border-top:3px double #1d2530;padding-top:8px}
+.drawer .df .btn{font-family:var(--fd)}
+/* kategóriák között: perforált nyugta-vonal */
+.catsec + .catsec{border-top:2px dashed #cbd3dc}
+.catsec + .catsec::before{top:-9px;width:64px;height:16px;border-radius:0;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
+.pcard{background:linear-gradient(180deg,#fff,#fff 70%,#fbfaf6)}
 </style>
 </head>
 <body>
