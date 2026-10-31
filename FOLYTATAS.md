@@ -26,6 +26,16 @@
 - Admin: készlet darabszám, fotók feltöltése és sorrendezése, külön 360° sorozat, műszaki adatok, letöltések, videó, kategóriánkénti GYIK.
 - **Még nincs valódi termékfotó**: minden termék a 3D modellel jelenik meg, amíg az adminban fel nem töltik a fotókat. 360°-hoz 24–36, egyenletes szögben körbefotózott kép ajánlott, azonos távolságból, fehér háttér előtt.
 
+## Webáruház – elfogadott látványterv szerinti kategóriaoldal (2026-10-31)
+- Referencia: `referencia/webaruhaz/elfogadott_webaruhaz_latvanyterv.png` és az átadási specifikáció.
+- Színek a specifikációból: #082746, #123B61, #D6A64E, #F4D58D, #182E48, #6E7D8E, #DFE5EB, #F7F8FA, #F7F3EB.
+- Kategóriaoldal (`#kat-<kategória>/<termék>`): kék banner (cím arany kiemeléssel, gépfotó, 3 előny), útvonal, „Pénztárgépeink (8 termék)” + rendezés, kártyasor (kiválasztott arany kerettel), alatta kiemelt termék panel: galéria „Kiemelt termék” szalaggal, cím + pipás jellemzők + 4 fül (Termékleírás, Műszaki adatok, Letölthetők, Szolgáltatások), árdoboz (bruttó nagy, nettó kicsi, készlet, mennyiség, Kosárba, Ajánlatkérés).
+- Mobilon: fejléc ikonokkal (telefon, e-mail, kosár, menü), lapozható kártyasor pontokkal, termékcím, galéria, ár, lenyíló szekciók.
+- Alul krém szolgáltatássáv a dzsámi rajzzal, az átadott SVG ikonokkal (`assets/ikonok/`).
+- A 8 pénztárgép valós adatokkal és árakkal (totalkkt), a képek **illusztrációk** (`webaruhaz/kepek/illusztracio/`, a termékben `illusztracio: true`, a galériában „Illusztráció” jelölés). Valódi fotó feltöltésekor az illusztráció automatikusan lekerül.
+- Az Ajánlatkérés űrlap a megrendelések közé kerül („Ajánlatkérés” típus), készletet nem foglal.
+- A külön termékoldal (`#t-<termék>`) a felhasználó következő látványterve alapján készül majd.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).

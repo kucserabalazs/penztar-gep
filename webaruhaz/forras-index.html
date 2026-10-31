@@ -12,10 +12,10 @@
 /* Layout: világos webáruház a főoldal stílusjegyeivel – sötétkék fejléc arany menüvel, krém és fehér felületek, arany kiemelések; a termék a főszereplő */
 :root{
   color-scheme:light;
-  --n0:#04112a; --n1:#061a33; --n2:#071f3b; --n3:#0b3158;
-  --gold:#e9b957; --gold-l:#ffd98a; --gold-d:#c98e2b; --gold-soft:#fbf3e2;
-  --bg:#f4f5f9; --surface:#ffffff; --surface-2:#f8f9fc; --cream:#f1e9dc; --cream-2:#faf6ef;
-  --ink:#0c1a33; --muted:#5b6580; --line:#e2e6ef; --line-2:#cfd6e3;
+  --n0:#041a33; --n1:#061c35; --n2:#082746; --n3:#123b61;
+  --gold:#d6a64e; --gold-l:#f4d58d; --gold-d:#b7832e; --gold-soft:#faf6ec;
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f3f5f7; --cream:#f7f3eb; --cream-2:#faf8f2;
+  --ink:#182e48; --muted:#6e7d8e; --line:#dfe5eb; --line-2:#cbd5df;
   --ok:#17804a; --warn:#b06a00; --bad:#c0352b;
   --shell:#22282f; --shell-2:#343c47; --shell-3:#15191e; --key:#eceff3; --key-2:#c7cdd6; --steel:#c5ccd5; --lcd-bg:#0b1f3a; --lcd:#8fd0ff;
   --fd:"Montserrat","Arial Black",Arial,sans-serif; --fb:"Inter","Segoe UI",system-ui,sans-serif;
@@ -61,48 +61,57 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .icbtn:hover{border-color:var(--n2)}
 .icbtn.on{background:var(--n2);border-color:var(--n2);color:var(--gold-l)}
 
-/* fejléc (a főoldallal egyező) */
-.top{background:radial-gradient(ellipse 70% 120% at 30% 0%,#0b2a52 0%,var(--n1) 55%,var(--n0) 100%);color:#fff;position:relative;overflow:hidden}
-.top .pan{position:absolute;right:0;top:0;height:86px;opacity:.9;pointer-events:none}
-.top .wrap{display:flex;align-items:center;gap:22px;min-height:86px;position:relative}
-.top .logo img{display:block;width:clamp(170px,17vw,250px);height:auto}
-.top .vbar{width:3px;height:48px;border-radius:2px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d))}
-.top .slogan{font-family:var(--fd);font-style:italic;font-weight:700;font-size:clamp(1rem,1.5vw,1.4rem);line-height:1.1;white-space:nowrap}
-.top .contacts{margin-left:auto;display:flex;gap:14px;margin-right:clamp(0px,8vw,130px)}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 16px;border-radius:30px;border:1.5px solid var(--gold);font-weight:500;font-size:.95rem;color:#fff;background:rgba(4,17,42,.45);white-space:nowrap}
-.pill svg{color:var(--gold);width:19px;height:19px}
-.navbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:linear-gradient(180deg,#0a2a52,#08213f);color:#fff;box-shadow:0 6px 20px rgba(4,17,42,.22)}
+/* fejléc: TOTÁL logó, szlogen, elérhetőségek, pécsi panoráma */
+.top{background:linear-gradient(105deg,#061c35 0%,#0a2c50 55%,#0e3961 100%);color:#fff;position:relative;overflow:hidden}
+.top .pan{position:absolute;right:0;bottom:0;height:100%;max-height:88px;opacity:.95;pointer-events:none}
+.top .wrap{display:flex;align-items:center;gap:clamp(14px,2vw,26px);min-height:84px;position:relative}
+.top .logo img{display:block;width:clamp(150px,15vw,220px);height:auto}
+.top .vbar{width:2px;height:50px;border-radius:2px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d))}
+.top .slogan{font-family:var(--fd);font-style:italic;font-weight:800;font-size:clamp(1rem,1.65vw,1.6rem);line-height:1.08;white-space:nowrap}
+.top .contacts{margin-left:auto;display:flex;align-items:center;gap:14px;margin-right:clamp(0px,9vw,150px)}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:6px 15px;border-radius:30px;border:1.5px solid var(--gold);font-weight:500;font-size:.93rem;color:#fff;background:rgba(4,17,42,.35);white-space:nowrap}
+.pill svg{color:var(--gold-l);width:18px;height:18px}
+.addr{display:flex;align-items:center;gap:10px;font-size:.86rem;line-height:1.3;color:#e8eef6;white-space:nowrap}
+.addr svg{color:var(--gold);width:26px;height:26px;stroke-width:1.8}
+.mtools{display:none;margin-left:auto;gap:2px;align-items:center}
+.mtools a,.mtools button{position:relative;width:42px;height:42px;display:grid;place-items:center;border:0;background:none;color:#fff;cursor:pointer;border-radius:10px}
+.mtools svg{width:24px;height:24px}
+.badge{position:absolute;top:3px;right:0;min-width:18px;height:18px;border-radius:10px;background:var(--gold);color:#1a1200;font-size:.7rem;font-weight:800;display:grid;place-items:center;padding:0 5px;line-height:1}
+.navbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:linear-gradient(180deg,#0c2f52,#0a2846);color:#fff;box-shadow:0 6px 18px rgba(4,17,42,.18);border-top:1px solid rgba(255,255,255,.06)}
 .navbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-l) 20%,var(--gold) 70%,transparent)}
-.navbar .wrap{display:flex;align-items:center;gap:6px;height:58px}
-.navbar a.it,.navbar .ddb{font-family:var(--fd);font-weight:600;font-size:.98rem;padding:8px 14px;border-radius:9px;color:#fff;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;background:none;border:0;cursor:pointer}
-.navbar a.it:hover,.navbar .ddb:hover{color:var(--gold-l)}
-.navbar a.it.on{background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:#1a1200;box-shadow:0 4px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55)}
-.navbar .links{display:flex;gap:4px;align-items:center}
-.navbar .tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.navbar .wrap{display:flex;align-items:center;gap:4px;height:56px}
+.navbar .links{display:flex;gap:2px;align-items:center;min-width:0}
+.navbar .it{font-family:var(--fd);font-weight:600;font-size:.93rem;padding:8px 13px;border-radius:9px;color:#fff;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;background:none;border:0;cursor:pointer}
+.navbar .it:hover{color:var(--gold-l)}
+.navbar .it svg{width:18px;height:18px}
+.navbar .it.on{background:linear-gradient(180deg,#f7dfa6,var(--gold));color:#172e47;box-shadow:0 4px 12px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.6)}
+.navbar .it.on:hover{color:#172e47}
+.navbar .tools{margin-left:auto;display:flex;gap:2px;align-items:center}
 .navbar .nb{position:relative;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:none;border:0;color:#fff;cursor:pointer}
 .navbar .nb:hover{color:var(--gold-l);background:rgba(255,255,255,.06)}
-.navbar .nb svg{width:24px;height:24px}
-.navbar .badge{position:absolute;top:4px;right:2px;min-width:19px;height:19px;border-radius:10px;background:var(--gold);color:#1a1200;font-size:.72rem;font-weight:800;display:grid;place-items:center;padding:0 5px}
-.navbar .burger{display:none}
+.navbar .nb svg{width:23px;height:23px}
 .dd{position:relative}
-.dd .menu{position:absolute;top:calc(100% + 8px);left:0;min-width:260px;background:var(--surface);color:var(--ink);border-radius:14px;box-shadow:var(--sh-2);padding:8px;display:none;z-index:70}
+.dd .menu{position:absolute;top:calc(100% + 8px);left:0;min-width:270px;background:var(--surface);color:var(--ink);border-radius:14px;box-shadow:var(--sh-2);padding:8px;display:none;z-index:70}
 .dd.open .menu{display:grid}
-.dd .menu a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:.95rem}
+.dd .menu a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:.94rem}
 .dd .menu a:hover{background:var(--surface-2)}
 .dd .menu a svg{color:var(--gold-d);width:22px;height:22px}
 .dd .menu a span.c{margin-left:auto;font-size:.8rem;color:var(--muted)}
-@media (max-width:1180px){.top .contacts{display:none}}
-@media (max-width:980px){
-  .top .vbar,.top .slogan{display:none}.top .wrap{min-height:70px}.top .pan{height:70px}
-  .navbar .burger{display:grid}
-  .navbar .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;background:var(--n2);padding:10px max(16px,env(safe-area-inset-left,0px)) 16px;gap:2px;box-shadow:0 18px 30px rgba(4,17,42,.35)}
-  .navbar.open .links{display:flex}
-  .navbar a.it,.navbar .ddb{padding:13px 12px;justify-content:space-between}
+@media (max-width:1320px){.addr{display:none}}
+@media (max-width:1180px){.top .contacts{display:none}.navbar .it{padding:8px 9px;font-size:.88rem}}
+@media (max-width:900px){
+  .top .vbar,.top .slogan{display:none}.top .wrap{min-height:66px}.top .pan{opacity:.5}
+  .mtools{display:flex}
+  .navbar{position:fixed;left:0;right:0;top:calc(66px + env(safe-area-inset-top,0px));display:none;max-height:calc(100vh - 66px);overflow-y:auto}
+  .navbar.open{display:block}
+  .navbar .wrap{height:auto;flex-direction:column;align-items:stretch;padding-block:10px 16px}
+  .navbar .links{flex-direction:column;align-items:stretch}
+  .navbar .it{padding:13px 12px;justify-content:flex-start;font-size:1rem}
+  .navbar .tools{margin:8px 0 0;justify-content:flex-start}
   .dd .menu{position:static;box-shadow:none;background:rgba(255,255,255,.06);color:#fff;margin:4px 0}
   .dd .menu a:hover{background:rgba(255,255,255,.08)}
   .dd .menu a span.c{color:#c9d4ea}
 }
-
 /* oldalfej sáv */
 .pagehead{position:relative;background:linear-gradient(180deg,var(--cream-2),var(--bg));padding-block:28px 26px;overflow:hidden}
 .pagehead::after{content:"";position:absolute;right:-60px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(233,185,87,.18),transparent 65%);pointer-events:none}
@@ -196,6 +205,137 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .stock.s-order{color:var(--n3)}
 .empty{background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--r);padding:40px 24px;text-align:center;display:grid;gap:10px;justify-items:center}
 
+/* kategóriaoldal: banner, kártyasor, kiemelt termék panel */
+.banner{position:relative;overflow:hidden;color:#fff;background:radial-gradient(ellipse 60% 120% at 62% 40%,rgba(64,130,200,.35),transparent 60%),linear-gradient(105deg,#071f3b 0%,#0b3158 48%,#0a2a4c 100%)}
+.banner::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-38px;height:60px;border-radius:50%;border-top:3px solid var(--gold);box-shadow:0 -2px 0 rgba(244,213,141,.4);background:var(--bg)}
+.banner .wrap{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;min-height:200px;padding-bottom:22px}
+.banner .bt{display:flex;gap:20px;align-items:stretch}
+.banner .bt::before{content:"";width:5px;border-radius:3px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));transform:skewX(-10deg);flex-shrink:0}
+.banner h1{font-family:var(--fd);font-style:italic;font-weight:800;font-size:clamp(1.9rem,3vw,2.9rem);letter-spacing:-.01em;line-height:1.05;white-space:nowrap}
+.banner h1 em{font-style:italic;background:linear-gradient(180deg,var(--gold-l),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+.banner p{margin-top:10px;font-size:1.08rem;color:#dfe8f2;max-width:44ch}
+.banner .bimg{align-self:end;justify-self:center;width:100%;max-width:520px;margin-bottom:-6px;filter:drop-shadow(0 18px 24px rgba(0,0,0,.45))}
+.banner .bimg.icon{width:150px;opacity:.9;filter:none;color:var(--gold-l);align-self:center}
+.banner ul{list-style:none;margin:0;padding:0;display:grid;min-width:240px}
+.banner li{display:flex;align-items:center;gap:16px;padding:10px 0;font-family:var(--fd);font-weight:600;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.14)}
+.banner li:last-child{border-bottom:0}
+.banner li img{width:36px;height:36px;filter:brightness(1.35) saturate(1.1)}
+.crumbs2{display:flex;flex-wrap:wrap;gap:10px;font-size:.88rem;color:var(--ink);padding:14px 0 6px}
+.crumbs2 a:hover{color:var(--gold-d)}
+.crumbs2 span.sep{color:var(--muted)}
+.trow{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:8px 0 16px}
+.trow h2{display:flex;align-items:center;gap:14px;font-family:var(--fd);font-weight:800;font-size:clamp(1.4rem,2.2vw,1.85rem)}
+.trow h2 img,.trow h2 svg{width:40px;height:40px;color:var(--n2)}
+.trow h2 small{font-family:var(--fb);font-weight:400;font-size:1rem;color:var(--muted)}
+.trow .sort{display:flex;align-items:center;gap:10px;font-size:.88rem;font-weight:600}
+.trow .sort select{width:auto;padding:8px 38px 8px 12px;font-size:.9rem;min-width:170px}
+.back{display:none;align-items:center;gap:6px;font-size:.9rem;font-weight:600;padding-top:12px}
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(134px,1fr));gap:12px}
+.pcard{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 10px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(25,52,76,.1);border-color:#d3dbe4}
+.pcard.sel{border:2px solid var(--gold);padding:9px 9px 11px;background:linear-gradient(180deg,#fff8e9,#fff 70%);box-shadow:0 10px 26px rgba(183,131,46,.16)}
+.pcard .pimg{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:9px;background:linear-gradient(180deg,#fff,#f3f5f7);overflow:hidden}
+.pcard.sel .pimg{background:transparent}
+.pcard .pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:4%;mix-blend-mode:multiply;transition:transform .4s}
+.pcard:hover .pimg img{transform:scale(1.05)}
+.pcard h3{font-family:var(--fd);font-weight:800;font-size:.95rem;text-transform:uppercase;margin-top:8px;line-height:1.15}
+.pcard p{font-size:.78rem;color:var(--muted);line-height:1.3;min-height:2.6em}
+.pcard .pbtn{margin-top:auto;min-height:32px;padding:0 14px;font-size:.8rem;border-radius:8px}
+.pcard .ptag{position:absolute;top:8px;left:8px;z-index:2;font-size:.6rem;padding:3px 7px}
+.carnav{display:none}
+.detail{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(250px,.72fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:24px 0 10px;box-shadow:0 10px 30px rgba(25,52,76,.06);scroll-margin-top:80px}
+.detail .gal{min-width:0;position:relative}
+.cararrow{display:none}
+.detail .stage{aspect-ratio:3/2;border-radius:12px;background:linear-gradient(180deg,#e9eef5,#dde4ed);border:0}
+.detail .stage .photo img,.detail .stage .spin img{padding:2%}
+.detail .stage .modes{left:auto;right:12px;top:12px;padding:4px}
+.detail .stage .modes button{padding:6px 10px;font-size:.76rem}
+.detail .stage .hint{font-size:.74rem;padding:4px 10px;left:12px;bottom:12px;top:auto}
+.detail .stage .ctl{right:12px;bottom:12px}
+.detail .stage .ctl .icbtn{width:36px;height:36px}
+.detail .stage .navarrow{width:40px;height:40px;box-shadow:0 4px 12px rgba(12,26,51,.15);border:0}
+.ribbon{position:absolute;top:14px;left:-6px;z-index:6;font-family:var(--fd);font-weight:700;font-size:.9rem;color:#172e47;padding:6px 26px 6px 18px;background:linear-gradient(180deg,#f7dfa6,var(--gold));clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%);box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.detail .thumbs{gap:8px;margin-top:10px}
+.detail .thumbs button{width:76px;height:58px;border-radius:9px;border:1.5px solid var(--line);background:#fff}
+.detail .thumbs button.on{border:2px solid var(--gold)}
+.detail .thumbs img{object-fit:contain;padding:3px}
+.detail .info2 h2{font-family:var(--fd);font-weight:800;font-size:clamp(1.4rem,2vw,1.8rem);line-height:1.12}
+.detail .info2 h2 em{font-style:italic;font-weight:700}
+.detail .info2 .desc{margin-top:8px;color:var(--ink);font-size:.98rem;line-height:1.5}
+.checks{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:5px;font-size:.95rem}
+.checks li{display:flex;gap:10px;align-items:flex-start}
+.checks li svg{width:19px;height:19px;color:var(--gold-d);flex-shrink:0;margin-top:2px;stroke-width:2}
+.dtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:16px}
+.dtabs button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-weight:600;font-size:.8rem;cursor:pointer;color:var(--ink);text-align:center;line-height:1.15}
+.dtabs button svg{width:17px;height:17px;flex-shrink:0}
+@media (max-width:1760px){.dtabs button svg{display:none}.dtabs button{font-size:.78rem}}
+.dtabs button.on{background:var(--n2);border-color:var(--n2);color:#fff}
+.tabbody{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:14px 16px;font-size:.92rem;line-height:1.6;color:#46586c;margin-top:-1px;min-height:110px}
+.tabbody .spec th,.tabbody .spec td{padding:8px 12px;font-size:.86rem}
+.tabbody .dl{margin-top:6px}
+.tabbody .svc > div{padding:9px 0}
+.pbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;align-self:start}
+.pbox .pr{display:grid;gap:4px}
+.pbox .lbl{font-size:.88rem;font-weight:600}
+.pbox .big{font-family:var(--fd);font-weight:800;font-size:clamp(1.8rem,2.6vw,2.2rem);color:var(--n2);line-height:1}
+.pbox .net{font-size:.86rem;color:var(--muted)}
+.pbox .old{font-size:.86rem;color:var(--muted);text-decoration:line-through}
+.pbox .row{display:flex;flex-direction:column;gap:10px}
+.pbox .row .qty{align-self:center;min-height:38px;border-radius:9px}
+.pbox .row .qty button{min-height:36px;width:36px}
+.pbox .row .qty input{width:42px}
+.pbox .btn{min-height:46px}
+.pbox .extra{border-top:1px solid var(--line);margin-top:6px;padding-top:12px;display:grid;gap:10px;font-size:.88rem}
+.pbox .extra span{display:flex;gap:10px;align-items:center}
+.pbox .extra svg{width:20px;height:20px;color:var(--n3)}
+.pbox .full{font-size:.84rem;font-weight:700;color:var(--n3);display:inline-flex;gap:4px;align-items:center;justify-content:center}
+.pbox .full:hover{color:var(--gold-d)}
+.illu{position:absolute;right:10px;top:10px;z-index:5;font-size:.68rem;font-weight:700;letter-spacing:.04em;color:var(--muted);background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.detail .stage .modes ~ .illu{top:auto;bottom:56px}
+.macc{display:none}
+.mtitle{display:none}
+@media (max-width:1100px){.banner h1{white-space:normal}.detail{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.detail .pbox{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.banner .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.banner ul{display:none}}
+@media (max-width:900px){
+  .banner{display:none}
+  .top{position:sticky;top:0;z-index:61}
+  .back{display:inline-flex}
+  .trow{margin:6px 0 12px}.trow h2{font-size:1.3rem;gap:10px}.trow h2 svg,.trow h2 img{width:30px;height:30px}
+  .trow .sort{display:none}
+  .crumbs2{display:none}
+  .carwrap{position:relative;margin:0 -4px}
+  .pcards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;padding:4px;scrollbar-width:none}
+  .pcards::-webkit-scrollbar{display:none}
+  .pcard{flex:0 0 calc((100% - 16px)/3);scroll-snap-align:start;padding:6px 6px 8px}
+  .pcard.sel{padding:5px 5px 7px}
+  .pcard h3{font-size:.74rem;margin-top:4px}
+  .pcard p,.pcard .pbtn{display:none}
+  .carnav{display:flex;justify-content:center;gap:6px;margin-top:8px}
+  .carnav i{width:7px;height:7px;border-radius:50%;background:var(--line-2)}
+  .carnav i.on{background:var(--gold)}
+  .cararrow{display:grid;position:absolute;top:38%;transform:translateY(-50%);z-index:3;width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:var(--sh-1);display:grid;place-items:center;cursor:pointer}
+  .cararrow.l{left:-8px}.cararrow.r{right:-8px}
+  .detail{display:flex;flex-direction:column;gap:14px;background:transparent;border:0;box-shadow:none;padding:0;margin-top:18px}
+  .mtitle{display:block;font-family:var(--fd);font-weight:800;font-size:1.65rem;line-height:1.12;text-transform:none}
+  .detail .info2{display:none}
+  .detail .stage{aspect-ratio:4/3;border-radius:14px}
+  .detail .stage .hint{top:12px;bottom:auto}
+  .ribbon{display:none}
+  .detail .pbox{display:grid;grid-template-columns:1fr;align-self:stretch;border:0;padding:0;background:transparent;gap:10px}
+  .pbox .pr{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .pbox .lbl{font-size:1rem}
+  .pbox .row{flex-direction:row;justify-content:space-between;align-items:center}
+  .pbox .row .qty{align-self:auto}
+  .pbox .btn{min-height:50px;font-size:1.05rem}
+  .pbox .extra{display:none}
+  .macc{display:block;border-top:1px solid var(--line)}
+  .macc details{border-bottom:1px solid var(--line)}
+  .macc summary{list-style:none;display:flex;align-items:center;gap:12px;padding:15px 4px;font-weight:700;cursor:pointer}
+  .macc summary::-webkit-details-marker{display:none}
+  .macc summary svg{width:22px;height:22px;color:var(--ink)}
+  .macc summary::after{content:"";margin-left:auto;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
+  .macc details[open] summary::after{transform:rotate(-135deg)}
+  .macc .tabbody{border:0;padding:0 4px 16px;min-height:0}
+}
 /* termékoldal */
 .pdp{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start;padding-block:10px 40px}
 .stage-col{position:sticky;top:76px}
@@ -408,8 +548,16 @@ select.i{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='
 .contact .ln{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .contact .ln > span{font-weight:700;user-select:all}
 
+/* szolgáltatás sáv (krém, dzsámi rajzzal) */
+.svcband{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--cream-2),var(--cream));border-top:1px solid #eee3cf;margin-top:40px}
+.svcband .dz{position:absolute;right:0;bottom:0;height:150%;max-height:200px;opacity:.85;pointer-events:none}
+.svcband .wrap{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;padding-block:26px;padding-right:max(16px,14vw)}
+.sb{display:flex;align-items:center;gap:14px;font-family:var(--fd);font-weight:700;font-size:.95rem;line-height:1.2;color:var(--ink)}
+.sb img,.sb svg{width:44px;height:44px;flex-shrink:0}
+@media (max-width:1000px){.svcband .wrap{grid-template-columns:repeat(3,minmax(0,1fr));padding-right:max(16px,3.5vw)}}
+@media (max-width:620px){.svcband .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.sb{font-size:.84rem;gap:10px}.sb img,.sb svg{width:36px;height:36px}.svcband .dz{opacity:.35}}
 /* lábléc */
-footer{position:relative;background:var(--n0);color:#c9d4ea;margin-top:40px}
+footer{position:relative;background:var(--n2);color:#c9d4ea}
 footer::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l) 35%,var(--gold) 70%,var(--gold-l))}
 footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-block:46px}
 footer .cols > *{min-width:0}
@@ -469,29 +617,47 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
     <span class="vbar" aria-hidden="true"></span>
     <p class="slogan">Pénztárgép<br>Szaküzlet és Szerviz</p>
     <div class="contacts" id="hcontacts"></div>
+    <div class="mtools">
+      <a id="mtel" href="tel:+3672215652" aria-label="Telefon"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+      <a id="mmail" href="mailto:info@penztar-gep.hu" aria-label="E-mail"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg></a>
+      <button id="mcart" type="button" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="badge num" data-cartcount>0</span></button>
+      <button id="burger" type="button" aria-label="Menü" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </div>
 </header>
 <nav class="navbar" id="navbar" aria-label="Főmenü">
   <div class="wrap">
-    <button class="nb burger" id="burger" aria-label="Menü" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="links" id="navlinks">
-      <a class="it" href="../">Kezdőlap</a>
-      <a class="it" href="#termekek" data-nav="termekek">Termékek</a>
-      <div class="dd" id="dd"><button class="ddb" id="ddb" type="button" aria-expanded="false">Kategóriák <svg class="ic" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="m6 9 6 6 6-6"/></svg></button><div class="menu" id="ddmenu"></div></div>
+      <a class="it" href="../"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>Kezdőlap</a>
+      <div class="dd" id="dd"><button class="it" id="ddb" type="button" data-nav="penztargep" aria-expanded="false">Pénztárgépek <svg class="ic" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="m6 9 6 6 6-6"/></svg></button><div class="menu" id="ddmenu"></div></div>
+      <a class="it" href="#kat-pos" data-nav="pos">POS terminálok</a>
+      <a class="it" href="#kat-arazo" data-nav="arazo">Árazógépek</a>
+      <a class="it" href="#kat-merleg" data-nav="merleg">Mérlegek</a>
+      <a class="it" href="#kat-kellek" data-nav="kellek">Kellékanyagok</a>
       <a class="it" href="#szerviz" data-nav="szerviz">Szerviz</a>
-      <a class="it" href="#e-penztargep" data-nav="e-penztargep">E-pénztárgép</a>
       <a class="it" href="#rolunk" data-nav="rolunk">Rólunk</a>
       <a class="it" href="#kapcsolat" data-nav="kapcsolat">Kapcsolat</a>
     </div>
     <div class="tools">
-      <button class="nb" id="searchbtn" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg></button>
-      <button class="nb" id="cartbtn" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="badge num" id="cartcount" hidden>0</span></button>
+      <button class="nb" id="searchbtn" type="button" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg></button>
+      <a class="nb" href="#admin" aria-label="Admin belépés"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></a>
+      <button class="nb" id="cartbtn" type="button" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="badge num" data-cartcount>0</span></button>
     </div>
   </div>
 </nav>
 
 <main id="app"></main>
 
+<section class="svcband" aria-label="Szolgáltatásaink">
+  <img class="dz" src="../assets/dzsami.webp" alt="" loading="lazy">
+  <div class="wrap">
+    <div class="sb"><img src="../assets/ikonok/shield.svg" alt=""><span>Hivatalos<br>forgalmazó</span></div>
+    <div class="sb"><img src="../assets/ikonok/tools.svg" alt=""><span>Szerviz<br>Pécsen</span></div>
+    <div class="sb"><svg viewBox="0 0 24 24" fill="none" stroke="#B7832E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Üzembe helyezés<br>és beállítás</span></div>
+    <div class="sb"><img src="../assets/ikonok/support.svg" alt=""><span>Szakmai<br>tanácsadás</span></div>
+    <div class="sb"><img src="../assets/ikonok/truck.svg" alt=""><span>Országos<br>kiszállítás</span></div>
+  </div>
+</section>
 <footer>
   <div class="wrap cols">
     <div><img src="../assets/logo.webp" alt="TOTÁL – Pécs · 1982" style="width:200px;height:auto"><p id="f-addr" style="margin-top:12px"></p><p class="num" id="f-tel" style="margin-top:6px"></p><p id="f-hours" style="margin-top:6px"></p></div>
@@ -516,7 +682,7 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 const SEED = JSON.parse(document.getElementById('seed').textContent);
 let DB = null, MODE = 'preview';
 const ADMIN = {in:false, csrf:null, dirty:false, tab:'termekek', edit:null, needsSetup:false};
-const F = {q:'', sort:'ajanlott', brands:new Set(), min:'', max:'', stockOnly:false, view:'grid'};
+const F = {q:'', sort:'nev'};
 const LS = { get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}} };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ft = n => Math.round(n).toLocaleString('hu-HU').replace(/ /g,' ') + ' Ft';
@@ -581,7 +747,7 @@ let CART = LS.get('ptg-cart3', []);
 let CMP = LS.get('ptg-cmp', []);
 let SEEN = LS.get('ptg-seen', []);
 const inCart = id => (CART.find(x=>x.id===id)?.db)||0;
-function saveCart(){ CART = CART.filter(x=>prod(x.id)); LS.set('ptg-cart3',CART); const n=CART.reduce((a,b)=>a+b.db,0), c=$('#cartcount'); c.textContent=n; c.hidden=!n; }
+function saveCart(){ CART = CART.filter(x=>prod(x.id)); LS.set('ptg-cart3',CART); const n=CART.reduce((a,b)=>a+b.db,0); $$('[data-cartcount]').forEach(c=>c.textContent=n); }
 function addCart(id, db=1, open=true){
   const p=prod(id); if(!p) return;
   const free = avail(p) - inCart(id);
@@ -671,7 +837,7 @@ function initStages(root=document){
       const u=p.kepek[st.photo];
       view.innerHTML=`<div class="photo"><img src="${esc(u)}" alt="${esc(fullName(p))} – ${st.photo+1}. kép"><div class="lens"></div></div>${p.kepek.length>1?`<button class="navarrow l" type="button" aria-label="Előző kép">${icon('left')}</button><button class="navarrow r" type="button" aria-label="Következő kép">${icon('chev')}</button>`:''}`;
       ctl.innerHTML=`<button class="icbtn" type="button" data-act="lb" aria-label="Teljes képernyő">${icon('full')}</button>`;
-      hint.hidden=false; hint.innerHTML=`${st.photo+1} / ${p.kepek.length} · nagyításhoz vigye fölé az egeret`;
+      hint.hidden=false; hint.innerHTML=p.illusztracio?'Illusztráció':`${st.photo+1} / ${p.kepek.length} · nagyításhoz vigye fölé az egeret`;
       const ph=$('.photo',view), lens=$('.lens',view);
       ph.addEventListener('mousemove',e=>{ const r=ph.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width*100, y=(e.clientY-r.top)/r.height*100; lens.style.backgroundImage=`url("${u.replace(/"/g,'%22')}")`; lens.style.backgroundSize='220%'; lens.style.backgroundPosition=`${x}% ${y}%`; });
       ph.addEventListener('click',()=>openLightbox(p.kepek, st.photo));
@@ -748,74 +914,113 @@ function closeLb(){ const lb=$('#lightbox'); lb.classList.remove('show'); lb.set
   let sx=null; lb.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true}); lb.addEventListener('touchend',e=>{ if(sx==null) return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>50){ LB.i=(LB.i+(dx<0?1:-1)+LB.list.length)%LB.list.length; showLb(); } sx=null; }); })();
 
 /* ================= termékkártya ================= */
-function cardHTML(p,i=0){
-  const ph=p.kepek||[], a=avail(p), fr=framesOf(p);
-  return `<article class="card reveal" style="animation-delay:${Math.min(i,12)*40}ms">
-    <a class="media" href="#t-${esc(p.id)}" aria-label="${esc(fullName(p))}">${ph[0]?`<img class="main ${ph[1]?'hasalt':''}" src="${esc(ph[0])}" alt="${esc(fullName(p))}" loading="lazy">${ph[1]?`<img class="alt" src="${esc(ph[1])}" alt="" loading="lazy">`:''}`:miniModel(p)}</a>
-    <div class="tags">${p.akciosAr?'<span class="tag red">Akció</span>':''}${a===1?'<span class="tag red">Utolsó darab</span>':''}${p.kiemelt&&!p.akciosAr?'<span class="tag">Ajánlott</span>':''}${p.engedely?`<span class="tag navy">NAV ${esc(p.engedely)}</span>`:''}${fr.length?'<span class="tag glass">360°</span>':''}</div>
-    <div class="qa"><button class="icbtn" type="button" data-qv="${esc(p.id)}" aria-label="Gyorsnézet: ${esc(fullName(p))}">${icon('eye')}</button><button class="icbtn ${CMP.includes(p.id)?'on':''}" type="button" data-cmp="${esc(p.id)}" aria-label="Összehasonlításhoz: ${esc(fullName(p))}">${icon('cmp')}</button></div>
-    <div class="body"><span class="brand">${esc(p.marka||cat(p.kategoria)?.nev||'')}</span><h3><a href="#t-${esc(p.id)}">${esc(p.nev)}</a></h3><p class="sub">${esc(p.alcim)}</p>${stockHTML(p)}
-      <div class="foot">${priceHTML(p)}<button class="addbtn" type="button" data-add="${esc(p.id)}" aria-label="Kosárba: ${esc(fullName(p))}" ${a===0?'disabled':''}>${icon('cart')}</button></div></div></article>`;
-}
+function cardHTML(p,i=0){ return pcardHTML(p,false,i); }
 
 /* ================= oldalak ================= */
 const catRoute = id => 'kat-'+id;
 function pageHead(title, sub, crumbs, extra=''){ return `<section class="pagehead"><div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section>`; }
-function catChips(active){
-  const n=id=>visible().filter(p=>p.kategoria===id).length;
-  return `<div class="catchips">${`<a class="chip ${!active?'on':''}" href="#termekek">${icon('grid')}Összes <span class="c">${visible().length}</span></a>`}${DB.categories.map(c=>`<a class="chip ${active===c.id?'on':''}" href="#${catRoute(c.id)}">${icon(c.ikon)}${esc(c.nev)} <span class="c">${n(c.id)}</span></a>`).join('')}</div>`;
+const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
+const SVG = n => `<img src="../assets/ikonok/${n}.svg" alt="" aria-hidden="true">`;
+function sortItems(items){
+  const sorts={nev:(a,b)=>fullName(a).localeCompare(fullName(b),'hu'), olcso:(a,b)=>(now(a)??1e12)-(now(b)??1e12), draga:(a,b)=>(now(b)??-1)-(now(a)??-1), ajanlott:(a,b)=>(b.kiemelt-a.kiemelt)||((avail(b)>0)-(avail(a)>0)), keszlet:(a,b)=>(avail(a)===Infinity?99:avail(a))-(avail(b)===Infinity?99:avail(b))};
+  return [...items].sort(sorts[F.sort]||sorts.nev);
 }
-function shopItems(catId){
-  const q=F.q.trim().toLowerCase();
-  let items=visible().filter(p=>!catId||p.kategoria===catId);
-  if(q) items=visible().filter(p=>(p.marka+' '+p.nev+' '+p.alcim+' '+(cat(p.kategoria)?.nev||'')+' '+(p.jellemzok||[]).join(' ')).toLowerCase().includes(q));
-  if(F.brands.size) items=items.filter(p=>F.brands.has(p.marka||'Egyéb'));
-  const mn=parseInt(F.min)||0, mx=parseInt(F.max)||0;
-  if(mn) items=items.filter(p=>now(p)!=null&&now(p)>=mn); if(mx) items=items.filter(p=>now(p)!=null&&now(p)<=mx);
-  if(F.stockOnly) items=items.filter(p=>avail(p)>0&&avail(p)!==Infinity);
-  const sorts={ajanlott:(a,b)=>(b.kiemelt-a.kiemelt)||((avail(b)>0)-(avail(a)>0)), olcso:(a,b)=>(now(a)??1e12)-(now(b)??1e12), draga:(a,b)=>(now(b)??-1)-(now(a)??-1), nev:(a,b)=>fullName(a).localeCompare(fullName(b),'hu'), keszlet:(a,b)=>(avail(a)===Infinity?99:avail(a))-(avail(b)===Infinity?99:avail(b))};
-  return [...items].sort(sorts[F.sort]||sorts.ajanlott);
+const catItems = catId => sortItems(visible().filter(p=>!catId||p.kategoria===catId));
+const nb = t => String(t).replace(/-/g,'\u2011');
+const titleHTML = p => { const c=cat(p.kategoria); const suf = p.kategoria==='penztargep' && !/pénztárgép/i.test(p.nev) ? ' <em>online pénztárgép</em>' : ''; return esc(nb(fullName(p).replace(/^Sam4s/,'SAM4S')))+suf; };
+function pcardHTML(p, sel, i=0){
+  const ph=(p.kepek||[])[0], a=avail(p), href=`#kat-${esc(p.kategoria)}/${esc(p.id)}`;
+  return `<article class="pcard reveal ${sel?'sel':''}" data-pick="${esc(p.id)}" style="animation-delay:${Math.min(i,10)*40}ms">
+    ${a===1?'<span class="tag red ptag">Utolsó db</span>':(a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':''))}
+    <a class="pimg" href="${href}" aria-label="${esc(fullName(p))}">${ph?`<img src="${esc(ph)}" alt="${esc(fullName(p))}" loading="lazy">`:miniModel(p)}</a>
+    <h3>${esc(nb(fullName(p).replace(/^Sam4s/,'SAM4S')))}</h3><p>${esc(p.alcim)}</p>
+    <a class="btn sm pbtn ${sel?'gold':'line'}" href="${href}">Részletek ${icon('chev','ic','width:14px;height:14px')}</a></article>`;
 }
-function pageShop(catId){
-  const c=catId?cat(catId):null, items=shopItems(catId);
-  const base=visible().filter(p=>!catId||p.kategoria===catId);
-  const brands=[...new Set(base.map(p=>p.marka||'Egyéb'))].sort((a,b)=>a.localeCompare(b,'hu'));
-  return pageHead(esc(c?c.nev:'Webáruház'), esc(c?c.leiras:'Kis készlet, gondosan válogatott gépek. Minden terméket alaposan bemutatunk, és helyben, Pécsen helyezzük üzembe és szervizeljük.'),
-      `<a href="../">Kezdőlap</a>›<a href="#termekek">Termékek</a>${c?`›<span>${esc(c.nev)}</span>`:''}`, catChips(catId)) +
-  `<div class="wrap shop">
-    <aside class="filters" id="filters" aria-label="Szűrők">
-      <div style="display:flex;justify-content:space-between;align-items:center"><h4 style="margin:0">Szűrés</h4><button class="btn ghost sm fbtn" type="button" id="fclose">${icon('x')} Bezár</button></div>
-      <div><h4>Márka</h4>${brands.map(b=>`<label class="fopt"><input type="checkbox" data-brand="${esc(b)}" ${F.brands.has(b)?'checked':''}>${esc(b)}<span class="c">${base.filter(p=>(p.marka||'Egyéb')===b).length}</span></label>`).join('')}</div>
-      <div><h4>Nettó ár (Ft)</h4><div class="prange"><input class="i num" id="fmin" inputmode="numeric" placeholder="tól" value="${esc(F.min)}" aria-label="Minimum ár"><input class="i num" id="fmax" inputmode="numeric" placeholder="ig" value="${esc(F.max)}" aria-label="Maximum ár"></div></div>
-      <label class="switch">Csak raktáron lévő<input type="checkbox" id="fstock" ${F.stockOnly?'checked':''}></label>
-      <button class="btn line sm" type="button" id="freset">Szűrők törlése</button>
-      <div class="msg info" style="font-weight:500;font-size:.88rem">Kis készlettel dolgozunk: a darabszám mindig a valós raktárkészletet mutatja.</div>
-    </aside>
-    <div>
-      <div class="toolbar">
-        <button class="btn line sm fbtn" type="button" id="fopen">${icon('filter')} Szűrők</button>
-        <span class="count num">${items.length} termék</span>
-        <label class="search-in">${icon('search')}<input class="i" id="shopq" type="search" placeholder="Keresés ebben a listában" value="${esc(F.q)}" aria-label="Keresés"></label>
-        <select class="i" id="shopsort" style="width:auto" aria-label="Rendezés">${[['ajanlott','Ajánlott'],['olcso','Ár szerint növekvő'],['draga','Ár szerint csökkenő'],['keszlet','Fogyó készlet elöl'],['nev','Név szerint']].map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select>
-        <button class="icbtn ${F.view==='grid'?'on':''}" type="button" data-view="grid" aria-label="Rácsnézet">${icon('grid')}</button><button class="icbtn ${F.view==='list'?'on':''}" type="button" data-view="list" aria-label="Listanézet">${icon('list')}</button>
-      </div>
-      ${items.length?`<div class="grid ${F.view==='list'?'list':''}">${items.map(cardHTML).join('')}</div>`:`<div class="empty">${icon('search','ic','width:40px;height:40px;color:var(--gold-d)')}<b>Nincs a szűrésnek megfelelő termék.</b><p class="muted">Lazítson a szűrőkön, vagy hívjon minket: lehet, hogy rendelésre be tudjuk szerezni.</p><button class="btn line sm" type="button" id="freset2">Szűrők törlése</button></div>`}
-      ${catId==='penztargep'?`<div class="panel" style="margin-top:26px;background:var(--cream-2)"><h3>Minden pénztárgéphez</h3><p>Üzembe helyezés, betanítás, teljes ügyintézés${uzembeAr()?`: <b>${ft(uzembeAr())} + ÁFA</b>`:''}. ${esc(S().mobildij||'')}</p><a class="btn line sm" href="#vasarlas" style="justify-self:start">Mi kell a vásárláshoz? ${icon('chev')}</a></div>`:''}
-    </div>
+function tabContent(p,k){
+  const c=cat(p.kategoria);
+  if(k==='leiras') return `<p>${esc(p.leiras)}</p>${(p.jellemzok||[]).length>5?`<ul class="checks" style="margin-top:10px">${p.jellemzok.slice(5).map(j=>`<li>${icon('checkc')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}`;
+  if(k==='muszaki'){ const specs=[['Gyártó',p.marka||'—'],...(p.specs||[]),['Garancia',p.garancia||'—']]; return `<table class="spec"><tbody>${specs.map(([a,b])=>`<tr><th scope="row">${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')}</tbody></table>`; }
+  if(k==='letoltes') return (p.letoltesek||[]).length?p.letoltesek.map(d=>`<a class="dl" href="${esc(d.url)}" target="_blank" rel="noopener">${icon('file')}${esc(d.nev)}</a>`).join(''):`<p>A kezelési útmutatót és a programozási leírást átvételkor nyomtatva vagy e-mailben átadjuk. Kérésre előre is elküldjük: <b>${esc(S().email)}</b></p>`;
+  const ids=p.kategoria==='penztargep'?['uzembe','felulvizsgalat','javitas','aee']:['javitas'];
+  const sv=DB.services.filter(x=>ids.includes(x.id));
+  return `<div class="svc">${sv.map(svcRow).join('')}</div>${(c?.gyik||[]).length?`<div style="margin-top:12px">${c.gyik.map(([q,a])=>`<details class="faq"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>`:''}`;
+}
+const TABS=[['leiras','Termékleírás','file'],['muszaki','Műszaki adatok','list'],['letoltes','Letölthetők','file'],['szerviz','Szolgáltatások','wrench']];
+let DTAB='leiras';
+function detailHTML(p){
+  if(!p) return '';
+  const a=avail(p), free=a-inCart(p.id);
+  const price = p.ar==null||p.ar==='' ? `<div class="pr"><span class="lbl">Ár:</span><span class="big">Ár kérésre</span></div><span class="net">Kérjen ajánlatot, rövid időn belül válaszolunk.</span>`
+    : `<div class="pr"><span class="lbl">Bruttó ár:</span><span class="big num">${ft(gross(now(p)))}${p.arTol?'-tól':''}</span></div>${p.akciosAr?`<span class="old num">Eredeti bruttó ár: ${ft(gross(p.ar))}</span>`:''}<span class="net num">Nettó ár: ${ft(now(p))}</span>`;
+  const stockLine = a===Infinity?`<span class="stock s-order">${icon('truck','ic','width:16px;height:16px')}Rendelésre</span>`: a===0?'<span class="stock s-out">Elfogyott</span>':`<span class="stock ${a===1?'s-last':'s-ok'}">${icon('check','ic','width:16px;height:16px;stroke-width:3')}${a===1?'Raktáron – utolsó darab':`Raktáron – ${a} db`}</span>`;
+  return `<h2 class="mtitle">${titleHTML(p)}</h2>
+  <div class="gal">${p.kiemelt?'<span class="ribbon">Kiemelt termék</span>':''}${stageHTML(p)}</div>
+  <div class="info2"><h2>${titleHTML(p)}</h2><p class="desc">${esc(p.alcim)}${p.alcim&&!/[.!?]$/.test(p.alcim)?'.':''}</p>
+    ${(p.jellemzok||[]).length?`<ul class="checks">${p.jellemzok.slice(0,5).map(j=>`<li>${icon('checkc')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}
+    <div class="dtabs" role="tablist">${TABS.map(([k,l,ic])=>`<button type="button" role="tab" data-dtab="${k}" class="${DTAB===k?'on':''}" aria-selected="${DTAB===k}">${icon(ic)}${l}</button>`).join('')}</div>
+    <div class="tabbody" id="tabbody" role="tabpanel">${tabContent(p,DTAB)}</div></div>
+  <aside class="pbox">
+    <div style="display:grid;gap:6px">${price}</div>
+    <div class="row">${stockLine}<div class="qty"><button type="button" data-dq2="-1" aria-label="Kevesebb">−</button><input id="dqty" class="num" value="1" inputmode="numeric" aria-label="Mennyiség"><button type="button" data-dq2="1" aria-label="Több">+</button></div></div>
+    <div style="display:grid;gap:10px"><button class="btn gold" type="button" id="dadd" ${free<=0?'disabled':''}>${icon('cart')} ${a===0?'Elfogyott':(free<=0?'Mind a kosárban':'Kosárba')}</button>
+    <button class="btn line" type="button" id="dquote">${icon('mail')} Ajánlatkérés</button></div>
+    <div class="extra"><span>${icon('truck')}Gyors kiszállítás</span>${p.kategoria==='penztargep'||p.kategoria==='pos'?`<span>${icon('wrench')}Üzembe helyezés kérhető</span>`:`<span>${icon('pin')}Átvehető Pécsen</span>`}<a class="full" href="#t-${esc(p.id)}">Teljes termékadatlap ${icon('chev','ic','width:14px;height:14px')}</a></div>
+  </aside>
+  <div class="macc">${TABS.map(([k,l,ic])=>`<details><summary>${icon(ic)}${k==='letoltes'?'Letölthető dokumentumok':l}</summary><div class="tabbody">${tabContent(p,k)}</div></details>`).join('')}<a class="btn line block" href="#t-${esc(p.id)}" style="margin-top:14px">Teljes termékadatlap ${icon('chev')}</a></div>`;
+}
+function pageCategory(catId, selId){
+  const c=catId?cat(catId):null, items=catItems(catId);
+  const sel = items.find(p=>p.id===selId) || items.find(p=>p.kiemelt) || items[0];
+  const b=c?.banner||{cim1:'Termék',cim2:'kínálatunk',szoveg:'Pénztárgépek, POS rendszerek, mérlegek, árazógépek és kellékanyagok – helyi szervizzel.'};
+  const bimg = b.kep ? `<img class="bimg" src="${esc(b.kep)}" alt="">` : `<div class="bimg icon">${icon(c?.ikon||'register','ic','width:150px;height:150px;stroke-width:1.1')}</div>`;
+  return `<section class="banner"><div class="wrap"><div class="bt"><div><h1>${esc(b.cim1)} <em>${esc(b.cim2)}</em></h1><p>${esc(b.szoveg)}</p></div></div>${bimg}
+    <ul><li>${SVG('shield')}Hivatalos forgalmazó</li><li>${SVG('tools')}Szerviz és támogatás</li><li>${GEAR}Üzembe helyezés</li></ul></div></section>
+  <div class="wrap">
+    <nav class="crumbs2" aria-label="Útvonal"><a href="../">Kezdőlap</a><span class="sep">›</span><a href="#termekek">Termékek</a>${c?`<span class="sep">›</span><span>${esc(c.nev)}</span>`:''}</nav>
+    <a class="back" href="${c?'#termekek':'../'}">${icon('left','ic','width:16px;height:16px')}${c?'Összes termék':'Kezdőlap'}</a>
+    <div class="trow"><h2>${icon(c?.ikon||'grid')}${esc(c?.listaCim||'Termékeink')} <small class="num">(${items.length} termék)</small></h2>
+      <label class="sort">Rendezés: <select class="i" id="csort">${[['nev','Név szerint'],['ajanlott','Ajánlott'],['olcso','Ár szerint növekvő'],['draga','Ár szerint csökkenő'],['keszlet','Fogyó készlet elöl']].map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label></div>
+    ${items.length?`<div class="carwrap"><button class="cararrow l" type="button" aria-label="Előző termékek">${icon('left','ic','width:16px;height:16px')}</button><div class="pcards" id="pcards">${items.map((p,i)=>pcardHTML(p,p===sel,i)).join('')}</div><button class="cararrow r" type="button" aria-label="Következő termékek">${icon('chev','ic','width:16px;height:16px')}</button><div class="carnav" id="carnav"></div></div>
+    <section class="detail" id="detail" aria-label="Kiválasztott termék">${detailHTML(sel)}</section>`:`<div class="empty">${icon('search','ic','width:40px;height:40px;color:var(--gold-d)')}<b>Ebben a kategóriában most nincs termék.</b><p class="muted">Hívjon minket, rendelésre beszerezzük.</p></div>`}
   </div>`;
 }
-function bindShop(catId){
-  const rer=(keepFocus)=>{ const y=scrollY; $('#app').innerHTML=pageShop(catId); afterRender(); bindShop(catId); scrollTo(0,y); if(keepFocus){ const n=$('#'+keepFocus); if(n){ n.focus(); try{ const l=n.value.length; n.setSelectionRange(l,l); }catch(e){} } } };
-  let t; const qi=$('#shopq'); if(qi) qi.oninput=()=>{ clearTimeout(t); t=setTimeout(()=>{ F.q=qi.value; rer('shopq'); },280); };
-  $('#shopsort').onchange=e=>{ F.sort=e.target.value; rer(); };
-  $$('[data-view]').forEach(b=>b.onclick=()=>{ F.view=b.dataset.view; LS.set('ptg-view',F.view); rer(); });
-  $$('[data-brand]').forEach(b=>b.onchange=()=>{ b.checked?F.brands.add(b.dataset.brand):F.brands.delete(b.dataset.brand); rer(); });
-  let tp; ['fmin','fmax'].forEach(id=>{ const n=$('#'+id); n.oninput=()=>{ clearTimeout(tp); tp=setTimeout(()=>{ F[id==='fmin'?'min':'max']=n.value.replace(/\D/g,''); rer(id); },500); }; });
-  $('#fstock').onchange=e=>{ F.stockOnly=e.target.checked; rer(); };
-  const reset=()=>{ F.brands.clear(); F.min=F.max=''; F.stockOnly=false; F.q=''; rer(); };
-  $('#freset').onclick=reset; $('#freset2')?.addEventListener('click',reset);
-  $('#fopen').onclick=()=>{ $('#filters').classList.add('open'); showOverlay(()=>$('#filters').classList.remove('open')); };
-  $('#fclose').onclick=()=>{ $('#filters').classList.remove('open'); hideOverlay(); };
+let CURSEL=null;
+function bindDetail(p){
+  if(!p) return; CURSEL=p.id; markSeen(p.id);
+  const q=$('#dqty'), max=()=>Math.max(1,Math.min(99,avail(p)-inCart(p.id)));
+  const upd=()=>{ q.value=Math.max(1,Math.min(max(),parseInt(q.value)||1)); $('[data-dq2="1"]').disabled=+q.value>=max(); $('[data-dq2="-1"]').disabled=+q.value<=1; };
+  $$('[data-dq2]').forEach(b=>b.onclick=()=>{ q.value=(parseInt(q.value)||1)+(+b.dataset.dq2); upd(); }); q.onchange=upd; upd();
+  $('#dadd').onclick=()=>addCart(p.id,+q.value);
+  $('#dquote').onclick=()=>openQuote(p);
+  $$('[data-dtab]').forEach(b=>b.onclick=()=>{ DTAB=b.dataset.dtab; $$('[data-dtab]').forEach(x=>{ x.classList.toggle('on',x===b); x.setAttribute('aria-selected',x===b); }); $('#tabbody').innerHTML=tabContent(p,DTAB); });
+}
+function selectProduct(catId,id,scroll=true){
+  const p=prod(id); if(!p) return;
+  $$('.pcard').forEach(c=>{ const on=c.dataset.pick===id; c.classList.toggle('sel',on); const b=$('.pbtn',c); b.classList.toggle('gold',on); b.classList.toggle('line',!on); });
+  const d=$('#detail'); STAGES.length=0; d.innerHTML=detailHTML(p); initStages(d); bindForms(d); bindDetail(p);
+  if(scroll) d.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+}
+function bindCategory(catId, selId){
+  const items=catItems(catId), sel=items.find(p=>p.id===selId)||items.find(p=>p.kiemelt)||items[0];
+  bindDetail(sel);
+  $('#csort')?.addEventListener('change',e=>{ F.sort=e.target.value; LS.set('ptg-sort',F.sort); const y=scrollY; route(); scrollTo(0,y); });
+  $$('.pcard').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('a')) return; location.hash=`#kat-${prod(c.dataset.pick).kategoria}/${c.dataset.pick}`; }));
+  const pc=$('#pcards'), nav=$('#carnav');
+  if(pc&&nav){
+    const pages=()=>Math.max(1,Math.ceil(pc.scrollWidth/pc.clientWidth-0.05));
+    const draw=()=>{ const n=pages(), i=Math.round(pc.scrollLeft/Math.max(1,pc.scrollWidth-pc.clientWidth)*(n-1))||0; nav.innerHTML=n>1?Array.from({length:n},(_,k)=>`<i class="${k===i?'on':''}"></i>`).join(''):''; };
+    pc.addEventListener('scroll',()=>requestAnimationFrame(draw),{passive:true}); draw();
+    $('.cararrow.l')?.addEventListener('click',()=>pc.scrollBy({left:-pc.clientWidth,behavior:'smooth'}));
+    $('.cararrow.r')?.addEventListener('click',()=>pc.scrollBy({left:pc.clientWidth,behavior:'smooth'}));
+    const cs=$$('.pcard',pc), si=cs.findIndex(c=>c.classList.contains('sel')); if(si>0&&pc.scrollWidth>pc.clientWidth){ const per=Math.max(1,Math.round(pc.clientWidth/cs[0].offsetWidth)); pc.scrollLeft=cs[Math.floor(si/per)*per].offsetLeft-cs[0].offsetLeft; }
+  }
+}
+function openQuote(p){
+  const m=$('#modal'), box=$('.box',m);
+  box.style.maxWidth='620px';
+  box.innerHTML=`<button class="icbtn x" type="button" aria-label="Bezárás">${icon('x')}</button><div style="padding:26px;display:grid;gap:14px"><span class="eyebrow">Ajánlatkérés</span><h2 class="it-title" style="font-size:1.6rem">${esc(fullName(p))}</h2><p class="muted">Írja meg, mire lenne szüksége, és rövid időn belül személyre szabott ajánlatot küldünk, üzembe helyezéssel együtt.</p>${orderForm('ajanlat',[{n:'termek',l:'Termék',ph:fullName(p)},{n:'mennyiseg',l:'Darabszám',o:true,ph:'1'}])}</div>`;
+  m.classList.add('show'); m.setAttribute('aria-hidden','false'); showOverlay(closeModal);
+  $('[name="termek"]',box).value=fullName(p); bindForms(box); $('.x',box).onclick=closeModal;
 }
 
 function pageProduct(id){
@@ -860,8 +1065,8 @@ function pageProduct(id){
         <div class="scard">${icon('headset','ic big')}<h3>Kérdése van?</h3><p class="muted">Hívjon minket, vagy írjon, és segítünk kiválasztani a megfelelő gépet.</p><div class="contact" style="gap:6px"><span class="num" style="font-weight:700">${esc(S().telefon)}</span><span style="font-weight:600">${esc(S().email)}</span></div>${p.video?`<a class="dl" href="${esc(p.video)}" target="_blank" rel="noopener">${icon('video')}Bemutató videó</a>`:''}</div>
       </div></section>
     ${gyik.length?`<section class="sec" id="gyik"><h2 class="it-title">Gyakori kérdések</h2>${gyik.map(([k,v])=>`<details class="faq"><summary>${esc(k)}</summary><p>${esc(v)}</p></details>`).join('')}</section>`:''}
-    ${related.length?`<section class="sec"><h2 class="it-title">Hasonló termékek</h2><div class="grid">${related.map(cardHTML).join('')}</div></section>`:''}
-    ${seen.length?`<section class="sec"><h2 class="it-title">Nemrég megtekintett</h2><div class="grid">${seen.map(cardHTML).join('')}</div></section>`:''}
+    ${related.length?`<section class="sec"><h2 class="it-title">Hasonló termékek</h2><div class="pcards">${related.map(cardHTML).join('')}</div></section>`:''}
+    ${seen.length?`<section class="sec"><h2 class="it-title">Nemrég megtekintett</h2><div class="pcards">${seen.map(cardHTML).join('')}</div></section>`:''}
   </div>
   <div class="stickybuy" id="stickybuy"><div class="wrap"><span class="nm">${esc(fullName(p))}</span>${priceHTML(p)}<button class="btn gold" type="button" data-add="${esc(p.id)}" ${free<=0?'disabled':''}>${icon('cart')} Kosárba</button></div></div>`;
 }
@@ -881,7 +1086,7 @@ function bindProduct(id){
 /* gyorsnézet */
 function openQuickView(id){
   const p=prod(id); if(!p) return; const a=avail(p);
-  const m=$('#modal'), box=$('.box',m);
+  const m=$('#modal'), box=$('.box',m); box.style.maxWidth='';
   box.innerHTML=`<button class="icbtn x" type="button" aria-label="Bezárás">${icon('x')}</button><div class="qv"><div>${stageHTML(p,true)}</div><div class="info" style="gap:14px"><span class="eyebrow">${esc(p.marka)} · ${esc(cat(p.kategoria)?.nev||'')}</span><h2 class="it-title" style="font-size:1.8rem">${esc(fullName(p))}</h2><p class="muted">${esc(p.alcim)}</p>${priceHTML(p)}${stockHTML(p,true)}<p>${esc(p.leiras)}</p><div class="buyrow"><button class="btn gold" type="button" data-add="${esc(p.id)}" ${a===0?'disabled':''}>${icon('cart')} Kosárba</button><a class="btn line" href="#t-${esc(p.id)}">Részletek ${icon('chev')}</a></div></div></div>`;
   m.classList.add('show'); m.setAttribute('aria-hidden','false'); showOverlay(closeModal);
   initStages(box); $('.x',box).onclick=closeModal; $$('[data-add]',box).forEach(b=>b.onclick=()=>{ closeModal(); addCart(b.dataset.add); }); $$('a',box).forEach(x=>x.addEventListener('click',closeModal));
@@ -951,7 +1156,7 @@ function pageCheckout(){
       <button class="btn gold" type="submit">${icon('check')} Megrendelés elküldése</button></form></div>
     <div class="sumcol"><div class="panel"><h3>Rendelése</h3>${items.map(x=>`<div class="sumrow"><span>${x.db} × ${esc(fullName(x.p))}</span><span class="num">${x.p.ar?ft(now(x.p)*x.db):'kérésre'}</span></div>`).join('')}<div style="border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px"><div class="sumrow"><span>Nettó</span><span class="num">${ft(sum)}</span></div><div class="sumrow tot"><span>Bruttó</span><span class="num">${ft(gross(sum))}</span></div></div><a class="btn line sm" href="#kosar" style="justify-self:start">Kosár módosítása</a></div></div></div>`;
 }
-function pageCart(){ setTimeout(openDrawer,80); return pageShop(''); }
+function pageCart(){ setTimeout(openDrawer,80); return pageCategory('penztargep'); }
 
 /* további oldalak */
 function svcRow(s){ return `<div><span><b>${esc(s.nev)}</b><small>${esc(s.leiras)}</small></span><span class="p num">${s.ar?ft(s.ar)+' + ÁFA':'Ár kérésre'}</span></div>`; }
@@ -960,7 +1165,7 @@ function orderForm(tipus,extra=[]){
   return `<form class="f" data-form="${tipus}" novalidate><div class="row2"><label class="l">Név<input class="i" name="nev" id="f-${tipus}-nev" required autocomplete="name"></label><label class="l">Cég <span class="o">(nem kötelező)</span><input class="i" name="ceg" id="f-${tipus}-ceg" autocomplete="organization"></label></div>
     <div class="row2"><label class="l">Telefon<input class="i" name="telefon" id="f-${tipus}-telefon" type="tel" autocomplete="tel"></label><label class="l">E-mail<input class="i" name="email" id="f-${tipus}-email" type="email" autocomplete="email"></label></div>
     ${ex}<label class="l">Üzenet <span class="o">(nem kötelező)</span><textarea class="i" name="uzenet" id="f-${tipus}-uzenet"></textarea></label><input class="hp" name="web" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="out" aria-live="polite"></div>
-    <button class="btn gold" type="submit">${{szerviz:'Bejelentés elküldése',atallas:'Visszahívást kérek',uzenet:'Üzenet küldése'}[tipus]}</button><p class="muted" style="font-size:.8rem">Adatait csak az ügyintézéshez használjuk.</p></form>`;
+    <button class="btn gold" type="submit">${{szerviz:'Bejelentés elküldése',atallas:'Visszahívást kérek',uzenet:'Üzenet küldése',ajanlat:'Ajánlatkérés elküldése'}[tipus]}</button><p class="muted" style="font-size:.8rem">Adatait csak az ügyintézéshez használjuk.</p></form>`;
 }
 function pageService(){
   return pageHead('Szerviz és karbantartás','Javítás, éves felülvizsgálat, adómemória-kiolvasás, NAV-ügyintézés. Számítógépeket és hálózatokat is javítunk.','<a href="../">Kezdőlap</a>›<span>Szerviz</span>') +
@@ -992,7 +1197,7 @@ function bindForms(root=document){
     e.preventDefault(); const fd=new FormData(f), out=$('.out',f), btn=$('button[type=submit]',f), d=Object.fromEntries(fd.entries());
     if(!d.nev?.trim()||(!d.telefon?.trim()&&!d.email?.trim())){ out.innerHTML='<div class="msg err">Adja meg a nevét, és legalább a telefonszámát vagy az e-mail-címét.</div>'; return; }
     if(f.dataset.cart&&!fd.get('adatkezeles')){ out.innerHTML='<div class="msg err">A megrendeléshez fogadja el az adatkezelést.</div>'; return; }
-    const skip=['nev','ceg','telefon','email','uzenet','web','idopont','adatkezeles'], lbl={szolg:'Szolgáltatás',geptipus:'Géptípus',ap:'AP szám',tevekenyseg:'Tevékenység',adoszam:'Adószám',szamlacim:'Számlázási cím',atvetel:'Átvétel',fizetes:'Fizetés',uzembe:'Üzembe helyezést kér'};
+    const skip=['nev','ceg','telefon','email','uzenet','web','idopont','adatkezeles'], lbl={termek:'Termék',mennyiseg:'Darabszám',szolg:'Szolgáltatás',geptipus:'Géptípus',ap:'AP szám',tevekenyseg:'Tevékenység',adoszam:'Adószám',szamlacim:'Számlázási cím',atvetel:'Átvétel',fizetes:'Fizetés',uzembe:'Üzembe helyezést kér'};
     const extra=Object.entries(d).filter(([k,v])=>!skip.includes(k)&&v).map(([k,v])=>`${lbl[k]||k}: ${v==='on'?'igen':v}`).join('\n');
     const payload={tipus:f.dataset.form,nev:d.nev,ceg:d.ceg,telefon:d.telefon,email:d.email,idopont:d.idopont||'',web:d.web||'',uzenet:[extra,d.uzenet].filter(Boolean).join('\n\n'),tetelek:f.dataset.cart?CART.map(c=>({id:c.id,db:c.db,nev:fullName(prod(c.id)),ar:now(prod(c.id))||null})):[]};
     btn.disabled=true;
@@ -1044,7 +1249,7 @@ function admProducts(){
     <td data-l="Ár"><input class="i pi num" data-f="ar" data-id="${esc(p.id)}" id="ar-${esc(p.id)}" inputmode="numeric" value="${p.ar??''}" placeholder="kérésre"></td>
     <td data-l="Akciós"><input class="i pi num" data-f="akciosAr" data-id="${esc(p.id)}" id="ak-${esc(p.id)}" inputmode="numeric" value="${p.akciosAr??''}" placeholder="—"></td>
     <td data-l="Készlet"><input class="i qi num" data-f="keszletDb" data-id="${esc(p.id)}" id="kd-${esc(p.id)}" inputmode="numeric" value="${p.keszletDb??''}" placeholder="rend."></td>
-    <td data-l="Fotó"><span class="pill2">${(p.kepek||[]).length} kép${framesOf(p).length?' · 360°':''}</span></td>
+    <td data-l="Fotó"><span class="pill2">${p.illusztracio?'illusztráció':(p.kepek||[]).length+' kép'}${framesOf(p).length?' · 360°':''}</span></td>
     <td data-l="Kiemelt"><input type="checkbox" data-f="kiemelt" data-id="${esc(p.id)}" id="km-${esc(p.id)}" ${p.kiemelt?'checked':''}></td>
     <td data-l="Látható"><input type="checkbox" data-f="lathato" data-id="${esc(p.id)}" id="lt-${esc(p.id)}" ${p.rejtett?'':'checked'}></td>
     <td><button class="btn line sm" type="button" data-edit="${esc(p.id)}">Szerkesztés</button></td></tr>`).join('')}</tbody></table></div><div id="editorwrap">${ADMIN.edit?editorHTML(prod(ADMIN.edit)):''}</div>`; }
@@ -1064,7 +1269,8 @@ function editorHTML(p){ if(!p) return ''; const opt=(v,l,c)=>`<option value="${v
     <label class="l">Műszaki adatok <span class="o">soronként: Megnevezés: érték</span><textarea class="i" id="e-specs">${esc((p.specs||[]).map(s=>s[0]+': '+s[1]).join('\n'))}</textarea></label>
     <label class="l">Letöltések <span class="o">soronként: Név | link (pl. kezelési útmutató PDF)</span><textarea class="i" id="e-dl" style="min-height:70px">${esc((p.letoltesek||[]).map(d=>d.nev+' | '+d.url).join('\n'))}</textarea></label>
     <label class="l">Bemutató videó linkje <span class="o">nem kötelező</span><input class="i" id="e-video" value="${esc(p.video||'')}"></label>
-    <div class="l">Fotók <span class="o">Az első kép a borítókép. Ha 8 vagy több fotót tölt fel körbefotózva, sorrendben, abból automatikusan 360°-os forgatás lesz.</span>${imgsHTML(p,'kepek')}<input type="file" id="up-kepek" accept="image/jpeg,image/png,image/webp" multiple></div>
+    <label class="check"><input type="checkbox" id="e-illu" ${p.illusztracio?'checked':''}> A mostani kép csak illusztráció (a vásárló „Illusztráció” jelölést lát)</label>
+    <div class="l">Fotók <span class="o">Az első kép a borítókép. Ha a termék még illusztrációt mutat, az első valódi fotó feltöltésekor az illusztráció automatikusan lekerül. Ha 8 vagy több fotót tölt fel körbefotózva, sorrendben, abból automatikusan 360°-os forgatás lesz.</span>${imgsHTML(p,'kepek')}<input type="file" id="up-kepek" accept="image/jpeg,image/png,image/webp" multiple></div>
     <div class="l">Külön 360°-os fotósorozat <span class="o">nem kötelező; ha van, ez lesz a forgatás (24–36 kép, egyenletes lépésekben)</span>${imgsHTML(p,'spin')}<input type="file" id="up-spin" accept="image/jpeg,image/png,image/webp" multiple></div>
     <div class="out" aria-live="polite"></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn navy" type="button" id="applyed">Módosítások átvétele</button><a class="btn line" href="#t-${esc(p.id)}">Termékoldal megnyitása</a><button class="btn ghost" type="button" id="delp" style="color:var(--bad)">Termék törlése</button><span id="delconfirm"></span></div></form></div>`; }
@@ -1077,7 +1283,7 @@ function admSettings(){ const s=S();
   ${MODE==='preview'?`<div class="editor" style="max-width:660px"><h3>Előnézeti adatok</h3><p class="muted">Az itt mentett változások csak ebben a böngészőben vannak.</p><div><button class="btn line" type="button" id="resetprev">Alapadatok visszaállítása</button> <span id="resetconfirm"></span></div></div>`:''}`; }
 async function admOrders(){
   let list=[]; try{ list=MODE==='live'?await api('orders'):LS.get('ptg-orders3',[]); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
-  const names={megrendeles:'Webáruházas megrendelés',szerviz:'Szerviz bejelentés',atallas:'E-pénztárgép átállás',uzenet:'Üzenet'};
+  const names={ajanlat:'Ajánlatkérés',megrendeles:'Webáruházas megrendelés',szerviz:'Szerviz bejelentés',atallas:'E-pénztárgép átállás',uzenet:'Üzenet'};
   $('#admbody').innerHTML=list.length?list.map(o=>`<div class="order ${esc(o.allapot)}"><div class="h"><b>${esc(names[o.tipus]||o.tipus)} · ${esc(o.nev)}${o.ceg?' ('+esc(o.ceg)+')':''}</b><span style="display:flex;gap:8px;align-items:center"><span class="muted num" style="font-size:.84rem">${esc(new Date(o.ido).toLocaleString('hu-HU'))}</span><select class="i" data-ost="${esc(o.id)}" id="os-${esc(o.id)}" style="width:auto;padding:6px 34px 6px 10px">${[['uj','Új'],['folyamatban','Folyamatban'],['kesz','Kész']].map(([k,v])=>`<option value="${k}" ${o.allapot===k?'selected':''}>${v}</option>`).join('')}</select></span></div>
     <div class="num">${esc(o.telefon)}${o.email?' · '+esc(o.email):''}${o.idopont?' · időpont: '+esc(o.idopont):''}</div>${(o.tetelek||[]).length?`<div>${o.tetelek.map(t=>`${esc(t.db)} × ${esc(t.nev)}${t.ar?' ('+ft(t.ar)+' + ÁFA/db)':''}`).join('<br>')}</div>`:''}${o.uzenet?`<div class="muted" style="white-space:pre-wrap">${esc(o.uzenet)}</div>`:''}</div>`).join(''):'<p class="muted">Még nem érkezett megrendelés vagy üzenet.</p>';
   $$('[data-ost]').forEach(s=>s.onchange=async()=>{ if(MODE==='live'){ try{ await api('order-status',{body:{id:s.dataset.ost,allapot:s.value}}); toast('Állapot mentve'); }catch(e){ toast(e.message); } } else { const l=LS.get('ptg-orders3',[]), o=l.find(x=>x.id===s.dataset.ost); if(o){ o.allapot=s.value; LS.set('ptg-orders3',l); toast('Állapot mentve'); } } s.closest('.order').className='order '+s.value; });
@@ -1109,7 +1315,7 @@ function bindEditor(){
   $('#closeed').onclick=()=>{ ADMIN.edit=null; $('#editorwrap').innerHTML=''; };
   const reEd=()=>{ $('#editorwrap').innerHTML=editorHTML(p); bindEditor(); };
   $('#applyed').onclick=()=>{ const g=id=>$('#'+id).value; const kd=numOrNull(g('e-kd'));
-    Object.assign(p,{marka:g('e-marka'),nev:g('e-nev'),kategoria:g('e-kat'),modell:g('e-modell'),alcim:g('e-alcim'),ar:numOrNull(g('e-ar')),akciosAr:numOrNull(g('e-ak')),keszletDb:kd,keszlet:kd==null?'rendelesre':(kd>0?'raktaron':'elfogyott'),garancia:g('e-gar'),arTol:$('#e-tol').checked,engedely:g('e-eng'),leiras:g('e-leiras'),
+    Object.assign(p,{marka:g('e-marka'),nev:g('e-nev'),kategoria:g('e-kat'),modell:g('e-modell'),alcim:g('e-alcim'),ar:numOrNull(g('e-ar')),akciosAr:numOrNull(g('e-ak')),keszletDb:kd,keszlet:kd==null?'rendelesre':(kd>0?'raktaron':'elfogyott'),garancia:g('e-gar'),arTol:$('#e-tol').checked,illusztracio:$('#e-illu').checked,engedely:g('e-eng'),leiras:g('e-leiras'),
       jellemzok:g('e-jell').split('\n').map(x=>x.trim()).filter(Boolean), specs:g('e-specs').split('\n').map(l=>{ const i=l.indexOf(':'); return i>0?[l.slice(0,i).trim(),l.slice(i+1).trim()]:null; }).filter(Boolean),
       letoltesek:g('e-dl').split('\n').map(l=>l.split('|')).filter(x=>x[0].trim()&&x[1]&&x[1].trim()).map(x=>({nev:x[0].trim(),url:x.slice(1).join('|').trim()})), video:g('e-video').trim()});
     markDirty(); renderAdmin(); toast('Átvéve. A végleges mentéshez nyomja meg a Mentés gombot.'); };
@@ -1117,6 +1323,7 @@ function bindEditor(){
   $$('[data-del]').forEach(b=>b.onclick=()=>{ const [k,i]=b.dataset.del.split(':'); p[k].splice(+i,1); markDirty(); reEd(); });
   $$('[data-mv]').forEach(b=>b.onclick=()=>{ const [k,i,d]=b.dataset.mv.split(':'); const a=p[k], j=+i+(+d); if(j<0||j>=a.length) return; [a[+i],a[j]]=[a[j],a[+i]]; markDirty(); reEd(); });
   ['kepek','spin'].forEach(k=>{ $('#up-'+k).onchange=async e=>{ const out=$('#edform .out'); const files=[...e.target.files].sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true})); out.innerHTML=`<div class="msg info">Feltöltés: 0 / ${files.length}</div>`;
+    if(k==='kepek'&&p.illusztracio){ p.kepek=(p.kepek||[]).filter(u=>!String(u).includes('kepek/illusztracio/')); p.illusztracio=false; }
     try{ let n=0; for(const file of files){ let url; if(MODE==='live'){ const fd=new FormData(); fd.append('kep',file); url=(await api('upload',{body:fd})).url; } else url=await shrink(file,k==='spin'||files.length>=8?720:1100); (p[k]=p[k]||[]).push(url); out.innerHTML=`<div class="msg info">Feltöltés: ${++n} / ${files.length}</div>`; }
       markDirty(); reEd(); toast(framesOf(p).length?'Képek hozzáadva – a 360°-os nézet elkészült':'Képek hozzáadva'); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } }; });
 }
@@ -1131,10 +1338,11 @@ async function route(){
   const h=(location.hash||'#termekek').slice(1)||'termekek', app=$('#app');
   let html, after=()=>{}, nav='';
   const shop=h==='termekek'||h.startsWith('kat-');
-  if(!shop) F.q='';
-  if(shop){ const id=h.startsWith('kat-')&&cat(h.slice(4))?h.slice(4):''; if(app.dataset.cat!==id){ F.brands.clear(); F.min=F.max=''; } app.dataset.cat=id; html=pageShop(id); after=()=>bindShop(id); nav='termekek'; }
+  if(shop){ const [cpart,sid]=h.split('/'); const id=cpart.startsWith('kat-')&&cat(cpart.slice(4))?cpart.slice(4):'';
+    if(app.dataset.view==='cat:'+id && sid && $('#detail')){ selectProduct(id,sid); return; }
+    app.dataset.view='cat:'+id; html=pageCategory(id,sid); after=()=>bindCategory(id,sid); nav=id; }
   else if(h.startsWith('t-')){ html=pageProduct(h.slice(2)); after=()=>bindProduct(h.slice(2)); nav='termekek'; }
-  else if(h==='kosar'){ html=pageCart(); after=()=>bindShop(''); nav='termekek'; }
+  else if(h==='kosar'){ html=pageCart(); after=()=>bindCategory('penztargep'); nav='penztargep'; }
   else if(h==='penztar') html=pageCheckout();
   else if(h==='osszehasonlitas') html=pageCompare();
   else if(h==='szerviz'){ html=pageService(); nav='szerviz'; }
@@ -1143,29 +1351,30 @@ async function route(){
   else if(h==='vasarlas') html=pageBuyInfo();
   else if(h==='kapcsolat'){ html=pageContact(); nav='kapcsolat'; }
   else if(h==='admin'){ html=await pageAdmin(); after=bindAdmin; }
-  else { html=pageShop(''); after=()=>bindShop(''); nav='termekek'; }
+  else { html=pageCategory(''); after=()=>bindCategory(''); }
+  if(!shop) app.dataset.view='';
   app.innerHTML=html; afterRender(); after();
-  $$('#navlinks a.it').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav));
-  closeMenus(); if(!document.fullscreenElement) scrollTo(0,0); renderCmpBar();
-  const p=h.startsWith('t-')&&prod(h.slice(2));
+  $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(nav))));
+  closeMenus(); if(!document.fullscreenElement){ if(shop&&h.includes('/')&&$('#detail')&&innerWidth<=900) $('#detail').scrollIntoView(); else scrollTo(0,0); } renderCmpBar();
+  const p=h.startsWith('t-')&&prod(h.slice(2))||(h.includes('/')&&prod(h.split('/')[1]));
   document.title=p?`${fullName(p)} · Totál Pénztárgép Pécs`:(h==='admin'?'Admin · Totál Pénztárgép Pécs':'Webáruház · Totál Pénztárgép Pécs');
 }
-function closeMenus(){ ['#drawer','#modal','#searchpal'].forEach(q=>{ const e=$(q); e.classList.remove('show'); e.setAttribute('aria-hidden','true'); }); $('#filters')?.classList.remove('open'); closeLb(); hideOverlay(); $('#navbar').classList.remove('open'); $('#burger').setAttribute('aria-expanded','false'); $('#dd').classList.remove('open'); $('#ddb').setAttribute('aria-expanded','false'); }
+function closeMenus(){ const bx=$('#modal .box'); if(bx) bx.style.maxWidth=''; ['#drawer','#modal','#searchpal'].forEach(q=>{ const e=$(q); e.classList.remove('show'); e.setAttribute('aria-hidden','true'); }); $('#filters')?.classList.remove('open'); closeLb(); hideOverlay(); $('#navbar').classList.remove('open'); $('#burger').setAttribute('aria-expanded','false'); $('#dd').classList.remove('open'); $('#ddb').setAttribute('aria-expanded','false'); }
 function fillChrome(){
   const s=S();
-  $('#hcontacts').innerHTML=`<span class="pill">${icon('phone')}${esc(s.telefon)}</span><span class="pill">${icon('mail')}${esc(s.email)}</span>`;
+  const ci=String(s.cim||'').split(','); $('#hcontacts').innerHTML=`<a class="pill" href="tel:${esc(String(s.telefon).replace(/[^\d+]/g,''))}">${icon('phone')}${esc(s.telefon)}</a><a class="pill" href="mailto:${esc(s.email)}">${icon('mail')}${esc(s.email)}</a><span class="addr">${icon('pin')}<span>${esc(ci[0]||'')},<br>${esc(ci.slice(1).join(',').trim())}</span></span>`;
   const n=id=>visible().filter(p=>p.kategoria===id).length;
-  $('#ddmenu').innerHTML=DB.categories.map(c=>`<a href="#${catRoute(c.id)}">${icon(c.ikon)}${esc(c.nev)}<span class="c">${n(c.id)}</span></a>`).join('');
+  $('#ddmenu').innerHTML=`<a href="#termekek">${icon('grid')}Összes termék<span class="c">${visible().length}</span></a>`+DB.categories.map(c=>`<a href="#${catRoute(c.id)}">${icon(c.ikon)}${esc(c.nev)}<span class="c">${n(c.id)}</span></a>`).join('')+`<a href="#e-penztargep">${icon('clock')}E-pénztárgép átállás</a>`;
   $('#f-cats').innerHTML=DB.categories.map(c=>`<li><a href="#${catRoute(c.id)}">${esc(c.nev)}</a></li>`).join('');
-  $('#f-addr').textContent=s.cim; $('#f-tel').textContent=[s.telefon,...(s.mobil||[])].join(' · '); $('#f-hours').textContent=s.nyitvatartas; $('#f-ceg').textContent=s.cegnev; $('#year').textContent=new Date().getFullYear();
+  $('#mtel').href='tel:'+String(s.telefon).replace(/[^\d+]/g,''); $('#mmail').href='mailto:'+s.email; $('#f-addr').textContent=s.cim; $('#f-tel').textContent=[s.telefon,...(s.mobil||[])].join(' · '); $('#f-hours').textContent=s.nyitvatartas; $('#f-ceg').textContent=s.cegnev; $('#year').textContent=new Date().getFullYear();
 }
 $('#burger').onclick=()=>{ const n=$('#navbar'); n.classList.toggle('open'); $('#burger').setAttribute('aria-expanded',n.classList.contains('open')); };
 $('#ddb').onclick=e=>{ e.stopPropagation(); const d=$('#dd'); d.classList.toggle('open'); $('#ddb').setAttribute('aria-expanded',d.classList.contains('open')); };
 document.addEventListener('click',e=>{ if(!e.target.closest('#dd')){ $('#dd').classList.remove('open'); $('#ddb').setAttribute('aria-expanded','false'); } });
-$('#cartbtn').onclick=openDrawer;
+$('#cartbtn').onclick=openDrawer; $('#mcart').onclick=openDrawer;
 window.addEventListener('hashchange',route);
 window.addEventListener('resize',()=>fitMinis());
-F.view=LS.get('ptg-view','grid');
+F.sort=LS.get('ptg-sort','nev');
 (async()=>{ await load(); saveCart(); fillChrome(); route(); })();
 </script>
 </body>

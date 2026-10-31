@@ -39,7 +39,14 @@
      "Hol javítják, ha elromlik?",
      "Nálunk, Pécsen, a Hunyadi János utca 34. alatti szervizünkben. Az éves felülvizsgálatot is mi végezzük."
     ]
-   ]
+   ],
+   "banner": {
+    "cim1": "Online",
+    "cim2": "pénztárgépek",
+    "szoveg": "Megbízható, NAV-kompatibilis megoldások üzleteknek és szolgáltatóknak.",
+    "kep": "../assets/banner-penztargep.webp"
+   },
+   "listaCim": "Pénztárgépeink"
   },
   {
    "id": "pos",
@@ -55,14 +62,28 @@
      "Köthető hozzá vonalkódolvasó és nyomtató?",
      "Igen, a terminálhoz nyomtatót, vonalkódolvasót és kasszafiókot is csatlakoztatunk."
     ]
-   ]
+   ],
+   "banner": {
+    "cim1": "POS",
+    "cim2": "terminálok",
+    "szoveg": "Érintőképernyős kasszarendszerek vendéglátásba és kiskereskedelembe.",
+    "kep": ""
+   },
+   "listaCim": "POS rendszereink"
   },
   {
    "id": "fiok",
    "nev": "Kasszafiókok",
    "ikon": "drawer",
    "leiras": "Új és használt kasszafiókok minden pénztárgéphez.",
-   "gyik": []
+   "gyik": [],
+   "banner": {
+    "cim1": "Kassza",
+    "cim2": "fiókok",
+    "szoveg": "Strapabíró pénzfiókok pénztárgéphez és POS rendszerhez.",
+    "kep": ""
+   },
+   "listaCim": "Kasszafiókjaink"
   },
   {
    "id": "merleg",
@@ -74,7 +95,14 @@
      "A mérleg hitelesítve érkezik?",
      "Igen, a bolti mérlegeket hitelesítve adjuk át."
     ]
-   ]
+   ],
+   "banner": {
+    "cim1": "Hitelesített",
+    "cim2": "mérlegek",
+    "szoveg": "Bolti és árszorzós mérlegek, hitelesítve.",
+    "kep": ""
+   },
+   "listaCim": "Mérlegeink"
   },
   {
    "id": "arazo",
@@ -86,21 +114,42 @@
      "Kapható hozzá címke és festékhenger?",
      "Igen, minden általunk forgalmazott árazógéphez tartunk címkét és festékhengert."
     ]
-   ]
+   ],
+   "banner": {
+    "cim1": "Árazó",
+    "cim2": "gépek",
+    "szoveg": "Egy- és kétsoros árazógépek, címkék, festékhengerek.",
+    "kep": ""
+   },
+   "listaCim": "Árazógépeink"
   },
   {
    "id": "irodatechnika",
    "nev": "Irodatechnika",
    "ikon": "monitor",
    "leiras": "Számítógépek, nyomtatók és irodai eszközök igény szerint.",
-   "gyik": []
+   "gyik": [],
+   "banner": {
+    "cim1": "Számítástechnika és",
+    "cim2": "irodatechnika",
+    "szoveg": "Számítógépek, nyomtatók, hálózat – beállítva, helyi szervizzel.",
+    "kep": ""
+   },
+   "listaCim": "Irodatechnika"
   },
   {
    "id": "kellek",
    "nev": "Kellékanyagok",
    "ikon": "roll",
    "leiras": "Hőpapír tekercsek, címkék, festékhengerek minden általunk forgalmazott típushoz.",
-   "gyik": []
+   "gyik": [],
+   "banner": {
+    "cim1": "Kellék",
+    "cim2": "anyagok",
+    "szoveg": "Hőpapír, árazócímke és minden, ami a napi működéshez kell.",
+    "kep": ""
+   },
+   "listaCim": "Kellékanyagok"
   }
  ],
  "products": [
@@ -124,7 +173,9 @@
     "Nyugta és számla nyomtatása",
     "Hőnyomtató, 57 mm-es papír"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/sam4s-nr-330.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
@@ -147,7 +198,8 @@
    ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év, +2 évvel bővíthető"
+   "garancia": "1 év, +2 évvel bővíthető",
+   "illusztracio": true
   },
   {
    "id": "sam4s-nr-300",
@@ -169,7 +221,9 @@
     "Kétsoros kijelző elöl és hátul",
     "Kasszafiók csatlakoztatható"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/sam4s-nr-300.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
@@ -204,7 +258,8 @@
    ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év, +2 évvel bővíthető"
+   "garancia": "1 év, +2 évvel bővíthető",
+   "illusztracio": true
   },
   {
    "id": "sam4s-nr-240-pro-4g",
@@ -226,7 +281,9 @@
     "Kompakt méret",
     "Kasszafiók csatlakoztatható"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/sam4s-nr-240-pro-4g.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
@@ -249,14 +306,15 @@
    ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év, +2 évvel bővíthető"
+   "garancia": "1 év, +2 évvel bővíthető",
+   "illusztracio": true
   },
   {
    "id": "sam4s-nr-440-pro-4g",
    "kategoria": "penztargep",
    "marka": "Sam4s",
-   "nev": "NR-440 PRO 4G kasszafiókkal",
-   "alcim": "A csúcsmodell nagy forgalmú üzletekbe",
+   "nev": "NR-440 PRO 4G",
+   "alcim": "Csúcsmodell kasszafiókkal, nagy forgalmú üzletekbe",
    "ar": 149500,
    "arTol": false,
    "akciosAr": null,
@@ -272,7 +330,9 @@
     "Forgatható vevőkijelző",
     "PC-hez köthető"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/sam4s-nr-440-pro-4g.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
@@ -307,7 +367,8 @@
    ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év, +2 évvel bővíthető"
+   "garancia": "1 év, +2 évvel bővíthető",
+   "illusztracio": true
   },
   {
    "id": "montel-sento-h-light",
@@ -328,13 +389,16 @@
     "Asztali kivitel",
     "Kasszafiók csatlakoztatható"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/montel-sento-h-light.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
    "specs": [],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": true
   },
   {
    "id": "micra-jota-e",
@@ -355,20 +419,23 @@
     "Rendszerbe köthető",
     "Autós tápkábellel is működik"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/micra-jota-e.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
    "specs": [],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": true
   },
   {
    "id": "micra-k10",
    "kategoria": "penztargep",
    "marka": "Micra",
-   "nev": "K10 hordozható, GPS",
-   "alcim": "Mobil pénztárgép piacra, kiszállításhoz",
+   "nev": "K10",
+   "alcim": "Hordozható, GPS-es mobil pénztárgép piacra, kiszállításhoz",
    "ar": 129900,
    "arTol": false,
    "akciosAr": null,
@@ -382,20 +449,23 @@
     "Beépített GPS",
     "Akkumulátoros"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/micra-k10.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
    "specs": [],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": true
   },
   {
    "id": "hasznalt-penztargep",
    "kategoria": "penztargep",
    "marka": "Totál",
-   "nev": "Használt pénztárgép, átszemélyesítve",
-   "alcim": "Bevizsgált, átszemélyesített gépek garanciával",
+   "nev": "Használt pénztárgép",
+   "alcim": "Átszemélyesítve, bevizsgálva, garanciával",
    "ar": 65000,
    "arTol": true,
    "akciosAr": null,
@@ -409,13 +479,16 @@
     "Átszemélyesítve",
     "Készlet függvényében"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/illusztracio/hasznalt-penztargep.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
    "specs": [],
    "letoltesek": [],
    "video": "",
-   "garancia": "6 hónap"
+   "garancia": "6 hónap",
+   "illusztracio": true
   },
   {
    "id": "imin-pos",
