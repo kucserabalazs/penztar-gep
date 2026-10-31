@@ -223,6 +223,19 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .banner li{display:flex;align-items:center;gap:16px;padding:10px 0;font-family:var(--fd);font-weight:600;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.14)}
 .banner li:last-child{border-bottom:0}
 .banner li img{width:36px;height:36px;filter:brightness(1.35) saturate(1.1)}
+.catbar{position:sticky;top:calc(56px + env(safe-area-inset-top,0px));z-index:40;background:rgba(247,248,250,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 6px 16px rgba(24,46,72,.05)}
+.cb-in{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
+.cb-in::-webkit-scrollbar{display:none}
+.cbi{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:30px;border:1.5px solid var(--line);background:var(--surface);font-family:var(--fd);font-weight:700;font-size:.88rem;white-space:nowrap;transition:background .2s,border-color .2s,color .2s}
+.cbi svg{width:20px;height:20px;color:var(--gold-d);stroke-width:1.7}
+.cbi small{font-family:var(--fb);font-size:.74rem;font-weight:700;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:1px 7px}
+.cbi:hover{border-color:var(--gold)}
+.cbi.on{background:var(--n2);border-color:var(--n2);color:#fff}
+.cbi.on svg{color:var(--gold-l)}.cbi.on small{background:rgba(255,255,255,.14);color:#e3eaf3}
+.catsec{padding-block:26px 8px;scroll-margin-top:130px}
+.catsec + .catsec{border-top:1px solid var(--line);margin-top:22px;padding-top:34px;position:relative}
+.catsec + .catsec::before{content:"";position:absolute;left:0;top:-2px;width:70px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold-l),var(--gold-d))}
+@media (max-width:900px){.catbar{top:calc(66px + env(safe-area-inset-top,0px))}.cbi{padding:7px 12px;font-size:.84rem}.catsec{padding-top:16px}.catsec + .catsec{padding-top:24px;margin-top:16px}}
 .crumbs2{display:flex;flex-wrap:wrap;gap:10px;font-size:.88rem;color:var(--ink);padding:14px 0 6px}
 .crumbs2 a:hover{color:var(--gold-d)}
 .crumbs2 span.sep{color:var(--muted)}
@@ -241,12 +254,13 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .pcard.sel .pimg{background:transparent}
 .pcard .pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:4%;mix-blend-mode:multiply;transition:transform .4s}
 .pcard:hover .pimg img{transform:scale(1.05)}
-.pcard h3{font-family:var(--fd);font-weight:800;font-size:.95rem;text-transform:uppercase;margin-top:8px;line-height:1.15}
+.pcard .pimg .mini{position:absolute;inset:0;pointer-events:none}
+.pcard h3{font-family:var(--fd);font-weight:800;font-size:.9rem;text-transform:uppercase;margin-top:8px;line-height:1.15;overflow-wrap:anywhere;hyphens:auto;-webkit-hyphens:auto;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .pcard p{font-size:.78rem;color:var(--muted);line-height:1.3;min-height:2.6em}
 .pcard .pbtn{margin-top:auto;min-height:32px;padding:0 14px;font-size:.8rem;border-radius:8px}
 .pcard .ptag{position:absolute;top:8px;left:8px;z-index:2;font-size:.6rem;padding:3px 7px}
 .carnav{display:none}
-.detail{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(250px,.72fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:24px 0 10px;box-shadow:0 10px 30px rgba(25,52,76,.06);scroll-margin-top:80px}
+.detail{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(250px,.72fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0 10px;box-shadow:0 10px 30px rgba(25,52,76,.06);scroll-margin-top:130px}
 .detail .gal{min-width:0;position:relative}
 .cararrow{display:none}
 .detail .stage{aspect-ratio:3/2;border-radius:12px;background:linear-gradient(180deg,#e9eef5,#dde4ed);border:0}
@@ -866,7 +880,7 @@ function initStages(root=document){
     function renderThree(){
       view.innerHTML=`<div class="three"><div class="world"><div class="scale">${modelHTML(p.modell,lcdLabel(p))}</div></div></div>`;
       ctl.innerHTML=`<button class="icbtn" type="button" data-act="play" aria-label="Forgatás indítása vagy megállítása">${icon(st.auto?'pause':'play')}</button><button class="icbtn" type="button" data-act="reset" aria-label="Alaphelyzet">${icon('rot')}</button><button class="icbtn" type="button" data-act="fs" aria-label="Teljes képernyő">${icon('full')}</button>`;
-      hint.hidden=false; hint.innerHTML=`${icon('cube','ic','width:16px;height:16px')} ${p.kepek&&p.kepek.length?'Szemléltető 3D modell':'Szemléltető 3D modell · fotók hamarosan'}`;
+      hint.hidden=false; hint.innerHTML=`${icon('cube','ic','width:16px;height:16px')} ${innerWidth<=620||el.closest('.detail')?'Szemléltető modell':(p.kepek&&p.kepek.length?'Szemléltető 3D modell':'Szemléltető 3D modell · fotók hamarosan')}`;
       bar.hidden=true;
       const th=$('.three',view), world=$('.world',view), sc=$('.scale',view);
       const fit=()=>{ sc.style.transform=`scale(${Math.min(el.clientWidth/470, el.clientHeight/410)*st.zoom})`; };
@@ -902,6 +916,7 @@ function initStages(root=document){
 let lastT=0;
 function tick(t){ const dt=Math.min(50,t-lastT); lastT=t;
   for(const s of STAGES){ if(!document.body.contains(s.el)||s.mode==='photo'||!s.draw) continue;
+    const rr=s.el.getBoundingClientRect(); if(rr.bottom<0||rr.top>innerHeight) continue;
     if(s.drag) continue;
     if(Math.abs(s.vel)>.05){ s.ry+=s.vel*(s.mode==='spin'?.6:.5); s.vel*=.94; s.draw(); }
     else if(s.auto){ s.ry+=dt*(s.mode==='spin'?.03:.012); s.draw(); } }
@@ -962,62 +977,94 @@ function detailHTML(p){
   <div class="info2"><h2>${titleHTML(p)}</h2><p class="desc">${esc(p.alcim)}${p.alcim&&!/[.!?]$/.test(p.alcim)?'.':''}</p>
     ${(p.jellemzok||[]).length?`<ul class="checks">${p.jellemzok.slice(0,5).map(j=>`<li>${icon('checkc')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}
     <div class="dtabs" role="tablist">${TABS.map(([k,l,ic])=>`<button type="button" role="tab" data-dtab="${k}" class="${DTAB===k?'on':''}" aria-selected="${DTAB===k}">${icon(ic)}${l}</button>`).join('')}</div>
-    <div class="tabbody" id="tabbody" role="tabpanel">${tabContent(p,DTAB)}</div></div>
+    <div class="tabbody" data-tb role="tabpanel">${tabContent(p,DTAB)}</div></div>
   <aside class="pbox">
     <div style="display:grid;gap:6px">${price}</div>
-    <div class="row">${stockLine}<div class="qty"><button type="button" data-dq2="-1" aria-label="Kevesebb">−</button><input id="dqty" class="num" value="1" inputmode="numeric" aria-label="Mennyiség"><button type="button" data-dq2="1" aria-label="Több">+</button></div></div>
-    <div style="display:grid;gap:10px"><button class="btn gold" type="button" id="dadd" ${free<=0?'disabled':''}>${icon('cart')} ${a===0?'Elfogyott':(free<=0?'Mind a kosárban':'Kosárba')}</button>
-    <button class="btn line" type="button" id="dquote">${icon('mail')} Ajánlatkérés</button></div>
+    <div class="row">${stockLine}<div class="qty"><button type="button" data-dq2="-1" aria-label="Kevesebb">−</button><input class="num dqty" value="1" inputmode="numeric" aria-label="Mennyiség"><button type="button" data-dq2="1" aria-label="Több">+</button></div></div>
+    <div style="display:grid;gap:10px"><button class="btn gold dadd" type="button" ${free<=0?'disabled':''}>${icon('cart')} ${a===0?'Elfogyott':(free<=0?'Mind a kosárban':'Kosárba')}</button>
+    <button class="btn line dquote" type="button">${icon('mail')} Ajánlatkérés</button></div>
     <div class="extra"><span>${icon('truck')}Gyors kiszállítás</span>${p.kategoria==='penztargep'||p.kategoria==='pos'?`<span>${icon('wrench')}Üzembe helyezés kérhető</span>`:`<span>${icon('pin')}Átvehető Pécsen</span>`}<a class="full" href="#t-${esc(p.id)}">Teljes termékadatlap ${icon('chev','ic','width:14px;height:14px')}</a></div>
   </aside>
   <div class="macc">${TABS.map(([k,l,ic])=>`<details><summary>${icon(ic)}${k==='letoltes'?'Letölthető dokumentumok':l}</summary><div class="tabbody">${tabContent(p,k)}</div></details>`).join('')}<a class="btn line block" href="#t-${esc(p.id)}" style="margin-top:14px">Teljes termékadatlap ${icon('chev')}</a></div>`;
 }
+/* Termékkínálat: minden termékcsoport egy oldalon, egymás alatt, elválasztva.
+   Fent rögzített csoportválasztó sáv: kattintásra a csoporthoz ugrik, görgetéskor jelzi, hol tartunk. */
+const SORTS=[['nev','Név szerint'],['ajanlott','Ajánlott'],['olcso','Ár szerint növekvő'],['draga','Ár szerint csökkenő'],['keszlet','Fogyó készlet elöl']];
+const pickSel=(items,selId)=>items.find(p=>p.id===selId)||items.find(p=>p.kiemelt)||items[0];
+function catSection(c, selId, first){
+  const items=catItems(c.id); if(!items.length) return '';
+  const sel=pickSel(items,selId);
+  return `<section class="catsec" id="sec-${esc(c.id)}" data-cat="${esc(c.id)}" aria-label="${esc(c.nev)}">
+    <div class="trow"><h2>${icon(c.ikon)}${esc(c.listaCim||c.nev)} <small class="num">(${items.length} termék)</small></h2>${first?`<label class="sort">Rendezés: <select class="i" id="csort">${SORTS.map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label>`:''}</div>
+    <div class="carwrap"><button class="cararrow l" type="button" aria-label="Előző termékek">${icon('left','ic','width:16px;height:16px')}</button><div class="pcards">${items.map((p,i)=>pcardHTML(p,p===sel,i)).join('')}</div><button class="cararrow r" type="button" aria-label="Következő termékek">${icon('chev','ic','width:16px;height:16px')}</button><div class="carnav"></div></div>
+    <div class="detail" id="detail-${esc(c.id)}" aria-label="Kiválasztott termék: ${esc(c.nev)}">${detailHTML(sel)}</div>
+  </section>`;
+}
 function pageCategory(catId, selId){
-  const c=catId?cat(catId):null, items=catItems(catId);
-  const sel = items.find(p=>p.id===selId) || items.find(p=>p.kiemelt) || items[0];
-  const b=c?.banner||{cim1:'Termék',cim2:'kínálatunk',szoveg:'Pénztárgépek, POS rendszerek, mérlegek, árazógépek és kellékanyagok – helyi szervizzel.'};
+  const c=catId?cat(catId):cat('penztargep');
+  const b=c?.banner||{cim1:'Termék',cim2:'kínálatunk',szoveg:''};
   const bimg = b.kep ? `<img class="bimg" src="${esc(b.kep)}" alt="">` : `<div class="bimg icon">${icon(c?.ikon||'register','ic','width:150px;height:150px;stroke-width:1.1')}</div>`;
+  const cats=DB.categories.filter(x=>catItems(x.id).length);
   return `<section class="banner"><div class="wrap"><div class="bt"><div><h1>${esc(b.cim1)} <em>${esc(b.cim2)}</em></h1><p>${esc(b.szoveg)}</p></div></div>${bimg}
     <ul><li>${SVG('shield')}Hivatalos forgalmazó</li><li>${SVG('tools')}Szerviz és támogatás</li><li>${GEAR}Üzembe helyezés</li></ul></div></section>
+  <nav class="catbar" id="catbar" aria-label="Termékcsoportok"><div class="wrap"><div class="cb-in">${cats.map(x=>`<a class="cbi" href="#kat-${esc(x.id)}" data-cbi="${esc(x.id)}">${icon(x.ikon)}<span>${esc(x.nev)}</span><small class="num">${catItems(x.id).length}</small></a>`).join('')}</div></div></nav>
   <div class="wrap">
-    <nav class="crumbs2" aria-label="Útvonal"><a href="../">Kezdőlap</a><span class="sep">›</span><a href="#termekek">Termékek</a>${c?`<span class="sep">›</span><span>${esc(c.nev)}</span>`:''}</nav>
-    <a class="back" href="${c?'#termekek':'../'}">${icon('left','ic','width:16px;height:16px')}${c?'Összes termék':'Kezdőlap'}</a>
-    <div class="trow"><h2>${icon(c?.ikon||'grid')}${esc(c?.listaCim||'Termékeink')} <small class="num">(${items.length} termék)</small></h2>
-      <label class="sort">Rendezés: <select class="i" id="csort">${[['nev','Név szerint'],['ajanlott','Ajánlott'],['olcso','Ár szerint növekvő'],['draga','Ár szerint csökkenő'],['keszlet','Fogyó készlet elöl']].map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label></div>
-    ${items.length?`<div class="carwrap"><button class="cararrow l" type="button" aria-label="Előző termékek">${icon('left','ic','width:16px;height:16px')}</button><div class="pcards" id="pcards">${items.map((p,i)=>pcardHTML(p,p===sel,i)).join('')}</div><button class="cararrow r" type="button" aria-label="Következő termékek">${icon('chev','ic','width:16px;height:16px')}</button><div class="carnav" id="carnav"></div></div>
-    <section class="detail" id="detail" aria-label="Kiválasztott termék">${detailHTML(sel)}</section>`:`<div class="empty">${icon('search','ic','width:40px;height:40px;color:var(--gold-d)')}<b>Ebben a kategóriában most nincs termék.</b><p class="muted">Hívjon minket, rendelésre beszerezzük.</p></div>`}
+    <nav class="crumbs2" aria-label="Útvonal"><a href="../">Kezdőlap</a><span class="sep">›</span><a href="#termekek">Termékkínálat</a><span class="sep">›</span><span id="crumbcat">${esc(c?.nev||'')}</span></nav>
+    ${cats.map((x,i)=>catSection(x, x.id===catId?selId:null, i===0)).join('')}
   </div>`;
 }
 let CURSEL=null;
-function bindDetail(p){
-  if(!p) return; CURSEL=p.id; markSeen(p.id);
-  const q=$('#dqty'), max=()=>Math.max(1,Math.min(99,avail(p)-inCart(p.id)));
-  const upd=()=>{ q.value=Math.max(1,Math.min(max(),parseInt(q.value)||1)); $('[data-dq2="1"]').disabled=+q.value>=max(); $('[data-dq2="-1"]').disabled=+q.value<=1; };
-  $$('[data-dq2]').forEach(b=>b.onclick=()=>{ q.value=(parseInt(q.value)||1)+(+b.dataset.dq2); upd(); }); q.onchange=upd; upd();
-  $('#dadd').onclick=()=>addCart(p.id,+q.value);
-  $('#dquote').onclick=()=>openQuote(p);
-  $$('[data-dtab]').forEach(b=>b.onclick=()=>{ DTAB=b.dataset.dtab; $$('[data-dtab]').forEach(x=>{ x.classList.toggle('on',x===b); x.setAttribute('aria-selected',x===b); }); $('#tabbody').innerHTML=tabContent(p,DTAB); });
+function bindDetail(p, root){
+  if(!p||!root) return; CURSEL=p.id;
+  const q=$('.dqty',root), plus=$('[data-dq2="1"]',root), minus=$('[data-dq2="-1"]',root), max=()=>Math.max(1,Math.min(99,avail(p)-inCart(p.id)));
+  const upd=()=>{ q.value=Math.max(1,Math.min(max(),parseInt(q.value)||1)); plus.disabled=+q.value>=max(); minus.disabled=+q.value<=1; };
+  $$('[data-dq2]',root).forEach(b=>b.onclick=()=>{ q.value=(parseInt(q.value)||1)+(+b.dataset.dq2); upd(); }); q.onchange=upd; upd();
+  $('.dadd',root).onclick=()=>addCart(p.id,+q.value);
+  $('.dquote',root).onclick=()=>openQuote(p);
+  $$('[data-dtab]',root).forEach(b=>b.onclick=()=>{ DTAB=b.dataset.dtab; $$('[data-dtab]',root).forEach(x=>{ x.classList.toggle('on',x===b); x.setAttribute('aria-selected',x===b); }); $('[data-tb]',root).innerHTML=tabContent(p,DTAB); });
 }
 function selectProduct(catId,id,scroll=true){
-  const p=prod(id); if(!p) return;
-  $$('.pcard').forEach(c=>{ const on=c.dataset.pick===id; c.classList.toggle('sel',on); const b=$('.pbtn',c); b.classList.toggle('gold',on); b.classList.toggle('line',!on); });
-  const d=$('#detail'); STAGES.length=0; d.innerHTML=detailHTML(p); initStages(d); bindForms(d); bindDetail(p);
+  const p=prod(id); if(!p) return; const sec=$('#sec-'+p.kategoria); if(!sec) return;
+  $$('.pcard',sec).forEach(c=>{ const on=c.dataset.pick===id; c.classList.toggle('sel',on); const b=$('.pbtn',c); b.classList.toggle('gold',on); b.classList.toggle('line',!on); });
+  const d=$('.detail',sec); d.innerHTML=detailHTML(p);
+  for(let i=STAGES.length-1;i>=0;i--) if(!document.body.contains(STAGES[i].el)) STAGES.splice(i,1);
+  initStages(d); bindForms(d); bindDetail(p,d); markSeen(p.id);
   if(scroll) d.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
 }
+let SPY=null;
+function setActiveCat(id){
+  $$('.cbi').forEach(a=>{ const on=a.dataset.cbi===id; a.classList.toggle('on',on); if(on){ const bar=$('.cb-in'); if(bar) bar.scrollTo({left:a.offsetLeft-bar.clientWidth/2+a.offsetWidth/2,behavior:reduce?'auto':'smooth'}); } });
+  $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===id||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(id))));
+  const c=cat(id); if(c&&$('#crumbcat')) $('#crumbcat').textContent=c.nev;
+}
+function goCat(id, smooth=true){
+  const sec=$('#sec-'+id); if(!sec) return;
+  const off=($('#catbar')?.offsetHeight||0)+(innerWidth<=900?66:58)+8;
+  scrollTo({top:sec.getBoundingClientRect().top+scrollY-off,behavior:smooth&&!reduce?'smooth':'auto'});
+  setActiveCat(id);
+}
 function bindCategory(catId, selId){
-  const items=catItems(catId), sel=items.find(p=>p.id===selId)||items.find(p=>p.kiemelt)||items[0];
-  bindDetail(sel);
-  $('#csort')?.addEventListener('change',e=>{ F.sort=e.target.value; LS.set('ptg-sort',F.sort); const y=scrollY; route(); scrollTo(0,y); });
-  $$('.pcard').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('a')) return; location.hash=`#kat-${prod(c.dataset.pick).kategoria}/${c.dataset.pick}`; }));
-  const pc=$('#pcards'), nav=$('#carnav');
-  if(pc&&nav){
+  $$('.catsec').forEach(sec=>{
+    const id=sec.dataset.cat, items=catItems(id), sel=pickSel(items,id===catId?selId:null);
+    bindDetail(sel,$('.detail',sec));
+    const pc=$('.pcards',sec), nav=$('.carnav',sec);
     const pages=()=>Math.max(1,Math.ceil(pc.scrollWidth/pc.clientWidth-0.05));
     const draw=()=>{ const n=pages(), i=Math.round(pc.scrollLeft/Math.max(1,pc.scrollWidth-pc.clientWidth)*(n-1))||0; nav.innerHTML=n>1?Array.from({length:n},(_,k)=>`<i class="${k===i?'on':''}"></i>`).join(''):''; };
     pc.addEventListener('scroll',()=>requestAnimationFrame(draw),{passive:true}); draw();
-    $('.cararrow.l')?.addEventListener('click',()=>pc.scrollBy({left:-pc.clientWidth,behavior:'smooth'}));
-    $('.cararrow.r')?.addEventListener('click',()=>pc.scrollBy({left:pc.clientWidth,behavior:'smooth'}));
+    $('.cararrow.l',sec).onclick=()=>pc.scrollBy({left:-pc.clientWidth,behavior:'smooth'});
+    $('.cararrow.r',sec).onclick=()=>pc.scrollBy({left:pc.clientWidth,behavior:'smooth'});
     const cs=$$('.pcard',pc), si=cs.findIndex(c=>c.classList.contains('sel')); if(si>0&&pc.scrollWidth>pc.clientWidth){ const per=Math.max(1,Math.round(pc.clientWidth/cs[0].offsetWidth)); pc.scrollLeft=cs[Math.floor(si/per)*per].offsetLeft-cs[0].offsetLeft; }
-  }
+  });
+  $('#csort')?.addEventListener('change',e=>{ F.sort=e.target.value; LS.set('ptg-sort',F.sort); const y=scrollY; route(); scrollTo(0,y); });
+  $$('.pcard').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('a')) return; location.hash=`#kat-${prod(c.dataset.pick).kategoria}/${c.dataset.pick}`; }));
+  $$('.cbi').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#kat-'+a.dataset.cbi); goCat(a.dataset.cbi); }));
+  // görgetéskor: melyik csoportnál tartunk
+  SPY?.disconnect();
+  SPY=new IntersectionObserver(ens=>{ const vis=ens.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top); if(!vis.length) return;
+    const id=vis[0].target.dataset.cat; if($('.cbi.on')?.dataset.cbi!==id){ setActiveCat(id); if(!location.hash.includes('/')||!location.hash.startsWith('#kat-'+id)) history.replaceState(null,'','#kat-'+id); } },{rootMargin:'-35% 0px -60% 0px'});
+  $$('.catsec').forEach(sec=>SPY.observe(sec));
+  const first=catId||$('.catsec')?.dataset.cat; if(first) setActiveCat(first);
+  if(catId && catId!==$('.catsec')?.dataset.cat || selId) requestAnimationFrame(()=>{ if(selId) $('#detail-'+catId)?.scrollIntoView({block:'start'}); else goCat(catId,false); });
 }
 function openQuote(p){
   const m=$('#modal'), box=$('.box',m);
@@ -1498,8 +1545,8 @@ async function route(){
   let html, after=()=>{}, nav='';
   const shop=h==='termekek'||h.startsWith('kat-');
   if(shop){ const [cpart,sid]=h.split('/'); const id=cpart.startsWith('kat-')&&cat(cpart.slice(4))?cpart.slice(4):'';
-    if(app.dataset.view==='cat:'+id && sid && $('#detail')){ selectProduct(id,sid); return; }
-    app.dataset.view='cat:'+id; html=pageCategory(id,sid); after=()=>bindCategory(id,sid); nav=id; }
+    if(app.dataset.view==='all' && $('#sec-'+(id||'x'))){ if(sid) selectProduct(id,sid); else goCat(id); return; }
+    app.dataset.view='all'; html=pageCategory(id,sid); after=()=>bindCategory(id,sid); nav=id; }
   else if(h.startsWith('t-')){ html=pageProduct(h.slice(2)); after=()=>bindProduct(h.slice(2)); nav='termekek'; }
   else if(h==='kosar'){ html=pageCart(); after=()=>bindCategory('penztargep'); nav='penztargep'; }
   else if(h==='penztar') html=pageCheckout();
@@ -1510,11 +1557,11 @@ async function route(){
   else if(h==='vasarlas') html=pageBuyInfo();
   else if(h==='kapcsolat'){ html=pageContact(); nav='kapcsolat'; }
   else if(h==='admin'){ html=await pageAdmin(); after=bindAdmin; }
-  else { html=pageCategory(''); after=()=>bindCategory(''); }
-  if(!shop) app.dataset.view='';
+  else { app.dataset.view='all'; html=pageCategory(''); after=()=>bindCategory(''); }
+  if(!shop && h!=='kosar') app.dataset.view='';
   app.innerHTML=html; afterRender(); after();
   $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(nav))));
-  closeMenus(); if(!document.fullscreenElement){ if(shop&&h.includes('/')&&$('#detail')&&innerWidth<=900) $('#detail').scrollIntoView(); else scrollTo(0,0); } renderCmpBar();
+  closeMenus(); if(!document.fullscreenElement && !(shop && h.startsWith('kat-'))) scrollTo(0,0); renderCmpBar();
   const p=h.startsWith('t-')&&prod(h.slice(2))||(h.includes('/')&&prod(h.split('/')[1]));
   document.title=p?`${fullName(p)} · Totál Pénztárgép Pécs`:(h==='admin'?'Admin · Totál Pénztárgép Pécs':'Webáruház · Totál Pénztárgép Pécs');
 }

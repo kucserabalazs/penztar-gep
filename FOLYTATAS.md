@@ -51,6 +51,11 @@
 - Levélküldés a tárhely mail() függvényével, feladó noreply@penztar-gep.hu. Fejlesztői teszt: PTG_MAIL_LOG környezeti változóval fájlba ír.
 - Előnézetben (GitHub Pages / artifact) a szerver nélkül a böngésző szimulálja a folyamatot, és kiírja a kódot.
 
+## Termékkínálat egy oldalon (2026-10-31)
+- A webáruházban minden termékcsoport egymás alatt, elválasztva jelenik meg (címsor, kártyasor, saját kiemelt termék panel).
+- Rögzített csoportválasztó sáv a menü alatt: kattintásra a csoporthoz ugrik, görgetéskor kiemeli az aktuálisat (és a felső menüben is). Nem kell visszalépni.
+- `#kat-<csoport>` a csoporthoz görget, `#kat-<csoport>/<termék>` kiválasztja a terméket az adott csoport panelében.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).
