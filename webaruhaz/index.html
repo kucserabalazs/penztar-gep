@@ -789,6 +789,14 @@ input,select,textarea{box-shadow:inset 0 2px 5px rgba(12,26,51,.08),0 1px 0 #fff
 .ci .th{box-shadow:inset 0 0 0 1px rgba(183,131,46,.25),0 4px 10px rgba(12,26,51,.1)}
 /* --- szolgáltatássáv és lábléc --- */
 footer.slim{background:linear-gradient(180deg,#f7f3ea,#efe6d4)!important;box-shadow:inset 0 2px 0 #d6a64e,inset 0 3px 0 #f6dc9a}
+
+/* feliratok: soha ne vágódjanak le */
+.btn svg,.cbi svg{flex-shrink:0}
+.pcard h3{word-break:break-word;letter-spacing:-.015em}
+@media (min-width:901px){.pcard h3{font-size:.84rem}}
+@media (max-width:900px){.pcard h3{font-size:.7rem}}
+.pcard h3{padding-inline:3px;margin-inline:-3px}
+@media (max-width:900px){.detail{border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}.pcard h3{padding-bottom:2px}}
 </style>
 </head>
 <body>

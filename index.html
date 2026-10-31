@@ -598,6 +598,16 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .fbrand img{filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
 .fopen{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,rgba(18,59,97,.8),rgba(4,17,42,.8)) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 6px 14px rgba(0,0,0,.35)}
 .mbar{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,243,234,.96))!important;box-shadow:0 -1px 0 rgba(183,131,46,.4),0 -10px 30px rgba(12,26,51,.18)!important}
+
+/* gombfeliratok: soha ne vágódjanak le */
+.hb,.btn{max-width:100%}
+.hb svg,.btn svg,.pill svg,.admbtn svg{flex-shrink:0}
+@media (max-width:640px){
+  .btns{flex-wrap:wrap}
+  .btns .hb{flex:1 1 auto;min-width:max-content;padding:0 18px}
+  .cta .btn{max-width:100%}
+}
+.admbtn{flex-shrink:0}
 </style>
 </head>
 <body>
