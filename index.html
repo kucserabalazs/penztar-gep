@@ -210,6 +210,8 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .fp .pr small{font-family:var(--fb);font-weight:500;font-size:.75rem;color:var(--muted)}
 .fp .st{font-size:.8rem;font-weight:700;color:#17804a}
 .fp .st.low{color:#b06a00}.fp .st.last{color:#c0352b}
+.ul-m{display:none}
+@media (max-width:900px){.ulast,.ul-d{display:none!important}.ul-m{display:inline}.fp .st.last{color:#17804a}}
 /* számok */
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
 .stat{background:linear-gradient(135deg,#082746,#123b61);color:#fff;border-radius:18px;padding:24px;position:relative;overflow:hidden}
@@ -563,8 +565,8 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
     var list=d.products.filter(function(p){return !p.rejtett && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
     if(list.length<2) return;
     document.getElementById('featlist').innerHTML=list.map(function(p){ var a=p.keszletDb, pr=p.akciosAr||p.ar, img=p.kepek[0]; if(!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
-      var st=a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last">Utolsó darab</span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>'));
-      return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(a===1?'<span class="tg">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="'+esc(p.marka+' '+p.nev)+'" loading="lazy"></span><span class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</span></a>'; }).join('');
+      var st=a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last"><span class="ul-d">Utolsó darab</span><span class="ul-m">Raktáron · 1 db</span></span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>'));
+      return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="'+esc(p.marka+' '+p.nev)+'" loading="lazy"></span><span class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</span></a>'; }).join('');
     document.getElementById('kiemelt').hidden=false; observe();
   }
   function get(u){ return fetch(u,{credentials:'same-origin'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }); }

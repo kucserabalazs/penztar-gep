@@ -31,6 +31,8 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+.ul-m{display:none}
+@media (max-width:900px){.ulast,.ul-d{display:none!important}.ul-m{display:inline}.stock.s-last{color:var(--ok)}.stock.s-last .dots i.on{background:var(--ok)}}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:90;background:var(--n0)}
@@ -838,7 +840,7 @@ function stockHTML(p, long=false){
   if(a===Infinity) return `<span class="stock s-order">${icon('truck','ic','width:16px;height:16px')}Rendelésre${long?', kérjen időpontot':''}</span>`;
   if(a===0) return `<span class="stock s-out">Elfogyott${long?' – érdeklődjön, mikor érkezik újra':''}</span>`;
   const cls=a===1?'s-last':(a<=3?'s-low':'s-ok'), dots=Math.min(a,5);
-  const txt=a===1?'Utolsó darab!':(a<=3?`Csak ${a} db raktáron`:`Raktáron · ${a} db`);
+  const txt=a===1?'<span class="ul-d">Utolsó darab!</span><span class="ul-m">Raktáron · 1 db</span>':(a<=3?`Csak ${a} db raktáron`:`Raktáron · ${a} db`);
   return `<span class="stock ${cls}"><span class="dots">${Array.from({length:5},(_,i)=>`<i class="${i<dots?'on':''}"></i>`).join('')}</span>${txt}</span>`;
 }
 
@@ -999,7 +1001,7 @@ const titleHTML = p => { const c=cat(p.kategoria); const suf = p.kategoria==='pe
 function pcardHTML(p, sel, i=0){
   const ph=(p.kepek||[])[0], a=avail(p), href=`#kat-${esc(p.kategoria)}/${esc(p.id)}`;
   return `<article class="pcard reveal ${sel?'sel':''}" data-pick="${esc(p.id)}" style="animation-delay:${Math.min(i,10)*40}ms">
-    ${a===1?'<span class="tag red ptag">Utolsó db</span>':(a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':''))}
+    ${a===1?'<span class="tag red ptag ulast">Utolsó db</span>':(a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':''))}
     <a class="pimg" href="${href}" aria-label="${esc(fullName(p))}">${ph?`<img src="${esc(ph)}" alt="${esc(fullName(p))}" loading="lazy">`:miniModel(p)}</a>
     <h3>${esc(nb(fullName(p).replace(/^Sam4s/,'SAM4S')))}</h3><p>${esc(p.alcim)}</p>
     <a class="btn sm pbtn ${sel?'gold':'line'}" href="${href}">Részletek ${icon('chev','ic','width:14px;height:14px')}</a></article>`;
@@ -1020,7 +1022,7 @@ function detailHTML(p){
   const a=avail(p), free=a-inCart(p.id);
   const price = p.ar==null||p.ar==='' ? `<div class="pr"><span class="lbl">Ár:</span><span class="big">Ár kérésre</span></div><span class="net">Kérjen ajánlatot, rövid időn belül válaszolunk.</span>`
     : `<div class="pr"><span class="lbl">Bruttó ár:</span><span class="big num">${ft(gross(now(p)))}${p.arTol?'-tól':''}</span></div>${p.akciosAr?`<span class="old num">Eredeti bruttó ár: ${ft(gross(p.ar))}</span>`:''}<span class="net num">Nettó ár: ${ft(now(p))}</span>`;
-  const stockLine = a===Infinity?`<span class="stock s-order">${icon('truck','ic','width:16px;height:16px')}Rendelésre</span>`: a===0?'<span class="stock s-out">Elfogyott</span>':`<span class="stock ${a===1?'s-last':'s-ok'}">${icon('check','ic','width:16px;height:16px;stroke-width:3')}${a===1?'Raktáron – utolsó darab':`Raktáron – ${a} db`}</span>`;
+  const stockLine = a===Infinity?`<span class="stock s-order">${icon('truck','ic','width:16px;height:16px')}Rendelésre</span>`: a===0?'<span class="stock s-out">Elfogyott</span>':`<span class="stock ${a===1?'s-last':'s-ok'}">${icon('check','ic','width:16px;height:16px;stroke-width:3')}${a===1?'Raktáron – <span class="ul-d">utolsó darab</span><span class="ul-m">1 db</span>':`Raktáron – ${a} db`}</span>`;
   return `<h2 class="mtitle">${titleHTML(p)}</h2>
   <div class="gal">${p.kiemelt?'<span class="ribbon">Kiemelt termék</span>':''}${stageHTML(p)}</div>
   <div class="info2"><h2>${titleHTML(p)}</h2><p class="desc">${esc(p.alcim)}${p.alcim&&!/[.!?]$/.test(p.alcim)?'.':''}</p>
