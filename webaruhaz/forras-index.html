@@ -297,7 +297,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .dtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:16px}
 .dtabs button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-weight:600;font-size:.8rem;cursor:pointer;color:var(--ink);text-align:center;line-height:1.15}
 .dtabs button svg{width:17px;height:17px;flex-shrink:0}
-@media (max-width:1760px){.dtabs button svg{display:none}.dtabs button{font-size:.78rem}}
+.dtabs button svg{display:none}.dtabs button{font-size:.8rem}
 .dtabs button.on{background:var(--n2);border-color:var(--n2);color:#fff}
 .tabbody{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:14px 16px;font-size:.92rem;line-height:1.6;color:#46586c;margin-top:-1px;min-height:110px}
 .tabbody .spec th,.tabbody .spec td{padding:8px 12px;font-size:.86rem}
@@ -701,6 +701,22 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
 .catsec + .catsec{border-top:2px dashed #cbd3dc}
 .catsec + .catsec::before{top:-9px;width:64px;height:16px;border-radius:0;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
 .pcard{background:linear-gradient(180deg,#fff,#fff 70%,#fbfaf6)}
+
+/* asztali nézet: nagyobb kiválasztott termék */
+@media (min-width:1500px){.wrap{max-width:1640px}}
+@media (min-width:1101px){
+  .detail{grid-template-columns:minmax(0,1.8fr) minmax(0,1.1fr) 240px;gap:28px;padding:24px;border-radius:20px}
+  .detail .stage{aspect-ratio:4/3;border-radius:16px}
+  .detail .stage .photo img,.detail .stage .spin img{padding:1.5%}
+  .detail .thumbs{gap:10px;margin-top:14px}
+  .detail .thumbs button{width:96px;height:74px}
+  .detail .info2 h2{font-size:clamp(1.8rem,2.4vw,2.35rem)}
+  .detail .info2 .desc{font-size:1.08rem}
+  .detail .info2{font-size:1.05rem}
+  .detail .pbox{padding:16px 16px 14px;gap:9px}
+  .detail .pbox .big{font-size:1.85rem;padding:8px 10px 4px}
+  .detail .pbox .btn{min-height:46px;font-size:.95rem}
+}
 </style>
 </head>
 <body>
