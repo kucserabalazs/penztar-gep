@@ -935,7 +935,12 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/euro-150-flexy-1.webp",
+    "kepek/termekek/euro-150-flexy-2.webp",
+    "kepek/termekek/euro-150-flexy-3.webp",
+    "kepek/termekek/euro-150-flexy-4.webp"
+   ],
    "id": "euro-150-flexy",
    "kategoria": "penztargep",
    "marka": "Elcom",
@@ -1022,7 +1027,12 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/montel-jota-h-1.webp",
+    "kepek/termekek/montel-jota-h-2.webp",
+    "kepek/termekek/montel-jota-h-3.webp",
+    "kepek/termekek/montel-jota-h-4.webp"
+   ],
    "id": "montel-jota-h",
    "kategoria": "penztargep",
    "marka": "Montel",
@@ -1105,7 +1115,12 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/montel-mini-h-1.webp",
+    "kepek/termekek/montel-mini-h-2.webp",
+    "kepek/termekek/montel-mini-h-3.webp",
+    "kepek/termekek/montel-mini-h-4.webp"
+   ],
    "id": "montel-mini-h",
    "kategoria": "penztargep",
    "marka": "Montel",
@@ -1179,7 +1194,12 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cashcube-light-1.webp",
+    "kepek/termekek/cashcube-light-2.webp",
+    "kepek/termekek/cashcube-light-3.webp",
+    "kepek/termekek/cashcube-light-4.webp"
+   ],
    "id": "cashcube-light",
    "kategoria": "penztargep",
    "marka": "CashCube",
@@ -1249,7 +1269,11 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cashcube-mini-1.webp",
+    "kepek/termekek/cashcube-mini-2.webp",
+    "kepek/termekek/cashcube-mini-3.webp"
+   ],
    "id": "cashcube-mini",
    "kategoria": "penztargep",
    "marka": "CashCube",
@@ -1456,7 +1480,10 @@
     "Soros, párhuzamos, USB",
     "Hőnyomtatós kivitel"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/blokknyomtato-1.webp",
+    "kepek/termekek/blokknyomtato-2.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
    "specs": [],
@@ -1972,7 +1999,12 @@
    "ar": null,
    "keszletDb": null,
    "keszlet": "rendelesre",
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/pris-ep210-1.webp",
+    "kepek/termekek/pris-ep210-2.webp",
+    "kepek/termekek/pris-ep210-3.webp",
+    "kepek/termekek/pris-ep210-4.webp"
+   ],
    "id": "pris-ep210",
    "kategoria": "merleg",
    "marka": "Pris",
@@ -2178,7 +2210,10 @@
     "Telepítés, beállítás",
     "Helyi garancia"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/szamitogep-1.webp",
+    "kepek/termekek/szamitogep-2.webp"
+   ],
    "spin": [],
    "keszletDb": null,
    "specs": [],
@@ -2204,7 +2239,10 @@
     "Telepítés",
     "Hálózatba kötés"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/nyomtato-iroda-1.webp",
+    "kepek/termekek/nyomtato-iroda-2.webp"
+   ],
    "spin": [],
    "keszletDb": null,
    "specs": [],
