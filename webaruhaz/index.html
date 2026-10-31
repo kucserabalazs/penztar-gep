@@ -717,6 +717,20 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
   .detail .pbox .big{font-size:1.85rem;padding:8px 10px 4px}
   .detail .pbox .btn{min-height:46px;font-size:.95rem}
 }
+
+/* ===== térhatású gombok ===== */
+.btn.gold, .btn.navy, .btn.line{position:relative;isolation:isolate;transition:transform .12s ease,box-shadow .12s ease,filter .15s}
+.btn.gold::before, .btn.navy::before, .btn.line::before{content:"";position:absolute;left:2px;right:2px;top:2px;height:48%;border-radius:inherit;border-bottom-left-radius:40% 30%;border-bottom-right-radius:40% 30%;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.06));pointer-events:none;z-index:-1}
+.btn.gold{box-shadow:0 4px 0 #9c6f22,0 9px 16px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.gold:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #9c6f22,0 12px 20px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.gold:active{transform:translateY(3px);box-shadow:0 1px 0 #9c6f22,0 3px 6px rgba(183,131,46,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.btn.navy{box-shadow:0 4px 0 #03152a,0 9px 16px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.navy:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #03152a,0 12px 20px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.navy:active{transform:translateY(3px);box-shadow:0 1px 0 #03152a,0 3px 6px rgba(8,39,70,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.btn.line{box-shadow:0 4px 0 #c3ccd6,0 9px 16px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.line:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #c3ccd6,0 12px 20px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.line:active{transform:translateY(3px);box-shadow:0 1px 0 #c3ccd6,0 3px 6px rgba(24,46,72,.14),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.btn.navy{background:linear-gradient(180deg,#123b61,#082746)}
 </style>
 </head>
 <body>

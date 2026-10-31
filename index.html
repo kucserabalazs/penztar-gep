@@ -447,6 +447,32 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .key{min-width:0;flex:1 1 calc(33% - 12px);height:52px;padding:0 8px;font-size:.92rem}.key.wide{flex-basis:100%}
   .step:nth-child(n){transform:none}
 }
+
+/* ===== térhatású gombok ===== */
+.btn.gold, .btn.dark, .hb.gold, .hb.navy, .hb.line, .admbtn, .mburger{position:relative;isolation:isolate;transition:transform .12s ease,box-shadow .12s ease,filter .15s}
+.btn.gold::before, .btn.dark::before, .hb.gold::before, .hb.navy::before, .hb.line::before, .admbtn::before, .mburger::before{content:"";position:absolute;left:2px;right:2px;top:2px;height:48%;border-radius:inherit;border-bottom-left-radius:40% 30%;border-bottom-right-radius:40% 30%;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.06));pointer-events:none;z-index:-1}
+.btn.gold{box-shadow:0 4px 0 #9c6f22,0 9px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.gold:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #9c6f22,0 12px 20px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.gold:active{transform:translateY(3px);box-shadow:0 1px 0 #9c6f22,0 3px 6px rgba(0,0,0,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.btn.dark{box-shadow:0 4px 0 #02091a,0 9px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.dark:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #02091a,0 12px 20px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.btn.dark:active{transform:translateY(3px);box-shadow:0 1px 0 #02091a,0 3px 6px rgba(0,0,0,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.hb.gold{box-shadow:0 4px 0 #a8782a,0 9px 16px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.gold:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #a8782a,0 12px 20px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.gold:active{transform:translateY(3px);box-shadow:0 1px 0 #a8782a,0 3px 6px rgba(183,131,46,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.hb.navy{box-shadow:0 4px 0 #03152a,0 9px 16px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.navy:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #03152a,0 12px 20px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.navy:active{transform:translateY(3px);box-shadow:0 1px 0 #03152a,0 3px 6px rgba(8,39,70,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.hb.line{box-shadow:0 4px 0 #c3ccd6,0 9px 16px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.line:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #c3ccd6,0 12px 20px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.hb.line:active{transform:translateY(3px);box-shadow:0 1px 0 #c3ccd6,0 3px 6px rgba(24,46,72,.14),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.admbtn{box-shadow:0 4px 0 #02091a,0 9px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.admbtn:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #02091a,0 12px 20px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.admbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #02091a,0 3px 6px rgba(0,0,0,.3),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.mburger{box-shadow:0 4px 0 #02091a,0 9px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.mburger:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #02091a,0 12px 20px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
+.mburger:active{transform:translateY(3px);box-shadow:0 1px 0 #02091a,0 3px 6px rgba(0,0,0,.3),inset 0 2px 4px rgba(0,0,0,.2)!important}
+.btn.dark{background:linear-gradient(180deg,rgba(18,59,97,.9),rgba(4,17,42,.9))}
 </style>
 </head>
 <body>
