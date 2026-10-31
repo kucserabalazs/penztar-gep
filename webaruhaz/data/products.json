@@ -206,36 +206,56 @@
    "keszletDb": 2,
    "specs": [
     [
+     "NAV engedélyszám",
+     "A315"
+    ],
+    [
      "Adóügyi egység",
      "4G-s AEE"
     ],
     [
      "Nyomtató",
-     "80 mm-es (57 mm-es papírral is működik)"
+     "közvetlen hőnyomtató, 80 mm-es (57,5 mm-es papírral is működik)"
     ],
     [
-     "Kapcsolat",
-     "Windows, Android és iOS rendszerekhez"
+     "Árucikkek (PLU)",
+     "akár 1 200"
+    ],
+    [
+     "Gyűjtők",
+     "8"
+    ],
+    [
+     "Eladók",
+     "30"
     ],
     [
      "Fizetőeszközök",
      "20 féle"
     ],
     [
-     "Kivitel",
-     "fehér vagy fekete"
+     "Kapcsolat",
+     "USB, RS232, PC; Windows, Android és iOS rendszerekhez"
+    ],
+    [
+     "Bizonylat",
+     "nyugta és számla"
     ],
     [
      "Kasszafiók",
      "opcionális"
     ],
     [
-     "NAV engedélyszám",
-     "A315"
+     "Kivitel",
+     "fehér vagy fekete"
     ],
     [
-     "Bizonylat",
-     "nyugta és számla"
+     "Méret",
+     "kb. 285 × 215 × 125 mm"
+    ],
+    [
+     "Tömeg",
+     "kb. 1,4 kg"
     ]
    ],
    "letoltesek": [],
@@ -270,40 +290,56 @@
    "keszletDb": 2,
    "specs": [
     [
+     "NAV engedélyszám",
+     "A315"
+    ],
+    [
      "Tápellátás",
      "hálózati, akkumulátor nélkül"
     ],
     [
-     "Kijelző",
-     "kétsoros alfanumerikus, elöl és hátul"
+     "Nyomtató",
+     "közvetlen hőnyomtató, 57,5 mm, dobd bele és nyomtass"
     ],
     [
-     "Nyomtató",
-     "57 mm-es, dobd bele és nyomtass funkcióval"
+     "Billentyűzet",
+     "35 gomb"
+    ],
+    [
+     "Kijelző",
+     "16 × 2 karakteres kezelői és vevőkijelző"
+    ],
+    [
+     "Árucikkek (PLU)",
+     "1 000 (bővíthető 8 000-ig)"
+    ],
+    [
+     "Csoportok",
+     "20 (bővíthető 99-ig)"
+    ],
+    [
+     "Kezelők",
+     "10 (bővíthető 99-ig)"
+    ],
+    [
+     "Csatlakozók",
+     "2 × RS-232C, USB host/device, 10/100 Ethernet, 24 V kasszafiók-kimenet"
+    ],
+    [
+     "Elektronikus napló",
+     "SD-kártyán"
     ],
     [
      "Euró",
      "eurós kerekítés szoftverrel"
     ],
     [
-     "Kasszafiók",
-     "opcionális"
-    ],
-    [
-     "NAV engedélyszám",
-     "A315"
-    ],
-    [
      "Processzor",
      "Renesas RX631, 32 bit"
     ],
     [
-     "Csatlakozók",
-     "USB, SD-kártya, Ethernet (TCP/IP)"
-    ],
-    [
-     "Adatkapcsolat",
-     "beépített mobilmodem"
+     "Kasszafiók",
+     "opcionális"
     ]
    ],
    "letoltesek": [],
@@ -322,48 +358,56 @@
    "akciosAr": null,
    "keszlet": "raktaron",
    "kiemelt": false,
-   "engedely": "A308",
+   "engedely": "A316",
    "modell": "kompakt",
    "leiras": "Az NR-240 PRO 4G kis alapterületű, mégis nagy tudású pénztárgép. Ideális kisboltokba, szolgáltatóknak, ahol kevés a hely a pulton.",
    "jellemzok": [
-    "NAV engedélyszám: A308",
     "4G-s adóügyi egység",
-    "Kompakt méret",
+    "Kétsoros kijelző elöl és hátul",
+    "57 mm-es, könnyen befűzhető nyomtató",
+    "Kompakt, kis helyigényű",
     "Kasszafiók csatlakoztatható"
    ],
    "kepek": [
-    "kepek/termekek/sam4s-nr-240-pro-4g-1.webp"
+    "kepek/termekek/sam4s-nr-240-pro-4g-1.webp",
+    "kepek/termekek/sam4s-nr-240-pro-4g-2.webp",
+    "kepek/termekek/sam4s-nr-240-pro-4g-3.webp",
+    "kepek/termekek/sam4s-nr-240-pro-4g-4.webp"
    ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
+    [
+     "Típus",
+     "Sam4s NR-240 PRO 4G (A316)"
+    ],
+    [
+     "Adóügyi egység",
+     "4G-s AEE"
+    ],
     [
      "Tápellátás",
      "hálózati, akkumulátor nélkül"
     ],
     [
      "Kijelző",
-     "kétsoros alfanumerikus, elöl és hátul"
+     "kétsoros kezelői és vevőkijelző, elöl és hátul"
     ],
     [
      "Nyomtató",
-     "57 mm-es, dobd bele és nyomtass funkcióval"
+     "57 mm-es, dobd bele és nyomtass"
     ],
     [
      "Euró",
      "eurós kerekítés szoftverrel"
     ],
     [
+     "Kapcsolat",
+     "számítógép és perifériák csatlakoztathatók"
+    ],
+    [
      "Kasszafiók",
      "opcionális"
-    ],
-    [
-     "NAV engedélyszám",
-     "A308"
-    ],
-    [
-     "Adóügyi egység",
-     "4G"
     ],
     [
      "Kialakítás",
@@ -403,20 +447,40 @@
    "keszletDb": 2,
    "specs": [
     [
+     "NAV engedélyszám",
+     "A311"
+    ],
+    [
+     "Adóügyi egység",
+     "4G-s AEE"
+    ],
+    [
      "Felhasználás",
      "nagy forgalmú üzletek, rendszerbe köthető"
     ],
     [
-     "Vevőkijelző",
-     "forgatható"
+     "Kijelző",
+     "magyar ékezetes kezelői, kihúzható és forgatható vevőkijelző"
     ],
     [
-     "Menü",
-     "kulcsos"
+     "Billentyűzet",
+     "programozható, cserélhető feliratú gombok; kulcsos menü"
+    ],
+    [
+     "Nyomtató",
+     "nagy sebességű, csendes hőnyomtató"
     ],
     [
      "Kasszafiók",
-     "nagy címlet bedobó nyílással, a rá szerelt fém kasszában"
+     "fém, a gépre szerelve, nagy címlet bedobónyílással"
+    ],
+    [
+     "Bővíthetőség",
+     "PC-hez köthető, készletkezelés"
+    ],
+    [
+     "Méret",
+     "400 × 450 × 226 mm (fiókkal)"
     ],
     [
      "Kasszafiók nélkül",
@@ -425,30 +489,6 @@
     [
      "Garancia bővítés",
      "+2 év: 15 000 Ft + ÁFA"
-    ],
-    [
-     "NAV engedélyszám",
-     "A311"
-    ],
-    [
-     "Méret",
-     "400 × 450 × 226 mm"
-    ],
-    [
-     "Kijelző",
-     "magyar ékezetes kezelői és kihúzható, forgatható vevőkijelző"
-    ],
-    [
-     "Billentyűzet",
-     "cserélhető feliratú nyomógombok"
-    ],
-    [
-     "Nyomtató",
-     "nagy sebességű, csendes hőnyomtató"
-    ],
-    [
-     "Bővíthetőség",
-     "PC-hez köthető, készletkezelés"
     ]
    ],
    "letoltesek": [],
@@ -469,30 +509,50 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Akkumulátoros, eurós online pénztárgép négysoros grafikus kijelzővel és Seiko nyomtatóval. Kompakt (299 × 212 × 100 mm, 1,8 kg), mégis bővíthető: kasszafiók, számítógép, szkenner, bankkártya-olvasó és mérleg is csatlakoztatható.",
+   "leiras": "Akkumulátoros, eurós online pénztárgép négysoros grafikus kijelzővel és 57 mm-es hőnyomtatóval. Kompakt (299 × 212 × 100 mm, 1,8 kg), mégis bővíthető: kasszafiók, számítógép, vonalkódolvasó, bankkártya-terminál és mérleg is csatlakoztatható. A Light kivitelben nincs elektronikus napló.",
    "jellemzok": [
-    "Akkumulátoros",
+    "Beépített akkumulátor",
     "Négysoros grafikus kijelző",
-    "57 mm-es Seiko nyomtató",
+    "57 mm-es hőnyomtató",
     "Kasszafiók, PC, szkenner, mérleg csatlakoztatható"
    ],
    "kepek": [
-    "kepek/termekek/montel-sento-h-light-1.webp"
+    "kepek/termekek/montel-sento-h-light-1.webp",
+    "kepek/termekek/montel-sento-h-light-2.webp",
+    "kepek/termekek/montel-sento-h-light-3.webp",
+    "kepek/termekek/montel-sento-h-light-4.webp",
+    "kepek/termekek/montel-sento-h-light-5.webp"
    ],
    "spin": [],
    "keszletDb": 1,
    "specs": [
     [
      "Tápellátás",
-     "akkumulátoros"
+     "beépített 6 V / 3 Ah akkumulátor, 12 V / 500 mA hálózati adapter"
     ],
     [
      "Kijelző",
-     "négysoros grafikus"
+     "négysoros grafikus, háttérvilágítással"
     ],
     [
      "Nyomtató",
-     "57 mm-es Seiko"
+     "Fujitsu FTP628 hőnyomtató (korábbi kivitelben Seiko), 57 mm papír"
+    ],
+    [
+     "Adattárolás",
+     "SD/SDHC kártya"
+    ],
+    [
+     "Elektronikus napló",
+     "a Light kivitelben nincs"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, PC, vonalkódolvasó, bankkártya-terminál, mérleg"
+    ],
+    [
+     "Euró",
+     "eurós kerekítés szoftverrel"
     ],
     [
      "Méret",
@@ -503,15 +563,20 @@
      "1,8 kg"
     ],
     [
-     "Euró",
-     "eurós kerekítés szoftverrel"
-    ],
-    [
-     "Csatlakoztatható",
-     "kasszafiók, PC, szkenner, bankkártya-olvasó, mérleg"
+     "Üzemi hőmérséklet",
+     "+5 … +40 °C"
     ]
    ],
-   "letoltesek": [],
+   "letoltesek": [
+    {
+     "nev": "Kezelési útmutató – Montel Sento H (gyártói PDF)",
+     "url": "https://www.montel.hu/upload/MONTEL%20Sento%20H%20User%20Manual%20v3.1.pdf"
+    },
+    {
+     "nev": "Használati alapok egy oldalon – Sento H (Light) (gyártói PDF)",
+     "url": "https://www.montel.hu/images/downloads/Montel_Sento_H_%28Light%29_haszn%C3%A1lati_alapok_V0010_1oldal_v2.pdf"
+    }
+   ],
    "video": "",
    "garancia": "1 év",
    "illusztracio": false
@@ -543,16 +608,48 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Kapcsolat",
-     "GPS, 4G"
+     "Adóügyi egység",
+     "4G, 16 GB eMMC"
     ],
     [
-     "Tápellátás",
-     "belső akkumulátor (kb. 300 nyugta egy töltéssel)"
+     "Árucikkek (PLU)",
+     "20 000"
+    ],
+    [
+     "Gyűjtők",
+     "99"
+    ],
+    [
+     "Pénztárosok",
+     "30"
+    ],
+    [
+     "ÁFA-kulcsok",
+     "5"
     ],
     [
      "Nyomtató",
-     "57 mm-es Seiko"
+     "57 mm-es Seiko, max. 80 m-es tekercs, 42 karakter/sor"
+    ],
+    [
+     "Kijelzők",
+     "128 × 32 pixeles grafikus, kezelői és vevői"
+    ],
+    [
+     "Billentyűzet",
+     "34 multifunkciós gomb"
+    ],
+    [
+     "Tápellátás",
+     "belső akkumulátor (kb. 300 nyugta egy töltéssel), 12 V adapter"
+    ],
+    [
+     "GPS",
+     "van"
+    ],
+    [
+     "Csatlakozók",
+     "RS232 / LAN / mini USB (PC), RS232 (mérleg), USB host (vonalkódolvasó, mérleg), kasszafiók, külső kijelző"
     ],
     [
      "Méret",
@@ -560,15 +657,7 @@
     ],
     [
      "Tömeg",
-     "2,1 kg"
-    ],
-    [
-     "Euró",
-     "eurós kerekítés szoftverrel"
-    ],
-    [
-     "Csatlakoztatható",
-     "kasszafiók, PC, USB szkenner, mérleg"
+     "kb. 2,4 kg (gyártói kézikönyv szerint)"
     ]
    ],
    "letoltesek": [],
@@ -602,28 +691,48 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Kialakítás",
-     "kézben tartható, érintőképernyős"
+     "Kijelző",
+     "4,3\" színes TFT érintőképernyő, 272 × 460 pixel"
     ],
     [
-     "Kapcsolat",
-     "GPS, 4G"
+     "Adóügyi egység",
+     "4G AEE + GPS"
     ],
     [
      "Tápellátás",
      "cserélhető, külön is tölthető akkumulátor"
     ],
     [
+     "Árucikkek (PLU)",
+     "8 000"
+    ],
+    [
+     "Gyűjtők",
+     "99"
+    ],
+    [
+     "Pénztárosok",
+     "10"
+    ],
+    [
      "Nyomtató",
-     "57 mm-es"
+     "Seiko LTPZ-245M hőnyomtató, 57 mm, max. 21 sor/s, 42 karakter/sor"
+    ],
+    [
+     "Csatlakozók",
+     "mini USB-B, USB-A host, kasszafiók / táp közös csatlakozó"
     ],
     [
      "Felhasználás",
      "taxi, mozgóárusítás, változó telephely"
     ],
     [
-     "Kasszafiók",
-     "opcionális"
+     "Méret",
+     "190 × 95 × 70 mm"
+    ],
+    [
+     "Tömeg",
+     "0,65 kg (papírral és tápegységgel)"
     ]
    ],
    "letoltesek": [],
@@ -660,6 +769,540 @@
    "video": "",
    "garancia": "6 hónap",
    "illusztracio": true
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [
+    "kepek/termekek/sam4s-nr-240-1.webp"
+   ],
+   "id": "sam4s-nr-240",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-240",
+   "modell": "kompakt",
+   "alcim": "Akkumulátor nélküli, megbízható alapmodell",
+   "leiras": "A Sam4s NR-240 alapmodell akkumulátor nélküli online pénztárgép változtatható feliratú billentyűzettel, magyar karaktereket kezelő kijelzőkkel és könnyen befűzhető 57,5 mm-es hőnyomtatóval. Számítógép, mérleg (CAS ER, Aclas PS1), vonalkódolvasó, bankkártya-terminál és kasszafiók is csatlakoztatható.",
+   "jellemzok": [
+    "Akkumulátor nélküli",
+    "Változtatható feliratú billentyűzet",
+    "57,5 mm-es hőnyomtató",
+    "Mérleg, vonalkódolvasó, bankkártya-terminál"
+   ],
+   "specs": [
+    [
+     "Típus",
+     "Sam4s NR-240 (A171, alapmodell)"
+    ],
+    [
+     "Tápellátás",
+     "hálózati, akkumulátor nélkül"
+    ],
+    [
+     "Nyomtató",
+     "57,5 mm-es közvetlen hőnyomtató, egyszerű papírbefűzés"
+    ],
+    [
+     "Billentyűzet",
+     "változtatható feliratozású"
+    ],
+    [
+     "Kijelzők",
+     "magyar karaktereket kezelő kezelői és vevőkijelző"
+    ],
+    [
+     "Adatmentés",
+     "USB AEE mentés"
+    ],
+    [
+     "Csatlakoztatható",
+     "PC, CAS ER vagy Aclas PS1 mérleg, vonalkódolvasó, bankkártya-terminál, kasszafiók"
+    ],
+    [
+     "Méret",
+     "225 × 327 × 125 mm"
+    ],
+    [
+     "Tömeg",
+     "1,69 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "sam4s-nr-270",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-270 kasszafiókkal",
+   "modell": "nagy",
+   "alcim": "Közepes forgalomra, cseppálló billentyűzettel kérhető",
+   "leiras": "Közepes forgalmú üzletekbe szánt, akkumulátor nélküli online pénztárgép kasszafiókkal. Hagyományos vagy sík, cseppálló billentyűzettel kérhető, kulcsos üzemmódokkal, vevő- és kezelőkijelzővel, 57,5 mm-es hőnyomtatóval.",
+   "jellemzok": [
+    "Kasszafiókkal együtt",
+    "Normál vagy cseppálló sík billentyűzet",
+    "Kulcsos üzemmód",
+    "1 157 árucikk, 30 eladó"
+   ],
+   "specs": [
+    [
+     "Típus",
+     "Sam4s NR-270 Online New"
+    ],
+    [
+     "Tápellátás",
+     "hálózati, akkumulátor nélkül"
+    ],
+    [
+     "Nyomtató",
+     "57,5 mm-es közvetlen hőnyomtató"
+    ],
+    [
+     "Kijelzők",
+     "magyar karakteres kezelői és vevőkijelző"
+    ],
+    [
+     "Billentyűzet",
+     "hagyományos vagy sík, cseppálló; kulcsos üzemmód"
+    ],
+    [
+     "Árucikkek",
+     "1 157"
+    ],
+    [
+     "Gyűjtők",
+     "15"
+    ],
+    [
+     "Eladók",
+     "30, azonosítható"
+    ],
+    [
+     "Adatmentés",
+     "USB AEE mentés"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, vonalkódolvasó, mérleg, PC"
+    ],
+    [
+     "Méret",
+     "gép: 325 × 350 × 145 mm; kasszafiók: 325 × 420 × 90 mm"
+    ],
+    [
+     "Tömeg",
+     "7,4 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "euro-150-flexy",
+   "kategoria": "penztargep",
+   "marka": "Elcom",
+   "nev": "Euro-150TE Flexy",
+   "modell": "kompakt",
+   "alcim": "Egyszerű, gyors asztali online pénztárgép",
+   "leiras": "Akkumulátor nélküli asztali online pénztárgép Seiko hőnyomtatóval, programozható billentyűzettel. Kasszafiók, vonalkódolvasó, digitális mérleg és számítógép csatlakoztatható.",
+   "jellemzok": [
+    "Seiko hőnyomtató",
+    "2 000 PLU, 10 pénztáros",
+    "Programozható 39 gombos billentyűzet",
+    "Kasszafiók, mérleg, PC"
+   ],
+   "specs": [
+    [
+     "Típus",
+     "Elcom Euro-150TE Flexy"
+    ],
+    [
+     "Árucikkek (PLU)",
+     "2 000"
+    ],
+    [
+     "Gyűjtők",
+     "20"
+    ],
+    [
+     "Pénztárosok",
+     "10"
+    ],
+    [
+     "ÁFA-szintek",
+     "7"
+    ],
+    [
+     "Fejléc",
+     "9 sor, 42 karakter"
+    ],
+    [
+     "Billentyűzet",
+     "39 gombos, programozható"
+    ],
+    [
+     "Kijelzők",
+     "kezelői 2 × 16 karakter, vevői 10 szegmenses"
+    ],
+    [
+     "Nyomtató",
+     "Seiko LTPD-245, 57 mm papír, kb. 12–15 sor/s"
+    ],
+    [
+     "Csatlakozók",
+     "USB, RS232 (további portok opcionálisak)"
+    ],
+    [
+     "Tápellátás",
+     "100–240 V adapter"
+    ],
+    [
+     "Méret",
+     "253 × 340 × 120 mm"
+    ],
+    [
+     "Tömeg",
+     "1,66 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [
+    {
+     "nev": "Kezelési útmutató – Montel Jota H (gyártói PDF)",
+     "url": "https://penztargep.montel.hu/upload/MONTEL%20Jota%20H%20User%20Manual%20v2.0.pdf"
+    }
+   ],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "montel-jota-h",
+   "kategoria": "penztargep",
+   "marka": "Montel",
+   "nev": "Jota H / Micra Jota M",
+   "modell": "kompakt",
+   "alcim": "Hordozható, rendszerbe köthető, nagy forgalomra",
+   "leiras": "Nagy forgalmú helyekre szánt, belső akkumulátoros, rendszerbe köthető online pénztárgép. Gyors, 21 sor/s Seiko nyomtató, 8 179 PLU, 30 kezelő, mérleg, vonalkódolvasó, kasszafiók és külső vevőkijelző csatlakoztatható.",
+   "jellemzok": [
+    "Belső akkumulátor",
+    "21 sor/s nyomtató",
+    "8 179 PLU, 30 kezelő",
+    "Rendszerbe köthető"
+   ],
+   "specs": [
+    [
+     "Árucikkek (PLU)",
+     "8 179"
+    ],
+    [
+     "Árucikkgyűjtők",
+     "500"
+    ],
+    [
+     "Kezelők",
+     "30"
+    ],
+    [
+     "Adóügyi egység",
+     "16 GB AEE"
+    ],
+    [
+     "Nyomtató",
+     "Seiko, 57 mm × 80 m papír, 21 sor/s, 42 karakter/sor"
+    ],
+    [
+     "Billentyűzet",
+     "34 multifunkciós gomb"
+    ],
+    [
+     "Kijelzők",
+     "128 × 32 pontos grafikus"
+    ],
+    [
+     "Csatlakozók",
+     "RS232, USB, mini USB"
+    ],
+    [
+     "Csatlakoztatható",
+     "mérleg, vonalkódolvasó, kasszafiók, külső vevőkijelző, PC"
+    ],
+    [
+     "Tápellátás",
+     "12 V adapter, belső akkumulátor"
+    ],
+    [
+     "Méret",
+     "240 × 240 × 115 mm"
+    ],
+    [
+     "Tömeg",
+     "2,4 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [
+    {
+     "nev": "Kezelési útmutató – Montel Mini H (gyártói PDF)",
+     "url": "https://www.montel.hu/upload/MONTEL%20Mini%20H%20User%20Manual%20v1.9.pdf"
+    }
+   ],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "montel-mini-h",
+   "kategoria": "penztargep",
+   "marka": "Montel",
+   "nev": "Mini H / Micra Mini M",
+   "modell": "kezi",
+   "alcim": "Kompakt, hordozható, akkumulátoros",
+   "leiras": "Kis méretű, belső akkumulátoros hordozható online pénztárgép gyors Seiko nyomtatóval. Kasszafiók, mérleg, vonalkódolvasó és PC csatlakoztatható.",
+   "jellemzok": [
+    "Belső akkumulátor",
+    "Csak 1,1 kg",
+    "21 sor/s Seiko nyomtató",
+    "8 000 PLU, 30 pénztáros"
+   ],
+   "specs": [
+    [
+     "Nyomtató",
+     "Seiko hőnyomtató, 57,5 mm × 40 m papír, 21 sor/s"
+    ],
+    [
+     "Árucikkek (PLU)",
+     "8 000"
+    ],
+    [
+     "Pénztárosok",
+     "30"
+    ],
+    [
+     "Gyűjtők",
+     "12"
+    ],
+    [
+     "Billentyűzet",
+     "30 gomb, 8 gyorseladás-gomb"
+    ],
+    [
+     "Kijelzők",
+     "kezelői LCD, vevőoldali LED"
+    ],
+    [
+     "Csatlakozók",
+     "mini jack, RJ12, RJ45, PS/2, mini USB"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, mérleg, vonalkódolvasó, PC, külső kijelző"
+    ],
+    [
+     "Tápellátás",
+     "belső akkumulátor"
+    ],
+    [
+     "Méret",
+     "195 × 205 × 77 mm"
+    ],
+    [
+     "Tömeg",
+     "1,1 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "cashcube-light",
+   "kategoria": "penztargep",
+   "marka": "CashCube",
+   "nev": "Light",
+   "modell": "kompakt",
+   "alcim": "Akkumulátor nélküli asztali online pénztárgép",
+   "leiras": "Akkumulátor nélküli asztali online pénztárgép Telekom adatkapcsolattal, 20 000 PLU-val és 20 pénztárossal. Vonalkódolvasó, bankkártya-terminál, mérleg, PC és CashCube kasszafiók csatlakoztatható.",
+   "jellemzok": [
+    "20 000 PLU, 20 pénztáros",
+    "20 sor/s hőnyomtató",
+    "USB és RS232",
+    "Mérleg, vonalkódolvasó, bankkártya-terminál"
+   ],
+   "specs": [
+    [
+     "Típus",
+     "CashCube Light (A085)"
+    ],
+    [
+     "Gyártó",
+     "Tekinvest"
+    ],
+    [
+     "Adatkapcsolat",
+     "Telekom mobilhálózat"
+    ],
+    [
+     "Árucikkek (PLU)",
+     "20 000"
+    ],
+    [
+     "Pénztárosok",
+     "max. 20"
+    ],
+    [
+     "Nyomtató",
+     "hőnyomtató, 20 sor/s, 57 mm papír"
+    ],
+    [
+     "Csatlakozók",
+     "USB A, USB AB, RS232, kasszanyitó"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, mérleg, vonalkódolvasó, bankkártya-terminál, PC"
+    ],
+    [
+     "Méret",
+     "kb. 200 × 377 × 144 mm"
+    ],
+    [
+     "Tömeg",
+     "kb. 1,7 kg"
+    ]
+   ]
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "cashcube-mini",
+   "kategoria": "penztargep",
+   "marka": "CashCube",
+   "nev": "Mini",
+   "modell": "kezi",
+   "alcim": "Hordozható, GPS-es, autós táppal is",
+   "leiras": "Beépített akkumulátoros, GPS-es mobil online pénztárgép kiszálláshoz és mozgóárusításhoz. 230 V-ról vagy gépkocsi-csatlakozóról is működik; vonalkódolvasó, bankkártya-terminál, mérleg, PC és 12 V-os kasszafiók csatlakoztatható.",
+   "jellemzok": [
+    "GPS, akkumulátor",
+    "Csak 0,855 kg",
+    "Autós tápról is",
+    "10 000 PLU, 20 pénztáros"
+   ],
+   "specs": [
+    [
+     "Típus",
+     "CashCube Mini (A193)"
+    ],
+    [
+     "Tápellátás",
+     "beépített akkumulátor; 230 V vagy gépkocsi-csatlakozó"
+    ],
+    [
+     "GPS",
+     "van"
+    ],
+    [
+     "Nyomtató",
+     "hőnyomtató, 20 sor/s, 57 mm papír"
+    ],
+    [
+     "Árucikkek (PLU)",
+     "10 000"
+    ],
+    [
+     "Pénztárosok",
+     "20"
+    ],
+    [
+     "Billentyűzet",
+     "35 gomb, 5 közvetlen gyűjtő"
+    ],
+    [
+     "Csatlakozók",
+     "2 × USB-A, USB-AB, RS232, fiókkimenet"
+    ],
+    [
+     "Csatlakoztatható",
+     "mérleg, vonalkódolvasó, bankkártya-terminál, PC, 12 V-os kasszafiók"
+    ],
+    [
+     "Méret",
+     "90 × 260 × 70 mm"
+    ],
+    [
+     "Tömeg",
+     "0,855 kg"
+    ]
+   ]
   },
   {
    "kategoria": "pos",
@@ -765,15 +1408,27 @@
     ],
     [
      "Kijelző",
-     "10,1\" (25,7 cm), kapacitív többérintéses"
+     "10,1\" (25,7 cm), 1280 × 800, kapacitív többérintéses"
     ],
     [
      "Rendszer",
-     "Android 11"
+     "Android"
+    ],
+    [
+     "Hálózat",
+     "Ethernet, Wi-Fi, Bluetooth 4.2"
+    ],
+    [
+     "Csatlakozók",
+     "4 × USB-A és pénztárgép-perifériák csatlakozói"
     ],
     [
      "Méret",
      "292 × 154 × 250 mm"
+    ],
+    [
+     "Megjegyzés",
+     "a pontos memória és processzor a gép revíziójától függ"
     ]
    ]
   },
@@ -807,8 +1462,8 @@
    "id": "argox-as-8060",
    "kategoria": "pos",
    "marka": "Argox",
-   "nev": "AS-8060 lézeres vonalkódolvasó",
-   "alcim": "Kézi lézeres olvasó",
+   "nev": "AS-8060 CCD vonalkódolvasó",
+   "alcim": "Strapabíró 1D vonalkódolvasó állvánnyal",
    "ar": 16990,
    "arTol": false,
    "akciosAr": null,
@@ -829,23 +1484,43 @@
    "specs": [
     [
      "Technológia",
-     "1D lézer"
+     "1D CCD (2500 pixel) – a régi oldalon tévesen lézerként szerepelt"
     ],
     [
-     "Csatlakozás",
-     "USB"
+     "Olvasási sebesség",
+     "legalább 270 olvasás/s"
     ],
     [
-     "Védelem",
-     "IP42, 1,5 méterig ütésálló"
-    ],
-    [
-     "Kivitel",
-     "fekete, állvánnyal"
+     "Felbontás",
+     "3 mil"
     ],
     [
      "Olvasási távolság",
-     "0–330 mm"
+     "15–330 mm (EAN-13)"
+    ],
+    [
+     "Csatlakozás",
+     "USB (HID / virtuális COM)"
+    ],
+    [
+     "Védelem",
+     "IP42, 1,5 m-es esésnek ellenáll"
+    ],
+    [
+     "Méret",
+     "102 × 71 × 177 mm"
+    ],
+    [
+     "Tömeg",
+     "190 g"
+    ],
+    [
+     "Kábel",
+     "2 m"
+    ],
+    [
+     "Tartozék",
+     "állvány"
     ]
    ],
    "letoltesek": [],
@@ -880,15 +1555,11 @@
    "specs": [
     [
      "Technológia",
-     "1D és 2D (QR) CMOS kamerás"
+     "CMOS képalkotó (kamerás), 1D és 2D / QR kódok"
     ],
     [
      "Csatlakozás",
      "USB"
-    ],
-    [
-     "Kivitel",
-     "állvánnyal együtt"
     ],
     [
      "Védelem",
@@ -897,6 +1568,14 @@
     [
      "Olvasási távolság",
      "60–360 mm"
+    ],
+    [
+     "Tartozék",
+     "állvány"
+    ],
+    [
+     "Különlegesség",
+     "telefon kijelzőjéről is olvas (pl. QR-kód, kupon)"
     ]
    ],
    "letoltesek": [],
@@ -948,6 +1627,10 @@
     [
      "Szerkezet",
      "fém"
+    ],
+    [
+     "Csatlakozó",
+     "pénztárgép-típus szerint, vásárláskor egyeztetjük"
     ]
    ],
    "letoltesek": [],
@@ -959,8 +1642,8 @@
    "id": "sam4s-durable",
    "kategoria": "fiok",
    "marka": "Sam4s",
-   "nev": "Durable kasszafiók",
-   "alcim": "Strapabíró fém kasszafiók",
+   "nev": "Durable NR440 fém kasszafiók",
+   "alcim": "Gyári fém fiók Sam4s NR-440-hez, trezor funkcióval",
    "ar": 19500,
    "arTol": false,
    "akciosAr": null,
@@ -968,7 +1651,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Erős fém kasszafiók napi intenzív használatra: 4 bankjegy- és 8 érmetartó, nagy címlet bedobónyílás, kulccsal zárható, 400 × 450 × 100 mm.",
+   "leiras": "A Sam4s NR-440 és a Samsung ER-420F / ER-420M pénztárgépek gyári fém kasszafiókja: 4 bankjegy- és 8 érmetartó, nagy címlet bedobónyílás, trezor funkció, kulccsal zárható, 400 × 450 × 100 mm. A bekötés a pénztárgép típusától függ, vásárlás előtt egyeztetjük.",
    "jellemzok": [
     "Fém kivitel",
     "Kulccsal zárható"
@@ -980,24 +1663,36 @@
    "keszletDb": 2,
    "specs": [
     [
+     "Kompatibilis",
+     "Sam4s NR-440, Samsung ER-420F / ER-420M pénztárgépek"
+    ],
+    [
      "Rekeszek",
      "4 bankjegy- és 8 érmetartó"
     ],
     [
      "Bedobó",
-     "1 nagy címlet bedobónyílás"
+     "nagy címlet / bizonylat bedobónyílás"
     ],
     [
-     "Méret",
-     "400 × 450 × 100 mm"
+     "Trezor funkció",
+     "van"
     ],
     [
      "Zár",
      "kulccsal zárható"
     ],
     [
+     "Csatlakozás",
+     "24 V (a bekötés pénztárgép-típustól függ, vásárlás előtt egyeztetjük)"
+    ],
+    [
+     "Méret",
+     "400 × 450 × 100 mm"
+    ],
+    [
      "Szerkezet",
-     "erős fém"
+     "erős fém burkolat és fiók"
     ]
    ],
    "letoltesek": [],
@@ -1031,23 +1726,35 @@
    "specs": [
     [
      "Rekeszek",
-     "4 bankjegy- és 8 érmetartó"
+     "4 vagy 5 bankjegy- és 8 érmetartó"
     ],
     [
      "Bedobó",
-     "1 nagy címlet bedobónyílás"
-    ],
-    [
-     "Méret",
-     "400 × 450 × 100 mm"
+     "nagy címlet bedobónyílás"
     ],
     [
      "Zár",
-     "kulccsal nyitható és zárható"
+     "3 állású kulcs, vésznyitó"
+    ],
+    [
+     "Csatlakozó",
+     "RJ11 (egyes változatokon RS232 / USB), 12 V vagy 24 V"
     ],
     [
      "Szerkezet",
-     "erős fém"
+     "ipari acél"
+    ],
+    [
+     "Méret",
+     "kb. 410 × 415 × 100 mm"
+    ],
+    [
+     "Tömeg",
+     "kb. 6,5 kg"
+    ],
+    [
+     "Élettartam",
+     "legfeljebb 1 millió nyitás"
     ],
     [
      "Szín",
@@ -1086,20 +1793,20 @@
    "keszletDb": 2,
    "specs": [
     [
-     "Méréshatár",
-     "15 vagy 30 kg"
-    ],
-    [
-     "Pontosság",
-     "5 g / 10 g"
+     "Méréshatár / osztás",
+     "15 kg × 5 g vagy 30 kg × 10 g"
     ],
     [
      "Tálca",
-     "levehető acéltálca"
+     "levehető rozsdamentes acél"
     ],
     [
      "Tápellátás",
      "beépített akkumulátor"
+    ],
+    [
+     "Funkció",
+     "árszorzós (árkalkulációs) bolti mérleg"
     ],
     [
      "Hitelesítés díja",
@@ -1137,32 +1844,36 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Méréshatár",
-     "15 kg"
+     "Méréshatár / osztás",
+     "6/15 kg, 2/5 g (kettős tartomány)"
     ],
     [
-     "Pontosság",
-     "2 g / 5 g"
-    ],
-    [
-     "Tápellátás",
-     "belső akkumulátorról is működik, adapterrel"
-    ],
-    [
-     "Tálca",
-     "levehető acéltálca"
-    ],
-    [
-     "Méret",
-     "305 × 350 × 419 mm"
+     "PLU",
+     "5 közvetlen és 200 közvetett"
     ],
     [
      "Kijelző",
-     "jól olvasható LCD"
+     "háttérvilágításos LCD mindkét oldalon"
+    ],
+    [
+     "Tálca",
+     "levehető rozsdamentes acél"
+    ],
+    [
+     "Tápellátás",
+     "tölthető akkumulátor, hálózati adapter"
+    ],
+    [
+     "Csatlakozás",
+     "RS-232 (pénztárgéphez)"
+    ],
+    [
+     "Méret",
+     "305 × 350 × 419 mm (oszlopos kivitel)"
     ],
     [
      "Hitelesítés",
-     "hitelesítve (benne van az árban)"
+     "hitelesítve, benne van az árban"
     ]
    ],
    "letoltesek": [],
@@ -1196,16 +1907,16 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Méréshatár",
-     "15 kg (6/15 kg)"
+     "Méréshatár / osztás",
+     "6/15 kg, 2/5 g"
     ],
     [
-     "Pontosság",
-     "2 g / 5 g"
+     "Címke",
+     "30–60 mm széles, max. 60 mm magas, max. 100 mm tekercsátmérő"
     ],
     [
-     "Címkeszélesség",
-     "30–60 mm"
+     "Nyomtató",
+     "hőnyomtató, max. 56 mm, 203 dpi"
     ],
     [
      "PLU",
@@ -1213,11 +1924,15 @@
     ],
     [
      "Gombok",
-     "2 × 112 direkt érintőgomb"
+     "2 × 112 gyorsgomb"
+    ],
+    [
+     "Kijelző",
+     "256 × 32 pontos LCD"
     ],
     [
      "Kapcsolat",
-     "LAN, POS rendszerbe köthető"
+     "Ethernet (LAN), RS232, POS rendszerbe köthető"
     ],
     [
      "Méret",
@@ -1225,13 +1940,75 @@
     ],
     [
      "Egyéb",
-     "menedzselhető, hitelesítve"
+     "hálózaton menedzselhető, hitelesítve"
     ]
    ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év",
    "illusztracio": false
+  },
+  {
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "ar": null,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "id": "pris-ep210",
+   "kategoria": "merleg",
+   "marka": "Pris",
+   "nev": "EP-210 lapos bolti mérleg",
+   "modell": "merleg",
+   "alcim": "Lapos, hitelesíthető árszorzós mérleg",
+   "leiras": "Lapos kialakítású árkalkulációs bolti mérleg háttérvilágításos LCD-vel, 100 PLU-val, hálózati és belső akkumulátoros működéssel. RS232-n pénztárgéphez vagy számítógéphez köthető.",
+   "jellemzok": [
+    "Lapos kivitel",
+    "100 PLU",
+    "Akkumulátoros is",
+    "Pénztárgéphez köthető (RS232)"
+   ],
+   "specs": [
+    [
+     "Funkció",
+     "árkalkulációs (árszorzós) bolti mérleg"
+    ],
+    [
+     "Billentyűzet",
+     "20 gombos fólia"
+    ],
+    [
+     "Kijelző",
+     "háttérvilágításos LCD"
+    ],
+    [
+     "PLU",
+     "100"
+    ],
+    [
+     "Méréshatár",
+     "változattól függően, pl. 6/15 kg × 2/5 g"
+    ],
+    [
+     "Tápellátás",
+     "hálózati és belső akkumulátor"
+    ],
+    [
+     "Csatlakozás",
+     "RS232 (PC / pénztárgép)"
+    ],
+    [
+     "Tálca",
+     "műanyag és acél (változattól függően)"
+    ]
+   ]
   },
   {
    "id": "open-s14",
@@ -1246,7 +2023,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "arazo",
-   "leiras": "Kétsoros árazógép, amellyel az ár mellé egységár vagy dátum is kerül a címkére.",
+   "leiras": "Kétsoros kézi árazógép 26 × 16 mm-es címkéhez: felső sorban 8, alsó sorban 6 karakter, így az ár mellé egységár, dátum vagy cikkszám is kerülhet. Címke és festékhenger nálunk kapható.",
    "jellemzok": [
     "Kétsoros",
     "Strapabíró"
@@ -1259,15 +2036,19 @@
    "specs": [
     [
      "Sorok",
-     "2 sor, 8 + 8 karakter"
+     "2 sor: felül 8, alul 6 karakter"
+    ],
+    [
+     "Címke",
+     "26 × 16 mm"
     ],
     [
      "Beállítható",
-     "pénznem (Ft, euró, $) és mértékegység (db, m, m², g, kg, ml, l), dátum"
+     "pénznem- és mértékegység-jelek, dátum"
     ],
     [
      "Kellékek",
-     "árazócímke, festékhenger kapható"
+     "árazócímke és festékhenger kapható"
     ]
    ],
    "letoltesek": [],
@@ -1301,6 +2082,14 @@
     [
      "Sorok",
      "2 sor"
+    ],
+    [
+     "Kellékek",
+     "árazócímke és festékhenger kapható"
+    ],
+    [
+     "Típus",
+     "pontos modell és címkeméret: érdeklődjön"
     ]
    ],
    "letoltesek": [],
@@ -1334,11 +2123,23 @@
    "specs": [
     [
      "Típus",
-     "ruhaárazó szálbelövő pisztoly"
+     "CP-2200 standard ruhaárazó szálbelövő"
     ],
     [
-     "Kellék",
-     "belövőszál és tű több méretben és fajtában"
+     "Test",
+     "ABS műanyag"
+    ],
+    [
+     "Tű",
+     "1,8 mm átmérő, 30 mm hossz (standard)"
+    ],
+    [
+     "Belövőszál",
+     "1,0 mm, 50 vagy 100 darabos kapocs"
+    ],
+    [
+     "Változatok",
+     "CP-2200L hosszú tű (40 mm), CP-2200X finom tű – kérésre"
     ]
    ],
    "letoltesek": [],

@@ -73,6 +73,14 @@
 - Kezelő app: webaruhaz/kezelo.webmanifest + ikonok – iPhone Safari › Megosztás › Hozzáadás a Főképernyőhöz.
 - Az ügyféllista fájlja még nincs meg (a meghajtó csatolt mappájában nincs); a felhasználó adja meg a helyét.
 
+## Katalógus bővítés a 3D-fotó kutatásból (2026-10-31)
+- Forrás: 3D_foto_kutatas.zip, Penztar-gep-hu_termek_katalogus.zip, Egyesitett_termeklista.csv. Valódi 8 nézetes forgatósorozat egyik termékhez sincs – fotózni kell (8 kép, 45°-onként, ugyanarról a példányról).
+- Képjavítás: a szürke gép (régi oldal image013 + montel.hu galéria) = Montel Sento H Light; a Micra Jota E képe az image015. NR-240 PRO 4G: 4 nagy felbontású nézet (front + 3 szög). Az alap NR-240 a régi oldal image011 képét kapta.
+- Minden termék műszaki adatai bővítve az ellenőrzött adatokkal (PLU, gyűjtők, nyomtató, csatlakozók, méret, tömeg). Javítások: Argox AS-8060 CCD (nem lézer), Open S14 8+6 karakter, Jota E 2,4 kg.
+- Új termékek (ár kérésre, rendelésre): Sam4s NR-240, NR-270 kasszafiókkal, Elcom Euro-150TE Flexy, Montel Jota H / Micra Jota M, Montel Mini H / Micra Mini M, CashCube Light, CashCube Mini, Pris EP-210. A Durable NR440 fiók a meglévő Sam4s Durable tétellel összevonva; az Aclas PS1 az NR-240 kompatibilis mérlegeként szerepel.
+- Letöltések: gyártói kezelési útmutatók (Montel Sento H, Jota H, Mini H).
+- A CashCube Mini kereskedői fotói (másik bolt használt gépe, sorozatszámmal) nem kerültek fel.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).
