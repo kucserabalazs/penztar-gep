@@ -10,24 +10,24 @@
 <meta name="apple-mobile-web-app-title" content="Totál Kezelő">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#114b3f">
+<meta name="theme-color" content="#082746">
 <meta name="description" content="Online pénztárgépek, POS terminálok, mérlegek, árazógépek és kellékanyagok Pécsen. Kis készlet, alapos bemutatás, 360°-os nézet, helyi szerviz.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=VT323&family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Layout: világos webáruház a főoldal stílusjegyeivel – sötétkék fejléc arany menüvel, krém és fehér felületek, arany kiemelések; a termék a főszereplő */
 :root{
   color-scheme:light;
-  --n0:#072a24; --n1:#082f29; --n2:#114b3f; --n3:#1d6253;
-  --gold:#c9a24e; --gold-l:#e0c27a; --gold-d:#8a6a24; --gold-soft:#faf6ec;
-  --bg:#f8f4ea; --surface:#ffffff; --surface-2:#f2eee4; --cream:#f7f3eb; --cream-2:#faf8f2;
-  --ink:#1d2b27; --muted:#64736e; --line:#d8e0da; --line-2:#c5d0c8;
-  --ok:#176b3a; --warn:#80520b; --bad:#872f38;
-  --shell:#22282f; --shell-2:#343c47; --shell-3:#15191e; --key:#f3f0e7; --key-2:#c9cfc9; --steel:#c7cdc7; --lcd-bg:#071d18; --lcd:#8fe6a7;
+  --n0:#041a33; --n1:#061c35; --n2:#082746; --n3:#123b61;
+  --gold:#d6a64e; --gold-l:#f4d58d; --gold-d:#b7832e; --gold-soft:#faf6ec;
+  --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f3f5f7; --cream:#f7f3eb; --cream-2:#faf8f2;
+  --ink:#182e48; --muted:#6e7d8e; --line:#dfe5eb; --line-2:#cbd5df;
+  --ok:#17804a; --warn:#b06a00; --bad:#c0352b;
+  --shell:#22282f; --shell-2:#343c47; --shell-3:#15191e; --key:#eceff3; --key-2:#c7cdd6; --steel:#c5ccd5; --lcd-bg:#0b1f3a; --lcd:#8fd0ff;
   --fd:"Montserrat","Arial Black",Arial,sans-serif; --fb:"Inter","Segoe UI",system-ui,sans-serif;
   --r:16px; --r-s:10px;
-  --sh-1:0 1px 2px rgba(17,40,34,.05),0 4px 14px rgba(17,40,34,.06);
-  --sh-2:0 2px 6px rgba(17,40,34,.06),0 18px 40px rgba(17,40,34,.12);
+  --sh-1:0 1px 2px rgba(12,26,51,.05),0 4px 14px rgba(12,26,51,.06);
+  --sh-2:0 2px 6px rgba(12,26,51,.06),0 18px 40px rgba(12,26,51,.12);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -56,9 +56,9 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:48px;padding:0 1.3em;border-radius:12px;border:1.5px solid transparent;font-family:var(--fd);font-weight:700;font-size:.98rem;cursor:pointer;line-height:1.1;transition:transform .15s,box-shadow .2s,background .2s,filter .2s;white-space:nowrap}
 .btn:hover{transform:translateY(-1px)}
 .btn:active{transform:translateY(0)}
-.btn.gold{background:linear-gradient(180deg,var(--gold-l) 0%,#d8b464 45%,var(--gold-d) 100%);color:#1d2b27;box-shadow:0 6px 18px rgba(201,162,78,.32),inset 0 1px 0 rgba(255,255,255,.6)}
-.btn.gold:hover{filter:brightness(1.05);box-shadow:0 10px 24px rgba(201,162,78,.4),inset 0 1px 0 rgba(255,255,255,.6)}
-.btn.navy{background:var(--n2);color:#fff;box-shadow:0 6px 16px rgba(11,58,50,.25)}
+.btn.gold{background:linear-gradient(180deg,var(--gold-l) 0%,#f0c46e 45%,var(--gold-d) 100%);color:#1a1200;box-shadow:0 6px 18px rgba(201,142,43,.32),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.gold:hover{filter:brightness(1.05);box-shadow:0 10px 24px rgba(201,142,43,.4),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.navy{background:var(--n2);color:#fff;box-shadow:0 6px 16px rgba(7,31,59,.25)}
 .btn.line{background:var(--surface);border-color:var(--line-2);color:var(--ink)}
 .btn.line:hover{border-color:var(--n2)}
 .btn.ghost{background:transparent;color:var(--ink)}
@@ -70,22 +70,22 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .icbtn.on{background:var(--n2);border-color:var(--n2);color:var(--gold-l)}
 
 /* fejléc: TOTÁL logó, szlogen, elérhetőségek, pécsi panoráma */
-.top{background:linear-gradient(105deg,#082f29 0%,#0f4438 55%,#1a5446 100%);color:#fff;position:relative;overflow:hidden}
+.top{background:linear-gradient(105deg,#061c35 0%,#0a2c50 55%,#0e3961 100%);color:#fff;position:relative;overflow:hidden}
 .top .pan{position:absolute;right:0;bottom:0;height:100%;max-height:88px;opacity:.95;pointer-events:none}
 .top .wrap{display:flex;align-items:center;gap:clamp(14px,2vw,26px);min-height:84px;position:relative}
 .top .logo img{display:block;width:clamp(150px,15vw,220px);height:auto}
 .top .vbar{width:2px;height:50px;border-radius:2px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d))}
 .top .slogan{font-family:var(--fd);font-style:italic;font-weight:800;font-size:clamp(1rem,1.65vw,1.6rem);line-height:1.08;white-space:nowrap}
 .top .contacts{margin-left:auto;display:flex;align-items:center;gap:14px;margin-right:clamp(0px,9vw,150px)}
-.pill{display:inline-flex;align-items:center;gap:9px;padding:6px 15px;border-radius:30px;border:1.5px solid var(--gold);font-weight:500;font-size:.93rem;color:#fff;background:rgba(6,36,31,.35);white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:6px 15px;border-radius:30px;border:1.5px solid var(--gold);font-weight:500;font-size:.93rem;color:#fff;background:rgba(4,17,42,.35);white-space:nowrap}
 .pill svg{color:var(--gold-l);width:18px;height:18px}
-.addr{display:flex;align-items:center;gap:10px;font-size:.86rem;line-height:1.3;color:#eeeadf;white-space:nowrap}
+.addr{display:flex;align-items:center;gap:10px;font-size:.86rem;line-height:1.3;color:#e8eef6;white-space:nowrap}
 .addr svg{color:var(--gold);width:26px;height:26px;stroke-width:1.8}
 .mtools{display:none;margin-left:auto;gap:2px;align-items:center}
 .mtools a,.mtools button{position:relative;width:42px;height:42px;display:grid;place-items:center;border:0;background:none;color:#fff;cursor:pointer;border-radius:10px}
 .mtools svg{width:24px;height:24px}
-.badge{position:absolute;top:3px;right:0;min-width:18px;height:18px;border-radius:10px;background:var(--gold);color:#1d2b27;font-size:.7rem;font-weight:800;display:grid;place-items:center;padding:0 5px;line-height:1}
-.navbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:linear-gradient(180deg,#1a5446,#0f4438);color:#fff;box-shadow:0 6px 18px rgba(6,36,31,.18);border-top:1px solid rgba(255,255,255,.06)}
+.badge{position:absolute;top:3px;right:0;min-width:18px;height:18px;border-radius:10px;background:var(--gold);color:#1a1200;font-size:.7rem;font-weight:800;display:grid;place-items:center;padding:0 5px;line-height:1}
+.navbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:linear-gradient(180deg,#0c2f52,#0a2846);color:#fff;box-shadow:0 6px 18px rgba(4,17,42,.18);border-top:1px solid rgba(255,255,255,.06)}
 .navbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-l) 20%,var(--gold) 70%,transparent)}
 .navbar .wrap{display:flex;align-items:center;gap:4px;height:56px}
 .navbar .links{display:flex;gap:2px;align-items:center;min-width:0}
@@ -94,13 +94,13 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .navbar .it{font-family:var(--fd);font-weight:600;font-size:.93rem;padding:8px 13px;border-radius:9px;color:#fff;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;background:none;border:0;cursor:pointer}
 .navbar .it:hover{color:var(--gold-l)}
 .navbar .it svg{width:18px;height:18px}
-.navbar .it.on{background:linear-gradient(180deg,#ecd9a6,var(--gold));color:#1d2b27;box-shadow:0 4px 12px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.6)}
-.navbar .it.on:hover{color:#1d2b27}
+.navbar .it.on{background:linear-gradient(180deg,#f7dfa6,var(--gold));color:#172e47;box-shadow:0 4px 12px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.6)}
+.navbar .it.on:hover{color:#172e47}
 .navbar .tools{margin-left:auto;display:flex;gap:2px;align-items:center}
 .navbar .nb{position:relative;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:none;border:0;color:#fff;cursor:pointer}
 .navbar .nb:hover{color:var(--gold-l);background:rgba(255,255,255,.06)}
 .navbar .nb svg{width:23px;height:23px}
-.navbar .admbtn{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;border:1.5px solid rgba(224,194,122,.55);height:38px;margin-inline:4px;font-family:var(--fd);font-weight:700;font-size:.85rem}
+.navbar .admbtn{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;border:1.5px solid rgba(244,213,141,.55);height:38px;margin-inline:4px;font-family:var(--fd);font-weight:700;font-size:.85rem}
 .navbar .admbtn svg{width:18px;height:18px;color:var(--gold-l)}
 .navbar .admbtn:hover{border-color:var(--gold-l)}
 .dd{position:relative}
@@ -123,11 +123,11 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
   .navbar .tools{margin:8px 0 0;justify-content:flex-start}
   .dd .menu{position:static;box-shadow:none;background:rgba(255,255,255,.06);color:#fff;margin:4px 0}
   .dd .menu a:hover{background:rgba(255,255,255,.08)}
-  .dd .menu a span.c{color:#c9d6cd}
+  .dd .menu a span.c{color:#c9d4ea}
 }
 /* oldalfej sáv */
 .pagehead{position:relative;background:linear-gradient(180deg,var(--cream-2),var(--bg));padding-block:28px 26px;overflow:hidden}
-.pagehead::after{content:"";position:absolute;right:-60px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,78,.18),transparent 65%);pointer-events:none}
+.pagehead::after{content:"";position:absolute;right:-60px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(233,185,87,.18),transparent 65%);pointer-events:none}
 .crumbs{display:flex;flex-wrap:wrap;gap:8px;font-size:.86rem;color:var(--muted);margin-bottom:10px}
 .crumbs a{font-weight:600;color:var(--n3)}
 .crumbs a:hover{color:var(--gold-d)}
@@ -141,7 +141,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .chip.on{background:var(--n2);border-color:var(--n2);color:#fff}
 .chip.on svg{color:var(--gold-l)}
 .chip .c{font-family:var(--fb);font-size:.78rem;font-weight:600;color:var(--muted);background:var(--surface-2);padding:1px 7px;border-radius:10px}
-.chip.on .c{background:rgba(255,255,255,.12);color:#e5e1d5}
+.chip.on .c{background:rgba(255,255,255,.12);color:#dfe6f3}
 
 /* bolt elrendezés */
 .shop{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start;padding-block:24px 70px}
@@ -173,8 +173,8 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 .grid.list{grid-template-columns:1fr}
 .card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}
-.card:hover{transform:translateY(-4px);box-shadow:var(--sh-2);border-color:#d5dcd6}
-.card .media{position:relative;aspect-ratio:4/3;background:radial-gradient(ellipse at 50% 38%,#fff,#f0ece2 78%);overflow:hidden;display:block}
+.card:hover{transform:translateY(-4px);box-shadow:var(--sh-2);border-color:#d7dceb}
+.card .media{position:relative;aspect-ratio:4/3;background:radial-gradient(ellipse at 50% 38%,#fff,#eef1f7 78%);overflow:hidden;display:block}
 .card .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6%;transition:opacity .35s,transform .5s cubic-bezier(.2,.8,.2,1)}
 .card .media img.alt{opacity:0}
 .card:hover .media img.alt{opacity:1}
@@ -182,7 +182,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .card:hover .media img{transform:scale(1.04)}
 .card .media .mini{position:absolute;inset:0;pointer-events:none}
 .card .tags{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;z-index:2}
-.tag{font-family:var(--fd);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:7px;background:var(--gold);color:#1d2b27}
+.tag{font-family:var(--fd);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:7px;background:var(--gold);color:#1a1200}
 .tag.navy{background:var(--n2);color:#fff}
 .tag.red{background:var(--bad);color:#fff}
 .tag.glass{background:rgba(255,255,255,.85);color:var(--n2);backdrop-filter:blur(6px);border:1px solid var(--line)}
@@ -204,7 +204,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .price .gross{font-size:.78rem;color:var(--muted);white-space:nowrap}
 .price .old{font-size:.82rem;color:var(--muted);text-decoration:line-through}
 .price.ask .net{font-size:1rem}
-.addbtn{width:46px;height:46px;border-radius:14px;border:0;display:grid;place-items:center;cursor:pointer;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:#1d2b27;box-shadow:0 6px 14px rgba(201,162,78,.3);flex-shrink:0;transition:transform .15s}
+.addbtn{width:46px;height:46px;border-radius:14px;border:0;display:grid;place-items:center;cursor:pointer;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));color:#1a1200;box-shadow:0 6px 14px rgba(201,142,43,.3);flex-shrink:0;transition:transform .15s}
 .addbtn:hover{transform:scale(1.06)}
 .addbtn svg{width:22px;height:22px;stroke-width:2.1}
 .addbtn[disabled]{background:var(--line);box-shadow:none;cursor:not-allowed;color:var(--muted)}
@@ -219,21 +219,21 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .empty{background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--r);padding:40px 24px;text-align:center;display:grid;gap:10px;justify-items:center}
 
 /* kategóriaoldal: banner, kártyasor, kiemelt termék panel */
-.banner{position:relative;overflow:hidden;color:#fff;background:radial-gradient(ellipse 60% 120% at 62% 40%,rgba(101,183,174,.35),transparent 60%),linear-gradient(105deg,#0b3a32 0%,#1a5446 48%,#0f4438 100%)}
-.banner::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-38px;height:60px;border-radius:50%;border-top:3px solid var(--gold);box-shadow:0 -2px 0 rgba(224,194,122,.4);background:var(--bg)}
+.banner{position:relative;overflow:hidden;color:#fff;background:radial-gradient(ellipse 60% 120% at 62% 40%,rgba(64,130,200,.35),transparent 60%),linear-gradient(105deg,#071f3b 0%,#0b3158 48%,#0a2a4c 100%)}
+.banner::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-38px;height:60px;border-radius:50%;border-top:3px solid var(--gold);box-shadow:0 -2px 0 rgba(244,213,141,.4);background:var(--bg)}
 .banner .wrap{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;min-height:200px;padding-bottom:22px}
 .banner .bt{display:flex;gap:20px;align-items:stretch}
 .banner .bt::before{content:"";width:5px;border-radius:3px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));transform:skewX(-10deg);flex-shrink:0}
 .banner h1{font-family:var(--fd);font-style:italic;font-weight:800;font-size:clamp(1.9rem,3vw,2.9rem);letter-spacing:-.01em;line-height:1.05;white-space:nowrap}
 .banner h1 em{font-style:italic;background:linear-gradient(180deg,var(--gold-l),var(--gold) 60%,var(--gold-d));-webkit-background-clip:text;background-clip:text;color:transparent}
-.banner p{margin-top:10px;font-size:1.08rem;color:#dce9e1;max-width:44ch}
+.banner p{margin-top:10px;font-size:1.08rem;color:#dfe8f2;max-width:44ch}
 .banner .bimg{align-self:end;justify-self:center;width:100%;max-width:520px;margin-bottom:-6px;filter:drop-shadow(0 18px 24px rgba(0,0,0,.45))}
 .banner .bimg.icon{width:150px;opacity:.9;filter:none;color:var(--gold-l);align-self:center}
 .banner ul{list-style:none;margin:0;padding:0;display:grid;min-width:240px}
 .banner li{display:flex;align-items:center;gap:16px;padding:10px 0;font-family:var(--fd);font-weight:600;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.14)}
 .banner li:last-child{border-bottom:0}
 .banner li img{width:36px;height:36px;filter:brightness(1.35) saturate(1.1)}
-.catbar{position:sticky;top:calc(56px + env(safe-area-inset-top,0px));z-index:40;background:rgba(248,244,234,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 6px 16px rgba(29,43,39,.05)}
+.catbar{position:sticky;top:calc(56px + env(safe-area-inset-top,0px));z-index:40;background:rgba(247,248,250,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 6px 16px rgba(24,46,72,.05)}
 .cb-in{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
 .cb-in::-webkit-scrollbar{display:none}
 .cbi{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:30px;border:1.5px solid var(--line);background:var(--surface);font-family:var(--fd);font-weight:700;font-size:.88rem;white-space:nowrap;transition:background .2s,border-color .2s,color .2s}
@@ -241,7 +241,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .cbi small{font-family:var(--fb);font-size:.74rem;font-weight:700;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:1px 7px}
 .cbi:hover{border-color:var(--gold)}
 .cbi.on{background:var(--n2);border-color:var(--n2);color:#fff}
-.cbi.on svg{color:var(--gold-l)}.cbi.on small{background:rgba(255,255,255,.14);color:#e9e5d9}
+.cbi.on svg{color:var(--gold-l)}.cbi.on small{background:rgba(255,255,255,.14);color:#e3eaf3}
 .catsec{padding-block:26px 8px;scroll-margin-top:130px}
 .catsec + .catsec{border-top:1px solid var(--line);margin-top:22px;padding-top:34px;position:relative}
 .catsec + .catsec::before{content:"";position:absolute;left:0;top:-2px;width:70px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold-l),var(--gold-d))}
@@ -250,7 +250,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .crumbs2 a{color:var(--n3);font-weight:600}
 .crumbs2 a:hover{color:var(--gold-d);text-decoration:underline}
 .crumbs2 span.sep{color:var(--gold-d);font-weight:700}
-.crumbs2 #crumbcat,.crumbs2 > span:last-child{color:#7a5c1e;font-weight:800}
+.crumbs2 #crumbcat,.crumbs2 > span:last-child{color:#9a6a1c;font-weight:800}
 .trow{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:8px 0 16px}
 .trow h2{display:flex;align-items:center;gap:14px;font-family:var(--fd);font-weight:800;font-size:clamp(1.4rem,2.2vw,1.85rem)}
 .trow h2 img,.trow h2 svg{width:40px;height:40px;color:var(--n2)}
@@ -260,9 +260,9 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .back{display:none;align-items:center;gap:6px;font-size:.9rem;font-weight:600;padding-top:12px}
 .pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(134px,1fr));gap:12px}
 .pcard{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 10px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
-.pcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(17,75,63,.1);border-color:#d0d9d3}
-.pcard.sel{border:2px solid var(--gold);padding:9px 9px 11px;background:linear-gradient(180deg,#fff8e9,#fff 70%);box-shadow:0 10px 26px rgba(156,122,50,.16)}
-.pcard .pimg{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:9px;background:linear-gradient(180deg,#fff,#f2eee4);overflow:hidden}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(25,52,76,.1);border-color:#d3dbe4}
+.pcard.sel{border:2px solid var(--gold);padding:9px 9px 11px;background:linear-gradient(180deg,#fff8e9,#fff 70%);box-shadow:0 10px 26px rgba(183,131,46,.16)}
+.pcard .pimg{position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:9px;background:linear-gradient(180deg,#fff,#f3f5f7);overflow:hidden}
 .pcard.sel .pimg{background:transparent}
 .pcard .pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:4%;mix-blend-mode:multiply;transition:transform .4s}
 .pcard:hover .pimg img{transform:scale(1.05)}
@@ -272,18 +272,18 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .pcard .pbtn{margin-top:auto;min-height:32px;padding:0 14px;font-size:.8rem;border-radius:8px}
 .pcard .ptag{position:absolute;top:8px;left:8px;z-index:2;font-size:.6rem;padding:3px 7px}
 .carnav{display:none}
-.detail{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.15fr) 200px;gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0 10px;box-shadow:0 10px 30px rgba(17,75,63,.06);scroll-margin-top:130px}
+.detail{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.15fr) 200px;gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0 10px;box-shadow:0 10px 30px rgba(25,52,76,.06);scroll-margin-top:130px}
 .detail .gal{min-width:0;position:relative}
 .cararrow{display:none}
-.detail .stage{aspect-ratio:3/2;border-radius:12px;background:linear-gradient(180deg,#efebe0,#e5e0d3);border:0}
+.detail .stage{aspect-ratio:3/2;border-radius:12px;background:linear-gradient(180deg,#e9eef5,#dde4ed);border:0}
 .detail .stage .photo img,.detail .stage .spin img{padding:2%}
 .detail .stage .modes{left:auto;right:12px;top:12px;padding:4px}
 .detail .stage .modes button{padding:6px 10px;font-size:.76rem}
 .detail .stage .hint{font-size:.74rem;padding:4px 10px;left:12px;bottom:12px;top:auto}
 .detail .stage .ctl{right:12px;bottom:12px}
 .detail .stage .ctl .icbtn{width:36px;height:36px}
-.detail .stage .navarrow{width:40px;height:40px;box-shadow:0 4px 12px rgba(17,40,34,.15);border:0}
-.ribbon{position:absolute;top:14px;left:-6px;z-index:6;font-family:var(--fd);font-weight:700;font-size:.9rem;color:#1d2b27;padding:6px 26px 6px 18px;background:linear-gradient(180deg,#ecd9a6,var(--gold));clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%);box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.detail .stage .navarrow{width:40px;height:40px;box-shadow:0 4px 12px rgba(12,26,51,.15);border:0}
+.ribbon{position:absolute;top:14px;left:-6px;z-index:6;font-family:var(--fd);font-weight:700;font-size:.9rem;color:#172e47;padding:6px 26px 6px 18px;background:linear-gradient(180deg,#f7dfa6,var(--gold));clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%);box-shadow:0 4px 10px rgba(0,0,0,.15)}
 .detail .thumbs{gap:8px;margin-top:10px}
 .detail .thumbs button{width:76px;height:58px;border-radius:9px;border:1.5px solid var(--line);background:#fff}
 .detail .thumbs button.on{border:2px solid var(--gold)}
@@ -299,7 +299,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .dtabs button svg{width:17px;height:17px;flex-shrink:0}
 .dtabs button svg{display:none}.dtabs button{font-size:.8rem}
 .dtabs button.on{background:var(--n2);border-color:var(--n2);color:#fff}
-.tabbody{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:14px 16px;font-size:.92rem;line-height:1.6;color:#4a5a54;margin-top:-1px;min-height:110px}
+.tabbody{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:14px 16px;font-size:.92rem;line-height:1.6;color:#46586c;margin-top:-1px;min-height:110px}
 .tabbody .spec th,.tabbody .spec td{padding:8px 12px;font-size:.86rem}
 .tabbody .dl{margin-top:6px}
 .tabbody .svc > div{padding:9px 0}
@@ -370,7 +370,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 /* termékoldal */
 .pdp{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start;padding-block:10px 40px}
 .stage-col{position:sticky;top:76px}
-.stage{position:relative;aspect-ratio:1/0.86;border-radius:22px;background:radial-gradient(ellipse 55% 30% at 50% 82%,rgba(17,40,34,.16),transparent 70%),radial-gradient(ellipse at 50% 30%,#fff,#efebe0 82%);border:1px solid var(--line);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.stage{position:relative;aspect-ratio:1/0.86;border-radius:22px;background:radial-gradient(ellipse 55% 30% at 50% 82%,rgba(12,26,51,.16),transparent 70%),radial-gradient(ellipse at 50% 30%,#fff,#e9edf5 82%);border:1px solid var(--line);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y}
 .stage:fullscreen{border-radius:0;aspect-ratio:auto;background:#fff}
 .stage .view{position:absolute;inset:0}
 .stage .photo{position:absolute;inset:0;display:grid;place-items:center;cursor:zoom-in}
@@ -393,7 +393,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .stage .ctl .icbtn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.9);backdrop-filter:blur(8px)}
 .stage .hint{position:absolute;left:14px;bottom:14px;z-index:5;font-size:.8rem;font-weight:600;color:var(--muted);background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:20px;padding:6px 12px;display:flex;gap:8px;align-items:center}
 @media (max-width:620px){.stage .hint{bottom:auto;top:64px;font-size:.74rem;padding:4px 10px}}
-.stage .loadbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(17,40,34,.06);z-index:6}
+.stage .loadbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(12,26,51,.06);z-index:6}
 .stage .loadbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-l),var(--gold-d));transition:width .2s}
 .stage .ring{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);width:120px;height:14px;z-index:5;pointer-events:none}
 .stage .navarrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer}
@@ -406,9 +406,9 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .info h1{font-size:clamp(1.9rem,3.4vw,2.7rem)}
 .info .lead{font-size:1.08rem;color:var(--muted)}
 .pricebox{border-radius:20px;padding:20px 22px;background:linear-gradient(130deg,var(--n2) 0%,var(--n3) 100%);color:#fff;display:grid;gap:8px;position:relative;overflow:hidden}
-.pricebox::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(224,194,122,.25),transparent 65%)}
+.pricebox::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,217,138,.25),transparent 65%)}
 .pricebox .big{font-family:var(--fd);font-weight:800;font-size:clamp(2rem,3.6vw,2.6rem);line-height:1}
-.pricebox .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.92rem;color:#c9d6cd}
+.pricebox .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.92rem;color:#c9d4ea}
 .pricebox .row b{color:#fff}
 .pricebox .old{text-decoration:line-through;opacity:.75}
 .buyrow{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
@@ -423,7 +423,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .perk span{font-size:.82rem;color:var(--muted)}
 @media (max-width:980px){.pdp{grid-template-columns:1fr}.stage-col{position:static}}
 @media (max-width:480px){.perks{grid-template-columns:1fr}}
-.tabs{position:sticky;top:58px;z-index:30;background:rgba(248,244,234,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:10px}
+.tabs{position:sticky;top:58px;z-index:30;background:rgba(244,245,249,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:10px}
 .tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
 .tabs a{padding:16px 16px 14px;font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
 .tabs a.on,.tabs a:hover{color:var(--ink);border-color:var(--gold)}
@@ -451,7 +451,7 @@ details.faq summary::-webkit-details-marker{display:none}
 details.faq summary::after{content:"+";font-size:1.4rem;color:var(--gold-d);transition:transform .2s}
 details.faq[open] summary::after{transform:rotate(45deg)}
 details.faq p{padding-bottom:16px;color:var(--muted)}
-.stickybuy{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(17,40,34,.08);transform:translateY(110%);transition:transform .3s;padding-bottom:env(safe-area-inset-bottom,0px)}
+.stickybuy{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(12,26,51,.08);transform:translateY(110%);transition:transform .3s;padding-bottom:env(safe-area-inset-bottom,0px)}
 .stickybuy.show{transform:none}
 .stickybuy .wrap{display:flex;align-items:center;gap:14px;min-height:70px}
 .stickybuy .nm{font-family:var(--fd);font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -463,9 +463,9 @@ details.faq p{padding-bottom:16px;color:var(--muted)}
 .cmpbar .imgs{display:flex;gap:6px}
 .cmpbar .imgs span{width:36px;height:36px;border-radius:10px;background:#fff;display:grid;place-items:center;color:var(--gold-d)}
 .cmpbar .imgs svg{width:22px;height:22px}
-.overlay{position:fixed;inset:0;background:rgba(6,36,31,.45);backdrop-filter:blur(3px);z-index:94;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay{position:fixed;inset:0;background:rgba(4,17,42,.45);backdrop-filter:blur(3px);z-index:94;opacity:0;pointer-events:none;transition:opacity .25s}
 .overlay.show{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--surface);z-index:96;transform:translateX(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 40px rgba(6,36,31,.18);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--surface);z-index:96;transform:translateX(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 40px rgba(4,17,42,.18);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .drawer.show{transform:none}
 .drawer .dh{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
 .drawer .dh h3{font-size:1.25rem}
@@ -491,14 +491,14 @@ details.faq p{padding-bottom:16px;color:var(--muted)}
 .qv{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px}
 .qv .stage{aspect-ratio:1/0.9}
 @media (max-width:760px){.qv{grid-template-columns:1fr}}
-.lightbox{position:fixed;inset:0;z-index:98;background:rgba(6,30,26,.94);display:none;align-items:center;justify-content:center}
+.lightbox{position:fixed;inset:0;z-index:98;background:rgba(6,14,32,.94);display:none;align-items:center;justify-content:center}
 .lightbox.show{display:flex}
 .lightbox img{max-width:92vw;max-height:84vh;object-fit:contain;transition:transform .25s;cursor:zoom-in}
 .lightbox img.z{transform:scale(1.9);cursor:zoom-out}
 .lightbox .lb-x,.lightbox .lb-p,.lightbox .lb-n{position:absolute;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;display:grid;place-items:center}
 .lightbox .lb-x{top:calc(16px + env(safe-area-inset-top,0px));right:16px}
 .lightbox .lb-p{left:16px;top:50%}.lightbox .lb-n{right:16px;top:50%}
-.lightbox .lb-c{position:absolute;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);color:#c9d6cd;font-weight:600}
+.lightbox .lb-c{position:absolute;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);color:#c9d4ea;font-weight:600}
 .searchpal{position:fixed;inset:0;z-index:97;display:none;align-items:flex-start;justify-content:center;padding:calc(70px + env(safe-area-inset-top,0px)) 16px 16px}
 .searchpal.show{display:flex}
 .searchpal .box{width:min(680px,100%);background:var(--surface);border-radius:20px;box-shadow:var(--sh-2);overflow:hidden}
@@ -514,17 +514,17 @@ details.faq p{padding-bottom:16px;color:var(--muted)}
 .cube{position:absolute;transform-style:preserve-3d}
 .cube > i{position:absolute;left:0;top:0;display:block;backface-visibility:hidden}
 .f-shell{background:var(--shell)} .f-shell.t{background:var(--shell-2)} .f-shell.s{background:var(--shell-3)}
-.f-light{background:var(--key)} .f-light.t{background:#faf8f2} .f-light.s{background:var(--key-2)}
-.f-steel{background:var(--steel)} .f-steel.t{background:linear-gradient(135deg,#e8e4d9,#bcc4be)} .f-steel.s{background:#98a59f}
+.f-light{background:var(--key)} .f-light.t{background:#f8fafc} .f-light.s{background:var(--key-2)}
+.f-steel{background:var(--steel)} .f-steel.t{background:linear-gradient(135deg,#e6ebf0,#b9c1cb)} .f-steel.s{background:#9aa3ad}
 .f-gold{background:var(--gold)} .f-gold.s{background:var(--gold-d)}
 .f-paper{background:#fbfbf8} .f-paper.s{background:#e2e3dc}
-.lcdface{background:var(--lcd-bg)!important;display:flex!important;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;color:var(--lcd);text-shadow:0 0 6px rgba(143,230,167,.6);letter-spacing:.04em;border:4px solid var(--shell-3)}
+.lcdface{background:var(--lcd-bg)!important;display:flex!important;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;color:var(--lcd);text-shadow:0 0 6px rgba(143,208,255,.6);letter-spacing:.04em;border:4px solid var(--shell-3)}
 .keygrid{display:grid!important;gap:4px;padding:9px;background:var(--shell-2)!important}
 .keygrid b{background:var(--key);border-radius:3px;box-shadow:0 2px 0 var(--key-2)}
-.keygrid b.k2{background:var(--gold)}.keygrid b.k3{background:#5d6b66}
-.tiles{display:grid!important;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px;background:linear-gradient(135deg,#3c7366,#114b3f)!important;border:6px solid #0d1014}
+.keygrid b.k2{background:var(--gold)}.keygrid b.k3{background:#5f6974}
+.tiles{display:grid!important;grid-template-columns:repeat(4,1fr);gap:7px;padding:12px;background:linear-gradient(135deg,#2a7ce6,#1846a8)!important;border:6px solid #0d1014}
 .tiles b{border-radius:6px;background:rgba(255,255,255,.9)}
-.tiles b:nth-child(3n){background:#65b7ae}.tiles b:nth-child(4n){background:#ff8fb8}.tiles b:nth-child(5n){background:#ffc65a}
+.tiles b:nth-child(3n){background:#5fd2ff}.tiles b:nth-child(4n){background:#ff8fb8}.tiles b:nth-child(5n){background:#ffc65a}
 .slot{background:linear-gradient(180deg,var(--shell-3) 0 40%,#000 40% 60%,var(--shell-3) 60%)!important}
 .drawerface{display:flex!important;align-items:center;justify-content:center}
 .drawerface::after{content:"";width:40%;height:6px;border-radius:3px;background:var(--shell-3);opacity:.8}
@@ -538,7 +538,7 @@ form.f{display:grid;gap:14px}
 label.l{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.92rem}
 label.l span.o{font-weight:400;color:var(--muted)}
 .i{width:100%;border:1.5px solid var(--line-2);border-radius:12px;padding:11px 14px;background:var(--surface);font-size:1rem;color:var(--ink);transition:border-color .2s,box-shadow .2s}
-.i:focus{border-color:var(--n3);outline:none;box-shadow:0 0 0 4px rgba(17,75,63,.1)}
+.i:focus{border-color:var(--n3);outline:none;box-shadow:0 0 0 4px rgba(11,49,88,.1)}
 textarea.i{min-height:110px;resize:vertical}
 select.i{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235b6580' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:.93rem}
@@ -556,7 +556,7 @@ select.i{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='
 .steps3{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
 .steps3 span{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:30px;background:var(--surface);border:1px solid var(--line);font-weight:600;font-size:.88rem;color:var(--muted)}
 .steps3 span b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--line);color:var(--ink);font-size:.8rem}
-.steps3 span.on{color:var(--ink);border-color:var(--gold)}.steps3 span.on b{background:var(--gold);color:#1d2b27}
+.steps3 span.on{color:var(--ink);border-color:var(--gold)}.steps3 span.on b{background:var(--gold);color:#1a1200}
 .checkout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:start;padding-block:10px 60px}
 .checkout .sumcol{position:sticky;top:76px}
 @media (max-width:900px){.checkout{grid-template-columns:1fr}.checkout .sumcol{position:static}}
@@ -610,7 +610,7 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 .cl-actions{display:flex;gap:6px;flex-wrap:wrap}
 .zchips{display:flex;gap:8px;flex-wrap:wrap}
 .zc{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:30px;border:1.5px solid var(--line);background:var(--surface);font-weight:600;font-size:.85rem;cursor:pointer}
-.zc i{width:10px;height:10px;border-radius:50%;background:var(--zc,#98a59f)}
+.zc i{width:10px;height:10px;border-radius:50%;background:var(--zc,#9aa6b2)}
 .zc small{color:var(--muted);font-weight:500}.zc b{background:var(--surface-2);border-radius:10px;padding:0 7px}
 .zc.on{border-color:var(--zc,var(--n2));box-shadow:inset 0 0 0 1px var(--zc,var(--n2));background:var(--surface-2)}
 .cl-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -665,7 +665,7 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 .imgs{display:flex;gap:8px;flex-wrap:wrap}
 .imgs figure{margin:0;position:relative;width:104px;height:86px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
 .imgs img{width:100%;height:100%;object-fit:cover}
-.imgs .ops{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;background:rgba(6,36,31,.6)}
+.imgs .ops{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;background:rgba(4,17,42,.6)}
 .imgs .ops button{border:0;background:none;color:#fff;cursor:pointer;padding:3px 7px;font-size:.85rem}
 .order{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:8px;margin-bottom:12px}
 .order .h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
@@ -685,11 +685,11 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 
 /* ===== pénztárgépes motívumok ===== */
 :root{--bc:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='182' height='40'%3E%3Crect x='0' width='1' height='40'/%3E%3Crect x='2' width='2' height='40'/%3E%3Crect x='5' width='1' height='40'/%3E%3Crect x='9' width='1' height='40'/%3E%3Crect x='12' width='2' height='40'/%3E%3Crect x='15' width='2' height='40'/%3E%3Crect x='18' width='1' height='40'/%3E%3Crect x='20' width='2' height='40'/%3E%3Crect x='24' width='1' height='40'/%3E%3Crect x='26' width='1' height='40'/%3E%3Crect x='30' width='2' height='40'/%3E%3Crect x='33' width='2' height='40'/%3E%3Crect x='36' width='1' height='40'/%3E%3Crect x='40' width='1' height='40'/%3E%3Crect x='44' width='2' height='40'/%3E%3Crect x='48' width='1' height='40'/%3E%3Crect x='50' width='1' height='40'/%3E%3Crect x='54' width='1' height='40'/%3E%3Crect x='57' width='2' height='40'/%3E%3Crect x='60' width='2' height='40'/%3E%3Crect x='63' width='2' height='40'/%3E%3Crect x='67' width='2' height='40'/%3E%3Crect x='70' width='1' height='40'/%3E%3Crect x='74' width='2' height='40'/%3E%3Crect x='77' width='1' height='40'/%3E%3Crect x='79' width='2' height='40'/%3E%3Crect x='82' width='2' height='40'/%3E%3Crect x='85' width='2' height='40'/%3E%3Crect x='88' width='2' height='40'/%3E%3Crect x='93' width='2' height='40'/%3E%3Crect x='97' width='2' height='40'/%3E%3Crect x='102' width='2' height='40'/%3E%3Crect x='106' width='1' height='40'/%3E%3Crect x='108' width='1' height='40'/%3E%3Crect x='110' width='1' height='40'/%3E%3Crect x='114' width='1' height='40'/%3E%3Crect x='118' width='2' height='40'/%3E%3Crect x='122' width='3' height='40'/%3E%3Crect x='127' width='1' height='40'/%3E%3Crect x='131' width='1' height='40'/%3E%3Crect x='133' width='2' height='40'/%3E%3Crect x='137' width='1' height='40'/%3E%3Crect x='140' width='1' height='40'/%3E%3Crect x='143' width='2' height='40'/%3E%3Crect x='146' width='3' height='40'/%3E%3Crect x='150' width='2' height='40'/%3E%3Crect x='155' width='1' height='40'/%3E%3Crect x='158' width='3' height='40'/%3E%3Crect x='163' width='2' height='40'/%3E%3Crect x='167' width='2' height='40'/%3E%3Crect x='171' width='1' height='40'/%3E%3Crect x='173' width='1' height='40'/%3E%3Crect x='176' width='3' height='40'/%3E%3C/svg%3E");--keys:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='56'%3E%3Crect x='5' y='5' width='54' height='42' rx='9' fill='%23ffffff' fill-opacity='.55' stroke='%23082746' stroke-opacity='.07' stroke-width='1.5'/%3E%3Crect x='5' y='45' width='54' height='5' rx='2.5' fill='%23082746' fill-opacity='.04'/%3E%3C/svg%3E");
-  --lcd-a:#0c2a22;--lcd-b:#071d18;--lcd-t:#8fe6a7;--paper:#fffdf6;--fm:"VT323",ui-monospace,monospace;--fr:"Courier Prime","Courier New",ui-monospace,monospace}
+  --lcd-a:#2c55d8;--lcd-b:#1a36a6;--lcd-t:#eef4ff;--paper:#fffdf6;--fm:"VT323",ui-monospace,monospace;--fr:"Courier Prime","Courier New",ui-monospace,monospace}
 .wsm-bc{display:block;height:30px;background:#1d2530;-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
-body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(248,244,234,.9),rgba(248,244,234,.6)),var(--keys) 0 0/64px 56px,var(--bg)}
+body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),rgba(247,248,250,.6)),var(--keys) 0 0/64px 56px,var(--bg)}
 /* ár: pénztárgép-kijelző */
-.pbox .big{white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.75rem;line-height:1;text-align:right;padding:8px 12px 4px;border-radius:7px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));color:var(--lcd-t);text-shadow:0 0 9px rgba(143,230,167,.8);box-shadow:inset 0 0 0 2px #355b4d,inset 0 8px 16px rgba(0,0,0,.35),0 0 0 5px #18221f,0 6px 14px rgba(6,36,31,.25);margin:4px 5px 8px;position:relative;overflow:hidden}
+.pbox .big{white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.75rem;line-height:1;text-align:right;padding:8px 12px 4px;border-radius:7px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));color:var(--lcd-t);text-shadow:0 0 9px rgba(190,215,255,.8);box-shadow:inset 0 0 0 2px #0e1f62,inset 0 8px 16px rgba(0,0,0,.35),0 0 0 5px #1c1f25,0 6px 14px rgba(4,17,42,.25);margin:4px 5px 8px;position:relative;overflow:hidden}
 .pbox .big::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(90deg,rgba(0,0,0,.09) 1px,transparent 1px) 0 0/3px 3px,linear-gradient(160deg,rgba(255,255,255,.16),transparent 45%)}
 /* kosár összesítő: nyugta */
 .drawer .df{background:linear-gradient(180deg,var(--paper),#f7f1e2);border-top:0;padding-top:26px;font-family:var(--fr);-webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
@@ -698,7 +698,7 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(248,244,234,.9),
 .drawer .df .sumrow.tot{font-family:var(--fr);font-size:1.3rem;border-top:3px double #1d2530;padding-top:8px}
 .drawer .df .btn{font-family:var(--fd)}
 /* kategóriák között: perforált nyugta-vonal */
-.catsec + .catsec{border-top:2px dashed #c8d2cb}
+.catsec + .catsec{border-top:2px dashed #cbd3dc}
 .catsec + .catsec::before{top:-9px;width:64px;height:16px;border-radius:0;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));-webkit-mask:var(--bc) 0 0/auto 100% repeat-x;mask:var(--bc) 0 0/auto 100% repeat-x}
 .pcard{background:linear-gradient(180deg,#fff,#fff 70%,#fbfaf6)}
 
@@ -717,40 +717,6 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(248,244,234,.9),
   .detail .pbox .big{font-size:1.85rem;padding:8px 10px 4px}
   .detail .pbox .btn{min-height:46px;font-size:.95rem}
 }
-
-/* ===== Zsolnay-eozin színrendszer ===== */
-:root{--eozin:linear-gradient(110deg,#1e5b4a 0%,#65b7ae 35%,#8b6a91 68%,#c9a24e 100%);--lcd-text:#8fe6a7;--lcd-frame:#355b4d;--vfd:#071d18;--eozin-mid:#3c7366}
-.pbox .big{background:linear-gradient(var(--vfd),var(--vfd)) padding-box,var(--eozin) border-box!important;border:1.5px solid transparent;color:var(--lcd-text)!important;text-shadow:0 0 6px rgba(143,230,167,.45)!important;box-shadow:inset 0 6px 14px rgba(0,0,0,.4),0 6px 14px rgba(6,36,31,.2)!important}
-.pbox .big::after{opacity:.5}
-.btn.gold{color:#1d2b27}
-
-/* ===== minta szerinti finomítás: arany keretek, serif címek, élénk zöld VFD ===== */
-:root{--ink-m:#1d1d1d;--muted-m:#646e6a;--frame:#d8bf86;--frame-2:#c9a24e;--vfd-bg:#082820;--vfd-tx:#00f495;--ok-m:#238b5f;--warn-m:#c48900;--bad-m:#8e2b3a;--serif:"Playfair Display",Georgia,"Times New Roman",serif}
-.vfd-chip,.pbox .big,.fp .pr,.pk .lcd{font-family:var(--fb)!important;font-weight:800!important;letter-spacing:.01em;color:var(--vfd-tx)!important;-webkit-text-fill-color:var(--vfd-tx)!important;text-shadow:0 0 10px rgba(0,244,149,.45)!important;border-radius:12px!important;border:1.5px solid #0f3b2e!important;background:radial-gradient(ellipse 80% 120% at 50% 0%,#0e3a2d,var(--vfd-bg)) !important;box-shadow:inset 0 2px 8px rgba(0,0,0,.5),0 4px 12px rgba(8,40,32,.25)!important}
-.pbox .big::after,.pk .lcd::after{display:none}
-
-:root{--ink:#1d1d1d;--muted:#646e6a;--ok:#238b5f;--warn:#c48900;--bad:#8e2b3a}
-.banner h1,.trow h2,.detail .info2 h2,.page h1,main h1{font-family:var(--serif)!important;font-style:normal!important;letter-spacing:0}
-.banner h1 em,.detail .info2 h2 em{font-style:normal}
-.banner{background:radial-gradient(ellipse 50% 80% at 70% 40%,rgba(224,194,122,.2),transparent 70%),linear-gradient(115deg,#114b3f 0%,#1d6253 55%,#2f7e66 100%)!important;border-bottom:1.5px solid #c9a24e}
-.detail,.pbox,.pcard{border-color:var(--frame)!important}
-.detail{box-shadow:0 0 0 4px #fffdf6,0 0 0 5px rgba(216,191,134,.55),0 12px 30px rgba(17,75,63,.1)!important;background:#fffdf8!important}
-.pbox{background:#fffdf6!important;border-radius:14px!important}
-.pbox .big{text-align:center!important;font-size:1.55rem!important;padding:10px 12px!important}
-.btn.gold{background:linear-gradient(180deg,#e2b752 0%,#c48f26 50%,#9a6a14 100%)!important;color:#fff!important;border:2px solid #e9cf86!important;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-
-/* ===== anyag- és fényhatás (minta szerint) ===== */
-.btn.gold{position:relative;border:2px solid transparent!important;background:linear-gradient(180deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.12) 46%,rgba(255,255,255,0) 52%) padding-box,linear-gradient(180deg,#f8dc84 0%,#d9a53c 48%,#93630f 100%) padding-box,linear-gradient(160deg,#fff4cf 0%,#d9b45c 22%,#fff1c2 46%,#a97a26 70%,#f3dc9c 100%) border-box!important;box-shadow:0 8px 18px rgba(0,0,0,.32),0 2px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -4px 8px rgba(0,0,0,.28)!important;color:#fff!important;text-shadow:0 1px 0 rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.2);transition:transform .15s,box-shadow .2s,filter .2s}.btn.gold:hover{filter:brightness(1.08) saturate(1.05);transform:translateY(-1px)}.btn.gold:active{transform:translateY(1px);box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 2px 6px rgba(0,0,0,.35)!important}
-.btn.navy,.cbi.on,.catbar .on{position:relative;border:2px solid transparent!important;background:linear-gradient(180deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.12) 46%,rgba(255,255,255,0) 52%) padding-box,linear-gradient(180deg,#46c486 0%,#1f9259 48%,#0f6b3f 100%) padding-box,linear-gradient(160deg,#fff4cf 0%,#d9b45c 22%,#fff1c2 46%,#a97a26 70%,#f3dc9c 100%) border-box!important;box-shadow:0 8px 18px rgba(0,0,0,.32),0 2px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -4px 8px rgba(0,0,0,.28)!important;color:#fff!important;text-shadow:0 1px 0 rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.2);transition:transform .15s,box-shadow .2s,filter .2s}.btn.navy,.cbi.on,.catbar .on:hover{filter:brightness(1.08) saturate(1.05);transform:translateY(-1px)}.btn.navy,.cbi.on,.catbar .on:active{transform:translateY(1px);box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 2px 6px rgba(0,0,0,.35)!important}
-.detail{border:2px solid transparent!important;background:linear-gradient(180deg,#fffef9,#fbf5e7) padding-box,linear-gradient(160deg,#fff4cf 0%,#d9b45c 22%,#fff1c2 46%,#a97a26 70%,#f3dc9c 100%) border-box!important;box-shadow:0 0 0 1px rgba(120,85,25,.18),0 14px 30px rgba(70,50,15,.14),0 3px 6px rgba(70,50,15,.08),inset 0 1px 0 #fff!important}
-.pbox{border:2px solid transparent!important;background:linear-gradient(180deg,#fffef9,#fbf5e7) padding-box,linear-gradient(160deg,#fff4cf 0%,#d9b45c 22%,#fff1c2 46%,#a97a26 70%,#f3dc9c 100%) border-box!important;box-shadow:0 0 0 1px rgba(120,85,25,.18),0 14px 30px rgba(70,50,15,.14),0 3px 6px rgba(70,50,15,.08),inset 0 1px 0 #fff!important}
-.pcard{border:1.5px solid transparent!important;background:linear-gradient(180deg,#fffef9,#fbf6ea) padding-box,linear-gradient(160deg,#f3e2b0,#d4b26a 40%,#efdca8 70%,#c9a24e) border-box!important;box-shadow:0 8px 18px rgba(70,50,15,.10)!important}
-.pbox .big{background:linear-gradient(180deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.03) 42%,rgba(255,255,255,0) 50%) padding-box,radial-gradient(ellipse 90% 140% at 50% 0%,#11503c,#06231b 70%) padding-box,linear-gradient(180deg,#3a6e5c,#0a2a21 60%,#1c4a3c) border-box!important;border:2px solid transparent!important;box-shadow:0 6px 14px rgba(0,0,0,.35),inset 0 2px 10px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.4)!important;text-shadow:0 0 6px rgba(0,244,149,.85),0 0 18px rgba(0,244,149,.45)!important}
-.banner{box-shadow:inset 0 -40px 70px rgba(0,0,0,.25),0 3px 0 #b8903a,0 4px 0 #f3dc9c,0 6px 0 #8a6a24!important;border-bottom:0!important}
-.banner h1{text-shadow:0 2px 0 rgba(0,0,0,.25),0 6px 20px rgba(0,0,0,.4)}
-.navbar .it.on{background:linear-gradient(180deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.12) 46%,rgba(255,255,255,0) 52%),linear-gradient(180deg,#f3d68a,#c99a3c 55%,#8f6516)!important;color:#1d2b27!important;box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 4px rgba(0,0,0,.2)!important;border:1px solid #f6e3a8}
-.navbar{box-shadow:0 2px 0 #b8903a,0 3px 0 #f3dc9c,0 5px 0 #8a6a24,0 8px 16px rgba(0,0,0,.2)}
-.btn.gold{text-shadow:0 1px 1px rgba(0,0,0,.6),0 0 6px rgba(80,50,0,.5)!important}
 </style>
 </head>
 <body>
@@ -798,7 +764,7 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(248,244,234,.9),
   <div class="wrap">
     <div class="sb"><img src="../assets/ikonok/shield.svg" alt=""><span>Hivatalos<br>forgalmazó</span></div>
     <div class="sb"><img src="../assets/ikonok/tools.svg" alt=""><span>Szerviz<br>Pécsen</span></div>
-    <div class="sb"><svg viewBox="0 0 24 24" fill="none" stroke="#8a6a24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Üzembe helyezés<br>és beállítás</span></div>
+    <div class="sb"><svg viewBox="0 0 24 24" fill="none" stroke="#B7832E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Üzembe helyezés<br>és beállítás</span></div>
     <div class="sb"><img src="../assets/ikonok/support.svg" alt=""><span>Szakmai<br>tanácsadás</span></div>
     <div class="sb"><img src="../assets/ikonok/truck.svg" alt=""><span>Országos<br>kiszállítás</span></div>
   </div>
@@ -1058,7 +1024,7 @@ function cardHTML(p,i=0){ return pcardHTML(p,false,i); }
 /* ================= oldalak ================= */
 const catRoute = id => 'kat-'+id;
 function pageHead(title, sub, crumbs, extra=''){ return `<section class="pagehead"><div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section>`; }
-const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#d4b36a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
+const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
 const SVG = n => `<img src="../assets/ikonok/${n}.svg" alt="" aria-hidden="true">`;
 function sortItems(items){
   const sorts={nev:(a,b)=>fullName(a).localeCompare(fullName(b),'hu'), olcso:(a,b)=>(now(a)??1e12)-(now(b)??1e12), draga:(a,b)=>(now(b)??-1)-(now(a)??-1), ajanlott:(a,b)=>(b.kiemelt-a.kiemelt)||((avail(b)>0)-(avail(a)>0)), keszlet:(a,b)=>(avail(a)===Infinity?99:avail(a))-(avail(b)===Infinity?99:avail(b))};
@@ -1675,7 +1641,7 @@ function shrink(file,max){ return new Promise((res,rej)=>{ const r=new FileReade
 const C={list:[],meta:null,owner:false,q:'',zone:-1,sort:'tav',view:'lista',sel:new Set(),geoRun:false};
 const DEMO_CLIENTS=[['Minta Pékség (minta)','Pécs','7621','Király utca 1.',46.0768,18.2310,'Sam4s NR-300'],['Példa Trafik (minta)','Pécs','7632','Diana tér 1.',46.0629,18.2026,'Micra Jota E'],['Minta Zöldséges (minta)','Kozármisleny','7761','Fő utca 1.',46.0302,18.2905,'Sam4s NR-240'],['Példa Büfé (minta)','Orfű','7677','Széchenyi tér 1.',46.1497,18.1475,'Micra K10'],['Minta Fodrászat (minta)','Komló','7300','Városház tér 1.',46.1917,18.2618,'Sam4s NR-330'],['Példa Vegyesbolt (minta)','Siklós','7800','Felszabadulás utca 1.',45.8549,18.2985,'Montel Sento'],['Minta Kávézó (minta)','Szigetvár','7900','Zrínyi tér 1.',46.0484,17.8060,'Sam4s NR-440'],['Példa Virágbolt (minta)','Mohács','7700','Széchenyi tér 1.',45.9931,18.6831,'Sam4s NR-300']]
   .map(([nev,varos,irsz,cim,lat,lon,gep],i)=>({id:'minta'+i,nev,kapcsolattarto:'',telefon:'+36 30 000 00'+String(i).padStart(2,'0'),email:'',irsz,varos,cim,adoszam:'',gep,ap:'',felulvizsgalat:new Date(Date.now()+(i*41-60)*864e5).toISOString().slice(0,10),megjegyzes:'Kitalált mintaadat az előnézethez.',cimkek:'',lat,lon,geo:'ok'}));
-const DEF_META={bolt:{lat:46.0786,lon:18.2318,cim:'7625 Pécs, Hunyadi János utca 34.',ellenorzott:true},zonak:[{nev:'Pécs belváros',km:3,szin:'#1f9d55',dij:''},{nev:'Pécs',km:10,szin:'#3c7366',dij:''},{nev:'Pécs környéke',km:25,szin:'#a8843a',dij:''},{nev:'Baranya',km:50,szin:'#dd6b20',dij:''},{nev:'Távoli',km:null,szin:'#872f38',dij:''}]};
+const DEF_META={bolt:{lat:46.0786,lon:18.2318,cim:'7625 Pécs, Hunyadi János utca 34.',ellenorzott:true},zonak:[{nev:'Pécs belváros',km:3,szin:'#1f9d55',dij:''},{nev:'Pécs',km:10,szin:'#2b6cb0',dij:''},{nev:'Pécs környéke',km:25,szin:'#c98e2b',dij:''},{nev:'Baranya',km:50,szin:'#dd6b20',dij:''},{nev:'Távoli',km:null,szin:'#c0352b',dij:''}]};
 function fakeClients(a,b,me){
   const st=LS.get('ptg-clients-demo',null)||{clients:structuredClone(DEMO_CLIENTS),meta:structuredClone(DEF_META)}, save=()=>LS.set('ptg-clients-demo',st), own=me.szerep==='tulajdonos';
   const needOwn=()=>{ if(!own) pErr('Ezt csak a tulajdonosok végezhetik el.'); };
@@ -1718,13 +1684,13 @@ function renderClients(){
   b.innerHTML=`<div class="cl-wrap">
    <div class="cl-head"><div><h3>Ügyfelek <small class="muted num">${C.list.length} ügyfél</small></h3><p class="muted" style="font-size:.86rem">Távolság légvonalban az üzlettől (${esc(C.meta.bolt.cim)}), úton ennél kb. 25–40%-kal több.${MODE==='preview'?' <b>Előnézet: kitalált mintaadatok.</b>':''}</p></div>
      <div class="cl-actions">${C.owner?`<button class="btn line sm" type="button" id="cl-imp">${icon('file')} Importálás</button><button class="btn line sm" type="button" id="cl-exp">Exportálás</button><button class="btn line sm" type="button" id="cl-zon">Zónák</button><button class="btn ghost sm" type="button" id="cl-log">Napló</button>`:''}<button class="btn navy sm" type="button" id="cl-new">${icon('plus')} Új ügyfél</button></div></div>
-   <div class="zchips"><button type="button" class="zc ${C.zone===-1?'on':''}" data-z="-1">Mind <b>${C.list.length}</b></button>${z.map((x,i)=>`<button type="button" class="zc ${C.zone===i?'on':''}" data-z="${i}" style="--zc:${esc(x.szin)}"><i></i>${esc(x.nev)} <small>${zl(i)}</small> <b>${cnt(i)}</b></button>`).join('')}${noGeo?`<button type="button" class="zc ${C.zone===-2?'on':''}" data-z="-2" style="--zc:#98a59f"><i></i>Hely nélkül <b>${noGeo}</b></button>`:''}</div>
+   <div class="zchips"><button type="button" class="zc ${C.zone===-1?'on':''}" data-z="-1">Mind <b>${C.list.length}</b></button>${z.map((x,i)=>`<button type="button" class="zc ${C.zone===i?'on':''}" data-z="${i}" style="--zc:${esc(x.szin)}"><i></i>${esc(x.nev)} <small>${zl(i)}</small> <b>${cnt(i)}</b></button>`).join('')}${noGeo?`<button type="button" class="zc ${C.zone===-2?'on':''}" data-z="-2" style="--zc:#9aa6b2"><i></i>Hely nélkül <b>${noGeo}</b></button>`:''}</div>
    <div id="geoprog"></div>
    <div class="cl-tools"><label class="search-in" style="max-width:none;flex:1">${icon('search')}<input class="i" id="cl-q" type="search" placeholder="Keresés: név, település, telefon, géptípus, AP szám" value="${esc(C.q)}"></label>
      <select class="i" id="cl-sort" style="width:auto">${[['tav','Legközelebb elöl'],['nev','Név szerint'],['varos','Település szerint'],['felul','Felülvizsgálat szerint']].map(([k,v])=>`<option value="${k}" ${C.sort===k?'selected':''}>${v}</option>`).join('')}</select>
      <div class="seg"><button type="button" class="${C.view==='lista'?'on':''}" data-v="lista">Lista</button><button type="button" class="${C.view==='terkep'?'on':''}" data-v="terkep">Térkép</button></div></div>
    ${C.sel.size?`<div class="routebar">${icon('pin')}<span><b>${C.sel.size}</b> ügyfél kijelölve a kiszálláshoz</span><button class="btn gold sm" type="button" id="cl-route">Útvonal Google Térképen</button><button class="btn ghost sm" type="button" id="cl-unsel">Kijelölés törlése</button></div>`:''}
-   ${C.view==='terkep'?radarHTML(rows):(rows.length?`<div class="clist">${rows.map(({c,km,z:zi})=>{ const zz=z[zi], rs=revState(c); return `<article class="ccard" style="--zc:${zz?esc(zz.szin):'#98a59f'}">
+   ${C.view==='terkep'?radarHTML(rows):(rows.length?`<div class="clist">${rows.map(({c,km,z:zi})=>{ const zz=z[zi], rs=revState(c); return `<article class="ccard" style="--zc:${zz?esc(zz.szin):'#9aa6b2'}">
       <label class="csel"><input type="checkbox" data-sel="${esc(c.id)}" ${C.sel.has(c.id)?'checked':''} aria-label="Kijelölés kiszálláshoz"></label>
       <div class="cmain"><b>${esc(c.nev)}</b>${c.kapcsolattarto?`<small>${esc(c.kapcsolattarto)}</small>`:''}<span class="muted">${esc(addrOf(c))||'<i>nincs cím</i>'}</span>${c.gep||c.ap?`<small class="muted">${esc([c.gep,c.ap&&('AP: '+c.ap)].filter(Boolean).join(' · '))}</small>`:''}</div>
       <div class="cdist"><b class="num">${fkm(km)}</b><span class="zb">${zz?esc(zz.nev):'hely nélkül'}</span>${c.geo==='telepules'?'<small class="muted">település szerint</small>':c.geo==='hiba'?'<small style="color:var(--bad)">a cím nem található</small>':''}${zz&&zz.dij?`<small class="muted">kiszállás: ${esc(zz.dij)}</small>`:''}</div>
@@ -1748,9 +1714,9 @@ function radarHTML(rows){
   const z=C.meta.zonak, maxKm=Math.max(5,...rows.map(r=>r.km||0).filter(k=>k<200))*1.08, R=300, cx=320, cy=320, b=C.meta.bolt;
   const kx=111.32*Math.cos(toRad(b.lat)), sc=R/maxKm;
   const rings=z.filter(x=>x.km!=null&&x.km<=maxKm).map(x=>`<circle cx="${cx}" cy="${cy}" r="${x.km*sc}" fill="${x.szin}" fill-opacity=".06" stroke="${x.szin}" stroke-opacity=".7" stroke-dasharray="4 4"/><text x="${cx+4}" y="${cy-x.km*sc+14}" class="rl" fill="${x.szin}">${esc(x.nev)} · ${x.km} km</text>`).reverse().join('');
-  const pts=rows.filter(r=>r.km!=null).map(({c,z:zi})=>{ const x=cx+(c.lon-b.lon)*kx*sc, y=cy-(c.lat-b.lat)*110.57*sc; const col=z[zi]?.szin||'#98a59f';
+  const pts=rows.filter(r=>r.km!=null).map(({c,z:zi})=>{ const x=cx+(c.lon-b.lon)*kx*sc, y=cy-(c.lat-b.lat)*110.57*sc; const col=z[zi]?.szin||'#9aa6b2';
     return `<g class="pt" data-pt="${esc(c.id)}" tabindex="0"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${C.sel.has(c.id)?8:6}" fill="${col}" stroke="#fff" stroke-width="2"/><title>${esc(c.nev)} – ${esc(c.varos||'')} (${fkm(kmFrom(c))})</title></g>`; }).join('');
-  return `<div class="radar"><svg viewBox="0 0 640 640" role="img" aria-label="Ügyfelek elhelyezkedése az üzlethez képest">${rings}<line x1="${cx}" y1="14" x2="${cx}" y2="626" class="ax"/><line x1="14" y1="${cy}" x2="626" y2="${cy}" class="ax"/><text x="${cx+6}" y="26" class="rl">É</text>${pts}<g><rect x="${cx-9}" y="${cy-9}" width="18" height="18" rx="4" fill="#114b3f" stroke="#e0c27a" stroke-width="2"/><text x="${cx+14}" y="${cy+4}" class="rl" fill="#114b3f">Üzlet</text></g></svg>
+  return `<div class="radar"><svg viewBox="0 0 640 640" role="img" aria-label="Ügyfelek elhelyezkedése az üzlethez képest">${rings}<line x1="${cx}" y1="14" x2="${cx}" y2="626" class="ax"/><line x1="14" y1="${cy}" x2="626" y2="${cy}" class="ax"/><text x="${cx+6}" y="26" class="rl">É</text>${pts}<g><rect x="${cx-9}" y="${cy-9}" width="18" height="18" rx="4" fill="#082746" stroke="#f4d58d" stroke-width="2"/><text x="${cx+14}" y="${cy+4}" class="rl" fill="#082746">Üzlet</text></g></svg>
    <p class="muted" style="font-size:.84rem">Az üzlet van középen, felül az észak. A pontra kattintva megnyílik az ügyfél adatlapja. A térkép csak itt, a böngészőben készül, az ügyfelek helye nem megy ki külső szolgáltatóhoz.</p></div>`;
 }
 function openRoute(){
