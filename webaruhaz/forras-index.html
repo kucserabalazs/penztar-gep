@@ -735,6 +735,60 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
 .btn.line{background:radial-gradient(ellipse 120% 85% at 50% -20%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#ffffff 0%,#f4f7fa 45%,#e3e9ef 100%) padding-box,linear-gradient(180deg,#ffffff 0%,#c3ccd6 45%,#93a0ae 70%,#eef2f6 100%) border-box!important;color:#132235!important;text-shadow:0 1px 0 #fff!important;box-shadow:0 1px 0 rgba(255,255,255,.35),0 5px 0 #aeb9c5,0 6px 0 rgba(0,0,0,.25),0 12px 20px rgba(0,0,0,.28),0 22px 34px rgba(0,0,0,.14),inset 0 2px 1px rgba(255,255,255,.6),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.18)!important}
 .btn.line:hover{transform:translateY(-2px);filter:brightness(1.06) saturate(1.06);box-shadow:0 1px 0 rgba(255,255,255,.35),0 7px 0 #aeb9c5,0 8px 0 rgba(0,0,0,.25),0 16px 26px rgba(0,0,0,.3),0 26px 40px rgba(0,0,0,.16),inset 0 2px 1px rgba(255,255,255,.65),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.2)!important}
 .btn.line:active{transform:translateY(4px);filter:brightness(.97);box-shadow:0 1px 0 #aeb9c5,0 2px 4px rgba(0,0,0,.3),inset 0 3px 6px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.3)!important}
+
+/* =====================================================================
+   PRÉMIUM ANYAGHATÁS – az egész oldalra (fém, üveg, papír, fény)
+   ===================================================================== */
+:root{--goldrim:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%);--goldrim-soft:linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%);--silver:linear-gradient(155deg,#ffffff 0%,#cfd8e2 30%,#f7f9fb 50%,#aab6c3 75%,#eef2f6 100%);--gloss:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%)}
+/* finom anyagszemcse az egész felületen */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.035;mix-blend-mode:multiply}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes pmSweep{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(320%) skewX(-18deg)}}
+  @keyframes pmGlow{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes pmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+}
+::selection{background:#f4d58d;color:#0b1f3a}
+
+/* --- fejléc és menü --- */
+.top{background:radial-gradient(ellipse 60% 140% at 22% -10%,rgba(64,130,200,.35),transparent 60%),linear-gradient(180deg,#0b2a52 0%,#061a33 70%,#04112a 100%)!important}
+.navbar{box-shadow:0 2px 0 #9c7225,0 3px 0 #f6dc9a,0 5px 0 #8a6420,0 10px 22px rgba(0,0,0,.3)!important}
+.navbar .it.on{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#ffe7a6 0%,#f0c46e 40%,#c98e2b 85%,#e8bd62 100%)!important;border:1px solid #fff0c4;color:#1a1200!important;text-shadow:0 1px 0 rgba(255,244,210,.8);box-shadow:0 1px 0 rgba(255,255,255,.4),0 4px 0 #8a5e17,0 8px 16px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.7),inset 0 -3px 5px rgba(0,0,0,.18)!important}
+/* --- banner --- */
+.banner{box-shadow:inset 0 -50px 80px rgba(2,8,20,.4),0 2px 0 #9c7225,0 3px 0 #f6dc9a,0 5px 0 #8a6420!important}
+.banner h1{text-shadow:0 3px 0 rgba(0,0,0,.25),0 10px 30px rgba(0,0,0,.5)}
+.banner h1 em{background:linear-gradient(180deg,#fff7dc 0%,#ffe29a 30%,#e9b957 52%,#b88328 70%,#f7d98c 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;filter:drop-shadow(0 2px 1px rgba(0,0,0,.4))}
+/* --- kategóriasáv: üveg tabletták --- */
+.catbar{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,248,250,.88))!important;box-shadow:0 1px 0 rgba(183,131,46,.25),0 10px 24px rgba(12,26,51,.08)!important}
+.cbi{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#fff,#f2f5f8) padding-box,linear-gradient(155deg,#ffffff 0%,#cfd8e2 30%,#f7f9fb 50%,#aab6c3 75%,#eef2f6 100%) border-box!important;box-shadow:0 3px 0 #c3ccd6,0 6px 12px rgba(12,26,51,.08),inset 0 1px 0 #fff;transition:transform .15s,box-shadow .15s}
+.cbi:hover{transform:translateY(-1px)}
+.cbi.on{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#2c5f93 0%,#15426b 45%,#082746 58%,#0c3156 100%) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;color:#fff!important;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:0 3px 0 #020c1c,0 8px 16px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.3)!important}
+/* --- termékkártyák --- */
+.pcard{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+
+.pcard:hover{transform:translateY(-5px)!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.16),0 4px 8px rgba(12,26,51,.07),0 18px 34px rgba(12,26,51,.12),0 40px 70px -24px rgba(12,26,51,.3)!important}
+.pcard .pimg{box-shadow:inset 0 -10px 18px -10px rgba(12,26,51,.18)}
+.pcard.on,.pcard[aria-current="true"]{background:linear-gradient(180deg,#fffdf4,#fbf3dc) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 0 0 3px rgba(244,213,141,.35),0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.16),0 4px 8px rgba(12,26,51,.07),0 18px 34px rgba(12,26,51,.12),0 40px 70px -24px rgba(12,26,51,.3)!important}
+/* --- kiválasztott termék panel --- */
+.detail{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff,#fcfbf7) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 #fff inset,0 4px 8px rgba(12,26,51,.05),0 24px 50px -16px rgba(12,26,51,.25)!important}
+.detail .stage{box-shadow:inset 0 2px 10px rgba(12,26,51,.12),inset 0 -30px 40px -30px rgba(12,26,51,.2),0 0 0 1px rgba(183,131,46,.2)!important;background:radial-gradient(ellipse 60% 30% at 50% 85%,rgba(12,26,51,.18),transparent 70%),radial-gradient(ellipse at 50% 30%,#ffffff,#e8edf4 85%)!important}
+.detail .stage .photo img{filter:drop-shadow(0 24px 22px rgba(12,26,51,.3))}
+.detail .thumbs button{border:1.5px solid transparent!important;background:linear-gradient(#fff,#f6f8fa) padding-box,linear-gradient(155deg,#ffffff 0%,#cfd8e2 30%,#f7f9fb 50%,#aab6c3 75%,#eef2f6 100%) border-box!important;box-shadow:0 3px 0 #c3ccd6,0 6px 10px rgba(12,26,51,.08)}
+.detail .thumbs button.on{background:linear-gradient(#fff,#fffaf0) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 3px 0 #a8782a,0 8px 14px rgba(183,131,46,.25)!important}
+.dtabs button{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#fff,#eef2f6) padding-box,linear-gradient(155deg,#ffffff 0%,#cfd8e2 30%,#f7f9fb 50%,#aab6c3 75%,#eef2f6 100%) border-box!important;box-shadow:0 3px 0 #c3ccd6,inset 0 1px 0 #fff}
+.dtabs button.on{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#2c5f93 0%,#15426b 45%,#082746 58%,#0c3156 100%) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;color:#fff!important;text-shadow:0 -1px 0 rgba(0,0,0,.5);box-shadow:0 3px 0 #020c1c,0 8px 14px rgba(8,39,70,.3)!important}
+.tabbody{box-shadow:inset 0 2px 6px rgba(12,26,51,.06);background:linear-gradient(180deg,#fff,#fbfbf8)}
+.pbox{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#ffffff,#f9f7f1) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 1px 0 #fff inset,0 18px 36px -12px rgba(12,26,51,.28)!important}
+.pbox .big{box-shadow:inset 0 0 0 2px #0e1f62,inset 0 10px 18px rgba(0,0,0,.4),0 0 0 5px #1c1f25,0 0 0 6px #b8903a,0 0 0 7px #f6dc9a,0 10px 20px rgba(4,17,42,.35),0 0 24px rgba(44,85,216,.35)!important}
+.pbox .big::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(175deg,rgba(255,255,255,.25) 0%,rgba(255,255,255,.05) 38%,transparent 40%)}
+.qty{background:linear-gradient(180deg,#f4f6f9,#fff)!important;box-shadow:inset 0 2px 5px rgba(12,26,51,.12),0 1px 0 #fff!important;border-color:#cbd5df!important}
+.qty button{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#fff,#e9edf2)!important;box-shadow:0 2px 0 #c3ccd6}
+input,select,textarea{box-shadow:inset 0 2px 5px rgba(12,26,51,.08),0 1px 0 #fff}
+/* --- kosár: valódi blokk --- */
+.drawer{background:linear-gradient(180deg,#fff,#f8f6f1)!important}
+.drawer .df{background:linear-gradient(180deg,#fffdf6,#f5edd8)!important;filter:drop-shadow(0 -8px 14px rgba(12,26,51,.1))}
+.ci .th{box-shadow:inset 0 0 0 1px rgba(183,131,46,.25),0 4px 10px rgba(12,26,51,.1)}
+/* --- szolgáltatássáv és lábléc --- */
+footer.slim{background:linear-gradient(180deg,#f7f3ea,#efe6d4)!important;box-shadow:inset 0 2px 0 #d6a64e,inset 0 3px 0 #f6dc9a}
 </style>
 </head>
 <body>

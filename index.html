@@ -477,6 +477,127 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .mburger{background:radial-gradient(ellipse 120% 85% at 50% -20%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#2f659b 0%,#17466f 42%,#082746 58%,#0d3358 100%) padding-box,linear-gradient(180deg,#fff2c8 0%,#d9b05a 40%,#8a6420 70%,#f2d68e 100%) border-box!important;color:#ffffff!important;text-shadow:0 -1px 0 rgba(0,0,0,.55),0 0 8px rgba(120,170,230,.35)!important;box-shadow:0 1px 0 rgba(255,255,255,.35),0 5px 0 #020c1c,0 6px 0 rgba(0,0,0,.25),0 12px 20px rgba(0,0,0,.28),0 22px 34px rgba(0,0,0,.14),inset 0 2px 1px rgba(255,255,255,.6),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.18)!important}
 .mburger:hover{transform:translateY(-2px);filter:brightness(1.06) saturate(1.06);box-shadow:0 1px 0 rgba(255,255,255,.35),0 7px 0 #020c1c,0 8px 0 rgba(0,0,0,.25),0 16px 26px rgba(0,0,0,.3),0 26px 40px rgba(0,0,0,.16),inset 0 2px 1px rgba(255,255,255,.65),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.2)!important}
 .mburger:active{transform:translateY(4px);filter:brightness(.97);box-shadow:0 1px 0 #020c1c,0 2px 4px rgba(0,0,0,.3),inset 0 3px 6px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.3)!important}
+
+/* =====================================================================
+   PRÉMIUM ANYAGHATÁS – az egész oldalra (fém, üveg, papír, fény)
+   ===================================================================== */
+:root{--goldrim:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%);--goldrim-soft:linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%);--silver:linear-gradient(155deg,#ffffff 0%,#cfd8e2 30%,#f7f9fb 50%,#aab6c3 75%,#eef2f6 100%);--gloss:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%)}
+/* finom anyagszemcse az egész felületen */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.035;mix-blend-mode:multiply}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes pmSweep{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(320%) skewX(-18deg)}}
+  @keyframes pmGlow{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes pmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+}
+::selection{background:#f4d58d;color:#0b1f3a}
+
+/* --- fejléc: mély kék bársony, fémes aranyél --- */
+.top{background:radial-gradient(ellipse 60% 140% at 22% -10%,rgba(64,130,200,.35),transparent 60%),radial-gradient(ellipse 50% 120% at 85% 0%,rgba(244,213,141,.10),transparent 60%),linear-gradient(180deg,#0b2a52 0%,#061a33 70%,#04112a 100%)!important}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,217,138,.7) 30%,rgba(255,240,200,.95) 50%,rgba(255,217,138,.7) 70%,transparent)}
+.logo img{filter:drop-shadow(0 3px 6px rgba(0,0,0,.45)) drop-shadow(0 0 18px rgba(244,213,141,.18))}
+.slogan{text-shadow:0 2px 10px rgba(0,0,0,.45)}
+.vbar{background:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%)!important;box-shadow:0 0 12px rgba(244,213,141,.45)}
+.pill{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,rgba(18,59,97,.85),rgba(4,17,42,.85)) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 6px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .2s,box-shadow .2s}
+.pill:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(0,0,0,.4),0 0 16px rgba(244,213,141,.25),inset 0 1px 0 rgba(255,255,255,.3)}
+/* --- menü: üveg és háromsávos aranyszegély --- */
+.navbar{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#0e3463 0%,#0a2a52 50%,#071f3f 100%)!important;box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 2px 0 #9c7225,0 3px 0 #f6dc9a,0 5px 0 #8a6420,0 10px 22px rgba(0,0,0,.35);z-index:5}
+.navbar a.it{transition:color .2s,text-shadow .2s}
+.navbar a.it:hover{text-shadow:0 0 12px rgba(255,217,138,.6)}
+.navbar a.it.on{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#ffe7a6 0%,#f0c46e 40%,#c98e2b 85%,#e8bd62 100%)!important;border:1px solid #fff0c4;color:#1a1200!important;text-shadow:0 1px 0 rgba(255,244,210,.8);box-shadow:0 1px 0 rgba(255,255,255,.4),0 4px 0 #8a5e17,0 8px 16px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.7),inset 0 -3px 5px rgba(0,0,0,.18)!important}
+/* --- kezdőkép: fények, mélység, csillogó arany --- */
+.hero{box-shadow:inset 0 -60px 90px rgba(2,8,20,.45),inset 0 40px 70px rgba(2,8,20,.25)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 30% 50% at 70% 45%,rgba(140,190,255,.22),transparent 70%),radial-gradient(ellipse 25% 30% at 88% 22%,rgba(244,213,141,.18),transparent 70%)}
+.hero .copy{z-index:3}
+h1{text-shadow:0 1px 0 rgba(255,255,255,.15),0 3px 0 rgba(0,0,0,.25),0 10px 30px rgba(0,0,0,.55)!important}
+h1 .g{background:linear-gradient(180deg,#fff7dc 0%,#ffe29a 30%,#e9b957 52%,#b88328 70%,#f7d98c 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent;filter:drop-shadow(0 2px 1px rgba(0,0,0,.45)) drop-shadow(0 0 14px rgba(244,213,141,.25))}
+h1::before{background:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%)!important;box-shadow:0 0 14px rgba(244,213,141,.5)}
+ul.ticks li{text-shadow:0 2px 8px rgba(0,0,0,.45)}
+ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
+.art .prod{filter:drop-shadow(0 30px 30px rgba(0,0,0,.45)) drop-shadow(0 0 40px rgba(120,170,255,.18))}
+.art .lau,.lau-m{filter:drop-shadow(0 10px 18px rgba(0,0,0,.5)) drop-shadow(0 0 20px rgba(244,213,141,.25))}
+@media (prefers-reduced-motion:no-preference){.art .lau{animation:pop 1s 1.6s cubic-bezier(.2,.8,.2,1) both,pmFloat 6s 3s ease-in-out infinite}}
+/* --- ikonsáv: dombornyomott aranyérmék --- */
+.strip{background:radial-gradient(ellipse 70% 120% at 50% 0%,rgba(64,130,200,.18),transparent 60%),linear-gradient(180deg,#09234a 0%,#061a33 100%)!important}
+.strip a svg{padding:12px;border-radius:50%;width:clamp(64px,5.4vw,84px)!important;height:clamp(64px,5.4vw,84px)!important;border:1.5px solid transparent;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,radial-gradient(circle at 50% 35%,#16467a,#071f3b 75%) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box;box-shadow:0 8px 18px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.18),inset 0 -6px 12px rgba(0,0,0,.35);color:#f4d58d!important;filter:drop-shadow(0 0 0 transparent);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.strip a:hover svg{transform:translateY(-4px) scale(1.04);box-shadow:0 14px 26px rgba(0,0,0,.5),0 0 22px rgba(244,213,141,.35),inset 0 2px 0 rgba(255,255,255,.22),inset 0 -6px 12px rgba(0,0,0,.35)}
+.strip b{text-shadow:0 2px 6px rgba(0,0,0,.4)}
+/* --- krém sáv: merített papír --- */
+.cream{background:radial-gradient(ellipse 60% 120% at 20% 0%,#fbf6ec,transparent 60%),linear-gradient(180deg,#f3ecdf,#efe6d6)!important}
+.openchip{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(#fff,#f7f3ea) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 6px 14px rgba(24,46,72,.12),inset 0 1px 0 #fff!important}
+/* --- LCD kijelző: valódi műszerfal --- */
+.bezel{background:linear-gradient(180deg,#3a3f48 0%,#1d2027 40%,#14161b 100%)!important;border:1px solid #000;box-shadow:0 1px 0 rgba(255,255,255,.15) inset,0 -2px 0 rgba(0,0,0,.6) inset,0 0 0 1px rgba(255,255,255,.05),0 20px 40px rgba(4,17,42,.45),0 2px 0 #b8903a,0 3px 0 #f6dc9a!important}
+.bezel::before,.bezel::after{content:"";position:absolute;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d9dde3,#6b7280 60%,#2a2e36);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.15)}
+.bezel::before{left:6px}.bezel::after{right:6px}
+.lcd{box-shadow:inset 0 0 0 2px #0e1f62,inset 0 10px 22px rgba(0,0,0,.45),0 0 18px rgba(44,85,216,.35)!important}
+.lcd::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(175deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 38%,transparent 40%);z-index:2}
+/* --- szekciócímek: aranyfüst --- */
+.sh2{text-shadow:0 1px 0 #fff}
+.sh2 em{background:linear-gradient(180deg,#e9b957 0%,#c98e2b 55%,#8a5e17 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;text-shadow:none!important}
+.eye::before{filter:drop-shadow(0 0 4px rgba(214,166,78,.45))}
+/* --- kártyák: aranyperem, mély rétegzett árnyék, fénycsík --- */
+.area{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.pk{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.fp{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.cc{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+
+.pk,.fp{position:relative}
+.area:hover,.pk:hover,.fp:hover{transform:translateY(-6px)!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.16),0 4px 8px rgba(12,26,51,.07),0 18px 34px rgba(12,26,51,.12),0 40px 70px -24px rgba(12,26,51,.3)!important}
+.area::before,.pk::before,.fp::before{content:"";position:absolute;top:0;bottom:0;left:0;width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-120%) skewX(-18deg);pointer-events:none;z-index:3}
+@media (prefers-reduced-motion:no-preference){.area:hover::before,.pk:hover::before,.fp:hover::before{animation:pmSweep 1s ease-out}}
+.area .ai{border:1.5px solid transparent;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,radial-gradient(circle at 50% 30%,#1a4f86,#082746 75%) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 10px 20px rgba(8,39,70,.35),inset 0 2px 0 rgba(255,255,255,.2),inset 0 -6px 10px rgba(0,0,0,.35)!important}
+.area .ai svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
+.area h3,.pk h3,.fp h3{text-shadow:0 1px 0 #fff}
+.pk .ph,.fp .im{box-shadow:inset 0 -12px 20px -12px rgba(12,26,51,.18)}
+.pk .tag{box-shadow:0 8px 14px rgba(12,26,51,.18)}
+.fp .im .tg{background:linear-gradient(180deg,#e04a3d,#a8281d)!important;box-shadow:0 4px 10px rgba(168,40,29,.4),inset 0 1px 0 rgba(255,255,255,.35)}
+/* --- márkabillentyűk: üvegfedél --- */
+.key::after{content:"";position:absolute;left:10%;right:10%;top:2px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
+.key{position:relative}
+/* --- nyugták: papírív és gyűrődés --- */
+.rcpt{background:linear-gradient(180deg,#fffdf6 0%,#f9f3e3 60%,#f3ead4 100%)!important}
+.rcpt-w{filter:drop-shadow(0 2px 2px rgba(24,46,72,.1)) drop-shadow(0 18px 26px rgba(24,46,72,.18))!important;transform:rotate(-.4deg)}
+.slip{background:linear-gradient(180deg,#fffdf6,#f8f2e3)!important}
+.step{filter:drop-shadow(0 2px 2px rgba(24,46,72,.08)) drop-shadow(0 16px 24px rgba(24,46,72,.16))!important}
+/* --- fotók: aranykeret, paszpartu --- */
+.photo{border:3px solid transparent;background:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box;box-shadow:0 0 0 6px #fff,0 0 0 7px rgba(183,131,46,.35),0 30px 60px -10px rgba(12,26,51,.35)!important}
+.photo img{border-radius:16px}
+.photo figcaption span{border:1px solid rgba(214,166,78,.5);box-shadow:0 6px 14px rgba(12,26,51,.18)}
+.map{box-shadow:0 0 0 6px #fff,0 0 0 7px rgba(183,131,46,.35),0 20px 40px -10px rgba(12,26,51,.25)}
+/* --- kapcsolat --- */
+.status{box-shadow:inset 0 2px 6px rgba(12,26,51,.08),0 1px 0 #fff}
+.park{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(135deg,#0d3a66,#082746)!important;border:1.5px solid transparent;background-clip:padding-box;box-shadow:0 12px 24px rgba(8,39,70,.3),inset 0 1px 0 rgba(255,255,255,.15)}
+.park .p{background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#2f7ae0,#1d5fbf)!important;box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+.cl svg{filter:drop-shadow(0 0 4px rgba(214,166,78,.35))}
+/* --- számok: műszerkijelzők csavarokkal és jelzőfénnyel --- */
+.stat{background:linear-gradient(180deg,#3a3f48 0%,#1d2027 45%,#121419 100%)!important;border:1px solid #000;box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 -2px 0 rgba(0,0,0,.6) inset,0 0 0 1px rgba(255,255,255,.04),0 2px 0 #b8903a,0 3px 0 #f6dc9a,0 22px 40px -10px rgba(4,17,42,.55)!important}
+.stat::before{content:"";position:absolute;right:12px;bottom:12px;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#b6ffcf,#1f9d55 60%,#0b4a27);box-shadow:0 0 8px rgba(46,204,113,.8)}
+@media (prefers-reduced-motion:no-preference){.stat::before{animation:pmGlow 3s ease-in-out infinite}}
+.stat b::after{content:"";position:absolute;inset:0;border-radius:6px;background:linear-gradient(175deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 38%,transparent 40%)}
+/* --- e-pénztárgép doboz: aranyperem, fényudvar --- */
+.epz{border:2px solid transparent!important;background:radial-gradient(ellipse 45% 70% at 90% 10%,rgba(244,213,141,.18),transparent 70%) padding-box,radial-gradient(ellipse 40% 60% at 0% 100%,rgba(64,130,200,.25),transparent 70%) padding-box,linear-gradient(120deg,#061a33,#0b3158 60%,#123b61) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 30px 60px -16px rgba(4,17,42,.55),inset 0 1px 0 rgba(255,255,255,.12)!important}
+.tl div{background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 18px rgba(0,0,0,.2)}
+.tl div.key{background:linear-gradient(180deg,rgba(244,213,141,.22),rgba(244,213,141,.08))!important;box-shadow:inset 0 1px 0 rgba(255,240,200,.35),0 0 24px rgba(244,213,141,.2)}
+/* --- GYIK --- */
+.faqg details{border:1.5px solid transparent!important;background:linear-gradient(180deg,#ffffff 0%,#fdfcf8 100%) padding-box,linear-gradient(155deg,#fbf0d2 0%,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a 100%) border-box!important;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.10),0 2px 4px rgba(12,26,51,.05),0 10px 22px rgba(12,26,51,.08),0 26px 50px -18px rgba(12,26,51,.22)!important;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+
+.faqg details[open]{box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(150,115,45,.16),0 4px 8px rgba(12,26,51,.07),0 18px 34px rgba(12,26,51,.12),0 40px 70px -24px rgba(12,26,51,.3)!important}
+.faqg summary::after{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;line-height:1;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%),linear-gradient(180deg,#123b61,#082746);color:#f4d58d!important;font-size:1.2rem!important;box-shadow:0 4px 8px rgba(8,39,70,.3),inset 0 0 0 1px rgba(244,213,141,.6)}
+/* --- rólunk --- */
+.sec.cream2{background:radial-gradient(ellipse 60% 80% at 80% 0%,#fffaf0,transparent 60%),linear-gradient(180deg,#faf6ec,#f4ecdc)!important}
+/* --- háttérminta finomabb, fényudvarral --- */
+.sec:not(.white):not(.cream2){background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(255,255,255,.95),rgba(247,248,250,.6) 70%),var(--keys) 0 0/64px 56px,#f1f3f6!important}
+.sec.white{background:radial-gradient(ellipse 80% 60% at 50% 0%,#ffffff,#fbfaf7 70%)!important}
+.sec + .sec{box-shadow:inset 0 1px 0 rgba(183,131,46,.12)}
+/* --- lábléc: éjkék bársony, arany vésett vonalak --- */
+.ffoot{background:radial-gradient(ellipse 60% 100% at 15% 0%,rgba(64,130,200,.18),transparent 60%),linear-gradient(180deg,#071f3b,#03122a)!important}
+.ffoot::before{height:3px!important;background:linear-gradient(90deg,#8a6420,#f6dc9a 25%,#fff4d0 50%,#d6a64e 75%,#8a6420)!important;box-shadow:0 0 18px rgba(244,213,141,.4);opacity:1!important}
+.ffoot h4{background:linear-gradient(180deg,#fff,#f4d58d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ffoot h4::after{content:"";display:block;width:34px;height:2px;margin-top:8px;background:linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%);border-radius:2px}
+.ffoot ul a{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .3s,color .2s}
+.ffoot ul a:hover{background-size:100% 1px}
+.fbrand img{filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+.fopen{border:1.5px solid transparent!important;background:radial-gradient(ellipse 120% 80% at 50% -25%,rgba(255,255,255,.5) 0%,rgba(255,255,255,.14) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,rgba(18,59,97,.8),rgba(4,17,42,.8)) padding-box,linear-gradient(155deg,#fff6d8 0%,#e9c36d 18%,#fff0c4 38%,#b98a32 58%,#f6dc9a 78%,#a87a26 100%) border-box!important;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.mbar{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,243,234,.96))!important;box-shadow:0 -1px 0 rgba(183,131,46,.4),0 -10px 30px rgba(12,26,51,.18)!important}
 </style>
 </head>
 <body>
