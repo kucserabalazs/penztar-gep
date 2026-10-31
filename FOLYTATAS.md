@@ -6,6 +6,10 @@
 - A képek egy része a látványtervből lágy szélekkel kivágott részlet (termékcsoport, jelvény, logó, panoráma, dzsámi). Ha nagy felbontású, átlátszó hátterű változat érkezik, az `assets/` mappában ugyanazon a néven cserélhető.
 - A webáruház (`webaruhaz/`) még a korábbi arculattal fut; következő lépés: az új arculat ráhúzása a webáruház oldalaira.
 
+## Mentett asztali változat
+- A felhasználó kérésére 2026-10-31-én elmentve „asztali gépes verzió”-ként: `mentesek/asztali-v1/index.html`, git címke: `asztali-v1`.
+- Ez a jóváhagyott asztali megjelenés; további módosításoknál ehhez kell igazodni, és ide lehet visszaállni.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Webáruház oldalainak átalakítása az új arculatra.
