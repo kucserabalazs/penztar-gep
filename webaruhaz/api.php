@@ -1,6 +1,6 @@
 <?php
 // penztar-gep.hu – egyszerű adatkezelő (termékek, árak, megrendelések, admin belépés)
-// Nincs adatbázis: minden a data/ mappában lévő JSON fájlokban tárolódik.
+// Nincs adatbázis: minden a data/ mappában lévő fájlokban tárolódik.
 declare(strict_types=1);
 date_default_timezone_set('Europe/Budapest');
 session_name('ptgadmin');
@@ -12,21 +12,36 @@ header('Cache-Control: no-store');
 const DATA = __DIR__ . '/data';
 const UPLOADS = __DIR__ . '/uploads';
 $PRODUCTS = DATA . '/products.json';
-$ORDERS   = DATA . '/orders.php';        // védett: közvetlenül nem tölthető le
-$HASH     = DATA . '/admin.hash.php';
-$TOTP     = DATA . '/admin.totp.php';   // kétlépcsős belépés (telefonos kód)
-$LOG      = DATA . '/admin.log.php';    // utolsó belépések
+$ORDERS   = DATA . '/orders.php';         // védett: közvetlenül nem tölthető le
+$USERS    = DATA . '/admin.users.php';    // admin felhasználók: jelszó-ujjlenyomat, telefonos app, zárolás
+$LOG      = DATA . '/admin.log.php';      // utolsó belépések
+
+/* ===== Tulajdonosok =====
+   Csak ők léphetnek be alapból, és csak ők adhatnak (vagy vonhatnak vissza) további admin hozzáférést.
+   Nevüket és telefonszámukat csak itt, a programban lehet módosítani – a weboldalról nem.
+   Az e-mail címük NEM a programban van (a forráskód nyilvános), hanem a tárhelyen lévő config.local.php fájlban.
+   A belépési kódot a rendszer kizárólag oda küldi. */
+const OWNERS = [
+  ['id' => 'kucsera-istvan',     'nev' => 'Kucsera István',      'tel' => '+36209804748'],
+  ['id' => 'ifj-kucsera-istvan', 'nev' => 'Ifj. Kucsera István', 'tel' => '+36203222669'],
+  ['id' => 'kucsera-balazs',     'nev' => 'Kucsera Balázs',      'tel' => '+36205363120'],
+];
+// titkos helyi beállítások (nincs a GitHubon): ['emails' => ['kucsera-balazs' => '...', ...]]
+$LOCAL = is_file(__DIR__ . '/config.local.php') ? (array)(include __DIR__ . '/config.local.php') : [];
+function owner_email(string $id): string { global $LOCAL; return (string)($LOCAL['emails'][$id] ?? ''); }
+const MAIL_FROM = 'noreply@penztar-gep.hu';   // feladó a belépési kódokhoz
+const CODE_TTL  = 600;                         // e-mailes kód érvényessége (mp)
+
+// PHP 7.4 kompatibilitás
+if (!function_exists('str_contains')) { function str_contains($h, $n) { return $n === '' || strpos($h, $n) !== false; } }
+if (!function_exists('str_starts_with')) { function str_starts_with($h, $n) { return strncmp($h, $n, strlen($n)) === 0; } }
 
 function out($d, int $code = 200): void { http_response_code($code); echo json_encode($d, JSON_UNESCAPED_UNICODE); exit; }
 function body(): array { $j = json_decode(file_get_contents('php://input') ?: '[]', true); return is_array($j) ? $j : []; }
-function authed(): bool { return !empty($_SESSION['admin']); }
-function need_auth(): void { if (!authed()) out(['error' => 'Be kell jelentkezni.'], 401); }
 const GUARD = "<?php http_response_code(404); exit; ?>\n";
 // a .php végű adatfájlok elején egy záró sor van, így böngészőből megnyitva üresek
 function strip_guard(string $t): string { return substr($t, 0, 5) === '<?php' ? (string)substr($t, strpos($t, "\n") + 1) : $t; }
 function read_json(string $f, $def) { if (!is_file($f)) return $def; $j = json_decode(strip_guard((string)file_get_contents($f)), true); return $j ?? $def; }
-function read_hash(string $f): string { return is_file($f) ? trim(strip_guard((string)file_get_contents($f))) : ''; }
-function write_hash(string $f, string $pw): void { file_put_contents($f, GUARD . password_hash($pw, PASSWORD_DEFAULT), LOCK_EX); }
 function write_json(string $f, $d): void {
   $tmp = $f . '.tmp';
   file_put_contents($tmp, (substr($f, -4) === '.php' ? GUARD : '') . json_encode($d, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
@@ -34,22 +49,81 @@ function write_json(string $f, $d): void {
 }
 function check_csrf(): void {
   $t = $_SERVER['HTTP_X_CSRF'] ?? '';
-  if (!$t || !hash_equals($_SESSION['csrf'] ?? '', $t)) out(['error' => 'Lejárt munkamenet, jelentkezz be újra.'], 403);
+  if (!$t || !hash_equals($_SESSION['csrf'] ?? '', $t)) out(['error' => 'Lejárt munkamenet, jelentkezzen be újra.'], 403);
+}
+function locked(callable $fn) { $l = fopen(DATA . '/.lock', 'c'); flock($l, LOCK_EX); try { return $fn(); } finally { flock($l, LOCK_UN); fclose($l); } }
+
+/* ---- felhasználók ---- */
+function users(): array {
+  global $USERS; $d = read_json($USERS, ['users' => []]); $list = $d['users'] ?? []; $by = [];
+  foreach ($list as $u) $by[$u['id']] = $u;
+  foreach (OWNERS as $o) { $u = $by[$o['id']] ?? ['hash' => null, 'totp' => null, 'ido' => date('c')];
+    $by[$o['id']] = array_merge($u, ['id' => $o['id'], 'nev' => $o['nev'], 'tel' => $o['tel'], 'email' => owner_email($o['id']), 'szerep' => 'tulajdonos']); }
+  foreach ($by as $id => $u) if (($u['szerep'] ?? '') === 'tulajdonos' && !in_array($id, array_column(OWNERS, 'id'), true)) unset($by[$id]);
+  return $by;
+}
+function save_users(array $by): void { global $USERS; write_json($USERS, ['users' => array_values($by)]); }
+function user(string $id): ?array { return users()[$id] ?? null; }
+function update_user(string $id, callable $fn): void { locked(function () use ($id, $fn) { $by = users(); if (isset($by[$id])) { $by[$id] = $fn($by[$id]); save_users($by); } }); }
+function mask_tel(string $t): string { $d = preg_replace('/\D/', '', $t); return strlen($d) >= 11 ? '+' . substr($d, 0, 2) . ' ' . substr($d, 2, 2) . ' *** ' . substr($d, -4) : '***'; }
+function mask_mail(string $e): string { if (!str_contains($e, '@')) return ''; [$a, $b] = explode('@', $e, 2); return mb_substr($a, 0, 1) . str_repeat('•', max(2, min(6, mb_strlen($a) - 1))) . '@' . $b; }
+function norm_tel(string $t): string { $d = preg_replace('/\D/', '', $t); if (str_starts_with($d, '06')) $d = '36' . substr($d, 2); return $d === '' ? '' : '+' . $d; }
+function pub_user(array $u): array { return ['id' => $u['id'], 'nev' => $u['nev'], 'tel' => mask_tel($u['tel'] ?? ''), 'szerep' => $u['szerep'] ?? 'admin', 'aktiv' => !empty($u['hash']), 'email' => !empty($u['email'])]; }
+function me(): ?array { return !empty($_SESSION['uid']) ? user((string)$_SESSION['uid']) : null; }
+function authed(): bool { return !empty($_SESSION['admin']) && me() !== null; }
+function need_auth(): void { if (!authed()) out(['error' => 'Be kell jelentkezni.'], 401); }
+function need_owner(): void { need_auth(); if ((me()['szerep'] ?? '') !== 'tulajdonos') out(['error' => 'Ezt csak a tulajdonosok végezhetik el.'], 403); }
+
+/* ---- e-mailes kód ---- */
+function send_mail(string $to, string $subj, string $text): bool {
+  if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return false;
+  if ($dev = getenv('PTG_MAIL_LOG')) { file_put_contents($dev, json_encode(['to' => $to, 'subj' => $subj, 'text' => $text], JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND); return true; }  // csak fejlesztői teszthez
+  if (!function_exists('mail')) return false;
+  $h = "From: =?UTF-8?B?" . base64_encode('Totál webáruház') . "?= <" . MAIL_FROM . ">\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
+  return @mail($to, '=?UTF-8?B?' . base64_encode($subj) . '?=', $text, $h, '-f' . MAIL_FROM);
+}
+function send_code(array $u, string $cel): void {
+  if (empty($u['email'])) out(['error' => 'Ehhez a személyhez még nincs e-mail cím beállítva a tárhelyen (config.local.php), ezért nem tudunk kódot küldeni.'], 400);
+  $prev = $_SESSION['code'] ?? null;
+  if ($prev && $prev['uid'] === $u['id'] && time() - $prev['sent'] < 45) out(['error' => 'Az előző kódot most küldtük el. Várjon egy percet az újabb kéréssel.'], 429);
+  $sent = array_filter($_SESSION['sends'] ?? [], fn($t) => time() - $t < 900);
+  if (count($sent) >= 5) out(['error' => 'Túl sok kódkérés. Próbálja újra 15 perc múlva.'], 429);
+  $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+  $mit = ['belepes' => 'belépéshez', 'aktivalas' => 'az első belépéshez', 'visszaallitas' => 'új jelszó beállításához'][$cel] ?? 'belépéshez';
+  $txt = "Kedves {$u['nev']}!\n\nA penztar-gep.hu admin felületén $mit ezt a kódot írja be:\n\n    $code\n\nA kód " . (CODE_TTL / 60) . " percig érvényes, és csak egyszer használható.\nIdőpont: " . date('Y.m.d. H:i') . "\nIP-cím: " . ($_SERVER['REMOTE_ADDR'] ?? '') . "\n\nHa nem Ön kérte, ne adja meg senkinek, és szóljon a többi tulajdonosnak.\n\nTotál Pénztárgép és Számítástechnika";
+  if (!send_mail($u['email'], "Belépési kód: $code", $txt)) out(['error' => 'Az e-mailt nem sikerült elküldeni. Kérjük, próbálja újra, vagy szóljon a tárhely üzemeltetőjének.'], 500);
+  $sent[] = time(); $_SESSION['sends'] = array_values($sent);
+  $_SESSION['code'] = ['uid' => $u['id'], 'cel' => $cel, 'hash' => password_hash($code, PASSWORD_DEFAULT), 'exp' => time() + CODE_TTL, 'tries' => 0, 'sent' => time()];
+}
+function check_code(string $uid, string $cel, string $kod): bool {
+  $c = $_SESSION['code'] ?? null;
+  if (!$c || $c['uid'] !== $uid || $c['cel'] !== $cel || time() > $c['exp']) return false;
+  if ($c['tries'] >= 5) { unset($_SESSION['code']); return false; }
+  $_SESSION['code']['tries']++;
+  $kod = preg_replace('/\D/', '', $kod);
+  if (strlen($kod) === 6 && password_verify($kod, $c['hash'])) { unset($_SESSION['code']); return true; }
+  return false;
 }
 
-// ---- telefonos hitelesítő kód (TOTP, RFC 6238): iPhone Jelszavak app, Google/Microsoft Authenticator ----
+/* ---- telefonos hitelesítő app (TOTP, RFC 6238) – opcionális második lehetőség ---- */
 function b32_encode(string $bin): string { $al='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; $bits=''; foreach (str_split($bin) as $c) $bits.=str_pad(decbin(ord($c)),8,'0',STR_PAD_LEFT); $out=''; foreach (str_split($bits,5) as $ch) $out.=$al[bindec(str_pad($ch,5,'0'))]; return $out; }
 function b32_decode(string $s): string { $al='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; $s=strtoupper(preg_replace('/[^A-Za-z2-7]/','',$s)); $bits=''; foreach (str_split($s) as $c) $bits.=str_pad(decbin(strpos($al,$c)),5,'0',STR_PAD_LEFT); $out=''; foreach (str_split($bits,8) as $b) if (strlen($b)===8) $out.=chr(bindec($b)); return $out; }
 function totp_at(string $secret, int $step): string { $h=hash_hmac('sha1', pack('J',$step), b32_decode($secret), true); $o=ord($h[19])&15; $n=((ord($h[$o])&127)<<24)|(ord($h[$o+1])<<16)|(ord($h[$o+2])<<8)|ord($h[$o+3]); return str_pad((string)($n%1000000),6,'0',STR_PAD_LEFT); }
-// visszaadja az elfogadott időlépést (±30 mp tűrés), vagy null-t
 function totp_check(string $secret, string $code, int $last = 0): ?int { $code=preg_replace('/\D/','',$code); if (strlen($code)!==6) return null; $t=intdiv(time(),30); foreach ([0,-1,1] as $d) { $st=$t+$d; if ($st>$last && hash_equals(totp_at($secret,$st),$code)) return $st; } return null; }
-function log_login(string $how): void { global $LOG; $l=read_json($LOG,[]); array_unshift($l,['ido'=>date('c'),'ip'=>$_SERVER['REMOTE_ADDR']??'','mod'=>$how,'eszkoz'=>mb_substr((string)($_SERVER['HTTP_USER_AGENT']??''),0,160)]); write_json($LOG,array_slice($l,0,30)); }
-function grant_admin(string $how): void { session_regenerate_id(true); $_SESSION['admin']=true; $_SESSION['tries']=0; unset($_SESSION['pw_ok']); $_SESSION['csrf']=bin2hex(random_bytes(16)); log_login($how); out(['ok'=>true,'csrf'=>$_SESSION['csrf']]); }
-function slow_down(): void { if (($_SESSION['tries'] ?? 0) > 8 && time() - ($_SESSION['last'] ?? 0) < 300) out(['error' => 'Túl sok próbálkozás. Próbálja újra 5 perc múlva.'], 429); }
-function fail(string $msg): void { $_SESSION['tries']=($_SESSION['tries']??0)+1; $_SESSION['last']=time(); usleep(400000); out(['error'=>$msg],401); }
 
-// régi (védelem nélküli) fájlok áthelyezése az új, védett nevekre
-foreach (['/orders.json' => $ORDERS, '/admin.hash' => $HASH] as $old => $new) if (is_file(DATA . $old) && !is_file($new)) { file_put_contents($new, GUARD . file_get_contents(DATA . $old), LOCK_EX); @unlink(DATA . $old); }
+/* ---- belépés segédek ---- */
+function log_login(array $u, string $how): void { global $LOG; locked(function () use ($u, $how, $LOG) { $l = read_json($LOG, []); array_unshift($l, ['ido' => date('c'), 'uid' => $u['id'], 'nev' => $u['nev'], 'ip' => $_SERVER['REMOTE_ADDR'] ?? '', 'mod' => $how, 'eszkoz' => mb_substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 160)]); write_json($LOG, array_slice($l, 0, 60)); }); }
+function grant(array $u, string $how): void {
+  session_regenerate_id(true);
+  $_SESSION['admin'] = true; $_SESSION['uid'] = $u['id']; $_SESSION['csrf'] = bin2hex(random_bytes(16));
+  unset($_SESSION['pw_ok'], $_SESSION['code']);
+  update_user($u['id'], function ($x) { $x['fail'] = 0; $x['lockUntil'] = 0; $x['utolso'] = date('c'); return $x; });
+  log_login($u, $how);
+  out(['ok' => true, 'csrf' => $_SESSION['csrf'], 'me' => pub_user($u) + ['szerep' => $u['szerep']]]);
+}
+function guard_user(array $u): void { if (($u['lockUntil'] ?? 0) > time()) out(['error' => 'Túl sok hibás próbálkozás miatt ez a hozzáférés ' . date('H:i', (int)$u['lockUntil']) . '-ig zárolva van.'], 429); }
+function fail_user(string $id, string $msg): void { update_user($id, function ($x) { $x['fail'] = ($x['fail'] ?? 0) + 1; if ($x['fail'] >= 8) { $x['lockUntil'] = time() + 900; $x['fail'] = 0; } return $x; }); usleep(400000); out(['error' => $msg], 401); }
+function pw_ok(string $pw): void { if (mb_strlen($pw) < 10) out(['error' => 'A jelszó legalább 10 karakter legyen.'], 400); }
 
 $a = $_GET['a'] ?? '';
 $m = $_SERVER['REQUEST_METHOD'];
@@ -59,46 +133,80 @@ switch ($a) {
     out(read_json($PRODUCTS, []));
 
   case 'status':
-    $tf = read_json($TOTP, []);
-    out(['admin' => authed(), 'needsSetup' => !is_file($HASH), 'csrf' => authed() ? $_SESSION['csrf'] : null, 'totp' => !empty($tf['enabled'])]);
+    $me = authed() ? me() : null;
+    out(['admin' => (bool)$me, 'csrf' => $me ? $_SESSION['csrf'] : null, 'me' => $me ? pub_user($me) : null]);
 
-  case 'login':
+  case 'admins':    // a belépő képernyőhöz: ki léphet be (a telefonszám csak részben látszik)
+    out(array_values(array_map('pub_user', users())));
+
+  case 'code-start':   // e-mailes kód kérése első belépéshez vagy elfelejtett jelszóhoz
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
-    $b = body(); $pw = (string)($b['jelszo'] ?? '');
-    slow_down();
-    if (!is_file($HASH)) {           // első belépés: a megadott jelszó lesz az admin jelszó
-      if (mb_strlen($pw) < 8) out(['error' => 'Az új jelszó legalább 8 karakter legyen.'], 400);
-      write_hash($HASH, $pw);
-    } elseif (!password_verify($pw, read_hash($HASH))) {
-      fail('Hibás jelszó.');
-    }
-    $tf = read_json($TOTP, []);
-    if (!empty($tf['enabled'])) { $_SESSION['pw_ok'] = time(); out(['need2fa' => true]); }
-    grant_admin('jelszó');
+    $b = body(); $u = user((string)($b['id'] ?? '')); if (!$u) out(['error' => 'Ismeretlen felhasználó.'], 404);
+    guard_user($u);
+    $cel = empty($u['hash']) ? 'aktivalas' : 'visszaallitas';
+    send_code($u, $cel);
+    out(['ok' => true, 'cel' => $cel]);
 
-  case 'login2':   // második lépés: a telefon hitelesítő alkalmazásának 6 jegyű kódja, vagy egy tartalékkód
+  case 'set-password': // jelszó beállítása az e-mailben kapott kóddal, utána belép
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
-    slow_down();
-    if (empty($_SESSION['pw_ok']) || time() - $_SESSION['pw_ok'] > 300) out(['error' => 'Lejárt a belépés, adja meg újra a jelszót.', 'restart' => true], 401);
-    $b = body(); $code = trim((string)($b['kod'] ?? ''));
-    $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
-    $tf = read_json($TOTP, []);
-    $st = totp_check((string)($tf['secret'] ?? ''), $code, (int)($tf['last'] ?? 0));
-    if ($st !== null) { $tf['last'] = $st; write_json($TOTP, $tf); flock($lock, LOCK_UN); grant_admin('jelszó + telefonos kód'); }
-    $norm = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $code));
-    foreach (($tf['recovery'] ?? []) as $k => $h) {
-      if (strlen($norm) === 10 && password_verify($norm, $h)) { unset($tf['recovery'][$k]); $tf['recovery'] = array_values($tf['recovery']); write_json($TOTP, $tf); flock($lock, LOCK_UN); grant_admin('jelszó + tartalékkód'); }
-    }
-    flock($lock, LOCK_UN);
-    fail('Hibás vagy lejárt kód. Írja be a telefonján most látható 6 jegyű kódot.');
+    $b = body(); $u = user((string)($b['id'] ?? '')); if (!$u) out(['error' => 'Ismeretlen felhasználó.'], 404);
+    guard_user($u);
+    $cel = empty($u['hash']) ? 'aktivalas' : 'visszaallitas';
+    $pw = (string)($b['jelszo'] ?? ''); pw_ok($pw);
+    if (!check_code($u['id'], $cel, (string)($b['kod'] ?? ''))) fail_user($u['id'], 'Hibás vagy lejárt kód. Kérjen újat, ha kell.');
+    update_user($u['id'], function ($x) use ($pw) { $x['hash'] = password_hash($pw, PASSWORD_DEFAULT); return $x; });
+    grant(user($u['id']), $cel === 'aktivalas' ? 'első belépés (e-mail kód)' : 'új jelszó (e-mail kód)');
 
-  case 'totp-setup':   // új titkos kulcs a telefonhoz (még nincs bekapcsolva)
+  case 'login':     // 1. lépés: jelszó, utána kód az illető e-mail címére
+    if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
+    $b = body(); $u = user((string)($b['id'] ?? '')); if (!$u) out(['error' => 'Ismeretlen felhasználó.'], 404);
+    guard_user($u);
+    if (empty($u['hash'])) out(['error' => 'Még nincs jelszava. Válassza az „Első belépés” lehetőséget.', 'activate' => true], 400);
+    if (!password_verify((string)($b['jelszo'] ?? ''), (string)$u['hash'])) fail_user($u['id'], 'Hibás jelszó.');
+    $_SESSION['pw_ok'] = ['uid' => $u['id'], 't' => time()];
+    $app = !empty($u['totp']['enabled']);
+    if (!empty($u['email'])) { send_code($u, 'belepes'); out(['need2fa' => true, 'via' => 'email', 'app' => $app]); }
+    if ($app) out(['need2fa' => true, 'via' => 'app', 'app' => true]);
+    out(['error' => 'Ehhez a személyhez nincs e-mail cím megadva, ezért nem tudjuk visszaigazolni a belépést.'], 400);
+
+  case 'login-resend': // új e-mail kód a 2. lépésben
+    if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
+    $p = $_SESSION['pw_ok'] ?? null; if (!$p || time() - $p['t'] > 900) out(['error' => 'Lejárt a belépés, adja meg újra a jelszót.', 'restart' => true], 401);
+    $u = user($p['uid']); send_code($u, 'belepes'); out(['ok' => true]);
+
+  case 'login2':    // 2. lépés: e-mailben kapott kód (vagy a telefonos app kódja, vagy tartalékkód)
+    if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
+    $p = $_SESSION['pw_ok'] ?? null; if (!$p || time() - $p['t'] > 900) out(['error' => 'Lejárt a belépés, adja meg újra a jelszót.', 'restart' => true], 401);
+    $u = user($p['uid']); guard_user($u); $kod = trim((string)(body()['kod'] ?? ''));
+    if (check_code($u['id'], 'belepes', $kod)) grant($u, 'jelszó + e-mail kód');
+    if (!empty($u['totp']['enabled'])) {
+      $st = totp_check((string)$u['totp']['secret'], $kod, (int)($u['totp']['last'] ?? 0));
+      if ($st !== null) { update_user($u['id'], function ($x) use ($st) { $x['totp']['last'] = $st; return $x; }); grant($u, 'jelszó + telefonos app'); }
+      $norm = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $kod));
+      foreach (($u['totp']['recovery'] ?? []) as $k => $h) if (strlen($norm) === 10 && password_verify($norm, $h)) {
+        update_user($u['id'], function ($x) use ($k) { unset($x['totp']['recovery'][$k]); $x['totp']['recovery'] = array_values($x['totp']['recovery']); return $x; });
+        grant($u, 'jelszó + tartalékkód'); }
+    }
+    fail_user($u['id'], 'Hibás vagy lejárt kód. Nézze meg a legfrissebb e-mailt, vagy kérjen újat.');
+
+  case 'logout':
+    $_SESSION = []; session_destroy(); out(['ok' => true]);
+
+  case 'password':  // saját jelszó cseréje
     need_auth(); check_csrf();
-    $sec = b32_encode(random_bytes(20)); $_SESSION['totp_pending'] = $sec;
-    $label = rawurlencode('Totál webáruház:admin');
+    $b = body(); $u = me();
+    if (!password_verify((string)($b['regi'] ?? ''), (string)$u['hash'])) out(['error' => 'A jelenlegi jelszó nem stimmel.'], 400);
+    pw_ok((string)($b['uj'] ?? ''));
+    update_user($u['id'], function ($x) use ($b) { $x['hash'] = password_hash((string)$b['uj'], PASSWORD_DEFAULT); return $x; });
+    out(['ok' => true]);
+
+  case 'totp-setup':
+    need_auth(); check_csrf();
+    $sec = b32_encode(random_bytes(20)); $_SESSION['totp_pending'] = $sec; $u = me();
+    $label = rawurlencode('Totál webáruház:' . $u['nev']);
     out(['secret' => $sec, 'uri' => "otpauth://totp/$label?secret=$sec&issuer=" . rawurlencode('Totál webáruház') . '&algorithm=SHA1&digits=6&period=30']);
 
-  case 'totp-enable':  // bekapcsolás: a telefonon megjelenő kóddal igazolja, hogy jól állította be
+  case 'totp-enable':
     need_auth(); check_csrf();
     $sec = (string)($_SESSION['totp_pending'] ?? ''); $b = body();
     if ($sec === '') out(['error' => 'Előbb kérjen új beállítási kódot.'], 400);
@@ -106,30 +214,54 @@ switch ($a) {
     if ($st === null) out(['error' => 'A kód nem egyezik. Ellenőrizze, hogy a telefon órája pontos, és a legfrissebb kódot írta be.'], 400);
     $codes = []; $hashes = [];
     for ($i = 0; $i < 8; $i++) { $c = strtoupper(substr(b32_encode(random_bytes(8)), 0, 10)); $codes[] = substr($c,0,5) . '-' . substr($c,5); $hashes[] = password_hash($c, PASSWORD_DEFAULT); }
-    write_json($TOTP, ['enabled' => true, 'secret' => $sec, 'last' => $st, 'recovery' => $hashes, 'since' => date('c')]);
+    update_user(me()['id'], function ($x) use ($sec, $st, $hashes) { $x['totp'] = ['enabled' => true, 'secret' => $sec, 'last' => $st, 'recovery' => $hashes, 'since' => date('c')]; return $x; });
     unset($_SESSION['totp_pending']);
     out(['ok' => true, 'recovery' => $codes]);
 
-  case 'totp-disable': // kikapcsolás: jelszó + aktuális kód kell hozzá
+  case 'totp-disable':
     need_auth(); check_csrf();
-    $b = body(); $tf = read_json($TOTP, []);
-    if (!password_verify((string)($b['jelszo'] ?? ''), read_hash($HASH))) out(['error' => 'A jelszó nem stimmel.'], 400);
-    if (!empty($tf['enabled']) && totp_check((string)$tf['secret'], (string)($b['kod'] ?? '')) === null) out(['error' => 'A telefonos kód nem stimmel.'], 400);
-    @unlink($TOTP); out(['ok' => true]);
+    $b = body(); $u = me();
+    if (!password_verify((string)($b['jelszo'] ?? ''), (string)$u['hash'])) out(['error' => 'A jelszó nem stimmel.'], 400);
+    update_user($u['id'], function ($x) { $x['totp'] = null; return $x; });
+    out(['ok' => true]);
 
-  case 'security':     // biztonsági állapot az adminban
-    need_auth(); $tf = read_json($TOTP, []);
-    out(['totp' => !empty($tf['enabled']), 'since' => $tf['since'] ?? null, 'recoveryLeft' => count($tf['recovery'] ?? []), 'log' => read_json($LOG, [])]);
+  case 'security':  // saját biztonsági állapot + belépési napló (tulajdonos mindenkiét látja)
+    need_auth(); $u = me(); $log = read_json($LOG, []);
+    if ($u['szerep'] !== 'tulajdonos') $log = array_values(array_filter($log, fn($l) => ($l['uid'] ?? '') === $u['id']));
+    out(['me' => pub_user($u) + ['emailMask' => mask_mail((string)$u['email'])], 'totp' => !empty($u['totp']['enabled']), 'since' => $u['totp']['since'] ?? null, 'recoveryLeft' => count($u['totp']['recovery'] ?? []), 'log' => array_slice($log, 0, 30)]);
 
-  case 'logout':
-    $_SESSION = []; session_destroy(); out(['ok' => true]);
+  /* ---- felhasználók kezelése: csak tulajdonos ---- */
+  case 'users':
+    need_owner();
+    out(array_values(array_map(fn($u) => pub_user($u) + ['telTeljes' => $u['tel'], 'emailCim' => $u['email'] ?? '', 'utolso' => $u['utolso'] ?? null, 'app' => !empty($u['totp']['enabled']), 'felvette' => $u['felvette'] ?? null, 'zarolva' => ($u['lockUntil'] ?? 0) > time()], users())));
 
-  case 'password':  // jelszócsere
-    need_auth(); check_csrf();
-    $b = body();
-    if (!password_verify((string)($b['regi'] ?? ''), read_hash($HASH))) out(['error' => 'A jelenlegi jelszó nem stimmel.'], 400);
-    if (mb_strlen((string)($b['uj'] ?? '')) < 8) out(['error' => 'Az új jelszó legalább 8 karakter legyen.'], 400);
-    write_hash($HASH, (string)$b['uj']);
+  case 'user-add':
+    need_owner(); check_csrf();
+    $b = body(); $nev = trim((string)($b['nev'] ?? '')); $tel = norm_tel((string)($b['tel'] ?? '')); $email = trim((string)($b['email'] ?? ''));
+    if (mb_strlen($nev) < 3) out(['error' => 'Adja meg a nevet.'], 400);
+    if (strlen($tel) < 11) out(['error' => 'Adjon meg érvényes telefonszámot (pl. +36 30 123 4567).'], 400);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail címet: erre megy a belépési kód.'], 400);
+    $me = me();
+    $id = locked(function () use ($nev, $tel, $email, $me) {
+      $by = users();
+      foreach ($by as $u) if (norm_tel($u['tel']) === $tel) out(['error' => 'Ezzel a telefonszámmal már van hozzáférés.'], 400);
+      $id = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nev) ?: 'admin')), '-') . '-' . substr(bin2hex(random_bytes(2)), 0, 4);
+      $by[$id] = ['id' => $id, 'nev' => mb_substr($nev, 0, 60), 'tel' => $tel, 'email' => $email, 'szerep' => 'admin', 'hash' => null, 'totp' => null, 'ido' => date('c'), 'felvette' => $me['nev']];
+      save_users($by); return $id; });
+    send_mail($email, 'Admin hozzáférést kapott – penztar-gep.hu', "Kedves $nev!\n\n{$me['nev']} admin hozzáférést adott Önnek a penztar-gep.hu webáruházához.\n\nAz első belépéshez nyissa meg a weboldalon az Admin gombot, válassza ki a nevét, és kattintson az „Első belépés” gombra. A jelszó beállításához erre az e-mail címre küldünk kódot.\n\nTotál Pénztárgép és Számítástechnika");
+    out(['ok' => true, 'id' => $id]);
+
+  case 'user-reset':   // jelszó és app törlése: a személy újra az e-mailes kóddal állít be jelszót
+    need_owner(); check_csrf();
+    $id = (string)(body()['id'] ?? ''); if ($id === me()['id']) out(['error' => 'A saját hozzáférését a Biztonság fülön módosíthatja.'], 400);
+    if (!user($id)) out(['error' => 'Ismeretlen felhasználó.'], 404);
+    update_user($id, function ($x) { $x['hash'] = null; $x['totp'] = null; $x['fail'] = 0; $x['lockUntil'] = 0; return $x; });
+    out(['ok' => true]);
+
+  case 'user-del':     // további admin törlése (tulajdonost nem lehet)
+    need_owner(); check_csrf();
+    $id = (string)(body()['id'] ?? '');
+    locked(function () use ($id) { $by = users(); if (!isset($by[$id])) out(['error' => 'Ismeretlen felhasználó.'], 404); if ($by[$id]['szerep'] === 'tulajdonos') out(['error' => 'Tulajdonost nem lehet törölni.'], 400); unset($by[$id]); save_users($by); });
     out(['ok' => true]);
 
   case 'save':      // teljes katalógus mentése (termékek, árak, szolgáltatások, beállítások)

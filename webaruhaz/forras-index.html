@@ -606,6 +606,12 @@ footer .legal .wrap{display:flex;justify-content:space-between;gap:12px;flex-wra
 .order .h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
 .order.uj{border-left:5px solid var(--gold)}
 .pill2{font-size:.76rem;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line)}
+.who{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.who:hover{border-color:var(--gold);box-shadow:var(--sh-1)}
+.who .wn{flex:1;min-width:0;display:grid}.who .wn small,.whohead small{color:var(--muted);font-size:.84rem}
+.who svg{width:18px;height:18px;color:var(--muted)}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,var(--n2),var(--n3));color:var(--gold-l);font-family:var(--fd);font-weight:800}
+.whohead{display:flex;align-items:center;gap:14px}.whohead div{display:grid}.whohead b{font-family:var(--fd);font-size:1.2rem}
 .loginbox{max-width:420px;margin:48px auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:16px;box-shadow:var(--sh-1)}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--n2);color:#fff;padding:12px 20px;border-radius:30px;font-weight:600;z-index:99;box-shadow:var(--sh-2);border:1px solid var(--gold-d);display:flex;gap:10px;align-items:center}
 .reveal{animation:rv .55s cubic-bezier(.2,.8,.2,1) both}
@@ -687,6 +693,7 @@ const $ = (s,r=document) => r.querySelector(s);
 const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 async function api(a, opts={}){
+  if(MODE==='preview' && AUTH_ACTIONS.has(a)) return fakeApi(a, opts.body||{});
   const o={credentials:'same-origin', headers:{}};
   if (opts.body instanceof FormData){ o.method='POST'; o.body=opts.body; }
   else if (opts.body){ o.method='POST'; o.headers['Content-Type']='application/json'; o.body=JSON.stringify(opts.body); }
@@ -1227,48 +1234,111 @@ document.addEventListener('keydown',e=>{ if((e.key==='k'&&(e.metaKey||e.ctrlKey)
   if($('#lightbox').classList.contains('show')){ if(e.key==='ArrowLeft') $('.lb-p').click(); if(e.key==='ArrowRight') $('.lb-n').click(); } });
 
 /* ================= ADMIN ================= */
-/* ---- telefonos hitelesítő kód (TOTP) az előnézethez; élesben a szerver ellenőriz ---- */
+/* ---- telefonos hitelesítő app (TOTP) – opcionális; élesben a szerver ellenőriz ---- */
 const B32='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 function b32enc(bytes){ let bits='',o=''; bytes.forEach(b=>bits+=b.toString(2).padStart(8,'0')); for(let i=0;i<bits.length;i+=5) o+=B32[parseInt(bits.slice(i,i+5).padEnd(5,'0'),2)]; return o; }
 function b32dec(str){ const s=str.toUpperCase().replace(/[^A-Z2-7]/g,''); let bits=''; for(const c of s) bits+=B32.indexOf(c).toString(2).padStart(5,'0'); const out=[]; for(let i=0;i+8<=bits.length;i+=8) out.push(parseInt(bits.slice(i,i+8),2)); return new Uint8Array(out); }
 async function totpAt(secret,step){ const key=await crypto.subtle.importKey('raw',b32dec(secret),{name:'HMAC',hash:'SHA-1'},false,['sign']); const msg=new ArrayBuffer(8), dv=new DataView(msg); dv.setUint32(0,Math.floor(step/4294967296)); dv.setUint32(4,step>>>0); const h=new Uint8Array(await crypto.subtle.sign('HMAC',key,msg)); const o=h[19]&15; const n=((h[o]&127)<<24)|(h[o+1]<<16)|(h[o+2]<<8)|h[o+3]; return String(n%1000000).padStart(6,'0'); }
 async function totpCheck(secret,code,last=0){ code=String(code).replace(/\D/g,''); if(code.length!==6) return null; const t=Math.floor(Date.now()/30000); for(const d of [0,-1,1]){ const st=t+d; if(st>last && await totpAt(secret,st)===code) return st; } return null; }
-const PTOTP={ get(){ return LS.get('ptg-totp',{}); }, set(v){ LS.set('ptg-totp',v); } };
-function logPreview(how){ const l=LS.get('ptg-adminlog',[]); l.unshift({ido:new Date().toISOString(),ip:'(ez a böngésző)',mod:how,eszkoz:navigator.userAgent.slice(0,160)}); LS.set('ptg-adminlog',l.slice(0,30)); }
-function newRecovery(){ return Array.from({length:8},()=>{ const c=b32enc(crypto.getRandomValues(new Uint8Array(8))).slice(0,10); return c.slice(0,5)+'-'+c.slice(5); }); }
 
-async function pageAdmin(){ if(MODE==='live'){ try{ const st=await api('status'); ADMIN.in=st.admin; ADMIN.csrf=st.csrf; ADMIN.needsSetup=st.needsSetup; ADMIN.totp=st.totp; }catch(e){} } else ADMIN.totp=!!PTOTP.get().enabled; return ADMIN.in?adminHTML():loginHTML(); }
-function loginHTML(){ const setup=MODE==='live'&&ADMIN.needsSetup;
-  if(ADMIN.step2) return `<div class="wrap"><div class="loginbox"><span class="eyebrow">2. lépés</span><h2 class="it-title">Telefonos kód</h2>
-    <p class="muted">Nyissa meg a telefonján a hitelesítő alkalmazást (iPhone-on: <b>Beállítások › Jelszavak</b>, vagy Google / Microsoft Authenticator), és írja be a „Totál webáruház” mellett látható 6 jegyű kódot.</p>
-    <form class="f" id="loginf2"><label class="l">6 jegyű kód<input class="i num" id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="11" placeholder="123 456" style="font-size:1.6rem;letter-spacing:.3em;text-align:center" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Megerősítés és belépés</button>
-    <details class="faq" style="margin:0"><summary>Nincs Önnél a telefon?</summary><p>Írja be a kód helyére az egyik tartalékkódot (például <b>ABCDE-12345</b>). Mindegyik csak egyszer használható.</p></details>
-    <button class="btn ghost sm" type="button" id="back1">‹ Vissza a jelszóhoz</button></form></div></div>`;
-  return `<div class="wrap"><div class="loginbox"><span class="eyebrow">penztar-gep.hu</span><h2 class="it-title">Admin belépés</h2>${MODE==='preview'?`<div class="msg info">Előnézeti mód: bármilyen jelszóval beléphet${ADMIN.totp?', utána a telefonos kódot kéri':''}. A módosítások csak ebben a böngészőben maradnak meg.</div>`:''}${setup?'<div class="msg info">Első belépés: az itt megadott jelszó lesz az admin jelszó (legalább 8 karakter). Jegyezze fel! Belépés után a Biztonság fülön kapcsolja be a telefonos megerősítést.</div>':''}
-  <form class="f" id="loginf"><label class="l">${setup?'Új admin jelszó':'Jelszó'}<input class="i" type="password" id="pw" autocomplete="${setup?'new-password':'current-password'}" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">${ADMIN.totp?'Tovább a telefonos kódhoz':'Belépés'}</button></form>
-  <p class="muted" style="font-size:.84rem;display:flex;gap:8px;align-items:center">${icon('shield','ic','width:18px;height:18px;color:var(--gold-d)')}${ADMIN.totp?'Kétlépcsős belépés: jelszó + telefonos kód.':'A telefonos megerősítés belépés után, a Biztonság fülön kapcsolható be.'}</p></div></div>`; }
+/* ---- előnézet: a szerver belépés-kezelésének másolata a böngészőben (élesben az api.php dolgozik) ---- */
+const AUTH_ACTIONS=new Set(['status','admins','code-start','set-password','login','login-resend','login2','logout','password','totp-setup','totp-enable','totp-disable','security','users','user-add','user-reset','user-del']);
+const P_OWNERS=[{id:'kucsera-istvan',nev:'Kucsera István',tel:'+36209804748'},{id:'ifj-kucsera-istvan',nev:'Ifj. Kucsera István',tel:'+36203222669'},{id:'kucsera-balazs',nev:'Kucsera Balázs',tel:'+36205363120'}];
+const PV={ sess:{} };
+const maskTel=t=>{ const d=String(t).replace(/\D/g,''); return d.length>=11?`+${d.slice(0,2)} ${d.slice(2,4)} *** ${d.slice(-4)}`:'***'; };
+const maskMail=e=>{ if(!e||!e.includes('@')) return ''; const [a,b]=e.split('@'); return a[0]+'•'.repeat(Math.max(2,Math.min(6,a.length-1)))+'@'+b; };
+async function sha(t){ return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ptg:'+t)))].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function pUsers(){ const by={}; (LS.get('ptg-users',[])).forEach(u=>by[u.id]=u); P_OWNERS.forEach(o=>{ by[o.id]={hash:null,totp:null,...by[o.id],...o,email:`${o.id.replace(/-/g,'.')}@pelda.hu`,szerep:'tulajdonos'}; }); return by; }
+function pSave(by){ LS.set('ptg-users',Object.values(by)); }
+const pPub=u=>({id:u.id,nev:u.nev,tel:maskTel(u.tel),szerep:u.szerep,aktiv:!!u.hash,email:!!u.email});
+function pErr(m){ throw new Error(m); }
+function pSend(u,cel){ const code=String(Math.floor(Math.random()*1e6)).padStart(6,'0'); PV.sess.code={uid:u.id,cel,code,exp:Date.now()+600000,tries:0}; return code; }
+function pCheck(uid,cel,kod){ const c=PV.sess.code; if(!c||c.uid!==uid||c.cel!==cel||Date.now()>c.exp||c.tries>=5) return false; c.tries++; if(String(kod).replace(/\D/g,'')===c.code){ delete PV.sess.code; return true; } return false; }
+function pLog(u,how){ const l=LS.get('ptg-adminlog2',[]); l.unshift({ido:new Date().toISOString(),uid:u.id,nev:u.nev,ip:'(ez a böngésző)',mod:how,eszkoz:navigator.userAgent.slice(0,160)}); LS.set('ptg-adminlog2',l.slice(0,60)); }
+function pGrant(u,how){ PV.sess={uid:u.id}; const by=pUsers(); by[u.id].utolso=new Date().toISOString(); pSave(by); pLog(u,how); return {ok:true,csrf:'elonezet',me:pPub(u)}; }
+const pMe=()=>PV.sess.uid?pUsers()[PV.sess.uid]:null;
+async function fakeApi(a,b){
+  const by=pUsers(), me=pMe(), owner=()=>{ if(!me) pErr('Be kell jelentkezni.'); if(me.szerep!=='tulajdonos') pErr('Ezt csak a tulajdonosok végezhetik el.'); };
+  switch(a){
+  case 'status': return {admin:!!me,csrf:me?'elonezet':null,me:me?pPub(me):null};
+  case 'admins': return Object.values(by).map(pPub);
+  case 'code-start': { const u=by[b.id]; if(!u) pErr('Ismeretlen felhasználó.'); const cel=u.hash?'visszaallitas':'aktivalas'; return {ok:true,cel,devCode:pSend(u,cel)}; }
+  case 'set-password': { const u=by[b.id]; if(!u) pErr('Ismeretlen felhasználó.'); const cel=u.hash?'visszaallitas':'aktivalas'; if(String(b.jelszo||'').length<10) pErr('A jelszó legalább 10 karakter legyen.'); if(!pCheck(u.id,cel,b.kod)) pErr('Hibás vagy lejárt kód. Kérjen újat, ha kell.'); u.hash=await sha(b.jelszo); pSave(by); return pGrant(u,cel==='aktivalas'?'első belépés (e-mail kód)':'új jelszó (e-mail kód)'); }
+  case 'login': { const u=by[b.id]; if(!u) pErr('Ismeretlen felhasználó.'); if(!u.hash){ const e=new Error('Még nincs jelszava. Válassza az „Első belépés” lehetőséget.'); throw e; } if(await sha(b.jelszo||'')!==u.hash) pErr('Hibás jelszó.'); PV.sess.pw={uid:u.id}; return {need2fa:true,via:'email',app:!!u.totp?.enabled,devCode:pSend(u,'belepes')}; }
+  case 'login-resend': { const p=PV.sess.pw; if(!p) pErr('Lejárt a belépés, adja meg újra a jelszót.'); const u=by[p.uid]; return {ok:true,devCode:pSend(u,'belepes')}; }
+  case 'login2': { const p=PV.sess.pw; if(!p) pErr('Lejárt a belépés, adja meg újra a jelszót.'); const u=by[p.uid];
+    if(pCheck(u.id,'belepes',b.kod)) return pGrant(u,'jelszó + e-mail kód');
+    if(u.totp?.enabled){ const st=await totpCheck(u.totp.secret,b.kod,u.totp.last||0); if(st!=null){ u.totp.last=st; pSave(by); return pGrant(u,'jelszó + telefonos app'); }
+      const n=String(b.kod).toUpperCase().replace(/[^A-Z0-9]/g,''); const i=(u.totp.recovery||[]).findIndex(x=>x.replace('-','')===n); if(i>=0){ u.totp.recovery.splice(i,1); pSave(by); return pGrant(u,'jelszó + tartalékkód'); } }
+    pErr('Hibás vagy lejárt kód. Nézze meg a legfrissebb e-mailt, vagy kérjen újat.'); }
+  case 'logout': PV.sess={}; return {ok:true};
+  case 'password': { if(!me) pErr('Be kell jelentkezni.'); if(await sha(b.regi||'')!==me.hash) pErr('A jelenlegi jelszó nem stimmel.'); if(String(b.uj||'').length<10) pErr('A jelszó legalább 10 karakter legyen.'); by[me.id].hash=await sha(b.uj); pSave(by); return {ok:true}; }
+  case 'totp-setup': { if(!me) pErr('Be kell jelentkezni.'); const sec=b32enc(crypto.getRandomValues(new Uint8Array(20))); PV.sess.pending=sec; return {secret:sec,uri:`otpauth://totp/${encodeURIComponent('Totál webáruház:'+me.nev)}?secret=${sec}&issuer=${encodeURIComponent('Totál webáruház')}&algorithm=SHA1&digits=6&period=30`}; }
+  case 'totp-enable': { const sec=PV.sess.pending; const st=await totpCheck(sec,b.kod); if(st==null) pErr('A kód nem egyezik. Ellenőrizze, hogy a legfrissebb kódot írta be.'); const codes=Array.from({length:8},()=>{ const c=b32enc(crypto.getRandomValues(new Uint8Array(8))).slice(0,10); return c.slice(0,5)+'-'+c.slice(5); }); by[me.id].totp={enabled:true,secret:sec,last:st,recovery:codes,since:new Date().toISOString()}; pSave(by); return {ok:true,recovery:codes}; }
+  case 'totp-disable': { if(await sha(b.jelszo||'')!==me.hash) pErr('A jelszó nem stimmel.'); by[me.id].totp=null; pSave(by); return {ok:true}; }
+  case 'security': { if(!me) pErr('Be kell jelentkezni.'); let log=LS.get('ptg-adminlog2',[]); if(me.szerep!=='tulajdonos') log=log.filter(l=>l.uid===me.id); return {me:{...pPub(me),emailMask:maskMail(me.email)},totp:!!me.totp?.enabled,recoveryLeft:(me.totp?.recovery||[]).length,log:log.slice(0,30)}; }
+  case 'users': owner(); return Object.values(by).map(u=>({...pPub(u),telTeljes:u.tel,emailCim:u.email,utolso:u.utolso||null,app:!!u.totp?.enabled,felvette:u.felvette||null}));
+  case 'user-add': { owner(); const nev=String(b.nev||'').trim(); let tel=String(b.tel||'').replace(/\D/g,''); if(tel.startsWith('06')) tel='36'+tel.slice(2); tel='+'+tel; const email=String(b.email||'').trim();
+    if(nev.length<3) pErr('Adja meg a nevet.'); if(tel.length<12) pErr('Adjon meg érvényes telefonszámot (pl. +36 30 123 4567).'); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) pErr('Adjon meg érvényes e-mail címet: erre megy a belépési kód.');
+    if(Object.values(by).some(u=>u.tel.replace(/\D/g,'')===tel.replace(/\D/g,''))) pErr('Ezzel a telefonszámmal már van hozzáférés.');
+    const id=nev.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-')+'-'+Math.random().toString(16).slice(2,6); by[id]={id,nev,tel,email,szerep:'admin',hash:null,totp:null,felvette:me.nev}; pSave(by); return {ok:true,id}; }
+  case 'user-reset': { owner(); if(b.id===me.id) pErr('A saját hozzáférését a Biztonság fülön módosíthatja.'); by[b.id].hash=null; by[b.id].totp=null; pSave(by); return {ok:true}; }
+  case 'user-del': { owner(); if(by[b.id]?.szerep==='tulajdonos') pErr('Tulajdonost nem lehet törölni.'); delete by[b.id]; pSave(by); return {ok:true}; }
+  }
+  pErr('Ismeretlen művelet.');
+}
+
+/* ---- belépés: ki lép be → jelszó → e-mailben kapott kód ---- */
+ADMIN.L={step:'who'};
+async function pageAdmin(){
+  try{ const st=await api('status'); ADMIN.in=st.admin; ADMIN.csrf=st.csrf; ADMIN.me=st.me; }catch(e){ ADMIN.in=false; }
+  if(!ADMIN.in){ try{ ADMIN.L.users=await api('admins'); }catch(e){ ADMIN.L.users=[]; ADMIN.L.err=e.message; } }
+  return ADMIN.in?adminHTML():loginHTML(); }
+const devNote=c=>c?`<div class="msg info" style="font-weight:500">Előnézet: e-mail nem megy ki, a levélben ez a kód érkezne: <b class="num" style="letter-spacing:.15em">${esc(c)}</b></div>`:'';
+const codeInput=(id,lbl)=>`<label class="l">${lbl}<input class="i num" id="${id}" inputmode="numeric" autocomplete="one-time-code" maxlength="11" placeholder="123456" style="font-size:1.6rem;letter-spacing:.3em;text-align:center" required></label>`;
+function loginHTML(){
+  const L=ADMIN.L, u=(L.users||[]).find(x=>x.id===L.uid), box=c=>`<div class="wrap"><div class="loginbox">${c}</div></div>`;
+  const back=`<button class="btn ghost sm" type="button" data-lstep="who">‹ Másik személy</button>`;
+  if(L.step==='who' || !u) return box(`<span class="eyebrow">Admin belépés</span><h2 class="it-title">Ki lép be?</h2>
+    ${L.err?`<div class="msg err">${esc(L.err)}</div>`:''}
+    <div style="display:grid;gap:10px">${(L.users||[]).map(x=>`<button class="who" type="button" data-who="${esc(x.id)}"><span class="av">${esc(x.nev.replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2))}</span><span class="wn"><b>${esc(x.nev)}</b><small class="num">${esc(x.tel)} · ${x.szerep==='tulajdonos'?'tulajdonos':'admin'}</small>${x.aktiv?'':'<span class="tag" style="justify-self:start;margin-top:4px">Első belépés</span>'}</span>${icon('chev')}</button>`).join('')}</div>
+    <p class="muted" style="font-size:.84rem;display:flex;gap:8px;align-items:flex-start">${icon('shield','ic','width:18px;height:18px;color:var(--gold-d);margin-top:2px')}<span>A belépést a kiválasztott személy saját e-mail címére küldött kóddal kell megerősíteni. Új hozzáférést csak a tulajdonosok adhatnak.</span></p>`);
+  const head=`<div class="whohead"><span class="av">${esc(u.nev.replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2))}</span><div><b>${esc(u.nev)}</b><small class="num">${esc(u.tel)}</small></div></div>`;
+  if(L.step==='pw') return box(`<span class="eyebrow">1. lépés · jelszó</span>${head}
+    <form class="f" id="lf-pw"><label class="l">Jelszó<input class="i" type="password" id="pw" autocomplete="current-password" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Tovább</button></form>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">${back}<button class="btn ghost sm" type="button" id="forgot">Elfelejtettem a jelszót</button></div>`);
+  if(L.step==='code') return box(`<span class="eyebrow">2. lépés · megerősítés</span>${head}
+    <div class="msg info" style="font-weight:500;display:flex;gap:10px;align-items:flex-start">${icon('mail','ic','width:20px;height:20px;flex-shrink:0;margin-top:2px')}<span>Kódot küldtünk <b>${esc(u.nev)}</b> saját e-mail címére. Nézze meg a beérkezett leveleket (és a levélszemetet is).</span></div>${devNote(L.devCode)}
+    <form class="f" id="lf-code">${codeInput('code','6 jegyű kód az e-mailből')}<div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Megerősítés és belépés</button></form>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">${back}<button class="btn ghost sm" type="button" id="resend">Új kód kérése</button></div>
+    ${L.app?'<details class="faq" style="margin:0"><summary>Nem jön az e-mail?</summary><p>Beírhatja a telefonos hitelesítő alkalmazás (iPhone: Jelszavak) 6 jegyű kódját, vagy egy tartalékkódot is.</p></details>':''}`);
+  if(L.step==='set'){ const akt=L.cel==='aktivalas'; return box(`<span class="eyebrow">${akt?'Első belépés':'Új jelszó'}</span>${head}
+    <div class="msg info" style="font-weight:500;display:flex;gap:10px;align-items:flex-start">${icon('mail','ic','width:20px;height:20px;flex-shrink:0;margin-top:2px')}<span>Kódot küldtünk <b>${esc(u.nev)}</b> saját e-mail címére. Ezzel igazolja, hogy Ön az, majd ${akt?'adja meg a jelszavát':'adjon meg új jelszót'}.</span></div>${devNote(L.devCode)}
+    <form class="f" id="lf-set">${codeInput('scode','6 jegyű kód az e-mailből')}<label class="l">${akt?'Jelszó':'Új jelszó'} <span class="o">legalább 10 karakter</span><input class="i" type="password" id="spw" autocomplete="new-password" required></label><label class="l">Jelszó még egyszer<input class="i" type="password" id="spw2" autocomplete="new-password" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">${akt?'Jelszó beállítása és belépés':'Új jelszó mentése és belépés'}</button></form>${back}`); }
+  return box('');
+}
 function bindLogin(){
-  const f=$('#loginf');
-  if(f) f.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',f);
-    if(MODE==='preview'){ if(PTOTP.get().enabled){ ADMIN.step2=true; return renderAdmin(); } ADMIN.in=true; logPreview('jelszó'); return route(); }
-    try{ const r=await api('login',{body:{jelszo:$('#pw').value}}); if(r.need2fa){ ADMIN.step2=true; return renderAdmin(); } ADMIN.in=true; ADMIN.csrf=r.csrf; route(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
-  const f2=$('#loginf2');
-  if(f2){ const c=$('#code'); setTimeout(()=>c.focus(),50);
-    c.addEventListener('input',()=>{ if(/^\d{6}$/.test(c.value.replace(/\s/g,''))) f2.requestSubmit(); });
-    $('#back1').onclick=()=>{ ADMIN.step2=false; renderAdmin(); };
-    f2.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',f2), btn=$('button[type=submit]',f2); btn.disabled=true;
-      try{
-        if(MODE==='preview'){ const t=PTOTP.get(); const st=await totpCheck(t.secret,c.value,t.last||0); let how='jelszó + telefonos kód';
-          if(st!=null){ t.last=st; } else { const n=c.value.toUpperCase().replace(/[^A-Z0-9]/g,''); const i=(t.recovery||[]).findIndex(x=>x.replace('-','')===n); if(i<0) throw new Error('Hibás vagy lejárt kód. Írja be a telefonján most látható 6 jegyű kódot.'); t.recovery.splice(i,1); how='jelszó + tartalékkód'; }
-          PTOTP.set(t); logPreview(how); ADMIN.in=true; ADMIN.step2=false; return route(); }
-        const r=await api('login2',{body:{kod:c.value}}); ADMIN.in=true; ADMIN.csrf=r.csrf; ADMIN.step2=false; route();
-      }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; c.select(); btn.disabled=false; if(/Lejárt a belépés/.test(err.message)){ ADMIN.step2=false; setTimeout(renderAdmin,1500); } } }; }
+  const L=ADMIN.L, go=st=>{ L.step=st; renderAdmin(); }, ok=r=>{ ADMIN.in=true; ADMIN.csrf=r.csrf; ADMIN.me=r.me; ADMIN.L={step:'who'}; ADMIN.tab='termekek'; route(); };
+  const sendCode=async(out)=>{ try{ const r=await api('code-start',{body:{id:L.uid}}); Object.assign(L,{cel:r.cel,devCode:r.devCode}); go('set'); }catch(err){ if(out) out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; else toast(err.message); } };
+  $$('[data-who]').forEach(b=>b.onclick=async()=>{ L.uid=b.dataset.who; const u=L.users.find(x=>x.id===L.uid); if(u.aktiv) go('pw'); else { b.disabled=true; await sendCode(); b.disabled=false; } });
+  $$('[data-lstep]').forEach(b=>b.onclick=()=>{ L.devCode=null; go(b.dataset.lstep); });
+  $('#forgot')?.addEventListener('click',()=>sendCode($('#lf-pw .out')));
+  const fp=$('#lf-pw'); if(fp){ setTimeout(()=>$('#pw').focus(),50); fp.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',fp), bt=$('button[type=submit]',fp); bt.disabled=true;
+    try{ const r=await api('login',{body:{id:L.uid,jelszo:$('#pw').value}}); if(r.need2fa){ Object.assign(L,{app:r.app,devCode:r.devCode}); return go('code'); } ok(r); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; bt.disabled=false; } }; }
+  const fc=$('#lf-code'); if(fc){ const c=$('#code'); setTimeout(()=>c.focus(),50);
+    c.addEventListener('input',()=>{ if(/^\d{6}$/.test(c.value.replace(/\s/g,''))) fc.requestSubmit(); });
+    fc.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',fc), bt=$('button[type=submit]',fc); bt.disabled=true;
+      try{ ok(await api('login2',{body:{kod:c.value}})); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; c.select(); bt.disabled=false; if(/Lejárt a belépés/.test(err.message)) setTimeout(()=>go('pw'),1500); } };
+    $('#resend').onclick=async()=>{ try{ const r=await api('login-resend',{body:{}}); L.devCode=r.devCode; toast('Új kódot küldtünk'); if(r.devCode) renderAdmin(); }catch(err){ $('.out',fc).innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } }; }
+  const fs=$('#lf-set'); if(fs){ setTimeout(()=>$('#scode').focus(),50); fs.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',fs), bt=$('button[type=submit]',fs);
+    if($('#spw').value!==$('#spw2').value){ out.innerHTML='<div class="msg err">A két jelszó nem egyezik.</div>'; return; }
+    bt.disabled=true; try{ ok(await api('set-password',{body:{id:L.uid,kod:$('#scode').value,jelszo:$('#spw').value}})); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; bt.disabled=false; } }; }
 }
 const MODELS=[['kompakt','Pénztárgép'],['nagy','Pénztárgép kasszafiókkal'],['kezi','Hordozható pénztárgép'],['pos','POS terminál'],['merleg','Mérleg'],['arazo','Árazógép'],['scanner','Vonalkódolvasó'],['fiok','Kasszafiók'],['nyomtato','Blokknyomtató'],['printer2','Irodai nyomtató'],['papir','Papírtekercs'],['pc','Számítógép'],['egyeb','Egyéb']];
 function adminHTML(){ const t=ADMIN.tab;
-  return `<div class="wrap adm"><div class="bar"><h2 class="it-title" style="margin-right:auto">Admin</h2><span class="pill2">${MODE==='live'?'Élő oldal':'Előnézet'}</span><a class="btn line sm" href="#termekek">Webáruház</a><button class="btn line sm" type="button" id="logout">Kilépés</button></div>
-  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['beallitasok','Cégadatok, nyitvatartás'],['biztonsag','Biztonság']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
-  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':t==='biztonsag'?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
+  return `<div class="wrap adm"><div class="bar"><div style="margin-right:auto"><h2 class="it-title">Admin</h2><small class="muted">Belépve: <b>${esc(ADMIN.me?.nev||'')}</b> · ${ADMIN.me?.szerep==='tulajdonos'?'tulajdonos':'admin'}</small></div><span class="pill2">${MODE==='live'?'Élő oldal':'Előnézet'}</span><a class="btn line sm" href="#termekek">Webáruház</a><button class="btn line sm" type="button" id="logout">Kilépés</button></div>
+  <div class="atabs" role="tablist">${[['termekek','Termékek, árak, készlet'],['szolgaltatasok','Szerviz díjak'],['gyik','Gyakori kérdések'],['rendelesek','Megrendelések'],['beallitasok','Cégadatok, nyitvatartás'],...(ADMIN.me?.szerep==='tulajdonos'?[['felhasznalok','Felhasználók']]:[]),['biztonsag','Biztonság']].map(([k,n])=>`<button role="tab" type="button" class="${t===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
+  <div id="admbody">${t==='termekek'?admProducts():t==='szolgaltatasok'?admServices():t==='gyik'?admFaq():t==='rendelesek'?'<p class="muted">Betöltés…</p>':(t==='biztonsag'||t==='felhasznalok')?'<p class="muted">Betöltés…</p>':admSettings()}</div></div>
   <div class="savebar" id="savebar" ${ADMIN.dirty?'':'hidden'}><div class="wrap"><span>Nem mentett változások</span><span style="display:flex;gap:8px"><button class="btn line sm" type="button" id="discard">Elvetés</button><button class="btn gold sm" type="button" id="save">Mentés</button></span></div></div>`; }
 function admProducts(){
   const tot=c=>DB.products.filter(p=>p.kategoria===c&&p.keszletDb!=null).reduce((a,p)=>a+(+p.keszletDb||0),0);
@@ -1329,42 +1399,46 @@ function bindHours(){
 /* ---- Biztonság fül: telefonos megerősítés, jelszó, belépési napló ---- */
 function loadQR(){ return window.QRCode?Promise.resolve():new Promise((ok,no)=>{ const sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; sc.onload=ok; sc.onerror=no; document.head.appendChild(sc); }); }
 async function admSecurity(){
-  let info;
-  try{ if(MODE==='live') info=await api('security'); else { const t=PTOTP.get(); info={totp:!!t.enabled,since:t.since,recoveryLeft:(t.recovery||[]).length,log:LS.get('ptg-adminlog',[])}; } }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
-  ADMIN.totp=info.totp;
-  const b=$('#admbody'); if(!b) return;
-  b.innerHTML=`<div style="display:grid;gap:20px;max-width:760px">
-  <div class="editor" style="margin:0"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><span style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:${info.totp?'#e4f5eb':'var(--gold-soft)'};color:${info.totp?'var(--ok)':'var(--gold-d)'}">${icon('shield','ic','width:30px;height:30px')}</span><div style="flex:1;min-width:220px"><h3>Telefonos megerősítés ${info.totp?'<span class="pill2" style="color:var(--ok);border-color:#bfe5cf;background:#e4f5eb">bekapcsolva</span>':'<span class="pill2">kikapcsolva</span>'}</h3><p class="muted">${info.totp?`Belépéskor a jelszó után a telefonján látható 6 jegyű kódot is kéri. Tartalékkód: ${info.recoveryLeft} db maradt.`:'Kapcsolja be: így a jelszó önmagában nem elég, a belépéshez az Ön telefonja is kell. Nincs SMS-díj, internet sem kell hozzá a telefonon.'}</p></div></div>
-    <div id="totpbox">${info.totp?`<form class="f" id="totpoff" style="margin-top:14px"><div class="row2"><label class="l">Jelszó<input class="i" type="password" id="off-pw" autocomplete="current-password"></label><label class="l">Telefonos kód<input class="i num" id="off-code" inputmode="numeric" autocomplete="one-time-code"></label></div><div class="out"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn line" type="submit">Kikapcsolás</button><button class="btn line" type="button" id="totpnew">Új telefon beállítása</button></div></form>`:`<button class="btn gold" type="button" id="totpstart" style="margin-top:14px">${icon('phone')} Bekapcsolás a telefonommal</button>`}</div></div>
-  ${MODE==='live'?`<div class="editor" style="margin:0"><h3>Jelszó módosítása</h3><form class="f" id="pwf"><div class="row2"><label class="l">Jelenlegi jelszó<input class="i" type="password" id="pw-old" autocomplete="current-password"></label><label class="l">Új jelszó (min. 8 karakter)<input class="i" type="password" id="pw-new" autocomplete="new-password"></label></div><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Jelszó módosítása</button></form></div>`:''}
-  <div class="editor" style="margin:0"><h3>Utolsó belépések</h3>${(info.log||[]).length?`<div class="tablewrap"><table class="ptable"><thead><tr><th>Időpont</th><th>Mód</th><th>Honnan</th></tr></thead><tbody>${info.log.slice(0,10).map(l=>`<tr><td data-l="Időpont" class="num">${esc(new Date(l.ido).toLocaleString('hu-HU'))}</td><td data-l="Mód">${esc(l.mod)}</td><td data-l="Honnan"><span class="num">${esc(l.ip)}</span><br><small class="muted">${esc(/iPhone|iPad/.test(l.eszkoz)?'iPhone / iPad':/Android/.test(l.eszkoz)?'Android telefon':/Mac/.test(l.eszkoz)?'Mac':/Windows/.test(l.eszkoz)?'Windows':'egyéb eszköz')}</small></td></tr>`).join('')}</tbody></table></div><p class="muted" style="font-size:.86rem">Ha ismeretlen belépést lát, azonnal változtasson jelszót.</p>`:'<p class="muted">Még nincs naplózott belépés.</p>'}</div></div>`;
-  const pwf=$('#pwf'); if(pwf) pwf.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',pwf); try{ await api('password',{body:{regi:$('#pw-old').value,uj:$('#pw-new').value}}); out.innerHTML='<div class="msg ok">A jelszó megváltozott.</div>'; pwf.reset(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  let info; try{ info=await api('security'); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  const b=$('#admbody'); if(!b) return; const me=info.me||{};
+  b.innerHTML=`<div style="display:grid;gap:20px;max-width:780px">
+  <div class="editor" style="margin:0"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><span style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:#e4f5eb;color:var(--ok)">${icon('shield','ic','width:30px;height:30px')}</span><div style="flex:1;min-width:220px"><h3>Belépés megerősítése e-mailben</h3><p class="muted">Minden belépésnél a jelszó után a rendszer egy 6 jegyű kódot küld ide: <b>${esc(me.emailMask||'nincs megadva')}</b>. A kód 10 percig érvényes.</p></div></div>
+    <p class="muted" style="font-size:.88rem;margin-top:10px">Telefonszám: <b class="num">${esc(me.tel||'')}</b> · ${me.szerep==='tulajdonos'?'Tulajdonos: a név, a telefonszám és az e-mail cím csak a programban módosítható.':'Az adatait a tulajdonosok módosíthatják.'}</p></div>
+  <div class="editor" style="margin:0"><h3>Tartalék: telefonos hitelesítő app ${info.totp?'<span class="pill2" style="color:var(--ok);border-color:#bfe5cf;background:#e4f5eb">bekapcsolva</span>':'<span class="pill2">nem kötelező</span>'}</h3><p class="muted">${info.totp?`Ha az e-mail nem érkezik meg, a 2. lépésben a telefon Jelszavak alkalmazásának kódját is beírhatja. Tartalékkód: ${info.recoveryLeft} db maradt.`:'Ha egyszer nem érkezne meg az e-mail, a telefon hitelesítő alkalmazásának kódjával (iPhone: Beállítások › Jelszavak) is be tud lépni.'}</p>
+    <div id="totpbox">${info.totp?`<form class="f" id="totpoff" style="margin-top:12px"><label class="l" style="max-width:340px">Jelszó a kikapcsoláshoz<input class="i" type="password" id="off-pw" autocomplete="current-password"></label><div class="out"></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn line" type="submit">Kikapcsolás</button><button class="btn line" type="button" id="totpnew">Új telefon beállítása</button></div></form>`:`<button class="btn line" type="button" id="totpstart" style="margin-top:12px">${icon('phone')} Beállítás a telefonomon</button>`}</div></div>
+  <div class="editor" style="margin:0"><h3>Jelszó módosítása</h3><form class="f" id="pwf"><div class="row2"><label class="l">Jelenlegi jelszó<input class="i" type="password" id="pw-old" autocomplete="current-password"></label><label class="l">Új jelszó (min. 10 karakter)<input class="i" type="password" id="pw-new" autocomplete="new-password"></label></div><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Jelszó módosítása</button></form></div>
+  <div class="editor" style="margin:0"><h3>Utolsó belépések${me.szerep==='tulajdonos'?' (mindenki)':''}</h3>${(info.log||[]).length?`<div class="tablewrap"><table class="ptable"><thead><tr><th>Időpont</th><th>Ki</th><th>Mód</th><th>Honnan</th></tr></thead><tbody>${info.log.slice(0,15).map(l=>`<tr><td data-l="Időpont" class="num">${esc(new Date(l.ido).toLocaleString('hu-HU'))}</td><td data-l="Ki"><b>${esc(l.nev||'')}</b></td><td data-l="Mód">${esc(l.mod)}</td><td data-l="Honnan"><span class="num">${esc(l.ip)}</span><br><small class="muted">${esc(/iPhone|iPad/.test(l.eszkoz)?'iPhone / iPad':/Android/.test(l.eszkoz)?'Android telefon':/Mac/.test(l.eszkoz)?'Mac':/Windows/.test(l.eszkoz)?'Windows':'egyéb eszköz')}</small></td></tr>`).join('')}</tbody></table></div><p class="muted" style="font-size:.86rem">Ha ismeretlen belépést lát, azonnal változtasson jelszót, és szóljon a többi tulajdonosnak.</p>`:'<p class="muted">Még nincs naplózott belépés.</p>'}</div></div>`;
+  const pwf=$('#pwf'); pwf.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',pwf); try{ await api('password',{body:{regi:$('#pw-old').value,uj:$('#pw-new').value}}); out.innerHTML='<div class="msg ok">A jelszó megváltozott.</div>'; pwf.reset(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
   $('#totpstart')?.addEventListener('click',totpSetup); $('#totpnew')?.addEventListener('click',totpSetup);
-  const off=$('#totpoff'); if(off) off.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',off);
-    try{ if(MODE==='live') await api('totp-disable',{body:{jelszo:$('#off-pw').value,kod:$('#off-code').value}}); else { const t=PTOTP.get(); if(await totpCheck(t.secret,$('#off-code').value)==null) throw new Error('A telefonos kód nem stimmel.'); PTOTP.set({}); }
-      toast('A telefonos megerősítés kikapcsolva'); admSecurity(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  const off=$('#totpoff'); if(off) off.onsubmit=async e=>{ e.preventDefault(); try{ await api('totp-disable',{body:{jelszo:$('#off-pw').value}}); toast('A telefonos app kikapcsolva'); admSecurity(); }catch(err){ $('.out',off).innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
 }
 async function totpSetup(){
-  const box=$('#totpbox'); let sec, uri;
-  try{ if(MODE==='live'){ const r=await api('totp-setup',{body:{}}); sec=r.secret; uri=r.uri; } else { sec=b32enc(crypto.getRandomValues(new Uint8Array(20))); uri=`otpauth://totp/${encodeURIComponent('Totál webáruház:admin')}?secret=${sec}&issuer=${encodeURIComponent('Totál webáruház')}&algorithm=SHA1&digits=6&period=30`; } }catch(err){ toast(err.message); return; }
+  const box=$('#totpbox'); let r; try{ r=await api('totp-setup',{body:{}}); }catch(err){ toast(err.message); return; }
   const isPhone=/iPhone|iPad|Android/.test(navigator.userAgent);
   box.innerHTML=`<div style="display:grid;gap:16px;margin-top:16px">
-    <div class="msg info" style="font-weight:500"><b>1.</b> ${isPhone?'Koppintson a gombra: a telefon megnyitja a hitelesítő alkalmazást (iPhone-on a Jelszavak alkalmazást), és elmenti a „Totál webáruház” kódot.':'Olvassa be a QR-kódot a telefon kamerájával: iPhone-on a Kamera felajánlja a „Hozzáadás a Jelszavakhoz” lehetőséget. Androidon a Google Authenticator alkalmazással olvassa be.'}</div>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
-      <div id="qr" style="width:212px;height:212px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center" aria-label="QR-kód a telefonhoz"><span class="muted" style="font-size:.8rem">QR-kód betöltése…</span></div>
-      <div style="display:grid;gap:10px;flex:1;min-width:220px"><a class="btn gold" href="${esc(uri)}">${icon('phone')} Megnyitás a telefonon</a>
-        <div><span class="muted" style="font-size:.84rem">Vagy írja be kézzel a beállítási kulcsot:</span><div class="num" style="font-weight:700;letter-spacing:.08em;word-break:break-all;user-select:all;padding:8px 10px;background:var(--surface-2);border-radius:8px;margin-top:4px">${esc(sec.match(/.{1,4}/g).join(' '))}</div></div></div></div>
-    <form class="f" id="totpon"><div class="msg info" style="font-weight:500"><b>2.</b> Írja be a telefonon megjelent 6 jegyű kódot, hogy ellenőrizzük a beállítást.</div><label class="l">Kód a telefonról<input class="i num" id="on-code" inputmode="numeric" autocomplete="one-time-code" maxlength="7" style="font-size:1.4rem;letter-spacing:.25em;max-width:220px"></label><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Bekapcsolás</button></form></div>`;
-  loadQR().then(()=>{ const q=$('#qr'); q.innerHTML=''; new QRCode(q,{text:uri,width:200,height:200,correctLevel:QRCode.CorrectLevel.M}); }).catch(()=>{ $('#qr').innerHTML='<span class="muted" style="font-size:.8rem;padding:10px;text-align:center">A QR-kód nem töltődött be. Használja a gombot vagy a kulcsot.</span>'; });
-  $('#totpon').onsubmit=async e=>{ e.preventDefault(); const out=$('#totpon .out');
-    try{ let codes;
-      if(MODE==='live') codes=(await api('totp-enable',{body:{kod:$('#on-code').value}})).recovery;
-      else { const st=await totpCheck(sec,$('#on-code').value); if(st==null) throw new Error('A kód nem egyezik. Ellenőrizze, hogy a legfrissebb kódot írta be.'); codes=newRecovery(); PTOTP.set({enabled:true,secret:sec,last:st,recovery:codes,since:new Date().toISOString()}); }
-      ADMIN.totp=true;
-      box.innerHTML=`<div style="display:grid;gap:12px;margin-top:16px"><div class="msg ok">Kész! A következő belépéstől a jelszó után a telefonos kódot is kéri.</div><div class="msg info" style="font-weight:500"><b>Tartalékkódok</b> arra az esetre, ha a telefon nincs Önnél vagy elveszik. Mindegyik egyszer használható. Írja fel vagy fényképezze le őket, és tegye biztonságos helyre – <b>most látja őket utoljára</b>.</div><div class="num" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-weight:700;font-size:1.05rem;letter-spacing:.06em;user-select:all">${codes.map(c=>`<span style="padding:8px 12px;background:var(--surface-2);border-radius:8px">${esc(c)}</span>`).join('')}</div><button class="btn line" type="button" id="copyrec" style="justify-self:start">Kódok másolása</button><button class="btn gold" type="button" id="recdone" style="justify-self:start">Felírtam, kész</button></div>`;
-      $('#copyrec').onclick=async()=>{ try{ await navigator.clipboard.writeText(codes.join('\n')); toast('Kimásolva'); }catch(e){ toast('Jelölje ki és másolja ki a kódokat'); } };
-      $('#recdone').onclick=()=>admSecurity();
-    }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+    <div class="msg info" style="font-weight:500"><b>1.</b> ${isPhone?'Koppintson a gombra: a telefon megnyitja a hitelesítő alkalmazást (iPhone-on a Jelszavak alkalmazást).':'Olvassa be a QR-kódot a telefon kamerájával: iPhone-on a Kamera felajánlja a „Hozzáadás a Jelszavakhoz” lehetőséget.'}</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center"><div id="qr" style="width:212px;height:212px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center"><span class="muted" style="font-size:.8rem">QR-kód betöltése…</span></div>
+      <div style="display:grid;gap:10px;flex:1;min-width:220px"><a class="btn gold" href="${esc(r.uri)}">${icon('phone')} Megnyitás a telefonon</a><div><span class="muted" style="font-size:.84rem">Vagy írja be kézzel a kulcsot:</span><div class="num" style="font-weight:700;letter-spacing:.08em;word-break:break-all;user-select:all;padding:8px 10px;background:var(--surface-2);border-radius:8px;margin-top:4px">${esc(r.secret.match(/.{1,4}/g).join(' '))}</div></div></div></div>
+    <form class="f" id="totpon"><div class="msg info" style="font-weight:500"><b>2.</b> Írja be a telefonon megjelent 6 jegyű kódot.</div><label class="l">Kód a telefonról<input class="i num" id="on-code" inputmode="numeric" autocomplete="one-time-code" maxlength="7" style="font-size:1.4rem;letter-spacing:.25em;max-width:220px"></label><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">Bekapcsolás</button></form></div>`;
+  loadQR().then(()=>{ const q=$('#qr'); q.innerHTML=''; new QRCode(q,{text:r.uri,width:200,height:200,correctLevel:QRCode.CorrectLevel.M}); }).catch(()=>{ $('#qr').innerHTML='<span class="muted" style="font-size:.8rem;padding:10px;text-align:center">A QR-kód nem töltődött be. Használja a gombot vagy a kulcsot.</span>'; });
+  $('#totpon').onsubmit=async e=>{ e.preventDefault(); try{ const codes=(await api('totp-enable',{body:{kod:$('#on-code').value}})).recovery;
+      box.innerHTML=`<div style="display:grid;gap:12px;margin-top:16px"><div class="msg ok">Kész! Ha az e-mail nem érkezne meg, a telefonos kóddal is be tud lépni.</div><div class="msg info" style="font-weight:500"><b>Tartalékkódok</b> arra az esetre, ha a telefon sincs kéznél. Mindegyik egyszer használható. Írja fel őket – <b>most látja őket utoljára</b>.</div><div class="num" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-weight:700;letter-spacing:.06em;user-select:all">${codes.map(c=>`<span style="padding:8px 12px;background:var(--surface-2);border-radius:8px">${esc(c)}</span>`).join('')}</div><button class="btn gold" type="button" id="recdone" style="justify-self:start">Felírtam, kész</button></div>`;
+      $('#recdone').onclick=()=>admSecurity(); }catch(err){ $('#totpon .out').innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+}
+async function admUsers(){
+  let list; try{ list=await api('users'); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  const b=$('#admbody'); if(!b) return;
+  const st=u=>u.aktiv?'<span class="pill2" style="color:var(--ok);border-color:#bfe5cf;background:#e4f5eb">aktív</span>':'<span class="pill2">még nem lépett be</span>';
+  b.innerHTML=`<div style="display:grid;gap:20px;max-width:900px">
+  <p class="muted">A tulajdonosokat (a három beépített személy) nem lehet törölni, és adataikat csak a programban lehet módosítani. További admin hozzáférést csak tulajdonos adhat. Mindenki a saját e-mail címére kapja a belépési kódot.</p>
+  <div class="tablewrap"><table class="ptable"><thead><tr><th>Név</th><th>Telefon</th><th>E-mail</th><th>Állapot</th><th>Utolsó belépés</th><th></th></tr></thead><tbody>${list.map(u=>`<tr><td class="nm"><b>${esc(u.nev)}</b><small>${u.szerep==='tulajdonos'?'tulajdonos':'admin'+(u.felvette?' · felvette: '+esc(u.felvette):'')}</small></td><td data-l="Telefon" class="num">${esc(u.telTeljes||u.tel)}</td><td data-l="E-mail">${u.emailCim?esc(u.emailCim):'<span style="color:var(--bad);font-weight:600">nincs megadva</span>'}</td><td data-l="Állapot">${st(u)}${u.app?' <span class="pill2">app</span>':''}</td><td data-l="Utolsó belépés" class="num">${u.utolso?esc(new Date(u.utolso).toLocaleString('hu-HU')):'—'}</td>
+    <td>${u.id===ADMIN.me?.id?'<small class="muted">Ön</small>':`<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn line sm" type="button" data-ureset="${esc(u.id)}">Jelszó visszaállítása</button>${u.szerep!=='tulajdonos'?`<button class="btn ghost sm" type="button" data-udel="${esc(u.id)}" style="color:var(--bad)">Törlés</button>`:''}</div><span data-uconf="${esc(u.id)}"></span>`}</td></tr>`).join('')}</tbody></table></div>
+  <div class="editor" style="margin:0"><h3>Új admin hozzáférés</h3><p class="muted">A megadott személy e-mailt kap; az első belépéskor az erre a címre küldött kóddal állít be magának jelszót.</p>
+    <form class="f" id="uadd"><div class="row2"><label class="l">Név<input class="i" id="ua-nev" autocomplete="off"></label><label class="l">Telefonszám<input class="i num" id="ua-tel" type="tel" placeholder="+36 30 123 4567" autocomplete="off"></label></div><label class="l">E-mail cím <span class="o">ide megy a belépési kód</span><input class="i" id="ua-email" type="email" autocomplete="off"></label><div class="out"></div><button class="btn navy" type="submit" style="justify-self:start">${icon('plus')} Hozzáférés adása</button></form></div></div>`;
+  $('#uadd').onsubmit=async e=>{ e.preventDefault(); const out=$('#uadd .out'); try{ await api('user-add',{body:{nev:$('#ua-nev').value,tel:$('#ua-tel').value,email:$('#ua-email').value}}); toast('Hozzáférés megadva'); admUsers(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; } };
+  const confirmBtn=(id,label,fn)=>{ const c=$(`[data-uconf="${id}"]`); c.innerHTML=`<div style="display:flex;gap:6px;margin-top:6px"><button class="btn sm" type="button" style="background:var(--bad);color:#fff">${label}</button><button class="btn ghost sm" type="button">Mégse</button></div>`; const [y,n]=$$('button',c); y.onclick=fn; n.onclick=()=>c.innerHTML=''; };
+  $$('[data-ureset]').forEach(x=>x.onclick=()=>confirmBtn(x.dataset.ureset,'Igen, visszaállítom',async()=>{ try{ await api('user-reset',{body:{id:x.dataset.ureset}}); toast('Visszaállítva: következő belépéskor e-mailes kóddal állít be új jelszót'); admUsers(); }catch(err){ toast(err.message); } }));
+  $$('[data-udel]').forEach(x=>x.onclick=()=>confirmBtn(x.dataset.udel,'Igen, törlöm',async()=>{ try{ await api('user-del',{body:{id:x.dataset.udel}}); toast('Hozzáférés törölve'); admUsers(); }catch(err){ toast(err.message); } }));
 }
 async function admOrders(){
   let list=[]; try{ list=MODE==='live'?await api('orders'):LS.get('ptg-orders3',[]); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
@@ -1378,9 +1452,9 @@ function markDirty(){ ADMIN.dirty=true; const b=$('#savebar'); if(b) b.hidden=fa
 function renderAdmin(){ $('#app').innerHTML=ADMIN.in?adminHTML():loginHTML(); bindAdmin(); }
 function bindAdmin(){
   bindLogin(); if(!ADMIN.in) return;
-  $('#logout').onclick=async()=>{ if(ADMIN.dirty&&!$('#logout').dataset.sure){ $('#logout').dataset.sure='1'; $('#logout').textContent='Biztos? Nem mentett változás van'; return; } if(MODE==='live') try{ await api('logout',{body:{}}); }catch(e){} ADMIN.in=false; ADMIN.step2=false; ADMIN.csrf=null; ADMIN.dirty=false; await load(); route(); };
+  $('#logout').onclick=async()=>{ if(ADMIN.dirty&&!$('#logout').dataset.sure){ $('#logout').dataset.sure='1'; $('#logout').textContent='Biztos? Nem mentett változás van'; return; } try{ await api('logout',{body:{}}); }catch(e){} ADMIN.in=false; ADMIN.me=null; ADMIN.L={step:'who'}; ADMIN.csrf=null; ADMIN.dirty=false; await load(); route(); };
   $$('[data-tab]').forEach(b=>b.onclick=()=>{ ADMIN.tab=b.dataset.tab; ADMIN.edit=null; renderAdmin(); });
-  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity();
+  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers();
   $$('[data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{ const p=prod(inp.dataset.id), f=inp.dataset.f;
     if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
   const ac=$('#admcat'); if(ac) ac.onchange=()=>$$('.ptable tbody tr').forEach(tr=>tr.hidden=!!ac.value&&tr.dataset.cat!==ac.value);

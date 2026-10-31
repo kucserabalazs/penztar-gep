@@ -1,0 +1,7 @@
+webaruhaz/config.local.php
+webaruhaz/data/admin.*
+webaruhaz/data/orders.*
+webaruhaz/data/products.backup-*
+webaruhaz/data/.lock
+webaruhaz/uploads/*
+!webaruhaz/uploads/.htaccess

@@ -42,14 +42,14 @@
 - Főoldal lefelé görgethető szekciói (világos tónus): Amivel foglalkozunk (6 terület), Kiemelt termékek (a webáruház adataiból, élőben az api.php-ből, GitHubon a products.json-ból), Rólunk + homlokzatkép, Vásárlás 4 lépésben, E-pénztárgép határidők, GYIK, Kapcsolat (élő nyitva/zárva állapot magyar ünnepnapokkal, heti nyitvatartás a mai nap kiemelésével, elérhetőségek, ingyenes parkolás, útvonaltervezés, Google térkép), rövid lábléc, mobilon alsó Hívás/Útvonal sáv.
 - A homlokzatkép a régi weboldal anyagából származik (2007-es fotó): `assets/uzlet-homlokzat.webp`. Friss fotó esetén ugyanazon a néven cserélhető.
 
-## Admin belépés jelszóval + telefonos kóddal (2026-10-31)
-- Jól látható „Admin” gomb: főoldal menüsor és lábléc, webáruház menüsor (mobilon a menüben).
-- Kétlépcsős belépés (TOTP, RFC 6238): jelszó, majd a telefon hitelesítő alkalmazásának 6 jegyű kódja (iPhone: Beállítások › Jelszavak; vagy Google/Microsoft Authenticator). SMS nem kell.
-- Bekapcsolás: Admin › Biztonság › „Bekapcsolás a telefonommal” (QR-kód, telefonon „Megnyitás a telefonon” gomb, kézi kulcs), a telefon kódjával megerősítve. Utána 8 egyszer használható tartalékkód jelenik meg.
-- Kikapcsolás jelszó + kód kell. Biztonság fülön jelszócsere és az utolsó 30 belépés naplója.
-- api.php: `login` (ha be van kapcsolva: need2fa), `login2`, `totp-setup`, `totp-enable`, `totp-disable`, `security`. Újrajátszás elleni védelem (egy kód csak egyszer), 5 perces időkorlát, lassítás hibás próbálkozásnál.
-- A titkos adatfájlok `.php` kiterjesztésűek, elejükön záró sorral (admin.hash.php, admin.totp.php, admin.log.php, orders.php), így .htaccess nélkül sem tölthetők le. A régi orders.json / admin.hash automatikusan átkerül.
-- Nyitvatartás az adminban (Cégadatok, nyitvatartás fül): napi nyitás/zárás, rendkívüli zárva tartás (napok vagy időszakok). A főoldal élő „nyitva/zárva” jelzése ebből számol.
+## Admin hozzáférés: személyenként, e-mailes kóddal (2026-10-31)
+- Tulajdonosok (api.php, OWNERS – csak a programban módosítható): Kucsera István +36209804748, Ifj. Kucsera István +36203222669, Kucsera Balázs +36205363120. Csak ők adhatnak/vonhatnak vissza további admin hozzáférést (Admin › Felhasználók fül).
+- Belépés: „Ki lép be?” → saját jelszó → 6 jegyű kód az illető saját e-mail címére (10 percig érvényes, egyszer használható). Első belépés és elfelejtett jelszó: e-mailes kóddal állít be jelszót (min. 10 karakter).
+- A tulajdonosok e-mail címei NEM a forráskódban vannak (a GitHub-tároló nyilvános): `webaruhaz/config.local.php` (gitignore-ban; minta: config.local.minta.php). Ezt kézzel kell feltölteni a tárhelyre.
+- Belépés közben a felület nem mutatja az e-mail címet. Tartalék: telefonos hitelesítő app (opcionális) + tartalékkódok. 8 hibás próbálkozás után 15 perc zárolás az adott személyre.
+- Adatok: data/admin.users.php (jelszó-ujjlenyomat, app, zárolás), data/admin.log.php (belépési napló, tulajdonos mindenkiét látja), védett .php fájlok.
+- Levélküldés a tárhely mail() függvényével, feladó noreply@penztar-gep.hu. Fejlesztői teszt: PTG_MAIL_LOG környezeti változóval fájlba ír.
+- Előnézetben (GitHub Pages / artifact) a szerver nélkül a böngésző szimulálja a folyamatot, és kiírja a kódot.
 
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
