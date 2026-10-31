@@ -71,6 +71,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .btn.dark{background:rgba(4,17,42,.72);border:2px solid rgba(247,248,252,.85);color:var(--txt);box-shadow:0 8px 20px rgba(0,0,0,.3)}
 .art{position:relative;align-self:end;height:100%;min-height:360px}
 .art .prod{position:absolute;left:-6%;bottom:-6px;width:min(812px,112%);height:auto}
+.mbr,.lau-m{display:none}
 .art .lau{position:absolute;right:-1%;top:6%;width:clamp(150px,13vw,205px);height:auto}
 
 /* hullám + ikonsáv */
@@ -107,7 +108,10 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .cta{margin-left:0;flex-wrap:wrap}.btn{height:54px;padding:0 20px}
   .art{min-height:0;height:auto;margin-top:18px}
   .art .prod{position:relative;left:0;bottom:-4px;width:100%}
-  .art .lau{width:110px;top:-6%;right:0}
+  .art .lau{display:none}
+  .mbr{display:inline}
+  .ht{position:relative}
+  .lau-m{display:block;position:absolute;right:max(-6px,calc(env(safe-area-inset-right,0px) - 6px));bottom:-.15em;width:clamp(100px,29vw,124px);height:auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
   .strip .wrap{grid-template-columns:repeat(2,1fr);row-gap:10px}
   .strip a + a::before{display:none}
   .strip a:last-child{grid-column:1/-1}
@@ -147,7 +151,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 <section class="hero">
   <div class="wrap">
     <div class="copy">
-      <h1>Pénztárgép<br>Szaküzlet <span class="g">és Szerviz</span></h1>
+      <div class="ht"><h1>Pénztárgép<br>Szaküzlet <span class="g">és<br class="mbr"> Szerviz</span></h1><img class="lau-m" src="assets/jelveny.webp" alt="" width="420" height="400"></div>
       <ul class="ticks">
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Értékesítés</li>
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Beüzemelés</li>
