@@ -98,6 +98,25 @@ switch ($a) {
     if (!empty($b['web'])) out(['ok' => true]);           // csapda a robotoknak (rejtett mező)
     $nev = trim((string)($b['nev'] ?? '')); $tel = trim((string)($b['telefon'] ?? '')); $email = trim((string)($b['email'] ?? ''));
     if ($nev === '' || ($tel === '' && $email === '')) out(['error' => 'Adja meg a nevét és legalább egy elérhetőséget.'], 400);
+    // tételek: név és ár a szerver katalógusából; készlet ellenőrzése és csökkentése zárolás alatt
+    $tetelek = [];
+    $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
+    $cat = read_json($PRODUCTS, []);
+    $byId = []; foreach (($cat['products'] ?? []) as $i => $p) $byId[$p['id']] = $i;
+    foreach (array_slice(is_array($b['tetelek'] ?? null) ? $b['tetelek'] : [], 0, 30) as $t) {
+      $id = (string)($t['id'] ?? ''); $db = max(1, min(99, (int)($t['db'] ?? 1)));
+      if (!isset($byId[$id])) continue;
+      $p = &$cat['products'][$byId[$id]];
+      if (isset($p['keszletDb']) && $p['keszletDb'] !== null) {
+        if ($p['keszletDb'] < $db) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': csak ' . (int)$p['keszletDb'] . ' db van raktáron.'], 409); }
+        $p['keszletDb'] -= $db;
+        if ($p['keszletDb'] <= 0) { $p['keszletDb'] = 0; $p['keszlet'] = 'elfogyott'; }
+      }
+      $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $p['akciosAr'] ?? $p['ar'] ?? null];
+      unset($p);
+    }
+    if ($tetelek) write_json($PRODUCTS, $cat);
+    flock($lock, LOCK_UN);
     $orders = read_json($ORDERS, []);
     $rec = [
       'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2))),
@@ -105,7 +124,7 @@ switch ($a) {
       'tipus' => mb_substr((string)($b['tipus'] ?? 'ajanlat'), 0, 30),
       'nev' => mb_substr($nev, 0, 120), 'ceg' => mb_substr((string)($b['ceg'] ?? ''), 0, 120),
       'telefon' => mb_substr($tel, 0, 40), 'email' => mb_substr($email, 0, 120),
-      'tetelek' => array_slice(is_array($b['tetelek'] ?? null) ? $b['tetelek'] : [], 0, 30),
+      'tetelek' => $tetelek,
       'idopont' => mb_substr((string)($b['idopont'] ?? ''), 0, 40),
       'uzenet' => mb_substr((string)($b['uzenet'] ?? ''), 0, 3000),
       'allapot' => 'uj'

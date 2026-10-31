@@ -1,102 +1,913 @@
 {
-  "settings": {
-    "cegnev": "Totál Pénztárgép és Számítástechnika Kkt.",
-    "cim": "7625 Pécs, Hunyadi János utca 34.",
-    "telefon": "+36 72 215 652",
-    "mobil": ["+36 20 980 4748", "+36 20 536 3120", "+36 20 322 2669"],
-    "email": "info@penztar-gep.hu",
-    "nyitvatartas": "Hétfő–péntek 9:00–15:00, hétvégén zárva",
-    "alapitas": "1982",
-    "afa": 27,
-    "mobildij": "A pénztárgép mobil adatkapcsolatának díja 1 500 Ft + ÁFA / hó / gép. A szerződést a vásárláskor intézzük.",
-    "hirdetes": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!"
+ "settings": {
+  "cegnev": "Totál Pénztárgép és Számítástechnika Kkt.",
+  "cim": "7625 Pécs, Hunyadi János utca 34.",
+  "telefon": "+36 72 215 652",
+  "mobil": [
+   "+36 20 980 4748",
+   "+36 20 536 3120",
+   "+36 20 322 2669"
+  ],
+  "email": "info@penztar-gep.hu",
+  "nyitvatartas": "Hétfő–péntek 9:00–15:00, hétvégén zárva",
+  "alapitas": "1982",
+  "afa": 27,
+  "mobildij": "A pénztárgép mobil adatkapcsolatának díja 1 500 Ft + ÁFA / hó / gép. A szerződést a vásárláskor intézzük.",
+  "hirdetes": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
+  "ingyenesSzallitas": ""
+ },
+ "categories": [
+  {
+   "id": "penztargep",
+   "nev": "Pénztárgépek",
+   "ikon": "register",
+   "leiras": "NAV által engedélyezett online pénztárgépek, üzembe helyezéssel, betanítással és teljes ügyintézéssel.",
+   "gyik": [
+    [
+     "Mi kell a pénztárgép üzembe helyezéséhez?",
+     "Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
+    ],
+    [
+     "Mennyibe kerül a mobil adatkapcsolat?",
+     "1 500 Ft + ÁFA havonta gépenként. A szerződést a vásárláskor intézzük."
+    ],
+    [
+     "Meddig használható az online pénztárgép?",
+     "A pénztárgép-kötelezett vállalkozások 2028. július 1-ig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk."
+    ],
+    [
+     "Hol javítják, ha elromlik?",
+     "Nálunk, Pécsen, a Hunyadi János utca 34. alatti szervizünkben. Az éves felülvizsgálatot is mi végezzük."
+    ]
+   ]
   },
-  "categories": [
-    {"id": "penztargep", "nev": "Pénztárgépek", "ikon": "register", "leiras": "NAV által engedélyezett online pénztárgépek, üzembe helyezéssel, betanítással és teljes ügyintézéssel."},
-    {"id": "pos", "nev": "POS rendszerek", "ikon": "pos", "leiras": "Érintőképernyős POS terminálok, blokknyomtatók és vonalkódolvasók boltokba, éttermekbe."},
-    {"id": "fiok", "nev": "Kasszafiókok", "ikon": "drawer", "leiras": "Új és használt kasszafiókok minden pénztárgéphez."},
-    {"id": "merleg", "nev": "Mérlegek", "ikon": "scale", "leiras": "Hitelesített, hordozható, árszorzós és címkenyomtatós bolti mérlegek."},
-    {"id": "arazo", "nev": "Árazógépek", "ikon": "label", "leiras": "Egy- és kétsoros árazógépek, ruhaárazó szálbelövők."},
-    {"id": "irodatechnika", "nev": "Irodatechnika", "ikon": "monitor", "leiras": "Számítógépek, nyomtatók és irodai eszközök igény szerint."},
-    {"id": "kellek", "nev": "Kellékanyagok", "ikon": "roll", "leiras": "Hőpapír tekercsek, címkék, festékhengerek minden általunk forgalmazott típushoz."}
-  ],
-  "products": [
-    {"id": "sam4s-nr-330", "kategoria": "penztargep", "marka": "Sam4s", "nev": "NR-330", "alcim": "Többfunkciós online pénztárgép, számlanyomtatással", "ar": 99900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": true, "engedely": "A315", "modell": "kompakt",
-     "leiras": "Az NR-330 a legkedvezőbb árú Sam4s pénztárgépünk. Új generációs 4G-s adóügyi egységgel működik, és nyugta mellett számlát is nyomtat.",
-     "jellemzok": ["NAV engedélyszám: A315", "4G-s adóügyi egység", "Nyugta és számla nyomtatása", "Hőnyomtató, 57 mm-es papír"], "kepek": [], "spin": []},
-    {"id": "sam4s-nr-300", "kategoria": "penztargep", "marka": "Sam4s", "nev": "NR-300", "alcim": "A legnépszerűbb: kicsi, gyors, stílusos", "ar": 109900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": true, "engedely": "A315", "modell": "kompakt",
-     "leiras": "Az NR-300 a Sam4s legkedveltebb modellje. Kevés helyet foglal, jól olvasható kijelzői vannak, a papírcsere egyetlen mozdulat. Szinte bármilyen kasszafiókot vezérel.",
-     "jellemzok": ["NAV engedélyszám: A315", "Nagy sebességű hőnyomtató", "Kétsoros kijelző elöl és hátul", "Kasszafiók csatlakoztatható"], "kepek": [], "spin": []},
-    {"id": "sam4s-nr-240-pro-4g", "kategoria": "penztargep", "marka": "Sam4s", "nev": "NR-240 PRO 4G", "alcim": "Helytakarékos online pénztárgép", "ar": 119500, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "A308", "modell": "kompakt",
-     "leiras": "Az NR-240 PRO 4G kis alapterületű, mégis nagy tudású pénztárgép. Ideális kisboltokba, szolgáltatóknak, ahol kevés a hely a pulton.",
-     "jellemzok": ["NAV engedélyszám: A308", "4G-s adóügyi egység", "Kompakt méret", "Kasszafiók csatlakoztatható"], "kepek": [], "spin": []},
-    {"id": "sam4s-nr-440-pro-4g", "kategoria": "penztargep", "marka": "Sam4s", "nev": "NR-440 PRO 4G kasszafiókkal", "alcim": "A csúcsmodell nagy forgalmú üzletekbe", "ar": 149500, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": true, "engedely": "A311", "modell": "nagy",
-     "leiras": "Az NR-440 a Sam4s legerősebb és legstrapabíróbb pénztárgépe, beépített kasszafiókkal. A leggyorsabb nyomtatót kapta, a vevőkijelző kihúzható és forgatható, számítógéphez kötve készletkezelésre is alkalmas.",
-     "jellemzok": ["NAV engedélyszám: A311", "Beépített kasszafiók", "Leggyorsabb Sam4s hőnyomtató", "Forgatható vevőkijelző", "PC-hez köthető"], "kepek": [], "spin": []},
-    {"id": "montel-sento-h-light", "kategoria": "penztargep", "marka": "Montel", "nev": "Sento H Light", "alcim": "Asztali online pénztárgép", "ar": 134900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "kompakt",
-     "leiras": "Megbízható asztali online pénztárgép kényelmes billentyűzettel, közepes forgalmú üzletekbe.",
-     "jellemzok": ["Online pénztárgép", "Asztali kivitel", "Kasszafiók csatlakoztatható"], "kepek": [], "spin": []},
-    {"id": "micra-jota-e", "kategoria": "penztargep", "marka": "Micra", "nev": "Jota E", "alcim": "Akkumulátoros, hordozható pénztárgép nagy forgalomra", "ar": 139900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "kompakt",
-     "leiras": "Belső akkumulátoros, hordozható online pénztárgép, amely nagy forgalmú helyeken is helytáll. Rendszerbe köthető, elektronikus naplós.",
-     "jellemzok": ["Belső akkumulátor", "Rendszerbe köthető", "Autós tápkábellel is működik"], "kepek": [], "spin": []},
-    {"id": "micra-k10", "kategoria": "penztargep", "marka": "Micra", "nev": "K10 hordozható, GPS", "alcim": "Mobil pénztárgép piacra, kiszállításhoz", "ar": 129900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "kezi",
-     "leiras": "Kézben tartható, GPS-es mobil online pénztárgép piaci árusoknak, futároknak, házhoz menő szolgáltatóknak.",
-     "jellemzok": ["Hordozható", "Beépített GPS", "Akkumulátoros"], "kepek": [], "spin": []},
-    {"id": "hasznalt-penztargep", "kategoria": "penztargep", "marka": "Totál", "nev": "Használt pénztárgép, átszemélyesítve", "alcim": "Bevizsgált, átszemélyesített gépek garanciával", "ar": 65000, "arTol": true, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "kompakt",
-     "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek. A pontos kínálatért hívjon minket. Használt pénztárgépet csak szakszerviz bevonásával vásároljon!",
-     "jellemzok": ["Szervizben bevizsgálva", "Átszemélyesítve", "Készlet függvényében"], "kepek": [], "spin": []},
-
-    {"id": "imin-pos", "kategoria": "pos", "marka": "iMin", "nev": "Érintőképernyős POS terminál", "alcim": "Android kassza boltba, étterembe", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "rendelesre", "kiemelt": true, "engedely": "", "modell": "pos",
-     "leiras": "Modern érintőképernyős POS terminál beépített nyugtanyomtatóval. Szoftverrel, beállítva, betanítva adjuk át.",
-     "jellemzok": ["Érintőképernyő", "Beépített nyomtató", "Szoftverrel együtt"], "kepek": [], "spin": []},
-    {"id": "blokknyomtato", "kategoria": "pos", "marka": "Sam4s · Citizen · Bixolon", "nev": "Blokk- és címkenyomtatók", "alcim": "Soros, párhuzamos és USB kivitelben", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "rendelesre", "kiemelt": false, "engedely": "", "modell": "nyomtato",
-     "leiras": "Blokknyomtatók és címkenyomtatók POS rendszerekhez, számlázáshoz, címkézéshez. Típustól függően soros, párhuzamos vagy USB csatlakozással.",
-     "jellemzok": ["Soros, párhuzamos, USB", "Hőnyomtatós kivitel"], "kepek": [], "spin": []},
-    {"id": "argox-as-8060", "kategoria": "pos", "marka": "Argox", "nev": "AS-8060 lézeres vonalkódolvasó", "alcim": "Kézi lézeres olvasó", "ar": 16990, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "scanner",
-     "leiras": "Megbízható kézi lézeres vonalkódolvasó pénztárgéphez és számítógéphez.",
-     "jellemzok": ["Lézeres", "Kézi"], "kepek": [], "spin": []},
-    {"id": "polpos-ps-200", "kategoria": "pos", "marka": "Polpos", "nev": "PS-200 USB 2D vonalkódolvasó", "alcim": "Kamerás olvasó QR-kódhoz is", "ar": 24500, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "scanner",
-     "leiras": "USB-s kamerás 2D vonalkódolvasó, amely QR-kódot és telefon kijelzőjéről is olvas.",
-     "jellemzok": ["2D kamerás", "QR-kód", "USB"], "kepek": [], "spin": []},
-
-    {"id": "cwy-1", "kategoria": "fiok", "marka": "", "nev": "CWY-1 kasszafiók", "alcim": "Kedvező árú kasszafiók", "ar": 18800, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "fiok",
-     "leiras": "Kulccsal zárható kasszafiók bankjegy- és érmetartóval, pénztárgéphez köthető.", "jellemzok": ["Kulccsal zárható", "Pénztárgéphez köthető"], "kepek": [], "spin": []},
-    {"id": "sam4s-durable", "kategoria": "fiok", "marka": "Sam4s", "nev": "Durable kasszafiók", "alcim": "Strapabíró fém kasszafiók", "ar": 19500, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "fiok",
-     "leiras": "Erős fém kasszafiók napi intenzív használatra.", "jellemzok": ["Fém kivitel", "Kulccsal zárható"], "kepek": [], "spin": []},
-    {"id": "cd-4141", "kategoria": "fiok", "marka": "", "nev": "CD-4141 kasszafiók", "alcim": "Nagyméretű kasszafiók", "ar": 23000, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "fiok",
-     "leiras": "Nagyobb méretű kasszafiók több rekesszel, forgalmas üzletekbe.", "jellemzok": ["Több rekesz", "Kulccsal zárható"], "kepek": [], "spin": []},
-
-    {"id": "acs-a-an", "kategoria": "merleg", "marka": "ACS", "nev": "ACS-A 15 / 30 AN", "alcim": "Hitelesített árszorzós bolti mérleg", "ar": 34900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": true, "engedely": "", "modell": "merleg",
-     "leiras": "Hordozható, digitális, árszorzós és memóriás bolti mérleg 15 vagy 30 kg méréshatárral, hitelesítve.", "jellemzok": ["15 vagy 30 kg", "Hitelesítve", "Árszorzó, memória", "Akkumulátoros"], "kepek": [], "spin": []},
-    {"id": "cas-er-plus", "kategoria": "merleg", "marka": "CAS", "nev": "ER-plus", "alcim": "Megbízható hitelesített bolti mérleg", "ar": 52900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "merleg",
-     "leiras": "A CAS ER-plus a bolti mérlegek klasszikusa: pontos, tartós, mindkét oldalon jól olvasható kijelzővel.", "jellemzok": ["Hitelesítve", "Árszorzó", "Kétoldali kijelző"], "kepek": [], "spin": []},
-    {"id": "rongta-rls1000", "kategoria": "merleg", "marka": "Rongta", "nev": "RLS1000 címkenyomtatós rendszermérleg", "alcim": "Vonalkódos címkét nyomtató mérleg", "ar": 149000, "arTol": false, "akciosAr": null, "keszlet": "rendelesre", "kiemelt": false, "engedely": "", "modell": "merleg",
-     "leiras": "Címkenyomtatós rendszermérleg hentes-, csemege- és zöldségpultokba, vonalkódos címkével.", "jellemzok": ["Címkenyomtató", "Vonalkódos címke", "Rendszerbe köthető"], "kepek": [], "spin": []},
-
-    {"id": "open-s14", "kategoria": "arazo", "marka": "Open", "nev": "S-14 kétsoros árazógép", "alcim": "Ár és egységár egy címkén", "ar": 26000, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "arazo",
-     "leiras": "Kétsoros árazógép, amellyel az ár mellé egységár vagy dátum is kerül a címkére.", "jellemzok": ["Kétsoros", "Strapabíró"], "kepek": [], "spin": []},
-    {"id": "sky-ketsoros", "kategoria": "arazo", "marka": "SKY", "nev": "Kétsoros árazógép", "alcim": "Kedvező árú kétsoros árazó", "ar": 17900, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "arazo",
-     "leiras": "Kedvező árú kétsoros árazógép mindennapi bolti használatra.", "jellemzok": ["Kétsoros"], "kepek": [], "spin": []},
-    {"id": "cp2200", "kategoria": "arazo", "marka": "", "nev": "CP2200 ruhaárazó szálbelövő", "alcim": "Ruházati és textilüzletekbe", "ar": 2500, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "arazo",
-     "leiras": "Szálbelövő pisztoly árcédulák rögzítéséhez ruhákon, textíliákon.", "jellemzok": ["Ruhaárazó", "Szálbelövő"], "kepek": [], "spin": []},
-
-    {"id": "szamitogep", "kategoria": "irodatechnika", "marka": "Totál", "nev": "Asztali számítógép", "alcim": "Igény szerint összeállítva", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "rendelesre", "kiemelt": false, "engedely": "", "modell": "pc",
-     "leiras": "Irodai, bolti vagy otthoni számítógép az Ön igényeire szabva, telepítve, beállítva, helyi garanciával.", "jellemzok": ["Egyedi összeállítás", "Telepítés, beállítás", "Helyi garancia"], "kepek": [], "spin": []},
-    {"id": "nyomtato-iroda", "kategoria": "irodatechnika", "marka": "", "nev": "Irodai nyomtatók, multifunkciós gépek", "alcim": "Beszerzés és beüzemelés", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "rendelesre", "kiemelt": false, "engedely": "", "modell": "printer2",
-     "leiras": "Lézer- és tintasugaras nyomtatók, multifunkciós gépek beszerzése, telepítése, hálózatba kötése.", "jellemzok": ["Telepítés", "Hálózatba kötés"], "kepek": [], "spin": []},
-
-    {"id": "hopapir", "kategoria": "kellek", "marka": "", "nev": "Hőpapír tekercsek", "alcim": "Minden általunk forgalmazott típushoz", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "papir",
-     "leiras": "Hőpapír tekercsek pénztárgépekhez és blokknyomtatókhoz többféle méretben.", "jellemzok": ["57 és 80 mm széles", "Csomagban is"], "kepek": [], "spin": []},
-    {"id": "arazocimke", "kategoria": "kellek", "marka": "", "nev": "Árazócímkék, festékhengerek", "alcim": "Árazógépekhez", "ar": null, "arTol": false, "akciosAr": null, "keszlet": "raktaron", "kiemelt": false, "engedely": "", "modell": "papir",
-     "leiras": "Öntapadós árazócímkék és festékhengerek egy- és kétsoros árazógépekhez.", "jellemzok": ["Fehér és színes címke", "Festékhenger"], "kepek": [], "spin": []}
-  ],
-  "services": [
-    {"id": "uzembe", "nev": "Új pénztárgép üzembe helyezése", "leiras": "Betanítással és teljes ügyintézéssel.", "ar": 15000},
-    {"id": "felulvizsgalat", "nev": "Éves felülvizsgálat", "leiras": "A jogszabály szerint kötelező éves ellenőrzés.", "ar": null},
-    {"id": "javitas", "nev": "Pénztárgép javítása", "leiras": "Hibafeltárás és javítás, az alkatrész külön tétel.", "ar": null},
-    {"id": "aee", "nev": "Adóügyi egység, adómemória kiolvasása", "leiras": "Bevonáshoz, cseréhez, NAV-kérésre.", "ar": null},
-    {"id": "atallas", "nev": "Átállás e-pénztárgépre", "leiras": "Tanácsadás, gépválasztás, ügyintézés.", "ar": null},
-    {"id": "pc-javitas", "nev": "Számítógép- és laptopjavítás", "leiras": "Hibakeresés, alkatrészcsere, vírusirtás, adatmentés.", "ar": null},
-    {"id": "halozat", "nev": "Hálózat és internet kiépítése", "leiras": "Bolti, irodai hálózat, wifi, pénztárgép-kapcsolat.", "ar": null}
-  ]
+  {
+   "id": "pos",
+   "nev": "POS rendszerek",
+   "ikon": "pos",
+   "leiras": "Érintőképernyős POS terminálok, blokknyomtatók és vonalkódolvasók boltokba, éttermekbe.",
+   "gyik": [
+    [
+     "Milyen szoftver fut a POS terminálon?",
+     "Igény szerint bolti vagy vendéglátós szoftvert telepítünk és állítunk be."
+    ],
+    [
+     "Köthető hozzá vonalkódolvasó és nyomtató?",
+     "Igen, a terminálhoz nyomtatót, vonalkódolvasót és kasszafiókot is csatlakoztatunk."
+    ]
+   ]
+  },
+  {
+   "id": "fiok",
+   "nev": "Kasszafiókok",
+   "ikon": "drawer",
+   "leiras": "Új és használt kasszafiókok minden pénztárgéphez.",
+   "gyik": []
+  },
+  {
+   "id": "merleg",
+   "nev": "Mérlegek",
+   "ikon": "scale",
+   "leiras": "Hitelesített, hordozható, árszorzós és címkenyomtatós bolti mérlegek.",
+   "gyik": [
+    [
+     "A mérleg hitelesítve érkezik?",
+     "Igen, a bolti mérlegeket hitelesítve adjuk át."
+    ]
+   ]
+  },
+  {
+   "id": "arazo",
+   "nev": "Árazógépek",
+   "ikon": "label",
+   "leiras": "Egy- és kétsoros árazógépek, ruhaárazó szálbelövők.",
+   "gyik": [
+    [
+     "Kapható hozzá címke és festékhenger?",
+     "Igen, minden általunk forgalmazott árazógéphez tartunk címkét és festékhengert."
+    ]
+   ]
+  },
+  {
+   "id": "irodatechnika",
+   "nev": "Irodatechnika",
+   "ikon": "monitor",
+   "leiras": "Számítógépek, nyomtatók és irodai eszközök igény szerint.",
+   "gyik": []
+  },
+  {
+   "id": "kellek",
+   "nev": "Kellékanyagok",
+   "ikon": "roll",
+   "leiras": "Hőpapír tekercsek, címkék, festékhengerek minden általunk forgalmazott típushoz.",
+   "gyik": []
+  }
+ ],
+ "products": [
+  {
+   "id": "sam4s-nr-330",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-330",
+   "alcim": "Többfunkciós online pénztárgép, számlanyomtatással",
+   "ar": 99900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": true,
+   "engedely": "A315",
+   "modell": "kompakt",
+   "leiras": "Az NR-330 a legkedvezőbb árú Sam4s pénztárgépünk. Új generációs 4G-s adóügyi egységgel működik, és nyugta mellett számlát is nyomtat.",
+   "jellemzok": [
+    "NAV engedélyszám: A315",
+    "4G-s adóügyi egység",
+    "Nyugta és számla nyomtatása",
+    "Hőnyomtató, 57 mm-es papír"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [
+    [
+     "NAV engedélyszám",
+     "A315"
+    ],
+    [
+     "Adóügyi egység",
+     "új generációs, 4G"
+    ],
+    [
+     "Bizonylat",
+     "nyugta és számla"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es hőnyomtató"
+    ]
+   ],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év, +2 évvel bővíthető"
+  },
+  {
+   "id": "sam4s-nr-300",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-300",
+   "alcim": "A legnépszerűbb: kicsi, gyors, stílusos",
+   "ar": 109900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": true,
+   "engedely": "A315",
+   "modell": "kompakt",
+   "leiras": "Az NR-300 a Sam4s legkedveltebb modellje. Kevés helyet foglal, jól olvasható kijelzői vannak, a papírcsere egyetlen mozdulat. Szinte bármilyen kasszafiókot vezérel.",
+   "jellemzok": [
+    "NAV engedélyszám: A315",
+    "Nagy sebességű hőnyomtató",
+    "Kétsoros kijelző elöl és hátul",
+    "Kasszafiók csatlakoztatható"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [
+    [
+     "NAV engedélyszám",
+     "A315"
+    ],
+    [
+     "Kijelző",
+     "2 × 16 karakteres LCD, kék háttérvilágítás, elöl és hátul"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es hőnyomtató, „dobd bele és nyomtass” papírcsere"
+    ],
+    [
+     "Processzor",
+     "Renesas RX631, 32 bit"
+    ],
+    [
+     "Csatlakozók",
+     "USB, SD-kártya, Ethernet (TCP/IP)"
+    ],
+    [
+     "Adatkapcsolat",
+     "beépített mobilmodem"
+    ],
+    [
+     "Kasszafiók",
+     "6–24 V között szinte bármilyen fiókot nyit"
+    ]
+   ],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év, +2 évvel bővíthető"
+  },
+  {
+   "id": "sam4s-nr-240-pro-4g",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-240 PRO 4G",
+   "alcim": "Helytakarékos online pénztárgép",
+   "ar": 119500,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "A308",
+   "modell": "kompakt",
+   "leiras": "Az NR-240 PRO 4G kis alapterületű, mégis nagy tudású pénztárgép. Ideális kisboltokba, szolgáltatóknak, ahol kevés a hely a pulton.",
+   "jellemzok": [
+    "NAV engedélyszám: A308",
+    "4G-s adóügyi egység",
+    "Kompakt méret",
+    "Kasszafiók csatlakoztatható"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [
+    [
+     "NAV engedélyszám",
+     "A308"
+    ],
+    [
+     "Adóügyi egység",
+     "4G"
+    ],
+    [
+     "Kialakítás",
+     "kompakt, kis alapterületű"
+    ],
+    [
+     "Kasszafiók",
+     "csatlakoztatható"
+    ]
+   ],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év, +2 évvel bővíthető"
+  },
+  {
+   "id": "sam4s-nr-440-pro-4g",
+   "kategoria": "penztargep",
+   "marka": "Sam4s",
+   "nev": "NR-440 PRO 4G kasszafiókkal",
+   "alcim": "A csúcsmodell nagy forgalmú üzletekbe",
+   "ar": 149500,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": true,
+   "engedely": "A311",
+   "modell": "nagy",
+   "leiras": "Az NR-440 a Sam4s legerősebb és legstrapabíróbb pénztárgépe, beépített kasszafiókkal. A leggyorsabb nyomtatót kapta, a vevőkijelző kihúzható és forgatható, számítógéphez kötve készletkezelésre is alkalmas.",
+   "jellemzok": [
+    "NAV engedélyszám: A311",
+    "Beépített kasszafiók",
+    "Leggyorsabb Sam4s hőnyomtató",
+    "Forgatható vevőkijelző",
+    "PC-hez köthető"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [
+    [
+     "NAV engedélyszám",
+     "A311"
+    ],
+    [
+     "Méret",
+     "400 × 450 × 226 mm"
+    ],
+    [
+     "Kijelző",
+     "magyar ékezetes kezelői és kihúzható, forgatható vevőkijelző"
+    ],
+    [
+     "Billentyűzet",
+     "cserélhető feliratú nyomógombok"
+    ],
+    [
+     "Nyomtató",
+     "nagy sebességű, csendes hőnyomtató"
+    ],
+    [
+     "Kasszafiók",
+     "beépített"
+    ],
+    [
+     "Bővíthetőség",
+     "PC-hez köthető, készletkezelés"
+    ]
+   ],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év, +2 évvel bővíthető"
+  },
+  {
+   "id": "montel-sento-h-light",
+   "kategoria": "penztargep",
+   "marka": "Montel",
+   "nev": "Sento H Light",
+   "alcim": "Asztali online pénztárgép",
+   "ar": 134900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "kompakt",
+   "leiras": "Megbízható asztali online pénztárgép kényelmes billentyűzettel, közepes forgalmú üzletekbe.",
+   "jellemzok": [
+    "Online pénztárgép",
+    "Asztali kivitel",
+    "Kasszafiók csatlakoztatható"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "micra-jota-e",
+   "kategoria": "penztargep",
+   "marka": "Micra",
+   "nev": "Jota E",
+   "alcim": "Akkumulátoros, hordozható pénztárgép nagy forgalomra",
+   "ar": 139900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "kompakt",
+   "leiras": "Belső akkumulátoros, hordozható online pénztárgép, amely nagy forgalmú helyeken is helytáll. Rendszerbe köthető, elektronikus naplós.",
+   "jellemzok": [
+    "Belső akkumulátor",
+    "Rendszerbe köthető",
+    "Autós tápkábellel is működik"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "micra-k10",
+   "kategoria": "penztargep",
+   "marka": "Micra",
+   "nev": "K10 hordozható, GPS",
+   "alcim": "Mobil pénztárgép piacra, kiszállításhoz",
+   "ar": 129900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "kezi",
+   "leiras": "Kézben tartható, GPS-es mobil online pénztárgép piaci árusoknak, futároknak, házhoz menő szolgáltatóknak.",
+   "jellemzok": [
+    "Hordozható",
+    "Beépített GPS",
+    "Akkumulátoros"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "hasznalt-penztargep",
+   "kategoria": "penztargep",
+   "marka": "Totál",
+   "nev": "Használt pénztárgép, átszemélyesítve",
+   "alcim": "Bevizsgált, átszemélyesített gépek garanciával",
+   "ar": 65000,
+   "arTol": true,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "kompakt",
+   "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek. A pontos kínálatért hívjon minket. Használt pénztárgépet csak szakszerviz bevonásával vásároljon!",
+   "jellemzok": [
+    "Szervizben bevizsgálva",
+    "Átszemélyesítve",
+    "Készlet függvényében"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "6 hónap"
+  },
+  {
+   "id": "imin-pos",
+   "kategoria": "pos",
+   "marka": "iMin",
+   "nev": "Érintőképernyős POS terminál",
+   "alcim": "Android kassza boltba, étterembe",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": true,
+   "engedely": "",
+   "modell": "pos",
+   "leiras": "Modern érintőképernyős POS terminál beépített nyugtanyomtatóval. Szoftverrel, beállítva, betanítva adjuk át.",
+   "jellemzok": [
+    "Érintőképernyő",
+    "Beépített nyomtató",
+    "Szoftverrel együtt"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 3,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "blokknyomtato",
+   "kategoria": "pos",
+   "marka": "Sam4s · Citizen · Bixolon",
+   "nev": "Blokk- és címkenyomtatók",
+   "alcim": "Soros, párhuzamos és USB kivitelben",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "nyomtato",
+   "leiras": "Blokknyomtatók és címkenyomtatók POS rendszerekhez, számlázáshoz, címkézéshez. Típustól függően soros, párhuzamos vagy USB csatlakozással.",
+   "jellemzok": [
+    "Soros, párhuzamos, USB",
+    "Hőnyomtatós kivitel"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "argox-as-8060",
+   "kategoria": "pos",
+   "marka": "Argox",
+   "nev": "AS-8060 lézeres vonalkódolvasó",
+   "alcim": "Kézi lézeres olvasó",
+   "ar": 16990,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "scanner",
+   "leiras": "Megbízható kézi lézeres vonalkódolvasó pénztárgéphez és számítógéphez.",
+   "jellemzok": [
+    "Lézeres",
+    "Kézi"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 3,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "polpos-ps-200",
+   "kategoria": "pos",
+   "marka": "Polpos",
+   "nev": "PS-200 USB 2D vonalkódolvasó",
+   "alcim": "Kamerás olvasó QR-kódhoz is",
+   "ar": 24500,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "scanner",
+   "leiras": "USB-s kamerás 2D vonalkódolvasó, amely QR-kódot és telefon kijelzőjéről is olvas.",
+   "jellemzok": [
+    "2D kamerás",
+    "QR-kód",
+    "USB"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "cwy-1",
+   "kategoria": "fiok",
+   "marka": "",
+   "nev": "CWY-1 kasszafiók",
+   "alcim": "Kedvező árú kasszafiók",
+   "ar": 18800,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "fiok",
+   "leiras": "Kulccsal zárható kasszafiók bankjegy- és érmetartóval, pénztárgéphez köthető.",
+   "jellemzok": [
+    "Kulccsal zárható",
+    "Pénztárgéphez köthető"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 3,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "sam4s-durable",
+   "kategoria": "fiok",
+   "marka": "Sam4s",
+   "nev": "Durable kasszafiók",
+   "alcim": "Strapabíró fém kasszafiók",
+   "ar": 19500,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "fiok",
+   "leiras": "Erős fém kasszafiók napi intenzív használatra.",
+   "jellemzok": [
+    "Fém kivitel",
+    "Kulccsal zárható"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év, +2 évvel bővíthető"
+  },
+  {
+   "id": "cd-4141",
+   "kategoria": "fiok",
+   "marka": "",
+   "nev": "CD-4141 kasszafiók",
+   "alcim": "Nagyméretű kasszafiók",
+   "ar": 23000,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "fiok",
+   "leiras": "Nagyobb méretű kasszafiók több rekesszel, forgalmas üzletekbe.",
+   "jellemzok": [
+    "Több rekesz",
+    "Kulccsal zárható"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "acs-a-an",
+   "kategoria": "merleg",
+   "marka": "ACS",
+   "nev": "ACS-A 15 / 30 AN",
+   "alcim": "Hitelesített árszorzós bolti mérleg",
+   "ar": 34900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": true,
+   "engedely": "",
+   "modell": "merleg",
+   "leiras": "Hordozható, digitális, árszorzós és memóriás bolti mérleg 15 vagy 30 kg méréshatárral, hitelesítve.",
+   "jellemzok": [
+    "15 vagy 30 kg",
+    "Hitelesítve",
+    "Árszorzó, memória",
+    "Akkumulátoros"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "cas-er-plus",
+   "kategoria": "merleg",
+   "marka": "CAS",
+   "nev": "ER-plus",
+   "alcim": "Megbízható hitelesített bolti mérleg",
+   "ar": 52900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "merleg",
+   "leiras": "A CAS ER-plus a bolti mérlegek klasszikusa: pontos, tartós, mindkét oldalon jól olvasható kijelzővel.",
+   "jellemzok": [
+    "Hitelesítve",
+    "Árszorzó",
+    "Kétoldali kijelző"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "rongta-rls1000",
+   "kategoria": "merleg",
+   "marka": "Rongta",
+   "nev": "RLS1000 címkenyomtatós rendszermérleg",
+   "alcim": "Vonalkódos címkét nyomtató mérleg",
+   "ar": 149000,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "merleg",
+   "leiras": "Címkenyomtatós rendszermérleg hentes-, csemege- és zöldségpultokba, vonalkódos címkével.",
+   "jellemzok": [
+    "Címkenyomtató",
+    "Vonalkódos címke",
+    "Rendszerbe köthető"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 1,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "open-s14",
+   "kategoria": "arazo",
+   "marka": "Open",
+   "nev": "S-14 kétsoros árazógép",
+   "alcim": "Ár és egységár egy címkén",
+   "ar": 26000,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "arazo",
+   "leiras": "Kétsoros árazógép, amellyel az ár mellé egységár vagy dátum is kerül a címkére.",
+   "jellemzok": [
+    "Kétsoros",
+    "Strapabíró"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "sky-ketsoros",
+   "kategoria": "arazo",
+   "marka": "SKY",
+   "nev": "Kétsoros árazógép",
+   "alcim": "Kedvező árú kétsoros árazó",
+   "ar": 17900,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "arazo",
+   "leiras": "Kedvező árú kétsoros árazógép mindennapi bolti használatra.",
+   "jellemzok": [
+    "Kétsoros"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 2,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "cp2200",
+   "kategoria": "arazo",
+   "marka": "",
+   "nev": "CP2200 ruhaárazó szálbelövő",
+   "alcim": "Ruházati és textilüzletekbe",
+   "ar": 2500,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "raktaron",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "arazo",
+   "leiras": "Szálbelövő pisztoly árcédulák rögzítéséhez ruhákon, textíliákon.",
+   "jellemzok": [
+    "Ruhaárazó",
+    "Szálbelövő"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": 4,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "szamitogep",
+   "kategoria": "irodatechnika",
+   "marka": "Totál",
+   "nev": "Asztali számítógép",
+   "alcim": "Igény szerint összeállítva",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "pc",
+   "leiras": "Irodai, bolti vagy otthoni számítógép az Ön igényeire szabva, telepítve, beállítva, helyi garanciával.",
+   "jellemzok": [
+    "Egyedi összeállítás",
+    "Telepítés, beállítás",
+    "Helyi garancia"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": null,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "nyomtato-iroda",
+   "kategoria": "irodatechnika",
+   "marka": "",
+   "nev": "Irodai nyomtatók, multifunkciós gépek",
+   "alcim": "Beszerzés és beüzemelés",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "printer2",
+   "leiras": "Lézer- és tintasugaras nyomtatók, multifunkciós gépek beszerzése, telepítése, hálózatba kötése.",
+   "jellemzok": [
+    "Telepítés",
+    "Hálózatba kötés"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": null,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "hopapir",
+   "kategoria": "kellek",
+   "marka": "",
+   "nev": "Hőpapír tekercsek",
+   "alcim": "Minden általunk forgalmazott típushoz",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "papir",
+   "leiras": "Hőpapír tekercsek pénztárgépekhez és blokknyomtatókhoz többféle méretben.",
+   "jellemzok": [
+    "57 és 80 mm széles",
+    "Csomagban is"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": null,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  },
+  {
+   "id": "arazocimke",
+   "kategoria": "kellek",
+   "marka": "",
+   "nev": "Árazócímkék, festékhengerek",
+   "alcim": "Árazógépekhez",
+   "ar": null,
+   "arTol": false,
+   "akciosAr": null,
+   "keszlet": "rendelesre",
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "papir",
+   "leiras": "Öntapadós árazócímkék és festékhengerek egy- és kétsoros árazógépekhez.",
+   "jellemzok": [
+    "Fehér és színes címke",
+    "Festékhenger"
+   ],
+   "kepek": [],
+   "spin": [],
+   "keszletDb": null,
+   "specs": [],
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év"
+  }
+ ],
+ "services": [
+  {
+   "id": "uzembe",
+   "nev": "Új pénztárgép üzembe helyezése",
+   "leiras": "Betanítással és teljes ügyintézéssel.",
+   "ar": 15000
+  },
+  {
+   "id": "felulvizsgalat",
+   "nev": "Éves felülvizsgálat",
+   "leiras": "A jogszabály szerint kötelező éves ellenőrzés.",
+   "ar": null
+  },
+  {
+   "id": "javitas",
+   "nev": "Pénztárgép javítása",
+   "leiras": "Hibafeltárás és javítás, az alkatrész külön tétel.",
+   "ar": null
+  },
+  {
+   "id": "aee",
+   "nev": "Adóügyi egység, adómemória kiolvasása",
+   "leiras": "Bevonáshoz, cseréhez, NAV-kérésre.",
+   "ar": null
+  },
+  {
+   "id": "atallas",
+   "nev": "Átállás e-pénztárgépre",
+   "leiras": "Tanácsadás, gépválasztás, ügyintézés.",
+   "ar": null
+  },
+  {
+   "id": "pc-javitas",
+   "nev": "Számítógép- és laptopjavítás",
+   "leiras": "Hibakeresés, alkatrészcsere, vírusirtás, adatmentés.",
+   "ar": null
+  },
+  {
+   "id": "halozat",
+   "nev": "Hálózat és internet kiépítése",
+   "leiras": "Bolti, irodai hálózat, wifi, pénztárgép-kapcsolat.",
+   "ar": null
+  }
+ ]
 }
