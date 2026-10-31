@@ -1,0 +1,34 @@
+PENZTAR-GEP.HU – ÚJ WEBOLDAL (1. változat)
+==========================================
+
+FELTÖLTÉS A TÁRHELYRE (FileZilla)
+1. Csomagold ki a zip-et. Egy "penztar-gep" mappát kapsz.
+2. FileZillával töltsd fel a teljes "penztar-gep" mappát a tárhelyed
+   webes gyökérmappájába (ahová a weboldalak kerülnek).
+3. Nyisd meg böngészőben:  https://<a-domained>/penztar-gep/
+4. Az admin:               https://<a-domained>/penztar-gep/#admin
+   ELSŐ BELÉPÉSKOR az általad beírt jelszó lesz az admin jelszó
+   (legalább 8 karakter). Írd fel! Később a Beállítások fülön cserélhető.
+5. A "data" és az "uploads" mappa legyen írható (jogosultság: 755 vagy 775).
+   Ha mentéskor hibát kapsz, FileZillában jobb klikk a mappán >
+   Fájl jogosultságok > 775.
+
+MIT TUD AZ ADMIN?
+- Termékek és árak: minden termék nettó ára, akciós ára, készlete
+  átírható; kiemelés a főoldalra; elrejtés; új termék; törlés.
+- Szerkesztés: név, leírás, jellemzők, NAV engedélyszám, fotók,
+  360°-os fotósorozat feltöltése.
+- Szerviz díjak, cégadatok, ÁFA kulcs, felső értesítő sáv szövege.
+- Megrendelések: az ajánlatkérések, szervizidőpontok és üzenetek
+  ide érkeznek (és e-mailben is, ha a tárhely engedi).
+- Minden mentés előtt automatikus biztonsági másolat készül a
+  data mappába (az utolsó 20 marad meg).
+
+360°-OS FORGATHATÓ FOTÓ
+- Fotózd körbe a gépet telefonnal, egy helyben állva, a gépet
+  forgatva (pl. forgótányéron): kb. 24–36 kép, egyenletes lépésekben.
+- Admin > Szerkesztés > 360°-os fotósorozat: jelöld ki az összes
+  képet sorrendben. Ha van fotósorozat, az jelenik meg a 3D rajz helyett.
+
+KÖVETELMÉNY: PHP 7.4 vagy újabb (minden magyar tárhely tudja).
+Adatbázis nem kell.

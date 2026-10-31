@@ -1,0 +1,3 @@
+# Az adatfájlok közvetlenül nem olvashatók a böngészőből (csak az api.php-n át)
+Require all denied
+Deny from all
