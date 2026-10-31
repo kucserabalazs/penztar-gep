@@ -7,7 +7,7 @@
 <meta name="description" content="Pénztárgép szaküzlet és szerviz Pécsen 1982 óta: online pénztárgépek, POS rendszerek, számítástechnika, kellékanyagok, szerviz. 7625 Pécs, Hunyadi János utca 34.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&family=VT323&family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@600;700&display=swap">
 <style>
 /* Layout: az elfogadott terv – sötétkék fejléc logóval és elérhetőségekkel, arany menüsor, kék fénysugaras kezdőkép a termékcsoporttal, arany hullámok, ikonsáv, krémszínű alsó sáv */
 :root{
@@ -483,6 +483,38 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .hb.gold,.btn.gold{color:#1d2b27}
 .park{background:linear-gradient(135deg,var(--bg-dark),#1d6253)}
 .openchip.open i,.status.open i{background:#176b3a}
+
+/* ===== minta szerinti finomítás: arany keretek, serif címek, élénk zöld VFD ===== */
+:root{--ink-m:#1d1d1d;--muted-m:#646e6a;--frame:#d8bf86;--frame-2:#c9a24e;--vfd-bg:#082820;--vfd-tx:#00f495;--ok-m:#238b5f;--warn-m:#c48900;--bad-m:#8e2b3a;--serif:"Playfair Display",Georgia,"Times New Roman",serif}
+.vfd-chip,.pbox .big,.fp .pr,.pk .lcd{font-family:var(--fb)!important;font-weight:800!important;letter-spacing:.01em;color:var(--vfd-tx)!important;-webkit-text-fill-color:var(--vfd-tx)!important;text-shadow:0 0 10px rgba(0,244,149,.45)!important;border-radius:12px!important;border:1.5px solid #0f3b2e!important;background:radial-gradient(ellipse 80% 120% at 50% 0%,#0e3a2d,var(--vfd-bg)) !important;box-shadow:inset 0 2px 8px rgba(0,0,0,.5),0 4px 12px rgba(8,40,32,.25)!important}
+.pbox .big::after,.pk .lcd::after{display:none}
+
+h1{color:#fbf6ea}
+.lt{--ink:#1d1d1d;--muted:#646e6a}
+h1,.sh2,.slogan{font-family:var(--serif)!important;font-style:normal!important;letter-spacing:0!important}
+h1{font-weight:700}.sh2{font-weight:700}
+h1 .g{font-style:normal}
+.hero{background:radial-gradient(ellipse 50% 70% at 78% 40%,rgba(224,194,122,.22),transparent 70%),radial-gradient(ellipse 40% 50% at 20% 100%,rgba(101,183,174,.18),transparent 70%),linear-gradient(115deg,#114b3f 0%,#1d6253 55%,#2f7e66 100%)!important}
+.hero::before{background:linear-gradient(90deg,rgba(8,47,41,.45),rgba(8,47,41,0) 55%)}
+.orn{display:flex;align-items:center;gap:14px;margin:18px 0 0;color:var(--gold-p);font-family:var(--serif);font-weight:600;font-size:clamp(1.15rem,1.7vw,1.6rem);max-width:430px}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#e0c27a 40%,#e0c27a 60%,transparent);position:relative}
+.orn span{white-space:nowrap;position:relative;padding:0 4px}
+.orn span::before,.orn span::after{content:"";position:absolute;top:50%;width:6px;height:6px;background:#e0c27a;transform:translate(0,-50%) rotate(45deg)}
+.orn span::before{left:-14px}.orn span::after{right:-14px}
+.top{border-bottom:1px solid rgba(224,194,122,.55)}
+.navbar{border-bottom:1.5px solid #c9a24e}
+.btn.gold{background:linear-gradient(180deg,#c48a3a 0%,#9a5f1c 55%,#7a4612 100%)!important;color:#fff!important;border:2px solid #e0c27a!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.btn.dark{background:linear-gradient(180deg,#2a9a6a,#1d7a52)!important;border:2px solid #e0c27a!important;color:#fff!important}
+.hb.gold{background:linear-gradient(180deg,#2a9a6a,#1d7a52)!important;color:#fff!important;border:2px solid #e0c27a!important}
+.mbar .hb.navy{background:linear-gradient(180deg,#c48a3a,#7a4612)!important;color:#fff!important;border:2px solid #e0c27a!important}
+.area,.pk,.fp,.cc,.faqg details,.step .slip{border:1px solid var(--frame)!important;box-shadow:0 0 0 3px rgba(255,253,246,.9),0 0 0 4px rgba(216,191,134,.45),0 10px 26px rgba(17,75,63,.08)!important;border-radius:14px!important}
+.step .slip{box-shadow:none!important}
+.area,.pk,.fp,.cc{background:#fffdf8!important}
+.photo{border:1px solid var(--frame);box-shadow:0 0 0 4px #fffdf6,0 0 0 5px rgba(216,191,134,.6),0 20px 40px rgba(17,75,63,.15)!important}
+.epz{border:1.5px solid var(--frame-2);box-shadow:0 0 0 4px rgba(201,162,78,.15)}
+.fp .st{color:var(--ok-m)}.fp .st.low{color:var(--warn-m)}.fp .st.last{color:var(--bad-m)}
+.fp .pr small{color:#9fe8c6!important;-webkit-text-fill-color:#9fe8c6!important;text-shadow:none!important;font-weight:500}
+.ffoot{border-top:1.5px solid #c9a24e}
 </style>
 </head>
 <body>
@@ -520,6 +552,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   <div class="wrap">
     <div class="copy">
       <div class="ht"><h1><span class="l1">Pénztárgép</span><br><span class="l2">Szaküzlet <span class="g">és<br class="mbr"> Szerviz</span></span></h1><img class="lau-m" src="assets/jelveny.webp" alt="" width="420" height="400"></div>
+      <p class="orn"><span>Pécs, 1982 óta</span></p>
       <ul class="ticks">
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Értékesítés</li>
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Beüzemelés</li>
