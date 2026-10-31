@@ -718,19 +718,23 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
   .detail .pbox .btn{min-height:46px;font-size:.95rem}
 }
 
-/* ===== térhatású gombok ===== */
-.btn.gold, .btn.navy, .btn.line{position:relative;isolation:isolate;transition:transform .12s ease,box-shadow .12s ease,filter .15s}
-.btn.gold::before, .btn.navy::before, .btn.line::before{content:"";position:absolute;left:2px;right:2px;top:2px;height:48%;border-radius:inherit;border-bottom-left-radius:40% 30%;border-bottom-right-radius:40% 30%;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.06));pointer-events:none;z-index:-1}
-.btn.gold{box-shadow:0 4px 0 #9c6f22,0 9px 16px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.gold:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #9c6f22,0 12px 20px rgba(183,131,46,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.gold:active{transform:translateY(3px);box-shadow:0 1px 0 #9c6f22,0 3px 6px rgba(183,131,46,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
-.btn.navy{box-shadow:0 4px 0 #03152a,0 9px 16px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.navy:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #03152a,0 12px 20px rgba(8,39,70,.35),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.navy:active{transform:translateY(3px);box-shadow:0 1px 0 #03152a,0 3px 6px rgba(8,39,70,.35),inset 0 2px 4px rgba(0,0,0,.2)!important}
-.btn.line{box-shadow:0 4px 0 #c3ccd6,0 9px 16px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.line:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 5px 0 #c3ccd6,0 12px 20px rgba(24,46,72,.14),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 3px rgba(0,0,0,.18)!important}
-.btn.line:active{transform:translateY(3px);box-shadow:0 1px 0 #c3ccd6,0 3px 6px rgba(24,46,72,.14),inset 0 2px 4px rgba(0,0,0,.2)!important}
-.btn.navy{background:linear-gradient(180deg,#123b61,#082746)}
+/* ===== kidolgozott, fémperemű térhatású gombok ===== */
+.btn.gold, .btn.navy, .btn.line{position:relative;isolation:isolate;overflow:hidden;border:2px solid transparent!important;transition:transform .14s cubic-bezier(.2,.8,.2,1),box-shadow .14s,filter .2s}
+.btn.gold svg, .btn.navy svg, .btn.line svg{filter:drop-shadow(0 1px 0 rgba(0,0,0,.25));position:relative;z-index:1}
+.btn.gold::before, .btn.navy::before, .btn.line::before{content:"";position:absolute;top:-20%;bottom:-20%;left:-60%;width:40%;transform:skewX(-22deg);background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none;z-index:2;opacity:0;border-radius:0}
+.btn.gold:hover::before, .btn.navy:hover::before, .btn.line:hover::before{animation:btnShine .9s ease-out}
+.btn.gold::after, .btn.navy::after, .btn.line::after{content:"";position:absolute;left:8%;right:8%;top:1px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);pointer-events:none;z-index:2}
+@keyframes btnShine{0%{left:-60%;opacity:0}15%{opacity:1}100%{left:130%;opacity:0}}
+@media (prefers-reduced-motion:reduce){.btn.gold:hover::before, .btn.navy:hover::before, .btn.line:hover::before{animation:none}}
+.btn.gold{background:radial-gradient(ellipse 120% 85% at 50% -20%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#ffe9ad 0%,#f4cd70 28%,#dca744 55%,#b9832a 82%,#e9c26a 100%) padding-box,linear-gradient(180deg,#fff7da 0%,#e6bd62 35%,#9c6d1e 65%,#ffe2a0 100%) border-box!important;color:#2a1a00!important;text-shadow:0 1px 0 rgba(255,244,210,.75)!important;box-shadow:0 1px 0 rgba(255,255,255,.35),0 5px 0 #8a5e17,0 6px 0 rgba(0,0,0,.25),0 12px 20px rgba(0,0,0,.28),0 22px 34px rgba(0,0,0,.14),inset 0 2px 1px rgba(255,255,255,.6),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.18)!important}
+.btn.gold:hover{transform:translateY(-2px);filter:brightness(1.06) saturate(1.06);box-shadow:0 1px 0 rgba(255,255,255,.35),0 7px 0 #8a5e17,0 8px 0 rgba(0,0,0,.25),0 16px 26px rgba(0,0,0,.3),0 26px 40px rgba(0,0,0,.16),inset 0 2px 1px rgba(255,255,255,.65),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.2)!important}
+.btn.gold:active{transform:translateY(4px);filter:brightness(.97);box-shadow:0 1px 0 #8a5e17,0 2px 4px rgba(0,0,0,.3),inset 0 3px 6px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.3)!important}
+.btn.navy{background:radial-gradient(ellipse 120% 85% at 50% -20%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#2f659b 0%,#17466f 42%,#082746 58%,#0d3358 100%) padding-box,linear-gradient(180deg,#fff2c8 0%,#d9b05a 40%,#8a6420 70%,#f2d68e 100%) border-box!important;color:#ffffff!important;text-shadow:0 -1px 0 rgba(0,0,0,.55),0 0 8px rgba(120,170,230,.35)!important;box-shadow:0 1px 0 rgba(255,255,255,.35),0 5px 0 #020c1c,0 6px 0 rgba(0,0,0,.25),0 12px 20px rgba(0,0,0,.28),0 22px 34px rgba(0,0,0,.14),inset 0 2px 1px rgba(255,255,255,.6),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.18)!important}
+.btn.navy:hover{transform:translateY(-2px);filter:brightness(1.06) saturate(1.06);box-shadow:0 1px 0 rgba(255,255,255,.35),0 7px 0 #020c1c,0 8px 0 rgba(0,0,0,.25),0 16px 26px rgba(0,0,0,.3),0 26px 40px rgba(0,0,0,.16),inset 0 2px 1px rgba(255,255,255,.65),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.2)!important}
+.btn.navy:active{transform:translateY(4px);filter:brightness(.97);box-shadow:0 1px 0 #020c1c,0 2px 4px rgba(0,0,0,.3),inset 0 3px 6px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.3)!important}
+.btn.line{background:radial-gradient(ellipse 120% 85% at 50% -20%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 50%) padding-box,linear-gradient(180deg,#ffffff 0%,#f4f7fa 45%,#e3e9ef 100%) padding-box,linear-gradient(180deg,#ffffff 0%,#c3ccd6 45%,#93a0ae 70%,#eef2f6 100%) border-box!important;color:#132235!important;text-shadow:0 1px 0 #fff!important;box-shadow:0 1px 0 rgba(255,255,255,.35),0 5px 0 #aeb9c5,0 6px 0 rgba(0,0,0,.25),0 12px 20px rgba(0,0,0,.28),0 22px 34px rgba(0,0,0,.14),inset 0 2px 1px rgba(255,255,255,.6),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.18)!important}
+.btn.line:hover{transform:translateY(-2px);filter:brightness(1.06) saturate(1.06);box-shadow:0 1px 0 rgba(255,255,255,.35),0 7px 0 #aeb9c5,0 8px 0 rgba(0,0,0,.25),0 16px 26px rgba(0,0,0,.3),0 26px 40px rgba(0,0,0,.16),inset 0 2px 1px rgba(255,255,255,.65),inset 0 -4px 6px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.2)!important}
+.btn.line:active{transform:translateY(4px);filter:brightness(.97);box-shadow:0 1px 0 #aeb9c5,0 2px 4px rgba(0,0,0,.3),inset 0 3px 6px rgba(0,0,0,.3),inset 0 -1px 0 rgba(255,255,255,.3)!important}
 </style>
 </head>
 <body>
