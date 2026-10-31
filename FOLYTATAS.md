@@ -13,6 +13,10 @@
 ## Mobil változat
 - Mobilon a „Pécs 1982 óta” jelvény a főcím mellé került jobbra, a külön sorba tört „Szerviz” szó mellé (a felhasználó jelölése alapján). Asztali nézetben a jelvény a termékcsoport mellett marad.
 
+## Belépő animáció
+- Betöltéskor kb. 2,5 mp alatt minden a helyére csúszik: logó és szlogen balról, elérhetőségek jobbról, menüpontok felülről sorban, arany vonalak kirajzolódnak, főcím soronként balról, az arany „és Szerviz” felvillan, a pipák felpattannak, gombok alulról, termékcsoport jobbról, jelvény forogva, ikonsáv sorban.
+- Mozgáscsökkentést kérő eszközön az animáció kikapcsol.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Webáruház oldalainak átalakítása az új arculatra.

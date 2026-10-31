@@ -116,6 +116,40 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .strip a + a::before{display:none}
   .strip a:last-child{grid-column:1/-1}
 }
+/* belépő animáció: a betöltéskor minden elem a helyére csúszik (mozgáscsökkentés esetén kikapcsol) */
+@media (prefers-reduced-motion:no-preference){
+  @keyframes inL{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
+  @keyframes inR{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+  @keyframes inD{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+  @keyframes inU{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  @keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  @keyframes pop{0%{opacity:0;transform:scale(.4) rotate(-25deg)}70%{opacity:1;transform:scale(1.12) rotate(4deg)}100%{opacity:1;transform:none}}
+  @keyframes prod{from{opacity:0;transform:translateX(90px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes shine{from{background-position:120% 0}to{background-position:-20% 0}}
+  @keyframes draw{from{stroke-dashoffset:2000}to{stroke-dashoffset:0}}
+  .logo{animation:inL .8s cubic-bezier(.2,.8,.2,1) both}
+  .vbar{transform-origin:top;animation:grow .6s .25s ease-out both}
+  .slogan{animation:inL .8s .3s cubic-bezier(.2,.8,.2,1) both}
+  .pill{animation:inR .8s cubic-bezier(.2,.8,.2,1) both}.pill:nth-child(1){animation-delay:.35s}.pill:nth-child(2){animation-delay:.5s}
+  .top .pan{animation:inR 1.2s .2s ease-out both}
+  .navbar a.it,.navbar .search{animation:inD .55s cubic-bezier(.2,.8,.2,1) both}
+  .navbar a.it:nth-of-type(1){animation-delay:.45s}.navbar a.it:nth-of-type(2){animation-delay:.52s}.navbar a.it:nth-of-type(3){animation-delay:.59s}
+  .navbar a.it:nth-of-type(4){animation-delay:.66s}.navbar a.it:nth-of-type(5){animation-delay:.73s}.navbar a.it:nth-of-type(6){animation-delay:.8s}.navbar .search{animation-delay:.87s}
+  .navbar .wave path,.sep path,.goldwave path:last-child{stroke-dasharray:2000;animation:draw 1.6s .3s ease-out both}
+  h1::before{transform-origin:top;animation:grow .7s .7s cubic-bezier(.2,.8,.2,1) both}
+  h1 .l1,h1 .l2{display:inline-block;animation:inL .9s cubic-bezier(.16,.84,.24,1) both}
+  h1 .l1{animation-delay:.8s}h1 .l2{animation-delay:1s}
+  h1 .g{background-image:linear-gradient(100deg,var(--gold-d) 0%,var(--gold) 35%,#fff6dc 50%,var(--gold) 65%,var(--gold-d) 100%);background-size:250% 100%;animation:shine 1.6s 1.7s ease-in-out both}
+  ul.ticks li{animation:inL .7s cubic-bezier(.2,.8,.2,1) both}
+  ul.ticks li:nth-child(1){animation-delay:1.25s}ul.ticks li:nth-child(2){animation-delay:1.38s}ul.ticks li:nth-child(3){animation-delay:1.51s}
+  ul.ticks li svg{animation:pop .6s cubic-bezier(.2,.8,.2,1) both}
+  ul.ticks li:nth-child(1) svg{animation-delay:1.45s}ul.ticks li:nth-child(2) svg{animation-delay:1.58s}ul.ticks li:nth-child(3) svg{animation-delay:1.71s}
+  .cta .btn{animation:inU .7s cubic-bezier(.2,.8,.2,1) both}.cta .btn:nth-child(1){animation-delay:1.7s}.cta .btn:nth-child(2){animation-delay:1.85s}
+  .art .prod{animation:prod 1.3s .6s cubic-bezier(.16,.84,.24,1) both}
+  .art .lau,.lau-m{animation:pop 1s 1.6s cubic-bezier(.2,.8,.2,1) both}
+  .strip a{animation:inU .7s cubic-bezier(.2,.8,.2,1) both}
+  .strip a:nth-child(1){animation-delay:1.9s}.strip a:nth-child(2){animation-delay:2s}.strip a:nth-child(3){animation-delay:2.1s}.strip a:nth-child(4){animation-delay:2.2s}.strip a:nth-child(5){animation-delay:2.3s}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -151,7 +185,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 <section class="hero">
   <div class="wrap">
     <div class="copy">
-      <div class="ht"><h1>Pénztárgép<br>Szaküzlet <span class="g">és<br class="mbr"> Szerviz</span></h1><img class="lau-m" src="assets/jelveny.webp" alt="" width="420" height="400"></div>
+      <div class="ht"><h1><span class="l1">Pénztárgép</span><br><span class="l2">Szaküzlet <span class="g">és<br class="mbr"> Szerviz</span></span></h1><img class="lau-m" src="assets/jelveny.webp" alt="" width="420" height="400"></div>
       <ul class="ticks">
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Értékesítés</li>
         <li><svg class="ic" viewBox="0 0 24 24"><path d="M20.5 11.2V12a8.5 8.5 0 1 1-5-7.75"/><path d="m8.2 11.6 3 3 9-9.2"/></svg>Beüzemelés</li>
