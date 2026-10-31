@@ -1209,6 +1209,30 @@ function goCat(id, smooth=true){
   scrollTo({top:sec.getBoundingClientRect().top+scrollY-off,behavior:smooth&&!reduce?'smooth':'auto'});
   setActiveCat(id);
 }
+/* lassú oda-vissza úszás a túlcsorduló termék-sorokban */
+function autoDrift(el,speed){
+  if(!el||el._drift) return; el._drift=1;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var v=speed||22, dir=1, pos=el.scrollLeft, last=0, holdUntil=performance.now()+2500, visible=false, snap=el.style.scrollSnapType;
+  function hold(ms){ holdUntil=performance.now()+ms; pos=el.scrollLeft; el.style.scrollSnapType=snap; }
+  ['pointerdown','touchstart','wheel','mouseenter','focusin'].forEach(function(t){ el.addEventListener(t,function(){ hold(t==='mouseenter'||t==='focusin'?1e9:5000); },{passive:true}); });
+  ['mouseleave','focusout'].forEach(function(t){ el.addEventListener(t,function(){ hold(2500); }); });
+  el.addEventListener('scroll',function(){ if(!el._self) { pos=el.scrollLeft; } el._self=0; },{passive:true});
+  if('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible=es[0].isIntersecting; },{threshold:.3}).observe(el); else visible=true;
+  function tick(t){
+    var dt=last?Math.min(64,t-last):16; last=t;
+    var max=el.scrollWidth-el.clientWidth;
+    if(visible && max>4 && t>holdUntil && !document.hidden && el.isConnected){
+      el.style.scrollSnapType='none';
+      pos+=dir*v*dt/1000;
+      if(pos>=max){ pos=max; dir=-1; holdUntil=t+2200; }
+      else if(pos<=0){ pos=0; dir=1; holdUntil=t+2200; }
+      el._self=1; el.scrollLeft=pos;
+    }
+    if(el.isConnected) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 function bindCategory(catId, selId){
   $$('.catsec').forEach(sec=>{
     const id=sec.dataset.cat, items=catItems(id), sel=pickSel(items,id===catId?selId:null);
@@ -1217,6 +1241,7 @@ function bindCategory(catId, selId){
     const pages=()=>Math.max(1,Math.ceil(pc.scrollWidth/pc.clientWidth-0.05));
     const draw=()=>{ const n=pages(), i=Math.round(pc.scrollLeft/Math.max(1,pc.scrollWidth-pc.clientWidth)*(n-1))||0; nav.innerHTML=n>1?Array.from({length:n},(_,k)=>`<i class="${k===i?'on':''}"></i>`).join(''):''; };
     pc.addEventListener('scroll',()=>requestAnimationFrame(draw),{passive:true}); draw();
+    autoDrift(pc,20);
     $('.cararrow.l',sec).onclick=()=>pc.scrollBy({left:-pc.clientWidth,behavior:'smooth'});
     $('.cararrow.r',sec).onclick=()=>pc.scrollBy({left:pc.clientWidth,behavior:'smooth'});
     const cs=$$('.pcard',pc), si=cs.findIndex(c=>c.classList.contains('sel')); if(si>0&&pc.scrollWidth>pc.clientWidth){ const per=Math.max(1,Math.round(pc.clientWidth/cs[0].offsetWidth)); pc.scrollLeft=cs[Math.floor(si/per)*per].offsetLeft-cs[0].offsetLeft; }

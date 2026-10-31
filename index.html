@@ -846,6 +846,30 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   document.getElementById('ev').textContent=new Date().getFullYear();
   document.getElementById('evek').textContent=new Date().getFullYear()-1982;
 
+/* lassú oda-vissza úszás a túlcsorduló termék-sorokban */
+function autoDrift(el,speed){
+  if(!el||el._drift) return; el._drift=1;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var v=speed||22, dir=1, pos=el.scrollLeft, last=0, holdUntil=performance.now()+2500, visible=false, snap=el.style.scrollSnapType;
+  function hold(ms){ holdUntil=performance.now()+ms; pos=el.scrollLeft; el.style.scrollSnapType=snap; }
+  ['pointerdown','touchstart','wheel','mouseenter','focusin'].forEach(function(t){ el.addEventListener(t,function(){ hold(t==='mouseenter'||t==='focusin'?1e9:5000); },{passive:true}); });
+  ['mouseleave','focusout'].forEach(function(t){ el.addEventListener(t,function(){ hold(2500); }); });
+  el.addEventListener('scroll',function(){ if(!el._self) { pos=el.scrollLeft; } el._self=0; },{passive:true});
+  if('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible=es[0].isIntersecting; },{threshold:.3}).observe(el); else visible=true;
+  function tick(t){
+    var dt=last?Math.min(64,t-last):16; last=t;
+    var max=el.scrollWidth-el.clientWidth;
+    if(visible && max>4 && t>holdUntil && !document.hidden && el.isConnected){
+      el.style.scrollSnapType='none';
+      pos+=dir*v*dt/1000;
+      if(pos>=max){ pos=max; dir=-1; holdUntil=t+2200; }
+      else if(pos<=0){ pos=0; dir=1; holdUntil=t+2200; }
+      el._self=1; el.scrollLeft=pos;
+    }
+    if(el.isConnected) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
   /* kiemelt termékek a webáruházból */
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
   function ft(n){ return Math.round(n).toLocaleString('hu-HU').replace(/\u00a0/g,' ')+' Ft'; }
@@ -862,6 +886,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
       return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="'+esc(p.marka+' '+p.nev)+'" loading="lazy"></span><span class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</span></a>'; }).join('');
     document.querySelectorAll('.pk[data-ids]').forEach(function(c){ var ids=c.getAttribute('data-ids').split(','), m=null; d.products.forEach(function(p){ var v=p.akciosAr||p.ar; if(ids.indexOf(p.id)>=0 && v && !p.rejtett){ v=v*afa; if(m==null||v<m) m=v; } }); var el=c.querySelector('[data-min]'); if(el && m) el.textContent=ft(m)+'-TÓL'; });
     document.getElementById('kiemelt').hidden=false; observe();
+    autoDrift(document.getElementById('featlist'),20);
   }
   function get(u){ return fetch(u,{credentials:'same-origin'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }); }
   get('webaruhaz/api.php?a=data').catch(function(){ return get('webaruhaz/data/products.json'); }).then(show).catch(function(){});
