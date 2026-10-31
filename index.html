@@ -349,35 +349,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .navbar.open a.it:not(.on){border-bottom:1px solid rgba(214,223,234,.12);border-radius:0}
   .navbar.open a.it svg{display:none}
 }
-
-/* Pécs jelképei: finom vonalrajzok elszórva */
-.sec{position:relative;overflow:hidden}
-.sec>.wrap{position:relative;z-index:1}
-.lm{position:absolute;margin:0;pointer-events:none;user-select:none;color:#0b2a4d;opacity:.22;width:clamp(130px,14vw,210px);z-index:0}
-.lm.g{color:#d9a64a;opacity:.4}
-.lm svg{display:block;width:100%;height:auto}
-.lm figcaption{margin-top:6px;text-align:center;font-family:var(--fd);font-style:italic;font-weight:700;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
-.epz .lm{z-index:0}.epz>div{position:relative;z-index:1}
-.skyline{display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,3vw,46px);padding:34px 16px 4px;color:#e2b862;opacity:.6}
-.skyline figure{margin:0;width:clamp(70px,8vw,112px);text-align:center}
-.skyline svg{display:block;width:100%;height:auto}
-.skyline figcaption{margin-top:4px;font-family:var(--fd);font-style:italic;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#cdb68a}
-@media (max-width:820px){
-  .lm{width:96px;opacity:.14}.lm.g{opacity:.2}.lm figcaption{display:none}
-  .skyline{flex-wrap:wrap;gap:14px 18px;padding-top:26px}.skyline figure{width:78px}
-}
-
-/* változatos megjelenés */
-.lm.c-navy{color:#0b2a4d;opacity:.26}.lm.c-gold{color:#b7832e;opacity:.42}.lm.c-blue{color:#2c55d8;opacity:.26}
-.lmw .ol{transition:opacity 1.4s cubic-bezier(.2,.8,.2,1),transform 1.4s cubic-bezier(.2,.8,.2,1),filter 1.4s}
-.lmw.fx-rise .ln,.lmw.fx-zoom .ln,.lmw.fx-slide .ln{stroke-dashoffset:0!important}
-.lmw.fx-rise:not(.drawn) .ol{opacity:0;transform:translateY(40px)}
-.lmw.fx-zoom:not(.drawn) .ol{opacity:0;transform:scale(.6);filter:blur(4px)}
-.lmw.fx-slide:not(.drawn) .ol{opacity:0;transform:translateX(60px)}
-.lm figcaption{transition:opacity 1s 1.8s}.lmw:not(.drawn) figcaption{opacity:0}
-.lm.c-gold.fx-rise .ol{animation:olFloat 7s ease-in-out 3s infinite}
-@keyframes olFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
-@media (max-width:820px){.lm.c-navy,.lm.c-blue{opacity:.16}.lm.c-gold{opacity:.26}.lm{width:92px!important}#gyik .lm{left:auto;right:4vw}#szolgaltatasok .lm{right:4vw}}
 /* ===== pénztárgépes motívumok: LCD kijelző, nyugta, billentyűk, vonalkód ===== */
 :root{--bc:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='182' height='40'%3E%3Crect x='0' width='1' height='40'/%3E%3Crect x='2' width='2' height='40'/%3E%3Crect x='5' width='1' height='40'/%3E%3Crect x='9' width='1' height='40'/%3E%3Crect x='12' width='2' height='40'/%3E%3Crect x='15' width='2' height='40'/%3E%3Crect x='18' width='1' height='40'/%3E%3Crect x='20' width='2' height='40'/%3E%3Crect x='24' width='1' height='40'/%3E%3Crect x='26' width='1' height='40'/%3E%3Crect x='30' width='2' height='40'/%3E%3Crect x='33' width='2' height='40'/%3E%3Crect x='36' width='1' height='40'/%3E%3Crect x='40' width='1' height='40'/%3E%3Crect x='44' width='2' height='40'/%3E%3Crect x='48' width='1' height='40'/%3E%3Crect x='50' width='1' height='40'/%3E%3Crect x='54' width='1' height='40'/%3E%3Crect x='57' width='2' height='40'/%3E%3Crect x='60' width='2' height='40'/%3E%3Crect x='63' width='2' height='40'/%3E%3Crect x='67' width='2' height='40'/%3E%3Crect x='70' width='1' height='40'/%3E%3Crect x='74' width='2' height='40'/%3E%3Crect x='77' width='1' height='40'/%3E%3Crect x='79' width='2' height='40'/%3E%3Crect x='82' width='2' height='40'/%3E%3Crect x='85' width='2' height='40'/%3E%3Crect x='88' width='2' height='40'/%3E%3Crect x='93' width='2' height='40'/%3E%3Crect x='97' width='2' height='40'/%3E%3Crect x='102' width='2' height='40'/%3E%3Crect x='106' width='1' height='40'/%3E%3Crect x='108' width='1' height='40'/%3E%3Crect x='110' width='1' height='40'/%3E%3Crect x='114' width='1' height='40'/%3E%3Crect x='118' width='2' height='40'/%3E%3Crect x='122' width='3' height='40'/%3E%3Crect x='127' width='1' height='40'/%3E%3Crect x='131' width='1' height='40'/%3E%3Crect x='133' width='2' height='40'/%3E%3Crect x='137' width='1' height='40'/%3E%3Crect x='140' width='1' height='40'/%3E%3Crect x='143' width='2' height='40'/%3E%3Crect x='146' width='3' height='40'/%3E%3Crect x='150' width='2' height='40'/%3E%3Crect x='155' width='1' height='40'/%3E%3Crect x='158' width='3' height='40'/%3E%3Crect x='163' width='2' height='40'/%3E%3Crect x='167' width='2' height='40'/%3E%3Crect x='171' width='1' height='40'/%3E%3Crect x='173' width='1' height='40'/%3E%3Crect x='176' width='3' height='40'/%3E%3C/svg%3E");--keys:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='56'%3E%3Crect x='5' y='5' width='54' height='42' rx='9' fill='%23ffffff' fill-opacity='.55' stroke='%23082746' stroke-opacity='.07' stroke-width='1.5'/%3E%3Crect x='5' y='45' width='54' height='5' rx='2.5' fill='%23082746' fill-opacity='.04'/%3E%3C/svg%3E");
   --lcd-a:#2c55d8;--lcd-b:#1a36a6;--lcd-t:#eef4ff;--paper:#fffdf6;--fm:"VT323",ui-monospace,monospace;--fr:"Courier Prime","Courier New",ui-monospace,monospace}
@@ -458,8 +429,8 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .stat b{font-family:var(--fm);font-style:normal;font-weight:400;font-size:clamp(2.6rem,4.2vw,3.4rem);text-align:right;padding:8px 14px 2px;border-radius:6px;background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));-webkit-background-clip:border-box;background-clip:border-box;color:var(--lcd-t);-webkit-text-fill-color:var(--lcd-t);text-shadow:0 0 10px rgba(190,215,255,.8);box-shadow:inset 0 0 0 2px #0e1f62,inset 0 8px 18px rgba(0,0,0,.35);position:relative}
 .stat span{color:#c9d2de;font-size:.95rem}
 /* e-pénztárgép idővonal: dátum LCD-n */
-@media (min-width:641px){.tl div{grid-template-columns:172px 1fr}}
-.tl b{justify-self:start;white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.32rem;line-height:1;color:var(--lcd-t);background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));border-radius:6px;padding:6px 10px 3px;align-self:start;text-align:center;text-shadow:0 0 8px rgba(190,215,255,.75);box-shadow:inset 0 0 0 2px #0e1f62}
+@media (min-width:641px){.tl div{grid-template-columns:150px 1fr}}
+.tl b{justify-self:start;white-space:nowrap;font-family:var(--fm);font-weight:400;font-size:1.4rem;line-height:1;color:var(--lcd-t);background:linear-gradient(180deg,var(--lcd-a),var(--lcd-b));border-radius:6px;padding:6px 10px 3px;align-self:start;text-align:center;text-shadow:0 0 8px rgba(190,215,255,.75);box-shadow:inset 0 0 0 2px #0e1f62}
 .tl div.key b{background:linear-gradient(180deg,#f7dfa6,#d6a64e);color:#172e47;text-shadow:none;box-shadow:inset 0 0 0 2px #a8781f}
 /* kiemelt termékek: vonalkód a kártyán */
 .fp .bd{position:relative}
@@ -476,42 +447,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .key{min-width:0;flex:1 1 calc(33% - 12px);height:52px;padding:0 8px;font-size:.92rem}.key.wide{flex-basis:100%}
   .step:nth-child(n){transform:none}
 }
-
-/* egyvonalas rajzok: rajzolódás + apró mozgások */
-.ol{display:block;width:100%;height:auto;overflow:visible;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.ol .ln{stroke-dasharray:1;stroke-dashoffset:0}
-.ol .acc{transition:opacity .8s 1.6s}
-.lmw:not(.drawn) .ol .ln{stroke-dashoffset:1}
-.lmw:not(.drawn) .ol .acc{opacity:0}
-.lmw.drawn .ol .ln{transition:stroke-dashoffset 2.6s cubic-bezier(.45,.05,.3,1)}
-.ol .a-tongue{transform-box:fill-box;transform:scaleX(0)}
-.ol .a-tongue.l{transform-origin:100% 50%}.ol .a-tongue.r{transform-origin:0 50%}
-.ol .a-water{stroke-dasharray:3 5}
-.ol .a-blink{fill:currentColor;stroke:none}
-.ol .a-wave path,.ol .a-glow,.ol .a-twinkle,.ol .a-birds{opacity:.0}
-.ol .a-bell{transform-box:fill-box;transform-origin:50% 0}
-@media (prefers-reduced-motion:no-preference){
-  .lmw.drawn .a-tongue{animation:olTongue 7s 3s infinite}
-  .lmw.drawn .a-tongue.r{animation-delay:3.4s}
-  .lmw.drawn .a-water{animation:olWater 1.6s linear infinite}
-  .lmw.drawn .a-blink{animation:olBlink 2.4s steps(1) infinite}
-  .lmw.drawn .a-wave path{animation:olWave 4s infinite}
-  .lmw.drawn .a-wave path:last-child{animation-delay:.35s}
-  .lmw.drawn .a-twinkle{animation:olTwinkle 6s 2.5s infinite}
-  .lmw.drawn .a-bell{animation:olBell 8s 3s infinite}
-  .lmw.drawn .a-glow{animation:olGlow 6s 2.6s infinite}
-  .lmw.drawn .a-birds{animation:olBirds 11s 2s infinite}
-}
-@media (prefers-reduced-motion:reduce){.lmw .ol .ln{stroke-dashoffset:0!important}.lmw .ol .acc{opacity:1!important}.ol .a-wave path,.ol .a-glow,.ol .a-twinkle,.ol .a-birds{opacity:.7}}
-@keyframes olTongue{0%,84%,100%{transform:scaleX(0)}87%{transform:scaleX(1)}89%{transform:scaleX(.55)}91%{transform:scaleX(1)}94%{transform:scaleX(0)}}
-@keyframes olWater{to{stroke-dashoffset:-16}}
-@keyframes olBlink{0%{opacity:1}50%{opacity:.15}}
-@keyframes olWave{0%,100%{opacity:0}30%{opacity:.9}60%{opacity:0}}
-@keyframes olTwinkle{0%,80%,100%{opacity:0;transform:scale(.6)}88%{opacity:1;transform:scale(1)}}
-@keyframes olBell{0%,78%,100%{transform:rotate(0)}82%{transform:rotate(14deg)}86%{transform:rotate(-12deg)}90%{transform:rotate(8deg)}94%{transform:rotate(-4deg)}}
-@keyframes olGlow{0%,100%{opacity:.35}50%{opacity:1}}
-@keyframes olBirds{0%{opacity:0;transform:translate(-40px,8px)}10%{opacity:.9}55%{opacity:.9;transform:translate(30px,-6px)}65%,100%{opacity:0;transform:translate(46px,-10px)}}
-.ol .a-twinkle{transform-box:fill-box;transform-origin:50% 50%}
 </style>
 </head>
 <body>
@@ -586,7 +521,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 
 <main class="lt">
 <section class="sec" id="szolgaltatasok">
-  <figure class="lm lmw fx-draw c-navy" style="right:13vw;top:18px;width:clamp(150px,15vw,230px)" aria-hidden="true"><svg class="ol ol-bazilika" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M6 190H28V62L39 28V14V28L50 62V190V104L64 98V72L71 50L78 72V92L110 78V93A9 9 0 1 1 109.9 93V78L142 92V72L149 50L156 72V98L170 104V190V62L181 28V14V28L192 62V190H122V164A12 12 0 0 0 98 164V190H214"/><g class="acc"><g class="a-birds"><path d="M150 30q5-5 10 0q5-5 10 0"/><path d="M168 18q4-4 8 0q4-4 8 0"/></g></g></svg><figcaption>Székesegyház</figcaption></figure>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Amivel foglalkozunk</span><h2 class="sh2">Minden egy helyen, <em>Pécsen</em></h2><p class="slead">A pénztárgéptől a számítógépig segítünk a megfelelő eszköz kiválasztásában, beállításában és használatának elsajátításában. Később is számíthat ránk a javításban – üzlete technikai hátterét egy helyen intézheti.</p></div><a class="hb navy" href="webaruhaz/#termekek"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg>Webáruház</a></div>
     <div class="areas"><a class="area rv" href="webaruhaz/#kat-penztargep"><span class="ai"><svg class="ic" viewBox="0 0 64 64"><path d="M8 40h48l-3-14H11z"/><path d="M6 40h52v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M22 26V14h16v12M26 18h8M26 22h8"/><path d="M38 20h10l3 6M15 45h6M25 45h6M35 45h6M45 45h4M15 49h34"/></svg></span><h3>Pénztárgépek és POS rendszerek</h3><p>NAV-engedéllyel rendelkező online pénztárgépeket és érintőképernyős POS-rendszereket kínálunk. A készülékeket beállítva, betanítással adjuk át.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Sam4s, Micra és Montel készülékek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Üzembe helyezés és NAV-bejelentés</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Kasszafiók, vonalkódolvasó, blokknyomtató</span></li></ul><span class="more">Pénztárgépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-irodatechnika"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></span><h3>Számítástechnika és irodatechnika</h3><p>Üzleti használatra szánt számítógépeket, laptopokat és nyomtatókat kínálunk, igény szerint összeállítva és telepítve, helyi szervizháttérrel.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gépek összeállítása, telepítése</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Számítógép- és laptopjavítás</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hálózat és internet kiépítése</span></li></ul><span class="more">Irodatechnika <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-merleg"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M5 20h14l-1.5-7h-11z"/><path d="M4 9h16M12 9V5M9 5h6"/><rect x="9.5" y="14.5" width="5" height="2.5" rx=".5"/></svg></span><h3>Mérlegek és árazógépek</h3><p>Hitelesített bolti és árszorzós mérlegeket, valamint egy- és kétsoros árazógépeket kínálunk a mindennapi munkához.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hitelesített bolti mérlegek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Árazógépek, címkék, festékhengerek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Tanácsadás a választáshoz</span></li></ul><span class="more">Mérlegek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-kellek"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="9" cy="8" rx="5" ry="3"/><path d="M4 8v8c0 1.7 2.2 3 5 3s5-1.3 5-3V8"/><path d="M14 13h6v7h-6"/></svg></span><h3>Kellékanyagok</h3><p>Hőpapír, árazócímkék és festékhengerek a mindennapi munkához, raktárról.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hőpapír tekercsek minden géphez</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Árazócímkék, festékhengerek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gyors beszerzés, helyben átvehető</span></li></ul><span class="more">Kellékanyagok <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#szerviz"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3.5 17.5 6.5 20.5l5.9-5.9a4 4 0 0 0 5.3-5.3l-2.4 2.4-2.6-.4-.4-2.6z"/></svg></span><h3>Szerviz és karbantartás</h3><p>Saját szervizünkben javítjuk és felülvizsgáljuk a pénztárgépeket, valamint segítünk a kapcsolódó hatósági ügyintézésben.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Javítás, éves felülvizsgálat</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Adómemória- és AEE-kiolvasás</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gyors hibaelhárítás Pécsen</span></li></ul><span class="more">Szerviz bejelentés <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#e-penztargep"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5z"/><path d="m9 13 2 2 4-4"/></svg></span><h3>Átállás e-pénztárgépre</h3><p>Az online pénztárgépek használatára vonatkozó határidő 2028. július 1. Segítünk felkészülni az átállásra, lépésről lépésre.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Felmérjük, melyik megoldás kell</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hardveralapú e-pénztárgép</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Teljes ügyintézés a NAV felé</span></li></ul><span class="more">Átállási tanács <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a></div>
@@ -595,7 +529,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 
 
 <section class="sec white" id="gepvalaszto">
-  <figure class="lm lmw fx-rise c-gold" style="right:4vw;top:6px;width:clamp(110px,10vw,160px)" aria-hidden="true"><svg class="ol ol-tvtorony" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M6 190C56 188 76 170 98 170L104 84H96L90 74C90 64 94 58 98 56L100 48H106V22H110V6V22H114V48H120L122 56C126 58 130 64 130 74L124 84H116L122 170C144 170 164 188 214 190"/><g class="acc"><circle class="a-blink" cx="110" cy="5" r="2.6"/><g class="a-wave"><path d="M98 10a14 14 0 0 1 0-12M122 10a14 14 0 0 0 0-12"/><path d="M90 14a24 24 0 0 1 0-20M130 14a24 24 0 0 0 0-20"/></g></g></svg><figcaption>TV-torony</figcaption></figure>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Gépválasztó</span><h2 class="sh2">Melyik pénztárgép <em>illik Önhöz?</em></h2><p class="slead">Három pénztárgéptípus közül választhat. Ha bizonytalan, hívjon minket, vagy látogasson el üzletünkbe, ahol a készülékeket ki is próbálhatja.</p></div></div>
     <div class="pick">
@@ -618,7 +551,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 
 
 <section class="sec white" id="kapcsolat">
-  <figure class="lm lmw fx-zoom c-blue" style="right:6vw;top:34px;width:clamp(150px,16vw,240px)" aria-hidden="true"><svg class="ol ol-dzsami" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M6 190H34V112H50V100H54A56 52 0 0 1 110 48V36A4 4 0 1 1 110.01 36V20L104 14A7 7 0 1 0 116 14A5.5 5.5 0 1 1 104 14L110 20V48A56 52 0 0 1 166 100H170V112H186V190H124V156A14 14 0 0 0 96 156V190H214"/><g class="acc"><path class="a-twinkle" d="M128 10v8M124 14h8M125.5 11.5l5 5M130.5 11.5l-5 5"/></g></svg><figcaption>Dzsámi</figcaption></figure>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Üzletünk Pécs belvárosának közelében, a Hunyadi János utcában található. Az üzlet előtt ingyenes parkolási lehetőség áll rendelkezésre.</p></div></div>
     <div class="contactg">
@@ -644,7 +576,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 </section>
 
 <section class="sec" id="vasarlas">
-  <figure class="lm lmw fx-draw c-navy" style="right:5vw;top:10px;width:clamp(160px,17vw,250px)" aria-hidden="true"><svg class="ol ol-zsolnay" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M6 190H36V180A74 12 0 0 0 184 180A74 12 0 0 0 134 168.6V114H140V108H132C132 78 122 64 110 58V46A4 4 0 1 1 110.01 46V30V58C98 64 88 78 88 108H80V114H86V168.6A74 12 0 0 0 36 180"/><g class="acc"><path d="M86 134c-4-6-12-8-18-4l-6 7 8 2c5 3 12 2 16-1M72 130c-3-4-1-8 4-9M134 134c4-6 12-8 18-4l6 7-8 2c-5 3-12 2-16-1M148 130c3-4 1-8-4-9"/><circle cx="74" cy="133" r="1.3" fill="currentColor"/><circle cx="146" cy="133" r="1.3" fill="currentColor"/><path class="a-tongue l" d="M62 137h-9l-4-3M53 137l-4 3"/><path class="a-tongue r" d="M158 137h9l4-3M167 137l4 3"/><path class="a-water" d="M64 142q-10 12-8 30M156 142q10 12 8 30"/></g></svg><figcaption>Zsolnay-kút</figcaption></figure>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Pénztárgép vásárlás</span><h2 class="sh2">Így zajlik <em>lépésről lépésre</em></h2><p class="slead">A pénztárgépet beállítva és üzemkészen adjuk át. Önnek az üzembe helyezéshez szükséges iratokat kell magával hoznia.</p></div></div>
     <div class="steps">
@@ -656,7 +587,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 <section class="sec white" id="e-penztargep">
   <div class="wrap">
     <div class="epz rv">
-  <figure class="lm lmw fx-slide g" style="left:36%;bottom:-6px;width:clamp(120px,12vw,180px)" aria-hidden="true"><svg class="ol ol-havihegy" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M6 190C40 186 60 156 84 152V108L98 100V58H96C96 50 102 46 110 44C105 41 105 34 110 30V14V20H104H116H110V30C115 34 115 41 110 44C118 46 124 50 124 58H122V100L136 108V152C154 156 174 186 214 190"/><g class="acc"><g class="a-bell"><path d="M110 66v4M104 82c0-8 2-12 6-12s6 4 6 12zM109 84h2"/></g></g></svg></figure>
       <div><span class="eye" style="color:#f4d58d">Fontos határidő</span><h2 class="sh2">Átállás <em>e-pénztárgépre</em></h2><p class="slead">Az online pénztárgépek használatának határidejére érdemes időben felkészülni. Segítünk felmérni, melyik megoldás felel meg vállalkozása igényeinek, és elvégezzük a NAV felé szükséges bejelentéseket.</p><div class="btns" style="margin-top:22px"><a class="hb gold" href="webaruhaz/#e-penztargep">Átállási tanácsot kérek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívjon minket</a></div></div>
       <div class="tl"><div><b>2025. 07. 01.</b><span><strong>Elérhető az e-pénztárgép</strong> – felhőalapú és hardveralapú változatban.</span></div><div><b>2026. 09. 01.</b><span><strong>Adatszolgáltatás a papírnyugtákról</strong> a nyugtatömböt használó vállalkozásoknak.</span></div><div class="key"><b>2028. 07. 01.</b><span><strong>Lejár az online pénztárgépek használata</strong> – addig át kell állni hardveralapú e-pénztárgépre.</span></div></div>
     </div>
@@ -664,7 +594,6 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 </section>
 
 <section class="sec" id="gyik">
-  <figure class="lm lmw fx-rise c-gold" style="left:48%;top:22px;width:clamp(140px,14vw,210px)" aria-hidden="true"><svg class="ol ol-sopianae" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path class="ln" pathLength="1" d="M214 190H190V92L182 100L174 88L166 96H30V190H54V122A22 22 0 0 1 98 122V190H122V122A22 22 0 0 1 166 122V190H6"/><g class="acc"><g class="a-glow"><circle cx="110" cy="58" r="20"/><path d="M110 42v32M102 46l16 24M118 46l-16 24M110 42c8 0 10 8 0 9"/></g></g></svg><figcaption>Sopianae</figcaption></figure>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div></div>
     <div class="faqg rv">
@@ -783,6 +712,5 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 })();
 </script>
 
-<script>(function(){var els=document.querySelectorAll('.lmw');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('drawn')});return;}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('drawn');io.unobserve(e.target);}})},{rootMargin:'0px 0px -10% 0px'});els.forEach(function(e){io.observe(e)});})();</script>
 </body>
 </html>

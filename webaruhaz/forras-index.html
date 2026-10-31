@@ -717,55 +717,6 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
   .detail .pbox .big{font-size:1.85rem;padding:8px 10px 4px}
   .detail .pbox .btn{min-height:46px;font-size:.95rem}
 }
-
-.skyline{display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,3vw,46px);padding:30px 16px 8px;color:#b7832e;opacity:.35}
-.skyline figure{margin:0;width:clamp(64px,7vw,100px);text-align:center}
-.skyline svg{display:block;width:100%;height:auto}
-.skyline figcaption{margin-top:4px;font-family:var(--fd);font-style:italic;font-weight:700;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#7a5a1e}
-@media (max-width:820px){.skyline{flex-wrap:wrap;gap:12px 16px}.skyline figure{width:70px}}
-
-/* egyvonalas rajzok: rajzolódás + apró mozgások */
-.ol{display:block;width:100%;height:auto;overflow:visible;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.ol .ln{stroke-dasharray:1;stroke-dashoffset:0}
-.ol .acc{transition:opacity .8s 1.6s}
-.lmw:not(.drawn) .ol .ln{stroke-dashoffset:1}
-.lmw:not(.drawn) .ol .acc{opacity:0}
-.lmw.drawn .ol .ln{transition:stroke-dashoffset 2.6s cubic-bezier(.45,.05,.3,1)}
-.ol .a-tongue{transform-box:fill-box;transform:scaleX(0)}
-.ol .a-tongue.l{transform-origin:100% 50%}.ol .a-tongue.r{transform-origin:0 50%}
-.ol .a-water{stroke-dasharray:3 5}
-.ol .a-blink{fill:currentColor;stroke:none}
-.ol .a-wave path,.ol .a-glow,.ol .a-twinkle,.ol .a-birds{opacity:.0}
-.ol .a-bell{transform-box:fill-box;transform-origin:50% 0}
-@media (prefers-reduced-motion:no-preference){
-  .lmw.drawn .a-tongue{animation:olTongue 7s 3s infinite}
-  .lmw.drawn .a-tongue.r{animation-delay:3.4s}
-  .lmw.drawn .a-water{animation:olWater 1.6s linear infinite}
-  .lmw.drawn .a-blink{animation:olBlink 2.4s steps(1) infinite}
-  .lmw.drawn .a-wave path{animation:olWave 4s infinite}
-  .lmw.drawn .a-wave path:last-child{animation-delay:.35s}
-  .lmw.drawn .a-twinkle{animation:olTwinkle 6s 2.5s infinite}
-  .lmw.drawn .a-bell{animation:olBell 8s 3s infinite}
-  .lmw.drawn .a-glow{animation:olGlow 6s 2.6s infinite}
-  .lmw.drawn .a-birds{animation:olBirds 11s 2s infinite}
-}
-@media (prefers-reduced-motion:reduce){.lmw .ol .ln{stroke-dashoffset:0!important}.lmw .ol .acc{opacity:1!important}.ol .a-wave path,.ol .a-glow,.ol .a-twinkle,.ol .a-birds{opacity:.7}}
-@keyframes olTongue{0%,84%,100%{transform:scaleX(0)}87%{transform:scaleX(1)}89%{transform:scaleX(.55)}91%{transform:scaleX(1)}94%{transform:scaleX(0)}}
-@keyframes olWater{to{stroke-dashoffset:-16}}
-@keyframes olBlink{0%{opacity:1}50%{opacity:.15}}
-@keyframes olWave{0%,100%{opacity:0}30%{opacity:.9}60%{opacity:0}}
-@keyframes olTwinkle{0%,80%,100%{opacity:0;transform:scale(.6)}88%{opacity:1;transform:scale(1)}}
-@keyframes olBell{0%,78%,100%{transform:rotate(0)}82%{transform:rotate(14deg)}86%{transform:rotate(-12deg)}90%{transform:rotate(8deg)}94%{transform:rotate(-4deg)}}
-@keyframes olGlow{0%,100%{opacity:.35}50%{opacity:1}}
-@keyframes olBirds{0%{opacity:0;transform:translate(-40px,8px)}10%{opacity:.9}55%{opacity:.9;transform:translate(30px,-6px)}65%,100%{opacity:0;transform:translate(46px,-10px)}}
-.ol .a-twinkle{transform-box:fill-box;transform-origin:50% 50%}
-
-.detail .info2{position:relative}.detail .info2>*:not(.lm2){position:relative;z-index:1}
-.lm2{position:absolute;right:4px;bottom:0;margin:0;width:140px;color:#b7832e;opacity:.45;pointer-events:none;z-index:0}
-.lm2 figcaption{text-align:center;font-family:var(--fd);font-style:italic;font-weight:700;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#8a6a2a;margin-top:2px}
-.lm2 .ln{animation:olDraw 2.4s cubic-bezier(.45,.05,.3,1) both}
-@keyframes olDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-@media (max-width:1100px){.lm2{display:none}}
 </style>
 </head>
 <body>
@@ -1101,8 +1052,6 @@ function tabContent(p,k){
 }
 const TABS=[['leiras','Termékleírás','file'],['muszaki','Műszaki adatok','list'],['letoltes','Letölthetők','file'],['szerviz','Szolgáltatások','wrench']];
 let DTAB='leiras';
-const PECS_ART={"bazilika": ["<svg class=\"ol ol-bazilika\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M6 190H28V62L39 28V14V28L50 62V190V104L64 98V72L71 50L78 72V92L110 78V93A9 9 0 1 1 109.9 93V78L142 92V72L149 50L156 72V98L170 104V190V62L181 28V14V28L192 62V190H122V164A12 12 0 0 0 98 164V190H214\"/><g class=\"acc\"><g class=\"a-birds\"><path d=\"M150 30q5-5 10 0q5-5 10 0\"/><path d=\"M168 18q4-4 8 0q4-4 8 0\"/></g></g></svg>", "Székesegyház"], "dzsami": ["<svg class=\"ol ol-dzsami\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M6 190H34V112H50V100H54A56 52 0 0 1 110 48V36A4 4 0 1 1 110.01 36V20L104 14A7 7 0 1 0 116 14A5.5 5.5 0 1 1 104 14L110 20V48A56 52 0 0 1 166 100H170V112H186V190H124V156A14 14 0 0 0 96 156V190H214\"/><g class=\"acc\"><path class=\"a-twinkle\" d=\"M128 10v8M124 14h8M125.5 11.5l5 5M130.5 11.5l-5 5\"/></g></svg>", "Dzsámi"], "zsolnay": ["<svg class=\"ol ol-zsolnay\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M6 190H36V180A74 12 0 0 0 184 180A74 12 0 0 0 134 168.6V114H140V108H132C132 78 122 64 110 58V46A4 4 0 1 1 110.01 46V30V58C98 64 88 78 88 108H80V114H86V168.6A74 12 0 0 0 36 180\"/><g class=\"acc\"><path d=\"M86 134c-4-6-12-8-18-4l-6 7 8 2c5 3 12 2 16-1M72 130c-3-4-1-8 4-9M134 134c4-6 12-8 18-4l6 7-8 2c-5 3-12 2-16-1M148 130c3-4 1-8-4-9\"/><circle cx=\"74\" cy=\"133\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"146\" cy=\"133\" r=\"1.3\" fill=\"currentColor\"/><path class=\"a-tongue l\" d=\"M62 137h-9l-4-3M53 137l-4 3\"/><path class=\"a-tongue r\" d=\"M158 137h9l4-3M167 137l4 3\"/><path class=\"a-water\" d=\"M64 142q-10 12-8 30M156 142q10 12 8 30\"/></g></svg>", "Zsolnay-kút"], "havihegy": ["<svg class=\"ol ol-havihegy\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M6 190C40 186 60 156 84 152V108L98 100V58H96C96 50 102 46 110 44C105 41 105 34 110 30V14V20H104H116H110V30C115 34 115 41 110 44C118 46 124 50 124 58H122V100L136 108V152C154 156 174 186 214 190\"/><g class=\"acc\"><g class=\"a-bell\"><path d=\"M110 66v4M104 82c0-8 2-12 6-12s6 4 6 12zM109 84h2\"/></g></g></svg>", "Havihegyi templom"], "tvtorony": ["<svg class=\"ol ol-tvtorony\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M6 190C56 188 76 170 98 170L104 84H96L90 74C90 64 94 58 98 56L100 48H106V22H110V6V22H114V48H120L122 56C126 58 130 64 130 74L124 84H116L122 170C144 170 164 188 214 190\"/><g class=\"acc\"><circle class=\"a-blink\" cx=\"110\" cy=\"5\" r=\"2.6\"/><g class=\"a-wave\"><path d=\"M98 10a14 14 0 0 1 0-12M122 10a14 14 0 0 0 0-12\"/><path d=\"M90 14a24 24 0 0 1 0-20M130 14a24 24 0 0 0 0-20\"/></g></g></svg>", "TV-torony"], "sopianae": ["<svg class=\"ol ol-sopianae\" viewBox=\"0 0 220 200\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ln\" pathLength=\"1\" d=\"M214 190H190V92L182 100L174 88L166 96H30V190H54V122A22 22 0 0 1 98 122V190H122V122A22 22 0 0 1 166 122V190H6\"/><g class=\"acc\"><g class=\"a-glow\"><circle cx=\"110\" cy=\"58\" r=\"20\"/><path d=\"M110 42v32M102 46l16 24M118 46l-16 24M110 42c8 0 10 8 0 9\"/></g></g></svg>", "Sopianae"]};
-function pecsArt(p){ const ks=Object.keys(PECS_ART); let s=0; for(const c of String(p.id)) s=(s*31+c.charCodeAt(0))>>>0; const [svg,cap]=PECS_ART[ks[s%ks.length]]; return `<figure class="lm2 lmw drawn" aria-hidden="true">${svg}<figcaption>Pécs · ${cap}</figcaption></figure>`; }
 function detailHTML(p){
   if(!p) return '';
   const a=avail(p), free=a-inCart(p.id);
@@ -1114,7 +1063,7 @@ function detailHTML(p){
   <div class="info2"><h2>${titleHTML(p)}</h2><p class="desc">${esc(p.alcim)}${p.alcim&&!/[.!?]$/.test(p.alcim)?'.':''}</p>
     ${(p.jellemzok||[]).length?`<ul class="checks">${p.jellemzok.slice(0,5).map(j=>`<li>${icon('checkc')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}
     <div class="dtabs" role="tablist">${TABS.map(([k,l,ic])=>`<button type="button" role="tab" data-dtab="${k}" class="${DTAB===k?'on':''}" aria-selected="${DTAB===k}">${icon(ic)}${l}</button>`).join('')}</div>
-    <div class="tabbody" data-tb role="tabpanel">${tabContent(p,DTAB)}</div>${pecsArt(p)}</div>
+    <div class="tabbody" data-tb role="tabpanel">${tabContent(p,DTAB)}</div></div>
   <aside class="pbox">
     <div style="display:grid;gap:6px">${price}</div>
     <div class="row">${stockLine}<div class="qty"><button type="button" data-dq2="-1" aria-label="Kevesebb">−</button><input class="num dqty" value="1" inputmode="numeric" aria-label="Mennyiség"><button type="button" data-dq2="1" aria-label="Több">+</button></div></div>
