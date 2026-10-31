@@ -36,6 +36,12 @@
 - Az Ajánlatkérés űrlap a megrendelések közé kerül („Ajánlatkérés” típus), készletet nem foglal.
 - A külön termékoldal (`#t-<termék>`) a felhasználó következő látványterve alapján készül majd.
 
+## Logó, lábléc, bővített főoldal (2026-10-31)
+- Új logó (`assets/logo.webp`, átlátszó): nagy TOTÁL felirat, alatta „PÉNZTÁRGÉP ÉS SZÁMÍTÁSTECHNIKA”. A régi („Pécs · 1982”) változat nincs a repóban.
+- Webáruház: a kék lábléc megszűnt, helyette egy vékony krémszínű sor; a szolgáltatássáv maradt.
+- Főoldal lefelé görgethető szekciói (világos tónus): Amivel foglalkozunk (6 terület), Kiemelt termékek (a webáruház adataiból, élőben az api.php-ből, GitHubon a products.json-ból), Rólunk + homlokzatkép, Vásárlás 4 lépésben, E-pénztárgép határidők, GYIK, Kapcsolat (élő nyitva/zárva állapot magyar ünnepnapokkal, heti nyitvatartás a mai nap kiemelésével, elérhetőségek, ingyenes parkolás, útvonaltervezés, Google térkép), rövid lábléc, mobilon alsó Hívás/Útvonal sáv.
+- A homlokzatkép a régi weboldal anyagából származik (2007-es fotó): `assets/uzlet-homlokzat.webp`. Friss fotó esetén ugyanazon a néven cserélhető.
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).
