@@ -347,7 +347,7 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
   .mtitle{display:block;font-family:var(--fd);font-weight:800;font-size:1.65rem;line-height:1.12;text-transform:none}
   .detail .info2{display:none}
   .detail .stage{aspect-ratio:4/3;border-radius:14px}
-  .detail .stage .hint{top:12px;bottom:auto}
+  .detail .stage .hint{top:auto;bottom:12px}
   .ribbon{display:none}
   .detail .pbox{display:grid;grid-template-columns:1fr;align-self:stretch;border:0;padding:0;background:transparent;gap:10px}
   .pbox .pr{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -904,7 +904,7 @@ function initStages(root=document){
       const u=p.kepek[st.photo];
       view.innerHTML=`<div class="photo"><img src="${esc(u)}" alt="${esc(fullName(p))} – ${st.photo+1}. kép"><div class="lens"></div></div>${p.kepek.length>1?`<button class="navarrow l" type="button" aria-label="Előző kép">${icon('left')}</button><button class="navarrow r" type="button" aria-label="Következő kép">${icon('chev')}</button>`:''}`;
       ctl.innerHTML=`<button class="icbtn" type="button" data-act="lb" aria-label="Teljes képernyő">${icon('full')}</button>`;
-      hint.hidden=false; hint.innerHTML=p.illusztracio?'Illusztráció':`${st.photo+1} / ${p.kepek.length} · nagyításhoz vigye fölé az egeret`;
+      hint.hidden=false; hint.innerHTML=p.illusztracio?'Illusztráció':(innerWidth<=620||matchMedia('(hover: none)').matches?`${st.photo+1} / ${p.kepek.length}`:`${st.photo+1} / ${p.kepek.length} · nagyításhoz vigye fölé az egeret`);
       const ph=$('.photo',view), lens=$('.lens',view);
       ph.addEventListener('mousemove',e=>{ const r=ph.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width*100, y=(e.clientY-r.top)/r.height*100; lens.style.backgroundImage=`url("${u.replace(/"/g,'%22')}")`; lens.style.backgroundSize='220%'; lens.style.backgroundPosition=`${x}% ${y}%`; });
       ph.addEventListener('click',()=>openLightbox(p.kepek, st.photo));
