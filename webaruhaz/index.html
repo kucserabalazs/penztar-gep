@@ -717,6 +717,12 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
   .detail .pbox .big{font-size:1.85rem;padding:8px 10px 4px}
   .detail .pbox .btn{min-height:46px;font-size:.95rem}
 }
+
+.skyline{display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,3vw,46px);padding:30px 16px 8px;color:#b7832e;opacity:.35}
+.skyline figure{margin:0;width:clamp(64px,7vw,100px);text-align:center}
+.skyline svg{display:block;width:100%;height:auto}
+.skyline figcaption{margin-top:4px;font-family:var(--fd);font-style:italic;font-weight:700;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#7a5a1e}
+@media (max-width:820px){.skyline{flex-wrap:wrap;gap:12px 16px}.skyline figure{width:70px}}
 </style>
 </head>
 <body>
@@ -769,6 +775,113 @@ body{background:radial-gradient(ellipse 90% 60% at 50% 30%,rgba(247,248,250,.9),
     <div class="sb"><img src="../assets/ikonok/truck.svg" alt=""><span>Országos<br>kiszállítás</span></div>
   </div>
 </section>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+<defs>
+<!-- Székesegyház (Bazilika): négy karcsú torony gúlasisakkal -->
+<symbol id="lm-bazilika" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190h208"/>
+  <path d="M28 190V62h22v128M28 62l11-34 11 34M39 28v-8M36 22h6"/>
+  <path d="M170 190V62h22v128M170 62l11-34 11 34M181 28v-8M178 22h6"/>
+  <path d="M64 92V72h14v20M64 72l7-22 7 22M142 92V72h14v20M142 72l7-22 7 22"/>
+  <path d="M50 190V104h120v86"/>
+  <path d="M50 104l60-26 60 26"/>
+  <circle cx="110" cy="102" r="9"/><path d="M110 93v18M101 102h18"/>
+  <path d="M98 190v-30a12 12 0 0 1 24 0v30"/>
+  <path d="M66 150v-16a5 5 0 0 1 10 0v16M144 150v-16a5 5 0 0 1 10 0v16"/>
+  <path d="M35 90v-10a4 4 0 0 1 8 0v10M177 90v-10a4 4 0 0 1 8 0v10M35 130v-12a4 4 0 0 1 8 0v12M177 130v-12a4 4 0 0 1 8 0v12"/>
+  <path d="M50 122h120" stroke-dasharray="2 5"/>
+ </g>
+</symbol>
+<!-- Dzsámi (Gázi Kászim pasa): nagy kupola, félhold és kereszt -->
+<symbol id="lm-dzsami" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190h208"/>
+  <path d="M34 190V112h152v78"/>
+  <path d="M30 112h160"/>
+  <path d="M50 112V100h120v12"/>
+  <path d="M54 100a56 52 0 0 1 112 0"/>
+  <path d="M110 48V36"/><circle cx="110" cy="32" r="4"/>
+  <path d="M110 28v-8M106 23h8"/>
+  <path d="M103 18a7 7 0 1 0 14 0a5.5 5.5 0 1 1-14 0z"/>
+  <path d="M96 190v-34a14 14 0 0 1 28 0v34"/>
+  <path d="M52 166v-26a8 8 0 0 1 16 0v26M152 166v-26a8 8 0 0 1 16 0v26"/>
+  <path d="M74 98v-8M90 74v-6M130 74v-6M146 98v-8" opacity=".6"/>
+  <path d="M34 128h152" stroke-dasharray="2 5"/>
+ </g>
+</symbol>
+<!-- Zsolnay-kút: kupolás kút ökörfejes vízköpőkkel -->
+<symbol id="lm-zsolnay" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190h208"/>
+  <ellipse cx="110" cy="176" rx="74" ry="12"/>
+  <path d="M36 176v8a74 12 0 0 0 148 0v-8"/>
+  <path d="M86 172v-58h48v58"/>
+  <path d="M80 114h60M84 108h52"/>
+  <path d="M88 108c0-30 10-44 22-50 12 6 22 20 22 50"/>
+  <path d="M96 108c0-22 6-34 14-40M124 108c0-22-6-34-14-40" opacity=".55"/>
+  <path d="M110 58v-12"/><circle cx="110" cy="42" r="4"/><path d="M110 38v-10"/>
+  <path d="M74 140c-6-4-10-2-12 2 4 0 6 2 6 6h10M146 140c6-4 10-2 12 2-4 0-6 2-6 6h-10"/>
+  <path d="M70 136l-4-6M150 136l4-6"/>
+  <path d="M62 150q-6 10-4 22M158 150q6 10 4 22" stroke-dasharray="3 4"/>
+  <path d="M100 150a10 10 0 0 1 20 0v10h-20z"/>
+ </g>
+</symbol>
+<!-- Havihegyi templom: kis barokk templom a domb tetején -->
+<symbol id="lm-havihegy" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190c40-6 60-40 104-40s64 34 104 40"/>
+  <path d="M84 152V108h52v44"/>
+  <path d="M80 108l30-18 30 18"/>
+  <path d="M98 108V58h24v50"/>
+  <path d="M96 58c0-8 6-12 14-14 8 2 14 6 14 14z"/>
+  <path d="M110 44c-5-3-5-10 0-14 5 4 5 11 0 14z"/>
+  <path d="M110 30V16M104 21h12"/>
+  <path d="M103 84v-8a7 7 0 0 1 14 0v8"/>
+  <path d="M104 152v-16a6 6 0 0 1 12 0v16"/>
+  <path d="M88 132v-8a4 4 0 0 1 8 0v8M124 132v-8a4 4 0 0 1 8 0v8"/>
+  <path d="M60 168l10-6M150 168l10 6M46 178l8-5M166 178l8 5" opacity=".6"/>
+  <path d="M30 186q6-12 12 0M176 186q6-12 12 0" opacity=".6"/>
+ </g>
+</symbol>
+<!-- TV-torony (Misina): karcsú torony kilátóteraszos „kosárral” és antennával -->
+<symbol id="lm-tvtorony" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190c50-2 70-22 104-22s54 20 104 22"/>
+  <path d="M98 170L104 84M122 170l-6-86"/>
+  <path d="M100 140h20M101 118h18M102 100h16" opacity=".55"/>
+  <path d="M96 84h28l6-10H90z"/>
+  <path d="M90 74c0-10 4-16 8-18h24c4 2 8 8 8 18"/>
+  <path d="M92 66h36" stroke-dasharray="3 3"/>
+  <path d="M98 56l2-8h20l2 8"/>
+  <path d="M106 48V22h8v26"/>
+  <path d="M110 22V4"/>
+  <path d="M107 12h6M108 30h4M108 38h4" opacity=".7"/>
+  <path d="M60 180q8-12 16 0M144 180q8-12 16 0" opacity=".55"/>
+ </g>
+</symbol>
+<!-- Sopianae: ókeresztény sírkamra, római boltívek, krisztogram -->
+<symbol id="lm-sopianae" viewBox="0 0 220 200">
+ <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 190h208"/>
+  <path d="M20 190v-8h180v8"/>
+  <path d="M30 182V104M54 182V104M30 104h24M28 100h28M28 186h28"/>
+  <path d="M98 182V104M122 182V104M98 104h24M96 100h28"/>
+  <path d="M166 182v-56M190 182v-40M166 104v-6M190 126l4-10-6-6"/>
+  <path d="M164 100h18"/>
+  <path d="M54 118a22 22 0 0 1 44 0M122 118a22 22 0 0 1 44 0"/>
+  <path d="M28 100V92h126l12-6" />
+  <path d="M28 92l8-8h100"/>
+  <circle cx="76" cy="56" r="20"/>
+  <path d="M76 40v32M68 44l16 24M84 44L68 68"/>
+  <path d="M76 40c8 0 10 8 0 9" />
+  <path d="M38 150c4-4 8-4 12 0M106 150c4-4 8-4 12 0" opacity=".55"/>
+  <path d="M150 182l6-6 4 6 6-4" opacity=".55"/>
+ </g>
+</symbol>
+</defs>
+</svg>
+<div class="skyline" aria-hidden="true"><figure><svg viewBox="0 0 220 200"><use href="#lm-sopianae"/></svg><figcaption>Sopianae</figcaption></figure><figure><svg viewBox="0 0 220 200"><use href="#lm-bazilika"/></svg><figcaption>Székesegyház</figcaption></figure><figure><svg viewBox="0 0 220 200"><use href="#lm-dzsami"/></svg><figcaption>Dzsámi</figcaption></figure><figure><svg viewBox="0 0 220 200"><use href="#lm-zsolnay"/></svg><figcaption>Zsolnay-kút</figcaption></figure><figure><svg viewBox="0 0 220 200"><use href="#lm-havihegy"/></svg><figcaption>Havihegy</figcaption></figure><figure><svg viewBox="0 0 220 200"><use href="#lm-tvtorony"/></svg><figcaption>TV-torony</figcaption></figure></div>
 <footer class="slim"><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
 
 <div class="overlay" id="overlay"></div>
