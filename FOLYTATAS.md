@@ -56,6 +56,13 @@
 - Rögzített csoportválasztó sáv a menü alatt: kattintásra a csoporthoz ugrik, görgetéskor kiemeli az aktuálisat (és a felső menüben is). Nem kell visszalépni.
 - `#kat-<csoport>` a csoporthoz görget, `#kat-<csoport>/<termék>` kiválasztja a terméket az adott csoport panelében.
 
+## Termékkatalógus bővítése a régi oldal anyagából (2026-10-31)
+- Forrás: Penztar-gep_termekkatalogus.zip (a totalkkt.t-online.hu képei és leírásai). A termékek a bolt saját fotóit kapták (`webaruhaz/kepek/termekek/`), az illusztráció csak a használt pénztárgépnél maradt.
+- A csomag 3 képhozzárendelése hibás volt, javítva: NR-240 = image011, Jota E = image013, K10 = image017. Kasszafiókok: CWY-1 = image020 + image021 (fekete/fehér), Durable = image023, CD-4141 = image026 (ellenőrizendő).
+- Új termékek: iMin 15,6" POS terminál (129 900 Ft + ÁFA; az üzleti árcédulán D3-504, a régi oldalon SWAN2 – ellenőrizendő), iMin D2 10,1" (92 900 Ft + ÁFA), Belövőszál 5000 db (2 500 Ft + ÁFA). A generikus „iMin POS” megszűnt.
+- CP2200: a régi oldalon a 2 500 Ft a belövőszál-csomag ára volt, a pisztoly most „ár kérésre”.
+- Műszaki adatok és leírások kiegészítve a régi oldal szövegei alapján (méretek, nyomtató, akku, csatlakozók, hitelesítési díjak, NR-440 kasszafiók nélküli ára, +2 év garancia).
+
 ## Következő lépések
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).

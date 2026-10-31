@@ -193,38 +193,55 @@
    "modell": "kompakt",
    "leiras": "Az NR-330 a legkedvezőbb árú Sam4s pénztárgépünk. Új generációs 4G-s adóügyi egységgel működik, és nyugta mellett számlát is nyomtat.",
    "jellemzok": [
-    "NAV engedélyszám: A315",
-    "4G-s adóügyi egység",
-    "Nyugta és számla nyomtatása",
-    "Hőnyomtató, 57 mm-es papír"
+    "Többfunkciós, 4G-s AEE-vel",
+    "80 mm-es nyomtató, 57 mm-es papírral is",
+    "Windows, Android, iOS kapcsolat",
+    "20 féle fizetőeszköz",
+    "Fehér vagy fekete kivitel"
    ],
    "kepek": [
-    "kepek/illusztracio/sam4s-nr-330.webp"
+    "kepek/termekek/sam4s-nr-330-1.webp"
    ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
     [
+     "Adóügyi egység",
+     "4G-s AEE"
+    ],
+    [
+     "Nyomtató",
+     "80 mm-es (57 mm-es papírral is működik)"
+    ],
+    [
+     "Kapcsolat",
+     "Windows, Android és iOS rendszerekhez"
+    ],
+    [
+     "Fizetőeszközök",
+     "20 féle"
+    ],
+    [
+     "Kivitel",
+     "fehér vagy fekete"
+    ],
+    [
+     "Kasszafiók",
+     "opcionális"
+    ],
+    [
      "NAV engedélyszám",
      "A315"
     ],
     [
-     "Adóügyi egység",
-     "új generációs, 4G"
-    ],
-    [
      "Bizonylat",
      "nyugta és számla"
-    ],
-    [
-     "Nyomtató",
-     "57 mm-es hőnyomtató"
     ]
    ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év, +2 évvel bővíthető",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "sam4s-nr-300",
@@ -247,22 +264,34 @@
     "Kasszafiók csatlakoztatható"
    ],
    "kepek": [
-    "kepek/illusztracio/sam4s-nr-300.webp"
+    "kepek/termekek/sam4s-nr-300-1.webp"
    ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
     [
-     "NAV engedélyszám",
-     "A315"
+     "Tápellátás",
+     "hálózati, akkumulátor nélkül"
     ],
     [
      "Kijelző",
-     "2 × 16 karakteres LCD, kék háttérvilágítás, elöl és hátul"
+     "kétsoros alfanumerikus, elöl és hátul"
     ],
     [
      "Nyomtató",
-     "57 mm-es hőnyomtató, „dobd bele és nyomtass” papírcsere"
+     "57 mm-es, dobd bele és nyomtass funkcióval"
+    ],
+    [
+     "Euró",
+     "eurós kerekítés szoftverrel"
+    ],
+    [
+     "Kasszafiók",
+     "opcionális"
+    ],
+    [
+     "NAV engedélyszám",
+     "A315"
     ],
     [
      "Processzor",
@@ -275,16 +304,12 @@
     [
      "Adatkapcsolat",
      "beépített mobilmodem"
-    ],
-    [
-     "Kasszafiók",
-     "6–24 V között szinte bármilyen fiókot nyit"
     ]
    ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év, +2 évvel bővíthető",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "sam4s-nr-240-pro-4g",
@@ -307,11 +332,31 @@
     "Kasszafiók csatlakoztatható"
    ],
    "kepek": [
-    "kepek/illusztracio/sam4s-nr-240-pro-4g.webp"
+    "kepek/termekek/sam4s-nr-240-pro-4g-1.webp"
    ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
+    [
+     "Tápellátás",
+     "hálózati, akkumulátor nélkül"
+    ],
+    [
+     "Kijelző",
+     "kétsoros alfanumerikus, elöl és hátul"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es, dobd bele és nyomtass funkcióval"
+    ],
+    [
+     "Euró",
+     "eurós kerekítés szoftverrel"
+    ],
+    [
+     "Kasszafiók",
+     "opcionális"
+    ],
     [
      "NAV engedélyszám",
      "A308"
@@ -323,16 +368,12 @@
     [
      "Kialakítás",
      "kompakt, kis alapterületű"
-    ],
-    [
-     "Kasszafiók",
-     "csatlakoztatható"
     ]
    ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év, +2 évvel bővíthető",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "sam4s-nr-440-pro-4g",
@@ -347,7 +388,7 @@
    "kiemelt": true,
    "engedely": "A311",
    "modell": "nagy",
-   "leiras": "Az NR-440 a Sam4s legerősebb és legstrapabíróbb pénztárgépe, beépített kasszafiókkal. A leggyorsabb nyomtatót kapta, a vevőkijelző kihúzható és forgatható, számítógéphez kötve készletkezelésre is alkalmas.",
+   "leiras": "Nagy teljesítményű, normál méretű, rendszerbe köthető asztali pénztárgép nagy forgalmú üzletek számára. Forgatható vevőkijelző, kulcsos menü, nagy címlet bedobónyílás és a rá szerelt fém kasszafiók. Kasszafiók nélkül 139 500 Ft + ÁFA; +2 év garancia 15 000 Ft + ÁFA.",
    "jellemzok": [
     "NAV engedélyszám: A311",
     "Beépített kasszafiók",
@@ -356,11 +397,35 @@
     "PC-hez köthető"
    ],
    "kepek": [
-    "kepek/illusztracio/sam4s-nr-440-pro-4g.webp"
+    "kepek/termekek/sam4s-nr-440-pro-4g-1.webp"
    ],
    "spin": [],
    "keszletDb": 2,
    "specs": [
+    [
+     "Felhasználás",
+     "nagy forgalmú üzletek, rendszerbe köthető"
+    ],
+    [
+     "Vevőkijelző",
+     "forgatható"
+    ],
+    [
+     "Menü",
+     "kulcsos"
+    ],
+    [
+     "Kasszafiók",
+     "nagy címlet bedobó nyílással, a rá szerelt fém kasszában"
+    ],
+    [
+     "Kasszafiók nélkül",
+     "139 500 Ft + ÁFA"
+    ],
+    [
+     "Garancia bővítés",
+     "+2 év: 15 000 Ft + ÁFA"
+    ],
     [
      "NAV engedélyszám",
      "A311"
@@ -382,10 +447,6 @@
      "nagy sebességű, csendes hőnyomtató"
     ],
     [
-     "Kasszafiók",
-     "beépített"
-    ],
-    [
      "Bővíthetőség",
      "PC-hez köthető, készletkezelés"
     ]
@@ -393,7 +454,7 @@
    "letoltesek": [],
    "video": "",
    "garancia": "1 év, +2 évvel bővíthető",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "montel-sento-h-light",
@@ -408,22 +469,52 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Megbízható asztali online pénztárgép kényelmes billentyűzettel, közepes forgalmú üzletekbe.",
+   "leiras": "Akkumulátoros, eurós online pénztárgép négysoros grafikus kijelzővel és Seiko nyomtatóval. Kompakt (299 × 212 × 100 mm, 1,8 kg), mégis bővíthető: kasszafiók, számítógép, szkenner, bankkártya-olvasó és mérleg is csatlakoztatható.",
    "jellemzok": [
-    "Online pénztárgép",
-    "Asztali kivitel",
-    "Kasszafiók csatlakoztatható"
+    "Akkumulátoros",
+    "Négysoros grafikus kijelző",
+    "57 mm-es Seiko nyomtató",
+    "Kasszafiók, PC, szkenner, mérleg csatlakoztatható"
    ],
    "kepek": [
-    "kepek/illusztracio/montel-sento-h-light.webp"
+    "kepek/termekek/montel-sento-h-light-1.webp"
    ],
    "spin": [],
    "keszletDb": 1,
-   "specs": [],
+   "specs": [
+    [
+     "Tápellátás",
+     "akkumulátoros"
+    ],
+    [
+     "Kijelző",
+     "négysoros grafikus"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es Seiko"
+    ],
+    [
+     "Méret",
+     "299 × 212 × 100 mm"
+    ],
+    [
+     "Tömeg",
+     "1,8 kg"
+    ],
+    [
+     "Euró",
+     "eurós kerekítés szoftverrel"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, PC, szkenner, bankkártya-olvasó, mérleg"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "micra-jota-e",
@@ -438,22 +529,52 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Belső akkumulátoros, hordozható online pénztárgép, amely nagy forgalmú helyeken is helytáll. Rendszerbe köthető, elektronikus naplós.",
+   "leiras": "Hordozható, GPS-es, 4G-s online pénztárgép nagy forgalmú helyekre. Belső akkumulátorral kb. 300 nyugtát ad egy töltéssel, 57 mm-es Seiko nyomtatóval. Kasszafiók, számítógép, USB-s vonalkódolvasó és mérleg is csatlakoztatható.",
    "jellemzok": [
-    "Belső akkumulátor",
-    "Rendszerbe köthető",
-    "Autós tápkábellel is működik"
+    "GPS és 4G",
+    "Belső akku, kb. 300 nyugta",
+    "57 mm-es Seiko nyomtató",
+    "Kasszafiók, PC, szkenner, mérleg"
    ],
    "kepek": [
-    "kepek/illusztracio/micra-jota-e.webp"
+    "kepek/termekek/micra-jota-e-1.webp"
    ],
    "spin": [],
    "keszletDb": 1,
-   "specs": [],
+   "specs": [
+    [
+     "Kapcsolat",
+     "GPS, 4G"
+    ],
+    [
+     "Tápellátás",
+     "belső akkumulátor (kb. 300 nyugta egy töltéssel)"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es Seiko"
+    ],
+    [
+     "Méret",
+     "240 × 240 × 115 mm"
+    ],
+    [
+     "Tömeg",
+     "2,1 kg"
+    ],
+    [
+     "Euró",
+     "eurós kerekítés szoftverrel"
+    ],
+    [
+     "Csatlakoztatható",
+     "kasszafiók, PC, USB szkenner, mérleg"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "micra-k10",
@@ -468,22 +589,47 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kezi",
-   "leiras": "Kézben tartható, GPS-es mobil online pénztárgép piaci árusoknak, futároknak, házhoz menő szolgáltatóknak.",
+   "leiras": "Hordozható, GPS-es, akkumulátoros, érintőképernyős 4G-s online pénztárgép taxisoknak, mozgóárusoknak, változó telephelyre – nem állandó telephelyű vállalkozásoknak. Az akkumulátor cserélhető és külön is tölthető.",
    "jellemzok": [
     "Hordozható",
     "Beépített GPS",
     "Akkumulátoros"
    ],
    "kepek": [
-    "kepek/illusztracio/micra-k10.webp"
+    "kepek/termekek/micra-k10-1.webp"
    ],
    "spin": [],
    "keszletDb": 1,
-   "specs": [],
+   "specs": [
+    [
+     "Kialakítás",
+     "kézben tartható, érintőképernyős"
+    ],
+    [
+     "Kapcsolat",
+     "GPS, 4G"
+    ],
+    [
+     "Tápellátás",
+     "cserélhető, külön is tölthető akkumulátor"
+    ],
+    [
+     "Nyomtató",
+     "57 mm-es"
+    ],
+    [
+     "Felhasználás",
+     "taxi, mozgóárusítás, változó telephely"
+    ],
+    [
+     "Kasszafiók",
+     "opcionális"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
    "garancia": "1 év",
-   "illusztracio": true
+   "illusztracio": false
   },
   {
    "id": "hasznalt-penztargep",
@@ -498,7 +644,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek. A pontos kínálatért hívjon minket. Használt pénztárgépet csak szakszerviz bevonásával vásároljon!",
+   "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek. A pontos kínálatért hívjon minket. Használt pénztárgépet csak szakszerviz bevonásával vásároljon! Használt pénztárgépet csak szakszerviz bevonásával szabad üzembe helyezni – érdeklődjön üzletünkben vagy telefonon: +36 72 215 652.",
    "jellemzok": [
     "Szervizben bevizsgálva",
     "Átszemélyesítve",
@@ -516,31 +662,120 @@
    "illusztracio": true
   },
   {
-   "id": "imin-pos",
    "kategoria": "pos",
    "marka": "iMin",
-   "nev": "Érintőképernyős POS terminál",
-   "alcim": "Android kassza boltba, étterembe",
-   "ar": null,
-   "arTol": false,
    "akciosAr": null,
-   "keszlet": "rendelesre",
+   "arTol": false,
    "kiemelt": true,
    "engedely": "",
    "modell": "pos",
-   "leiras": "Modern érintőképernyős POS terminál beépített nyugtanyomtatóval. Szoftverrel, beállítva, betanítva adjuk át.",
-   "jellemzok": [
-    "Érintőképernyő",
-    "Beépített nyomtató",
-    "Szoftverrel együtt"
-   ],
-   "kepek": [],
-   "spin": [],
-   "keszletDb": 3,
-   "specs": [],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "id": "imin-15-pos",
+   "nev": "15,6\" Android POS terminál",
+   "alcim": "Nagy érintőképernyő állvánnyal, NTAK vendéglátó szoftverekhez",
+   "ar": 129900,
+   "keszletDb": 1,
+   "keszlet": "raktaron",
+   "kepek": [
+    "kepek/termekek/imin-15-1.webp",
+    "kepek/termekek/imin-pult.webp"
+   ],
+   "leiras": "15,6 colos (39,7 cm) Android POS terminál állvánnyal, NTAK vendéglátó szoftverekhez. Meglévő pénztárgéphez is csatlakoztatható. Üzletünkben előzetes bejelentkezés nélkül megtekinthető és kipróbálható, nyitvatartási időben. Igény esetén megrendelést felveszünk.",
+   "jellemzok": [
+    "15,6\" Full HD érintőképernyő",
+    "Android 11",
+    "NTAK vendéglátó szoftverekhez",
+    "Meglévő pénztárgéphez is csatlakoztatható",
+    "Üzletünkben kipróbálható"
+   ],
+   "specs": [
+    [
+     "Modell",
+     "iMin D3-504 (a régi weboldalon SWAN2 néven)"
+    ],
+    [
+     "Kijelző",
+     "15,6\" (39,7 cm), 1920 × 1080, kapacitív többérintéses"
+    ],
+    [
+     "Rendszer",
+     "Android 11"
+    ],
+    [
+     "Processzor",
+     "4 magos ARM Cortex-A55, 2 GHz"
+    ],
+    [
+     "Memória",
+     "2 GB RAM, 16 GB tárhely"
+    ],
+    [
+     "Csatlakozók",
+     "4 × USB-A, 1 × micro USB, RJ11, RJ12, RJ45, audio"
+    ],
+    [
+     "Vezeték nélküli",
+     "Wi-Fi 2,4/5 GHz, Bluetooth"
+    ],
+    [
+     "Méret",
+     "382 × 232 × 412 mm"
+    ]
+   ]
+  },
+  {
+   "kategoria": "pos",
+   "marka": "iMin",
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "pos",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "id": "imin-d2",
+   "nev": "D2 10,1\" Android POS terminál",
+   "alcim": "Kompakt érintőképernyős terminál állvánnyal, NTAK vendéglátó szoftverekhez",
+   "ar": 92900,
+   "keszletDb": 2,
+   "keszlet": "raktaron",
+   "kepek": [
+    "kepek/termekek/imin-d2-1.webp",
+    "kepek/termekek/imin-pult.webp"
+   ],
+   "leiras": "10,1 colos (25,7 cm) iMin D2 Android POS terminál állvánnyal, NTAK vendéglátó szoftverekhez. Meglévő pénztárgéphez is csatlakoztatható. Üzletünkben előzetes bejelentkezés nélkül megtekinthető és kipróbálható, nyitvatartási időben. Igény esetén megrendelést felveszünk.",
+   "jellemzok": [
+    "10,1\" érintőképernyő",
+    "Android 11",
+    "NTAK vendéglátó szoftverekhez",
+    "Meglévő pénztárgéphez is csatlakoztatható",
+    "Üzletünkben kipróbálható"
+   ],
+   "specs": [
+    [
+     "Modell",
+     "iMin D2"
+    ],
+    [
+     "Kijelző",
+     "10,1\" (25,7 cm), kapacitív többérintéses"
+    ],
+    [
+     "Rendszer",
+     "Android 11"
+    ],
+    [
+     "Méret",
+     "292 × 154 × 250 mm"
+    ]
+   ]
   },
   {
    "id": "blokknyomtato",
@@ -586,13 +821,37 @@
     "Lézeres",
     "Kézi"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/argox-as-8060-1.webp"
+   ],
    "spin": [],
    "keszletDb": 3,
-   "specs": [],
+   "specs": [
+    [
+     "Technológia",
+     "1D lézer"
+    ],
+    [
+     "Csatlakozás",
+     "USB"
+    ],
+    [
+     "Védelem",
+     "IP42, 1,5 méterig ütésálló"
+    ],
+    [
+     "Kivitel",
+     "fekete, állvánnyal"
+    ],
+    [
+     "Olvasási távolság",
+     "0–330 mm"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "polpos-ps-200",
@@ -613,13 +872,37 @@
     "QR-kód",
     "USB"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/polpos-ps-200-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Technológia",
+     "1D és 2D (QR) CMOS kamerás"
+    ],
+    [
+     "Csatlakozás",
+     "USB"
+    ],
+    [
+     "Kivitel",
+     "állvánnyal együtt"
+    ],
+    [
+     "Védelem",
+     "IP54"
+    ],
+    [
+     "Olvasási távolság",
+     "60–360 mm"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "cwy-1",
@@ -634,18 +917,43 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Kulccsal zárható kasszafiók bankjegy- és érmetartóval, pénztárgéphez köthető.",
+   "leiras": "Kulccsal nyitható és zárható fém kasszafiók 4 bankjegy- és 8 érmetartóval, fekete vagy fehér színben, 330 × 370 × 100 mm. Pénztárgéphez és POS rendszerhez.",
    "jellemzok": [
     "Kulccsal zárható",
     "Pénztárgéphez köthető"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cwy-1-1.webp",
+    "kepek/termekek/cwy-1-2.webp"
+   ],
    "spin": [],
    "keszletDb": 3,
-   "specs": [],
+   "specs": [
+    [
+     "Rekeszek",
+     "4 bankjegy- és 8 érmetartó"
+    ],
+    [
+     "Zár",
+     "kulccsal nyitható és zárható"
+    ],
+    [
+     "Méret",
+     "330 × 370 × 100 mm"
+    ],
+    [
+     "Szín",
+     "fekete vagy fehér"
+    ],
+    [
+     "Szerkezet",
+     "fém"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "sam4s-durable",
@@ -660,18 +968,42 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Erős fém kasszafiók napi intenzív használatra.",
+   "leiras": "Erős fém kasszafiók napi intenzív használatra: 4 bankjegy- és 8 érmetartó, nagy címlet bedobónyílás, kulccsal zárható, 400 × 450 × 100 mm.",
    "jellemzok": [
     "Fém kivitel",
     "Kulccsal zárható"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/sam4s-durable-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Rekeszek",
+     "4 bankjegy- és 8 érmetartó"
+    ],
+    [
+     "Bedobó",
+     "1 nagy címlet bedobónyílás"
+    ],
+    [
+     "Méret",
+     "400 × 450 × 100 mm"
+    ],
+    [
+     "Zár",
+     "kulccsal zárható"
+    ],
+    [
+     "Szerkezet",
+     "erős fém"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év, +2 évvel bővíthető"
+   "garancia": "1 év, +2 évvel bővíthető",
+   "illusztracio": false
   },
   {
    "id": "cd-4141",
@@ -686,18 +1018,46 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Nagyobb méretű kasszafiók több rekesszel, forgalmas üzletekbe.",
+   "leiras": "Nagyobb méretű fém kasszafiók forgalmas üzletekbe: 4 bankjegy- és 8 érmetartó, nagy címlet bedobónyílás, kulccsal nyitható és zárható, 400 × 450 × 100 mm, fekete vagy fehér.",
    "jellemzok": [
     "Több rekesz",
     "Kulccsal zárható"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cd-4141-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Rekeszek",
+     "4 bankjegy- és 8 érmetartó"
+    ],
+    [
+     "Bedobó",
+     "1 nagy címlet bedobónyílás"
+    ],
+    [
+     "Méret",
+     "400 × 450 × 100 mm"
+    ],
+    [
+     "Zár",
+     "kulccsal nyitható és zárható"
+    ],
+    [
+     "Szerkezet",
+     "erős fém"
+    ],
+    [
+     "Szín",
+     "fekete vagy fehér"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "acs-a-an",
@@ -712,20 +1072,44 @@
    "kiemelt": true,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Hordozható, digitális, árszorzós és memóriás bolti mérleg 15 vagy 30 kg méréshatárral, hitelesítve.",
+   "leiras": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral, levehető acéltálcával és beépített akkumulátorral. Hitelesítés díja: 15 kg-os 4 000 Ft + ÁFA, 30 kg-os 7 000 Ft + ÁFA.",
    "jellemzok": [
     "15 vagy 30 kg",
     "Hitelesítve",
     "Árszorzó, memória",
     "Akkumulátoros"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/acs-a-an-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Méréshatár",
+     "15 vagy 30 kg"
+    ],
+    [
+     "Pontosság",
+     "5 g / 10 g"
+    ],
+    [
+     "Tálca",
+     "levehető acéltálca"
+    ],
+    [
+     "Tápellátás",
+     "beépített akkumulátor"
+    ],
+    [
+     "Hitelesítés díja",
+     "15 kg: 4 000 Ft + ÁFA, 30 kg: 7 000 Ft + ÁFA"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "cas-er-plus",
@@ -746,13 +1130,45 @@
     "Árszorzó",
     "Kétoldali kijelző"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cas-er-plus-1.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
-   "specs": [],
+   "specs": [
+    [
+     "Méréshatár",
+     "15 kg"
+    ],
+    [
+     "Pontosság",
+     "2 g / 5 g"
+    ],
+    [
+     "Tápellátás",
+     "belső akkumulátorról is működik, adapterrel"
+    ],
+    [
+     "Tálca",
+     "levehető acéltálca"
+    ],
+    [
+     "Méret",
+     "305 × 350 × 419 mm"
+    ],
+    [
+     "Kijelző",
+     "jól olvasható LCD"
+    ],
+    [
+     "Hitelesítés",
+     "hitelesítve (benne van az árban)"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "rongta-rls1000",
@@ -773,13 +1189,49 @@
     "Vonalkódos címke",
     "Rendszerbe köthető"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/rongta-rls1000-1.webp"
+   ],
    "spin": [],
    "keszletDb": 1,
-   "specs": [],
+   "specs": [
+    [
+     "Méréshatár",
+     "15 kg (6/15 kg)"
+    ],
+    [
+     "Pontosság",
+     "2 g / 5 g"
+    ],
+    [
+     "Címkeszélesség",
+     "30–60 mm"
+    ],
+    [
+     "PLU",
+     "10 000"
+    ],
+    [
+     "Gombok",
+     "2 × 112 direkt érintőgomb"
+    ],
+    [
+     "Kapcsolat",
+     "LAN, POS rendszerbe köthető"
+    ],
+    [
+     "Méret",
+     "372 × 523 × 437 mm"
+    ],
+    [
+     "Egyéb",
+     "menedzselhető, hitelesítve"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "open-s14",
@@ -799,13 +1251,29 @@
     "Kétsoros",
     "Strapabíró"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/open-s14-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Sorok",
+     "2 sor, 8 + 8 karakter"
+    ],
+    [
+     "Beállítható",
+     "pénznem (Ft, euró, $) és mértékegység (db, m, m², g, kg, ml, l), dátum"
+    ],
+    [
+     "Kellékek",
+     "árazócímke, festékhenger kapható"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "sky-ketsoros",
@@ -824,39 +1292,59 @@
    "jellemzok": [
     "Kétsoros"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/sky-ketsoros-1.webp"
+   ],
    "spin": [],
    "keszletDb": 2,
-   "specs": [],
+   "specs": [
+    [
+     "Sorok",
+     "2 sor"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "cp2200",
    "kategoria": "arazo",
    "marka": "",
    "nev": "CP2200 ruhaárazó szálbelövő",
-   "alcim": "Ruházati és textilüzletekbe",
-   "ar": 2500,
+   "alcim": "Ruhaárazó szálbelövő pisztoly",
+   "ar": null,
    "arTol": false,
    "akciosAr": null,
    "keszlet": "raktaron",
    "kiemelt": false,
    "engedely": "",
    "modell": "arazo",
-   "leiras": "Szálbelövő pisztoly árcédulák rögzítéséhez ruhákon, textíliákon.",
+   "leiras": "Ruhaárazó szálbelövő pisztoly árcédulák rögzítéséhez ruhákon, textíliákon. Szálbelövő tű és belövőszál több méretben és fajtában kapható.",
    "jellemzok": [
     "Ruhaárazó",
     "Szálbelövő"
    ],
-   "kepek": [],
+   "kepek": [
+    "kepek/termekek/cp2200-1.webp"
+   ],
    "spin": [],
    "keszletDb": 4,
-   "specs": [],
+   "specs": [
+    [
+     "Típus",
+     "ruhaárazó szálbelövő pisztoly"
+    ],
+    [
+     "Kellék",
+     "belövőszál és tű több méretben és fajtában"
+    ]
+   ],
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év"
+   "garancia": "1 év",
+   "illusztracio": false
   },
   {
    "id": "szamitogep",
@@ -962,6 +1450,42 @@
    "letoltesek": [],
    "video": "",
    "garancia": "1 év"
+  },
+  {
+   "kategoria": "kellek",
+   "marka": "",
+   "akciosAr": null,
+   "arTol": false,
+   "kiemelt": false,
+   "engedely": "",
+   "modell": "papir",
+   "letoltesek": [],
+   "video": "",
+   "garancia": "1 év",
+   "spin": [],
+   "illusztracio": false,
+   "id": "belovoszal-5000",
+   "nev": "Belövőszál 5000 db",
+   "alcim": "Ruhaárazó szálbelövőhöz",
+   "ar": 2500,
+   "keszletDb": null,
+   "keszlet": "rendelesre",
+   "kepek": [],
+   "leiras": "5000 db-os belövőszál csomag ruhaárazó szálbelövő pisztolyhoz. Szálbelövő tű és belövőszál több méretben és fajtában kapható.",
+   "jellemzok": [
+    "5000 db / csomag",
+    "Több méretben és fajtában"
+   ],
+   "specs": [
+    [
+     "Kiszerelés",
+     "5000 db"
+    ],
+    [
+     "Használható",
+     "ruhaárazó szálbelövőhöz (pl. CP2200)"
+    ]
+   ]
   }
  ],
  "services": [
