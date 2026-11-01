@@ -175,6 +175,29 @@
     "kep": ""
    },
    "listaCim": "Kellékanyagok"
+  },
+  {
+   "id": "hasznalt",
+   "nev": "Használt termékek",
+   "ikon": "rot",
+   "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek és eszközök, az aktuális készlet függvényében. Az elérhető típusokról és állapotukról telefonon vagy üzletünkben érdeklődhet.",
+   "gyik": [
+    [
+     "Van garancia a használt gépekre?",
+     "Igen, a használt készülékekre is vállalunk garanciát; az időtartamot a terméknél tüntetjük fel."
+    ],
+    [
+     "Üzembe helyezhető a használt pénztárgép?",
+     "Igen, átszemélyesítés és szakszervizi bevizsgálás után. Az üzembe helyezést és a NAV-bejelentést mi intézzük."
+    ]
+   ],
+   "banner": {
+    "cim1": "Használt",
+    "cim2": "termékek",
+    "szoveg": "Szervizünkben bevizsgált, átszemélyesített készülékek garanciával, kedvezőbb áron.",
+    "kep": ""
+   },
+   "listaCim": "Használt termékeink"
   }
  ],
  "products": [
@@ -742,7 +765,7 @@
   },
   {
    "id": "hasznalt-penztargep",
-   "kategoria": "penztargep",
+   "kategoria": "hasznalt",
    "marka": "Totál",
    "nev": "Használt pénztárgép",
    "alcim": "Átszemélyesítve, bevizsgálva, garanciával",
@@ -768,7 +791,9 @@
    "letoltesek": [],
    "video": "",
    "garancia": "6 hónap",
-   "illusztracio": true
+   "illusztracio": true,
+   "eredetiKat": "penztargep",
+   "hasznalt": true
   },
   {
    "akciosAr": null,

@@ -992,6 +992,11 @@ body:has(.adm2) .svcband,body:has(.adm2) footer.slim{display:none}
 .pc2f{grid-template-columns:1fr 1fr!important}.pc2f .fld:last-child{grid-column:1/-1}
 .pgrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
 @media (min-width:901px){.pc2f .fld:last-child{grid-column:auto}.pc2f{grid-template-columns:1fr 1fr 1fr!important}.pgrid{grid-template-columns:repeat(auto-fill,minmax(400px,1fr))}}
+
+.tag.hsz{background:linear-gradient(180deg,#6d5aa8,#4b3b80);color:#fff}
+.bdg.used{background:#efeafb;color:#4b3b80;border-color:#d9cff3}
+.trow .sort + .sort{margin-left:4px}
+@media (max-width:900px){.trow{flex-wrap:wrap}.trow .sort{flex:1 1 auto}.trow .sort select{min-width:0;width:100%}}
 </style>
 </head>
 <body>
@@ -1060,7 +1065,7 @@ body:has(.adm2) .svcband,body:has(.adm2) footer.slim{display:none}
 const SEED = JSON.parse(document.getElementById('seed').textContent);
 let DB = null, MODE = 'preview';
 const ADMIN = {in:false, csrf:null, dirty:false, tab:'attekintes', edit:null, needsSetup:false};
-const F = {q:'', sort:'nev'};
+const F = {q:'', sort:'nev', cond:'all'};
 const LS = { get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}} };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ft = n => Math.round(n).toLocaleString('hu-HU').replace(/ /g,' ') + ' Ft';
@@ -1329,7 +1334,7 @@ const titleHTML = p => { const c=cat(p.kategoria); const suf = p.kategoria==='pe
 function pcardHTML(p, sel, i=0){
   const ph=(p.kepek||[])[0], a=avail(p), href=`#kat-${esc(p.kategoria)}/${esc(p.id)}`;
   return `<article class="pcard reveal ${sel?'sel':''}" data-pick="${esc(p.id)}" style="animation-delay:${Math.min(i,10)*40}ms">
-    ${a===1?'<span class="tag red ptag ulast">Utolsó db</span>':(a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':''))}
+    ${a===1?'<span class="tag red ptag ulast">Utolsó db</span>':(a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':(p.kategoria==='hasznalt'?'<span class="tag ptag hsz">Használt</span>':'')))}
     <a class="pimg" href="${href}" aria-label="${esc(fullName(p))}">${ph?`<img src="${esc(ph)}" alt="${esc(fullName(p))}" loading="lazy">`:miniModel(p)}</a>
     <h3>${esc(nb(fullName(p).replace(/^Sam4s/,'SAM4S')))}</h3><p>${esc(p.alcim)}</p>
     <a class="btn sm pbtn ${sel?'gold':'line'}" href="${href}">Részletek ${icon('chev','ic','width:14px;height:14px')}</a></article>`;
@@ -1374,7 +1379,7 @@ function catSection(c, selId, first){
   const items=catItems(c.id); if(!items.length) return '';
   const sel=pickSel(items,selId);
   return `<section class="catsec" id="sec-${esc(c.id)}" data-cat="${esc(c.id)}" aria-label="${esc(c.nev)}">
-    <div class="trow"><h2>${icon(c.ikon)}${esc(c.listaCim||c.nev)} <small class="num">(${items.length} termék)</small></h2>${first?`<label class="sort">Rendezés: <select class="i" id="csort">${SORTS.map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label>`:''}</div>
+    <div class="trow"><h2>${icon(c.ikon)}${esc(c.listaCim||c.nev)} <small class="num">(${items.length} termék)</small></h2>${first?`<label class="sort">Rendezés: <select class="i" id="csort">${SORTS.map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label><label class="sort">Állapot: <select class="i" id="ccond">${[['all','Új és használt'],['uj','Csak új'],['hasznalt','Csak használt']].map(([k,v])=>`<option value="${k}" ${F.cond===k?'selected':''}>${v}</option>`).join('')}</select></label>`:''}</div>
     <div class="carwrap"><button class="cararrow l" type="button" aria-label="Előző termékek">${icon('left','ic','width:16px;height:16px')}</button><div class="pcards">${items.map((p,i)=>pcardHTML(p,p===sel,i)).join('')}</div><button class="cararrow r" type="button" aria-label="Következő termékek">${icon('chev','ic','width:16px;height:16px')}</button><div class="carnav"></div></div>
     <div class="detail" id="detail-${esc(c.id)}" aria-label="Kiválasztott termék: ${esc(c.nev)}">${detailHTML(sel)}</div>
   </section>`;
@@ -1383,7 +1388,7 @@ function pageCategory(catId, selId){
   const c=catId?cat(catId):cat('penztargep');
   const b=c?.banner||{cim1:'Termék',cim2:'kínálatunk',szoveg:''};
   const bimg = b.kep ? `<img class="bimg" src="${esc(b.kep)}" alt="">` : `<div class="bimg icon">${icon(c?.ikon||'register','ic','width:150px;height:150px;stroke-width:1.1')}</div>`;
-  const cats=DB.categories.filter(x=>catItems(x.id).length);
+  const cats=DB.categories.filter(x=>catItems(x.id).length&&(F.cond==='all'||(F.cond==='hasznalt')===(x.id==='hasznalt')));
   return `<section class="banner"><div class="wrap"><div class="bt"><div><h1>${esc(b.cim1)} <em>${esc(b.cim2)}</em></h1><p>${esc(b.szoveg)}</p></div></div>${bimg}
     <ul><li>${SVG('shield')}Hivatalos forgalmazó</li><li>${SVG('tools')}Szerviz és támogatás</li><li>${GEAR}Üzembe helyezés</li></ul></div></section>
   <nav class="catbar" id="catbar" aria-label="Termékcsoportok"><div class="wrap"><div class="cb-in">${cats.map(x=>`<a class="cbi" href="#kat-${esc(x.id)}" data-cbi="${esc(x.id)}">${icon(x.ikon)}<span>${esc(x.nev)}</span><small class="num">${catItems(x.id).length}</small></a>`).join('')}</div></div></nav>
@@ -1459,7 +1464,8 @@ function bindCategory(catId, selId){
     $('.cararrow.r',sec).onclick=()=>pc.scrollBy({left:pc.clientWidth,behavior:'smooth'});
     const cs=$$('.pcard',pc), si=cs.findIndex(c=>c.classList.contains('sel')); if(si>0&&pc.scrollWidth>pc.clientWidth){ const per=Math.max(1,Math.round(pc.clientWidth/cs[0].offsetWidth)); pc.scrollLeft=cs[Math.floor(si/per)*per].offsetLeft-cs[0].offsetLeft; }
   });
-  $('#csort')?.addEventListener('change',e=>{ F.sort=e.target.value; LS.set('ptg-sort',F.sort); const y=scrollY; route(); scrollTo(0,y); });
+  $('#csort')?.addEventListener('change',e=>{ F.sort=e.target.value; LS.set('ptg-sort',F.sort); const y=scrollY; $('#app').dataset.view=''; route(); scrollTo(0,y); });
+  $('#ccond')?.addEventListener('change',e=>{ F.cond=e.target.value; LS.set('ptg-cond',F.cond); history.replaceState(null,'',F.cond==='hasznalt'?'#kat-hasznalt':'#termekek'); $('#app').dataset.view=''; route().then(()=>scrollTo({top:0})); });
   $$('.pcard').forEach(c=>c.addEventListener('click',e=>{ if(e.target.closest('a')) return; location.hash=`#kat-${prod(c.dataset.pick).kategoria}/${c.dataset.pick}`; }));
   $$('.cbi').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#kat-'+a.dataset.cbi); goCat(a.dataset.cbi); }));
   // görgetéskor: melyik csoportnál tartunk
@@ -1848,13 +1854,13 @@ function admProducts(){
   <p class="hint2">${icon('tag')}<span>Az árak <b>nettó</b> forintban értendők; üresen hagyva „ár kérésre”. Üres készlet = rendelésre. A változások a lenti <b>Mentés</b> gombbal kerülnek ki az oldalra.</span></p>
   <div class="pgrid" id="pgrid">${DB.products.map(p=>{ const vis=(!pc||p.kategoria===pc)&&pmatch(p,PF)&&(!q||(fullName(p)+' '+(p.alcim||'')).toLowerCase().includes(q)); const img=(p.kepek||[])[0];
     return `<article class="pc2 ${p.rejtett?'off':''}" data-cat="${esc(p.kategoria)}" data-id="${esc(p.id)}" ${vis?'':'hidden'}>
-      <div class="pc2h"><span class="pth">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:icon('photo')}</span><div class="pnm"><b>${esc(fullName(p))}</b><small>${esc(cat(p.kategoria)?.nev||'')} · ${p.illusztracio?'illusztráció':(p.kepek||[]).length+' fotó'}${framesOf(p).length?' · 360°':''}</small><span class="pst">${stockBadge(p)}${p.kiemelt?'<em class="bdg feat">Kiemelt</em>':''}${p.rejtett?'<em class="bdg hid">Rejtett</em>':''}</span></div></div>
+      <div class="pc2h"><span class="pth">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:icon('photo')}</span><div class="pnm"><b>${esc(fullName(p))}</b><small>${esc(cat(p.kategoria)?.nev||'')} · ${p.illusztracio?'illusztráció':(p.kepek||[]).length+' fotó'}${framesOf(p).length?' · 360°':''}</small><span class="pst">${stockBadge(p)}${p.kiemelt?'<em class="bdg feat">Kiemelt</em>':''}${p.rejtett?'<em class="bdg hid">Rejtett</em>':''}${p.kategoria==='hasznalt'?'<em class="bdg used">Használt</em>':''}</span></div></div>
       <div class="pc2f">
         <label class="fld"><span>Ár (nettó)</span><span class="inw"><input class="i num" data-f="ar" data-id="${esc(p.id)}" id="ar-${esc(p.id)}" inputmode="numeric" value="${p.ar??''}" placeholder="kérésre"><i>Ft</i></span></label>
         <label class="fld"><span>Akciós ár</span><span class="inw"><input class="i num" data-f="akciosAr" data-id="${esc(p.id)}" id="ak-${esc(p.id)}" inputmode="numeric" value="${p.akciosAr??''}" placeholder="nincs"><i>Ft</i></span></label>
         <div class="fld"><span>Készlet</span><span class="step"><button type="button" data-step="-1" data-sid="${esc(p.id)}" aria-label="Kevesebb">${icon('minus')}</button><input class="i num" data-f="keszletDb" data-id="${esc(p.id)}" id="kd-${esc(p.id)}" inputmode="numeric" value="${p.keszletDb??''}" placeholder="rend." aria-label="Készlet darab"><button type="button" data-step="1" data-sid="${esc(p.id)}" aria-label="Több">${icon('plus')}</button></span></div>
       </div>
-      <div class="pc2s"><label class="sw"><input type="checkbox" data-f="kiemelt" data-id="${esc(p.id)}" id="km-${esc(p.id)}" ${p.kiemelt?'checked':''}><i></i><span>Kiemelt</span></label><label class="sw"><input type="checkbox" data-f="lathato" data-id="${esc(p.id)}" id="lt-${esc(p.id)}" ${p.rejtett?'':'checked'}><i></i><span>Látható</span></label>
+      <div class="pc2s"><label class="sw"><input type="checkbox" data-f="kiemelt" data-id="${esc(p.id)}" id="km-${esc(p.id)}" ${p.kiemelt?'checked':''}><i></i><span>Kiemelt</span></label><label class="sw"><input type="checkbox" data-f="lathato" data-id="${esc(p.id)}" id="lt-${esc(p.id)}" ${p.rejtett?'':'checked'}><i></i><span>Látható</span></label><label class="sw"><input type="checkbox" data-f="hasznalt" data-id="${esc(p.id)}" id="hu-${esc(p.id)}" ${p.kategoria==='hasznalt'?'checked':''}><i></i><span>Használt</span></label>
         <button class="btn navy sm" type="button" data-edit="${esc(p.id)}">${icon('edit')} Szerkesztés</button></div></article>`; }).join('')}</div>
   <p class="muted pempty" id="pempty" hidden>Nincs a szűrésnek megfelelő termék.</p>
   <div id="editorwrap">${ADMIN.edit?editorHTML(prod(ADMIN.edit)):''}</div>`; }
@@ -1990,10 +1996,11 @@ function bindAdmin(){
   $$('.chips [data-pf]').forEach(x=>x.onclick=()=>{ ADMIN.pf=x.dataset.pf; $$('.chips [data-pf]').forEach(y=>y.classList.toggle('on',y===x)); filterProducts(); });
   $('#pq')?.addEventListener('input',e=>{ ADMIN.pq=e.target.value; filterProducts(); });
   $$('[data-step]').forEach(x=>x.onclick=()=>{ const inp=$('#kd-'+CSS.escape(x.dataset.sid)); const v=numOrNull(inp.value); inp.value=Math.max(0,(v??0)+(+x.dataset.step)); inp.dispatchEvent(new Event('input')); });
-  $$('.pc2 [data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>setTimeout(()=>{ const p=prod(inp.dataset.id), el=inp.closest('.pc2'); el.classList.toggle('off',!!p.rejtett); el.querySelector('.pst').innerHTML=stockBadge(p)+(p.kiemelt?'<em class="bdg feat">Kiemelt</em>':'')+(p.rejtett?'<em class="bdg hid">Rejtett</em>':''); el.classList.add('chg'); })));
+  $$('.pc2 [data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>setTimeout(()=>{ const p=prod(inp.dataset.id), el=inp.closest('.pc2'); el.classList.toggle('off',!!p.rejtett); el.querySelector('.pst').innerHTML=stockBadge(p)+(p.kiemelt?'<em class="bdg feat">Kiemelt</em>':'')+(p.rejtett?'<em class="bdg hid">Rejtett</em>':'')+(p.kategoria==='hasznalt'?'<em class="bdg used">Használt</em>':''); el.classList.add('chg'); })));
   if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers(); if(ADMIN.tab==='ugyfelek') admClients();
   $$('[data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{ const p=prod(inp.dataset.id), f=inp.dataset.f;
-    if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
+    if(f==='hasznalt'){ if(inp.checked){ if(p.kategoria!=='hasznalt') p.eredetiKat=p.kategoria; p.kategoria='hasznalt'; p.hasznalt=true; } else { p.kategoria=(p.eredetiKat&&p.eredetiKat!=='hasznalt')?p.eredetiKat:'penztargep'; p.hasznalt=false; } const el=inp.closest('.pc2'); if(el){ el.dataset.cat=p.kategoria; const sm=el.querySelector('.pnm small'); if(sm) sm.firstChild.textContent=(cat(p.kategoria)?.nev||'')+' · '; } }
+    else if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
   $$('[data-edit]').forEach(b=>b.onclick=()=>{ ADMIN.edit=b.dataset.edit; $('#editorwrap').innerHTML=editorHTML(prod(ADMIN.edit)); bindEditor(); });
   $('#newp')?.addEventListener('click',()=>{ const id='uj-'+Date.now().toString(36); DB.products.unshift({id,kategoria:ADMIN.pc||'penztargep',marka:'',nev:'Új termék',alcim:'',ar:null,arTol:false,akciosAr:null,keszlet:'rendelesre',keszletDb:null,kiemelt:false,engedely:'',modell:'kompakt',leiras:'',jellemzok:[],specs:[],letoltesek:[],video:'',garancia:'1 év',kepek:[],spin:[],rejtett:true}); ADMIN.edit=id; markDirty(); renderAdmin(); });
   if(ADMIN.edit) bindEditor();
@@ -2254,7 +2261,7 @@ document.addEventListener('click',e=>{ if(!e.target.closest('#dd')){ $('#dd').cl
 $('#cartbtn').onclick=openDrawer; $('#mcart').onclick=openDrawer;
 window.addEventListener('hashchange',route);
 window.addEventListener('resize',()=>fitMinis());
-F.sort=LS.get('ptg-sort','nev');
+F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
 (async()=>{ await load(); saveCart(); fillChrome(); route(); })();
 </script>
 </body>

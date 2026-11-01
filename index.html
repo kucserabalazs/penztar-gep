@@ -620,6 +620,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .tl div.key{display:grid!important;height:auto!important;min-width:0!important;padding:14px 18px!important;place-items:stretch;font:inherit;letter-spacing:normal;color:inherit;border-radius:14px;user-select:auto;border:1px solid rgba(244,213,141,.5)!important;transform:none!important}
 .tl div.key::after{display:none}
 .tl div.key:hover{transform:none!important}
+.fp .im .tg.used{background:linear-gradient(180deg,#7b68b8,#4b3b80)!important;box-shadow:0 4px 10px rgba(75,59,128,.4)!important}
 </style>
 </head>
 <body>
@@ -723,6 +724,13 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 
 
+<section class="sec white" id="hasznalt" hidden>
+  <div class="wrap">
+    <div class="shead rv"><div><span class="eye">Használt termékek</span><h2 class="sh2">Bevizsgált <em>használt gépek</em></h2><p class="slead">Szervizünkben bevizsgált, átszemélyesített készülékek garanciával, kedvezőbb áron. Az aktuális kínálatról telefonon is érdeklődhet.</p></div><a class="hb line" href="webaruhaz/#kat-hasznalt">Összes használt <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div>
+    <div class="feat" id="usedlist"></div>
+  </div>
+</section>
+
 <section class="sec white" id="kapcsolat">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Szaküzletünk és szervizünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is érdeklődhet, és az üzlet előtt ingyenesen parkolhat.</p></div></div>
@@ -808,7 +816,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
       <a class="fopen" href="#kapcsolat" data-open2><i></i><span>Nyitvatartás</span></a>
     </div>
     <nav aria-label="Termékek"><h4>Termékek</h4><ul>
-      <li><a href="webaruhaz/#kat-penztargep">Pénztárgépek</a></li><li><a href="webaruhaz/#kat-pos">POS terminálok</a></li><li><a href="webaruhaz/#kat-fiok">Kasszafiókok</a></li><li><a href="webaruhaz/#kat-merleg">Mérlegek</a></li><li><a href="webaruhaz/#kat-arazo">Árazógépek</a></li><li><a href="webaruhaz/#kat-irodatechnika">Számítástechnika</a></li><li><a href="webaruhaz/#kat-kellek">Kellékanyagok</a></li></ul></nav>
+      <li><a href="webaruhaz/#kat-penztargep">Pénztárgépek</a></li><li><a href="webaruhaz/#kat-pos">POS terminálok</a></li><li><a href="webaruhaz/#kat-fiok">Kasszafiókok</a></li><li><a href="webaruhaz/#kat-merleg">Mérlegek</a></li><li><a href="webaruhaz/#kat-arazo">Árazógépek</a></li><li><a href="webaruhaz/#kat-irodatechnika">Számítástechnika</a></li><li><a href="webaruhaz/#kat-kellek">Kellékanyagok</a></li><li><a href="webaruhaz/#kat-hasznalt">Használt termékek</a></li></ul></nav>
     <nav aria-label="Szolgáltatások"><h4>Szolgáltatások</h4><ul>
       <li><a href="webaruhaz/#szerviz">Szerviz bejelentés</a></li><li><a href="webaruhaz/#szerviz">Éves felülvizsgálat</a></li><li><a href="#vasarlas">Üzembe helyezés</a></li><li><a href="webaruhaz/#e-penztargep">E-pénztárgépes tájékoztatás</a></li><li><a href="webaruhaz/#szerviz">Számítógépjavítás</a></li></ul></nav>
     <nav aria-label="Információk"><h4>Információk</h4><ul>
@@ -891,12 +899,16 @@ function autoDrift(el,speed){
     if(Array.isArray(st.zarvaNapok)) CLOSED=st.zarvaNapok; render();
     if(st.nyitvatartas){ var fh=document.getElementById('fhours'); if(fh) fh.textContent=st.nyitvatartas; var cp=document.querySelector('.cream .cb p'); if(cp) cp.innerHTML='<b>Pécs, Hunyadi János utca 34.</b> · '+esc(st.nyitvatartas)+' · Ingyenes parkolás az üzlet előtt'; }
     var afa=1+((d.settings&&d.settings.afa)||27)/100;
-    var list=d.products.filter(function(p){return !p.rejtett && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
+    var list=d.products.filter(function(p){return !p.rejtett && p.kategoria!=='hasznalt' && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
     if(list.length<2) return;
     document.getElementById('featlist').innerHTML=list.map(function(p){ var a=p.keszletDb, pr=p.akciosAr||p.ar, img=p.kepek[0]; if(!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
       var st=a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last"><span class="ul-d">Utolsó darab</span><span class="ul-m">Raktáron · 1 db</span></span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>'));
       return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="'+esc(p.marka+' '+p.nev)+'" loading="lazy"></span><span class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</span></a>'; }).join('');
     document.querySelectorAll('.pk[data-ids]').forEach(function(c){ var ids=c.getAttribute('data-ids').split(','), m=null; d.products.forEach(function(p){ var v=p.akciosAr||p.ar; if(ids.indexOf(p.id)>=0 && v && !p.rejtett){ v=v*afa; if(m==null||v<m) m=v; } }); var el=c.querySelector('[data-min]'); if(el && m) el.textContent=ft(m)+'-TÓL'; });
+    var used=d.products.filter(function(p){return !p.rejtett && p.kategoria==='hasznalt';});
+    if(used.length){ document.getElementById('usedlist').innerHTML=used.map(function(p){ var pr=p.akciosAr||p.ar, img=(p.kepek||[])[0]||''; if(img&&!/^https?:|^\//.test(img)) img='webaruhaz/'+img; var a=p.keszletDb;
+      return '<a class="fp" href="webaruhaz/#kat-hasznalt/'+esc(p.id)+'"><span class="im"><span class="tg used">Használt</span>'+(img?'<img src="'+esc(img)+'" alt="'+esc(p.nev)+'">':'')+'</span><span class="bd"><h3>'+esc(p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?(p.arTol?'':'')+ft(pr*afa)+(p.arTol?'-tól':'')+' <small>bruttó</small>':'Ár kérésre')+'</span><span class="st">'+(a==null?'Rendelésre':(a>0?'Raktáron':'Elfogyott'))+(p.garancia?' · garancia: '+esc(p.garancia):'')+'</span></span></a>'; }).join('');
+      document.getElementById('hasznalt').hidden=false; autoDrift(document.getElementById('usedlist'),20); }
     document.getElementById('kiemelt').hidden=false; observe();
     autoDrift(document.getElementById('featlist'),20);
   }
