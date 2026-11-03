@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Installation and setup",
 "A készülék típusa alapján segítünk kiválasztani.": "We help you choose based on your device model.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "For everyday work: for cash registers, printers and price labellers.",
-"A pontos méret": "The exact size"
+"A pontos méret": "The exact size",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Monday–Friday {#}:{#}–{#}:{#}, closed Saturday–Sunday · Free parking in front of the shop",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Monday–Friday {#}:{#}–{#}:{#}, closed Saturday–Sunday). In this case you do not have to pay a delivery fee.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(Monday–Friday {#}:{#}–{#}:{#}, closed on Saturday and Sunday). We do not currently offer delivery. We will notify you by e-mail when your ordered product is ready for pickup.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · Monday–Friday {#}:{#}–{#}:{#}, closed on Saturday and Sunday",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "For a cash register, activation is irreversible, so we only activate machines that have been paid for. A machine programmed in the buyer's name can no longer be returned. With advance payment and an online-completed data sheet, the machine can be taken away immediately on pickup; if you pay in the shop, after {#}–{#} business days following programming. You can also fill in the data sheet in advance: the downloadable PDF can be completed and printed on a computer or phone.",
+"ár kérésre": "price on request",
+"Átutalással, díjbekérő alapján": "By bank transfer, based on a pro forma invoice",
+"Átvételkor, készpénzzel": "In cash on pickup",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "We will send the price of “price on request” items in the confirmation; the total may change accordingly.",
+"Személyesen, üzletünkben – díjmentes": "In person at our shop – free of charge",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "The order date is when your order reaches us. We send an automatic e-mail when it arrives; this does not yet mean the order has been accepted. After checking stock and price, our colleague confirms the order in a separate e-mail; the contract is concluded with this confirmation.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Thank you! We have received your order (reference:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Thank you! We have received your message (reference:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). We will contact you shortly.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "We have sent an automatic notification to:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "After checking stock and price, our colleague will confirm the order in a separate e-mail."
 }

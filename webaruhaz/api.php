@@ -595,7 +595,7 @@ switch ($a) {
     locked(function () use ($rec, $ORDERS) { $orders = read_json($ORDERS, []); array_unshift($orders, $rec); write_json($ORDERS, $orders); });
     if ($gw) out(['ok' => true, 'id' => $rec['id'], 'fizetes' => $gw]);   // az értesítők a sikeres fizetés után mennek ki
     mail_shop($rec, $kosar ? 'Új megrendelés a weboldalról' : 'Új ' . $rec['tipus'] . ' a weboldalról');
-    if ($kosar) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Az alábbi adatokkal rögzítettük.' . ($fizmod === 'atutalas' ? ' Hamarosan e-mailben küldjük a díjbekérőt.' : ''));
+    if ($kosar) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolással együtt küldjük.' : ''));
     out(['ok' => true, 'id' => $rec['id']]);
 
   case 'barion-callback':   // a Barion szól, ha egy fizetés állapota megváltozott
@@ -615,8 +615,17 @@ switch ($a) {
   case 'order-status':
     need_auth(); check_csrf();
     $b = body(); $orders = read_json($ORDERS, []);
-    foreach ($orders as &$o) if ($o['id'] === ($b['id'] ?? '')) $o['allapot'] = in_array($b['allapot'] ?? '', ['uj', 'folyamatban', 'kesz']) ? $b['allapot'] : $o['allapot'];
-    write_json($ORDERS, $orders); out(['ok' => true]);
+    $vissza = null;
+    foreach ($orders as &$o) if ($o['id'] === ($b['id'] ?? '')) {
+      $uj = in_array($b['allapot'] ?? '', ['uj', 'folyamatban', 'kesz']) ? $b['allapot'] : $o['allapot'];
+      // megrendelés visszaigazolása: az első "Visszaigazolva" állapotnál a vevő e-mailt kap (ezzel jön létre a szerződés)
+      if ($uj === 'folyamatban' && ($o['allapot'] ?? '') === 'uj' && !empty($o['tetelek']) && empty($o['visszaigazolva'])) { $o['visszaigazolva'] = date('c'); $vissza = $o; }
+      $o['allapot'] = $uj;
+    }
+    unset($o);
+    write_json($ORDERS, $orders);
+    if ($vissza) mail_customer($vissza, "Megrendelés visszaigazolása – {$vissza['id']}", 'Megrendelését visszaigazoljuk: az alábbi tételeket az Ön részére előkészítjük, a megrendelés ezzel elfogadásra került. Amikor a termék átvehető, e-mailben értesítjük.' . (($vissza['fizetes']['mod'] ?? '') === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt külön küldjük.' : ''));
+    out(['ok' => true, 'visszaigazolva' => $vissza ? $vissza['visszaigazolva'] : null]);
 
   default:
     out(['error' => 'Ismeretlen művelet.'], 404);

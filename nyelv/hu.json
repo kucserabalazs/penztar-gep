@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Telepítés és beállítás",
 "A készülék típusa alapján segítünk kiválasztani.": "A készülék típusa alapján segítünk kiválasztani.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.",
-"A pontos méret": "A pontos méret"
+"A pontos méret": "A pontos méret",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.",
+"ár kérésre": "ár kérésre",
+"Átutalással, díjbekérő alapján": "Átutalással, díjbekérő alapján",
+"Átvételkor, készpénzzel": "Átvételkor, készpénzzel",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.",
+"Személyesen, üzletünkben – díjmentes": "Személyesen, üzletünkben – díjmentes",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Köszönjük! Megkaptuk a megrendelését (azonosító:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Köszönjük! Megkaptuk az üzenetét (azonosító:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). Hamarosan felvesszük Önnel a kapcsolatot.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "Erről automatikus értesítést küldtünk ide:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza."
 }

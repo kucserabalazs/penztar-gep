@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Instalacja i konfiguracja",
 "A készülék típusa alapján segítünk kiválasztani.": "Pomożemy wybrać na podstawie typu urządzenia.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "Do codziennej pracy: do kas, drukarek i metkownic.",
-"A pontos méret": "Dokładny rozmiar"
+"A pontos méret": "Dokładny rozmiar",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Poniedziałek–piątek {#}:{#}–{#}:{#}, sobota–niedziela zamknięte · Bezpłatny parking przed sklepem",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Poniedziałek–piątek {#}:{#}–{#}:{#}, sobota–niedziela zamknięte). W takim przypadku nie ponoszą Państwo kosztów dostawy.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(poniedziałek–piątek {#}:{#}–{#}:{#}, w soboty i niedziele zamknięte). Obecnie nie oferujemy dostawy. Gdy zamówiony produkt będzie gotowy do odbioru, powiadomimy Państwa e-mailem.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · poniedziałek–piątek {#}:{#}–{#}:{#}, w soboty i niedziele zamknięte",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "W przypadku kasy fiskalnej fiskalizacja jest nieodwracalna, dlatego fiskalizujemy wyłącznie opłacone urządzenia. Urządzenia zaprogramowanego na dane kupującego nie można już odesłać. Przy płatności z góry i formularzu danych wypełnionym online urządzenie można zabrać od razu przy odbiorze; jeśli płacą Państwo w sklepie, po {#}–{#} dniach roboczych od zaprogramowania. Formularz można wypełnić także wcześniej: plik PDF do pobrania można wypełnić i wydrukować na komputerze lub telefonie.",
+"ár kérésre": "cena na zapytanie",
+"Átutalással, díjbekérő alapján": "Przelewem, na podstawie faktury proforma",
+"Átvételkor, készpénzzel": "Gotówką przy odbiorze",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "Cenę pozycji „cena na zapytanie” podamy w potwierdzeniu; suma końcowa może się odpowiednio zmienić.",
+"Személyesen, üzletünkben – díjmentes": "Osobiście w naszym sklepie – bezpłatnie",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "Datą zamówienia jest chwila, w której zamówienie do nas dotrze. O jego wpłynięciu wysyłamy automatyczny e-mail; nie oznacza to jeszcze przyjęcia zamówienia. Po sprawdzeniu dostępności i ceny nasz pracownik potwierdza zamówienie osobnym e-mailem; z tą chwilą umowa zostaje zawarta.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Dziękujemy! Otrzymaliśmy Państwa zamówienie (numer:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Dziękujemy! Otrzymaliśmy Państwa wiadomość (numer:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). Wkrótce się z Państwem skontaktujemy.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "Automatyczne powiadomienie wysłaliśmy na adres:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "Po sprawdzeniu dostępności i ceny nasz pracownik potwierdzi zamówienie osobnym e-mailem."
 }

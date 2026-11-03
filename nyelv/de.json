@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Installation und Einrichtung",
 "A készülék típusa alapján segítünk kiválasztani.": "Wir helfen bei der Auswahl anhand des Gerätetyps.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "Für die tägliche Arbeit: für Registrierkassen, Drucker und Preisauszeichner.",
-"A pontos méret": "Die genaue Größe"
+"A pontos méret": "Die genaue Größe",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Montag–Freitag {#}:{#}–{#}:{#}, Samstag–Sonntag geschlossen · Kostenloses Parken vor dem Geschäft",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Montag–Freitag {#}:{#}–{#}:{#}, Samstag–Sonntag geschlossen). In diesem Fall fallen für Sie keine Versandkosten an.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(Montag–Freitag {#}:{#}–{#}:{#} Uhr, Samstag und Sonntag geschlossen). Einen Versand bieten wir derzeit nicht an. Sobald das bestellte Produkt abholbereit ist, benachrichtigen wir Sie per E-Mail.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · Montag–Freitag {#}:{#}–{#}:{#} Uhr, Samstag und Sonntag geschlossen",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Bei einer Registrierkasse ist die Aktivierung unwiderruflich, daher aktivieren wir nur bezahlte Geräte. Ein auf den Namen des Käufers programmiertes Gerät kann nicht mehr zurückgesandt werden. Bei Vorauszahlung und online ausgefülltem Datenblatt kann das Gerät bei der Abholung sofort mitgenommen werden; bei Zahlung im Geschäft nach der Programmierung in {#}–{#} Werktagen. Das Datenblatt können Sie auch vorab ausfüllen: Das herunterladbare PDF lässt sich am Computer oder Telefon ausfüllen und ausdrucken.",
+"ár kérésre": "Preis auf Anfrage",
+"Átutalással, díjbekérő alapján": "Per Überweisung anhand einer Proformarechnung",
+"Átvételkor, készpénzzel": "Bar bei Abholung",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "Den Preis der Artikel „Preis auf Anfrage“ teilen wir in der Bestätigung mit; die Endsumme kann sich dadurch ändern.",
+"Személyesen, üzletünkben – díjmentes": "Persönlich in unserem Geschäft – kostenlos",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "Als Bestellzeitpunkt gilt der Eingang Ihrer Bestellung bei uns. Über den Eingang senden wir eine automatische E-Mail; dies bedeutet noch keine Annahme der Bestellung. Nach Prüfung von Bestand und Preis bestätigt unser Mitarbeiter die Bestellung in einer gesonderten E-Mail; damit kommt der Vertrag zustande.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Vielen Dank! Wir haben Ihre Bestellung erhalten (Kennung:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Vielen Dank! Wir haben Ihre Nachricht erhalten (Kennung:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). Wir melden uns in Kürze bei Ihnen.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "Eine automatische Benachrichtigung haben wir gesendet an:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "Nach Prüfung von Bestand und Preis bestätigt unser Mitarbeiter die Bestellung in einer gesonderten E-Mail."
 }

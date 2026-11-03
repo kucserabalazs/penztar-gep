@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "安装与设置",
 "A készülék típusa alapján segítünk kiválasztani.": "我们会根据设备型号帮您选择。",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "日常工作必备：适用于收银机、打印机和打价机。",
-"A pontos méret": "准确尺寸"
+"A pontos méret": "准确尺寸",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· 周一至周五 {#}:{#}–{#}:{#}，周六、周日休息 · 店前免费停车",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "（周一至周五 {#}:{#}–{#}:{#}，周六、周日休息）。此时无需支付配送费。",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "（周一至周五 {#}:{#}–{#}:{#}，周六、周日休息）。我们目前不提供送货服务。所订商品可取货时，我们会通过电子邮件通知您。",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · 周一至周五 {#}:{#}–{#}:{#}，周六、周日休息",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "收银机的激活不可撤销，因此我们只激活已付款的机器。已按买方名义编程的机器无法退回。如提前付款并在线填写信息表，取货时即可立即带走；如在店内付款，则在编程后 {#}–{#} 个工作日后取机。您也可以提前填写信息表：可下载的PDF文件可在电脑或手机上填写并打印。",
+"ár kérésre": "价格面议",
+"Átutalással, díjbekérő alapján": "凭形式发票银行转账",
+"Átvételkor, készpénzzel": "取货时现金支付",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "“价格面议”商品的价格将在确认邮件中告知，总金额可能因此变动。",
+"Személyesen, üzletünkben – díjmentes": "到店自取 – 免费",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "订单时间以订单到达我方的时间为准。订单到达后我们会自动发送电子邮件，但这并不代表订单已被接受。我们的工作人员核实库存和价格后，会另行发送电子邮件确认订单，合同自确认时成立。",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "谢谢！我们已收到您的订单（编号：",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "谢谢！我们已收到您的留言（编号：",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "）。我们会尽快与您联系。",
+").": "）。",
+"Erről automatikus értesítést küldtünk ide:": "我们已向以下地址发送自动通知：",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "我们的工作人员核实库存和价格后，将另行发送电子邮件确认订单。"
 }

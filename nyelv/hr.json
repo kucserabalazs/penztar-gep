@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Instalacija i podešavanje",
 "A készülék típusa alapján segítünk kiválasztani.": "Pomažemo pri odabiru prema tipu uređaja.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "Za svakodnevni rad: za blagajne, pisače i uređaje za označavanje cijena.",
-"A pontos méret": "Točna veličina"
+"A pontos méret": "Točna veličina",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Ponedjeljak–petak {#}:{#}–{#}:{#}, subota–nedjelja zatvoreno · Besplatno parkiranje ispred trgovine",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Ponedjeljak–petak {#}:{#}–{#}:{#}, subota–nedjelja zatvoreno). U tom slučaju ne morate platiti troškove dostave.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(ponedjeljak–petak {#}:{#}–{#}:{#}, subotom i nedjeljom zatvoreno). Isporuku trenutačno ne nudimo. Kada naručeni proizvod bude spreman za preuzimanje, obavijestit ćemo vas e-poštom.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · ponedjeljak–petak {#}:{#}–{#}:{#}, subotom i nedjeljom zatvoreno",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Kod fiskalne blagajne aktivacija je neopoziva, stoga aktiviramo samo plaćene uređaje. Uređaj programiran na ime kupca više se ne može vratiti. Kod plaćanja unaprijed i s online ispunjenim obrascem uređaj se može odnijeti odmah pri preuzimanju; ako platite u trgovini, za {#}–{#} radnih dana nakon programiranja. Obrazac možete ispuniti i unaprijed: PDF za preuzimanje može se ispuniti i ispisati na računalu ili telefonu.",
+"ár kérésre": "cijena na upit",
+"Átutalással, díjbekérő alapján": "Bankovnom doznakom, na temelju predračuna",
+"Átvételkor, készpénzzel": "Gotovinom pri preuzimanju",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "Cijenu stavki „cijena na upit” šaljemo u potvrdi; ukupni iznos se zbog toga može promijeniti.",
+"Személyesen, üzletünkben – díjmentes": "Osobno u našoj trgovini – besplatno",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "Vrijeme narudžbe je trenutak kada narudžba stigne k nama. O primitku šaljemo automatsku e-poruku; to još ne znači prihvaćanje narudžbe. Nakon provjere zalihe i cijene naš suradnik potvrđuje narudžbu zasebnom e-porukom; time ugovor nastaje.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Hvala! Primili smo Vašu narudžbu (oznaka:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Hvala! Primili smo Vašu poruku (oznaka:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). Uskoro ćemo Vas kontaktirati.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "Automatsku obavijest poslali smo na:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "Nakon provjere zalihe i cijene naš će suradnik potvrditi narudžbu zasebnom e-porukom."
 }

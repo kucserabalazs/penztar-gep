@@ -1533,5 +1533,22 @@
 "Telepítés és beállítás": "Installazione e configurazione",
 "A készülék típusa alapján segítünk kiválasztani.": "La aiutiamo a scegliere in base al modello dell'apparecchio.",
 "A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.": "Per il lavoro quotidiano: per registratori di cassa, stampanti ed etichettatrici.",
-"A pontos méret": "La misura esatta"
+"A pontos méret": "La misura esatta",
+"· Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva · Ingyenes parkolás az üzlet előtt": "· Dal lunedì al venerdì {#}:{#}–{#}:{#}, chiuso il sabato e la domenica · Parcheggio gratuito davanti al negozio",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Ilyenkor szállítási költséget nem kell fizetnie.": "(Dal lunedì al venerdì {#}:{#}–{#}:{#}, chiuso il sabato e la domenica). In tal caso non sono dovute spese di consegna.",
+"(Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.": "(dal lunedì al venerdì {#}:{#}–{#}:{#}, sabato e domenica chiuso). Al momento non effettuiamo consegne a domicilio. Quando il prodotto ordinato sarà disponibile per il ritiro, vi avviseremo via e-mail.",
+"{#} Pécs, Hunyadi János utca {#}. · Hétfőtől péntekig {#}:{#}–{#}:{#}; szombaton és vasárnap zárva": "{#} Pécs, Hunyadi János utca {#}. · dal lunedì al venerdì {#}:{#}–{#}:{#}, sabato e domenica chiuso",
+"A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően {#}–{#} munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Per un registratore di cassa l'attivazione è irreversibile, perciò attiviamo solo dispositivi pagati. Un dispositivo programmato a nome dell'acquirente non può più essere restituito. Se paga in anticipo e compila la scheda online, potrà portare via il dispositivo subito al ritiro; se paga in negozio, dopo {#}–{#} giorni lavorativi dalla programmazione. Può compilare la scheda anche in anticipo: il PDF scaricabile si compila e si stampa dal computer o dal telefono.",
+"ár kérésre": "prezzo su richiesta",
+"Átutalással, díjbekérő alapján": "Con bonifico, in base a fattura proforma",
+"Átvételkor, készpénzzel": "In contanti al ritiro",
+"Az „ár kérésre” tételek árát a visszaigazolásban küldjük; a végösszeg ezekkel együtt módosulhat.": "Il prezzo degli articoli «prezzo su richiesta» sarà indicato nella conferma; il totale può variare di conseguenza.",
+"Személyesen, üzletünkben – díjmentes": "Di persona nel nostro negozio – gratuito",
+"A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre.": "La data dell'ordine è il momento in cui l'ordine ci perviene. Inviamo un'e-mail automatica di ricezione, che non costituisce ancora accettazione dell'ordine. Dopo la verifica di disponibilità e prezzo, un nostro collaboratore conferma l'ordine con un'e-mail separata; con tale conferma il contratto si conclude.",
+"Köszönjük! Megkaptuk a megrendelését (azonosító:": "Grazie! Abbiamo ricevuto il Suo ordine (codice:",
+"Köszönjük! Megkaptuk az üzenetét (azonosító:": "Grazie! Abbiamo ricevuto il Suo messaggio (codice:",
+"). Hamarosan felvesszük Önnel a kapcsolatot.": "). La contatteremo a breve.",
+").": ").",
+"Erről automatikus értesítést küldtünk ide:": "Abbiamo inviato una notifica automatica a:",
+"A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.": "Dopo la verifica di disponibilità e prezzo, un nostro collaboratore confermerà l'ordine con un'e-mail separata."
 }
