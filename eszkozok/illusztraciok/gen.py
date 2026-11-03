@@ -1,6 +1,6 @@
 import cv2,numpy as np,json,os,re
 from tr import load,trace,S
-OUT='out'  # a kész fájlokat innen másoljuk az assets/illusztraciok mappába; a webes színváltozatok: web/<név>-szepia|arany.svg; os.makedirs(OUT,exist_ok=True)
+OUT='out'; os.makedirs(OUT,exist_ok=True)
 def mask(shape,polys):
   m=np.zeros(shape,np.uint8)
   for P in polys: cv2.fillPoly(m,[np.array([[x*S,y*S] for x,y in P],np.int32)],255)
@@ -18,7 +18,7 @@ CFG={
  'zsolnay-kut-okorfej':{'cim':'Zsolnay-kút – ökörfej','parts':[('ful-bal',[rect(370,40,610,285)],(500,285),None),('ful-jobb',[rect(610,40,850,285)],(722,285),None)],'spark':[],
    'extra':'<path id="nyelv" class="resz" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M1024 845C1060 849 1090 862 1125 856S1175 826 1210 832S1250 858 1262 850L1296 830M1262 850L1294 874"/>','vbx':1306},
  'dzsami':{'cim':'Gázi Kászim pasa dzsámija','top':95,'parts':[('jelkep',[rect(700,26,748,93)],(724,93),'kupola'),('kupola',[[(360,20),(1095,20),(1095,334),(1065,333),(912,291),(535,291),(380,331),(360,331)]],(724,300),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="3.5" d="M374 336C470 356 975 356 1071 336"/>')],'spark':[(758,40,1.4,0),(690,70,1,1.2)]},
- 'szechenyi-ter':{'cim':'Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor','top':62,'parts':[('lovas',[json.load(open('rider.json'))],(1625,250),None),('csillag',[rect(538,33,602,89)],(570,64),None),('felhold',[rect(1021,77,1049,101)],(1035,100),'kupola'),('kupola',[[(840,75),(1210,75),(1210,288),(1172,268),(1037,258),(908,264),(845,288)]],(1035,270),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="2.2" d="M852 292C910 304 1150 304 1205 292"/>')],'spark':[(1060,80,1.1,0.6),(600,40,1,2.2)]},
+ 'szechenyi-ter':{'cim':'Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor','top':62,'parts':[('szobor',[rect(1412,0,1803,356)],(1745,356),None),('csillag',[rect(538,33,602,89)],(570,64),None),('felhold',[rect(1021,77,1049,101)],(1035,100),'kupola'),('kupola',[[(840,75),(1210,75),(1210,288),(1172,268),(1037,258),(908,264),(845,288)]],(1035,270),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="2.2" d="M852 292C910 304 1150 304 1205 292"/>')],'spark':[(1060,80,1.1,0.6),(600,40,1,2.2)]},
  'szekesegyhaz':{'cim':'Pécsi székesegyház','parts':[],'spark':[(866,22,1.3,0),(342,352,1,1.1),(683,458,.9,2.1),(1232,214,1.1,3)]},
 }
 CSS={
@@ -34,9 +34,9 @@ CSS={
  'dzsami':'''#kupola{animation:kalap 9s cubic-bezier(.35,.6,.3,1) infinite}#kupola .perem{animation:perem 9s linear infinite}#jelkep{animation:jel 8s ease-in-out infinite}
 @keyframes kalap{0%,60%,100%{transform:translate(0,0) rotate(0)}66%{transform:translate(0,-70px) rotate(-7deg)}70%{transform:translate(0,-78px) rotate(-9deg)}78%{transform:translate(0,-78px) rotate(-9deg)}84%{transform:translate(0,-6px) rotate(0)}87%{transform:translate(0,-12px) rotate(1deg)}91%{transform:translate(0,0) rotate(0)}}
 @keyframes jel{0%,70%,100%{transform:rotate(0)}76%{transform:rotate(-5deg)}82%{transform:rotate(4deg)}88%{transform:rotate(-2deg)}94%{transform:rotate(0)}}''',
- 'szechenyi-ter':'''#lovas{animation:lovas 10s cubic-bezier(.3,.7,.4,1) infinite}#csillag{animation:csillag 10s linear infinite}#felhold{animation:jel 8s ease-in-out infinite}#kupola{animation:kalap 11s cubic-bezier(.35,.6,.3,1) infinite 3s}#kupola .perem{animation:perem 11s linear infinite 3s}
+ 'szechenyi-ter':'''#szobor{animation:szobor 12s cubic-bezier(.3,.7,.4,1) infinite}#csillag{animation:csillag 10s linear infinite}#felhold{animation:jel 8s ease-in-out infinite}#kupola{animation:kalap 11s cubic-bezier(.35,.6,.3,1) infinite 3s}#kupola .perem{animation:perem 11s linear infinite 3s}
 @keyframes kalap{0%,60%,100%{transform:translate(0,0) rotate(0)}66%{transform:translate(0,-42px) rotate(-7deg)}70%{transform:translate(0,-47px) rotate(-9deg)}78%{transform:translate(0,-47px) rotate(-9deg)}84%{transform:translate(0,-4px) rotate(0)}87%{transform:translate(0,-8px) rotate(1deg)}91%{transform:translate(0,0) rotate(0)}}
-@keyframes lovas{0%,56%,100%{transform:translate(0,0) rotate(0)}61%{transform:translate(-40px,-58px) rotate(-6deg)}67%{transform:translate(-125px,100px) rotate(0)}69%{transform:translate(-125px,106px) rotate(0)}71%{transform:translate(-125px,103px) rotate(0)}80%{transform:translate(-125px,103px) rotate(0)}85%{transform:translate(-70px,-62px) rotate(-5deg)}90%{transform:translate(0,4px) rotate(1deg)}93%{transform:translate(0,0) rotate(0)}}
+@keyframes szobor{0%,50%,100%{transform:translate(0,0) rotate(0)}54%{transform:translate(-50px,-60px) rotate(7deg)}59%{transform:translate(-150px,302px) rotate(0)}61%{transform:translate(-150px,309px) rotate(0)}63%{transform:translate(-150px,305px) rotate(0)}67%{transform:translate(-150px,305px) rotate(17deg)}70%{transform:translate(-150px,305px) rotate(-1deg)}73%{transform:translate(-150px,305px) rotate(13deg)}76%{transform:translate(-150px,305px) rotate(0)}79%{transform:translate(-150px,308px) rotate(0)}84%{transform:translate(-80px,-70px) rotate(-5deg)}89%{transform:translate(0,5px) rotate(1deg)}92%{transform:translate(0,0) rotate(0)}}
 @keyframes csillag{0%{transform:rotate(0) scale(1)}25%{transform:rotate(90deg) scale(1.12)}50%{transform:rotate(180deg) scale(1)}75%{transform:rotate(270deg) scale(1.12)}100%{transform:rotate(360deg) scale(1)}}
 @keyframes jel{0%,70%,100%{transform:rotate(0)}76%{transform:rotate(-8deg)}82%{transform:rotate(6deg)}88%{transform:rotate(-3deg)}94%{transform:rotate(0)}}''',
  'szekesegyhaz':'',
@@ -54,7 +54,7 @@ for name,c in CFG.items():
     pid,polys,piv,parent=pt[:4]
     m=mask(bw.shape,polys); pb=cv2.bitwise_and(rem,m); rem=cv2.bitwise_and(rem,cv2.bitwise_not(m))
     d=trace(pb); parts[pid]=dict(d=d,piv=piv,parent=parent,box=pathbbox(d) if d else None,add=pt[4] if len(pt)>4 else '')
-    if pid=='lovas':
+    if pid=='szobor':
       k=cv2.dilate(pb,np.ones((9,9),np.uint8)); ff=k.copy(); h2,w2=ff.shape; mm=np.zeros((h2+2,w2+2),np.uint8); cv2.floodFill(ff,mm,(0,0),255)
       sil=cv2.bitwise_or(k,cv2.bitwise_not(ff)); sil=cv2.erode(sil,np.ones((5,5),np.uint8))
       cs2,_=cv2.findContours(sil,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)

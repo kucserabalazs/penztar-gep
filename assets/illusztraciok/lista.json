@@ -8,7 +8,7 @@
    "csucs-felso"
   ],
   "szikrak": 0,
-  "vb": "397.667 34 228.667 1469.33"
+  "vb": "287.667 34 448.667 1469.33"
  },
  {
   "nev": "zsolnay-kut-okorfej",
@@ -34,7 +34,7 @@
   "nev": "szechenyi-ter",
   "cim": "Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor",
   "reszek": [
-   "lovas",
+   "szobor",
    "csillag",
    "felhold",
    "kupola"
