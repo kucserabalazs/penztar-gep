@@ -1224,6 +1224,17 @@ footer.slim{padding-top:24px}
   background:linear-gradient(180deg,#fffdf6,#fbf6e9) padding-box,linear-gradient(155deg,#fbf0d2,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a) border-box}
 .atvbox>.ic{width:30px;height:30px;color:var(--gold-d);flex-shrink:0;margin-top:2px}
 .atvbox div{display:grid;gap:3px}.atvbox b{font-family:var(--fd);color:var(--n2);font-size:1.02rem}.atvbox span{font-weight:600;color:#3f5166}.atvbox small{color:var(--muted);line-height:1.45}
+
+.adl-bolt{display:grid!important;gap:12px}.adl-bolt[hidden]{display:none!important}
+.ab-t{font-family:var(--fd);color:var(--n2)}
+.ab-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ab-opt{position:relative;cursor:pointer}.ab-opt input{position:absolute;opacity:0}
+.ab-opt>span{display:grid;gap:4px;align-content:start;height:100%;padding:12px 12px 12px 14px;border-radius:12px;border:2px solid var(--line-2);background:#fff;transition:border-color .2s,box-shadow .2s}
+.ab-opt .ic{width:24px;height:24px;color:var(--gold-d)}.ab-opt b{color:var(--n2);font-size:.95rem}.ab-opt small{color:var(--muted);line-height:1.4;font-size:.84rem}
+.ab-opt.on>span{border-color:var(--n2);box-shadow:0 0 0 3px rgba(214,166,78,.35)}
+.ab-opt input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.ab-pdf{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:.9rem;color:#3f5166}.ab-pdf[hidden]{display:none}.ab-pdf .ic{width:20px;height:20px;color:var(--gold-d);flex-shrink:0}
+@media (max-width:760px){.ab-opts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1873,7 +1884,7 @@ function adatlapHTML(regs){
     <div class="msg info adl-why">${icon('alert')}<span><b>Fontos:</b> a pénztárgép élesítése (a gép hozzárendelése a vevőhöz és a NAV-hoz) <b>visszavonhatatlan</b> – az élesített gép csak a megadott tulajdonosé lehet, másnak már nem adható el. Ezért <b>pénztárgépet csak teljes kifizetés után élesítünk.</b></span></div>
     <div class="adl-opts" role="radiogroup" aria-label="Élesítés módja">
       <label class="adl-opt"><input type="radio" name="elesites" value="elore" checked><span class="ao-in"><span class="ao-badge">Átvételkor azonnal vihető</span><b>Előre fizetem, a gépet előre beprogramozzák</b><small>Átutalással fizet, díjbekérő alapján. A vételár beérkezése után a szerviz beprogramozza és élesíti a gépet, így átvételkor már működik. Ehhez <b>most ki kell töltenie az adatlapot.</b></small></span></label>
-      <label class="adl-opt"><input type="radio" name="elesites" value="bolt"><span class="ao-in"><span class="ao-badge g">1–2 munkanap várakozás</span><b>Az üzletben fizetek és ott adom meg az adatokat</b><small>Fizetés és az adatlap kitöltése a Hunyadi János u. 34. alatti üzletben. A programozás és az élesítés ezután történik, a gépet <b>1–2 munkanap múlva</b> viheti el.</small></span></label>
+      <label class="adl-opt"><input type="radio" name="elesites" value="bolt"><span class="ao-in"><span class="ao-badge g">1–2 munkanap várakozás</span><b>Az üzletben fizetek</b><small>Fizetés a Hunyadi János u. 34. alatti üzletben. Az adatlapot ott töltjük ki, vagy előre kitöltve hozza (letölthető PDF), vagy most online is megadhatja. A programozás és az élesítés ezután történik, a gépet <b>1–2 munkanap múlva</b> viheti el.</small></span></label>
     </div>
     <div class="adl-form" id="adl-form">
       <div class="adl-head"><b>Pénztárgép-megrendelő adatlap</b><span>Ezek az adatok a gép beprogramozásához és a NAV-bejelentéshez kellenek; csak Ön rendelkezik velük.</span></div>
@@ -1892,7 +1903,14 @@ function adatlapHTML(regs){
       </div>
       <label class="check req"><input type="checkbox" name="ad_nyilatkozat" id="ad-nyil"><span>Kijelentem, hogy a megadott adatok a valóságnak megfelelnek. <span class="o">(Az adatlapot átvételkor aláírja.)</span></span></label>
     </div>
-    <div class="adl-bolt" id="adl-bolt" hidden>${icon('clock')}<span>Az adatlapot az üzletben tölti ki. Ha szeretné előre kitölteni és magával hozni, töltse le:</span></div>
+    <div class="adl-bolt" id="adl-bolt" hidden><b class="ab-t">Hogyan adja meg az adatlap adatait?</b>
+      <div class="ab-opts">
+        <label class="ab-opt"><input type="radio" name="adatlap_mod" value="bolt" checked><span>${icon('store')}<b>Az üzletben töltöm ki</b><small>Vásárláskor, helyben kitöltjük együtt.</small></span></label>
+        <label class="ab-opt"><input type="radio" name="adatlap_mod" value="pdf"><span>${icon('file')}<b>Kitöltve hozom magammal</b><small>Letölti a kitölthető PDF-et, számítógépen vagy telefonon kitölti, kinyomtatja, és elhozza – így a vásárlás gyorsabb.</small></span></label>
+        <label class="ab-opt"><input type="radio" name="adatlap_mod" value="online"><span>${icon('edit')}<b>Most, online kitöltöm</b><small>Az adatok a megrendeléssel együtt beérkeznek hozzánk; az üzletben már csak alá kell írnia.</small></span></label>
+      </div>
+      <p class="ab-pdf" id="ab-pdf">${icon('clock')}<span>A kitölthető PDF a gépen vagy telefonon közvetlenül kitölthető és kinyomtatható. Ha nincs nyomtatója, a kitöltött fájlt e-mailben is elküldheti nekünk, vagy hozza el telefonján.</span></p>
+    </div>
     ${dlAdatlap()}
   </section>`;
 }
@@ -1900,7 +1918,8 @@ function bindCheckout(f){
   const items=CART.map(c=>({...c,p:prod(c.id)})).filter(x=>x.p), adl=$('#adl',f);
   const val=n=>(f.querySelector(`[name=${n}]:checked`)||{}).value;
   const upd=()=>{ const m=adl?(val('elesites')||'elore'):null;
-    if(adl){ $('#adl-form',f).hidden=m!=='elore'; $('#adl-bolt',f).hidden=m==='elore'; $$('.adl-opt',f).forEach(o=>o.classList.toggle('on',o.querySelector('input').checked)); }
+    if(adl){ const am=val('adatlap_mod')||'bolt'; $('#adl-form',f).hidden=!(m==='elore'||am==='online'); $('#adl-bolt',f).hidden=m==='elore'; $('#ab-pdf',f).hidden=am!=='pdf';
+      $$('.adl-opt,.ab-opt',f).forEach(o=>o.classList.toggle('on',o.querySelector('input').checked)); }
     // átvétel: üzleti fizetésű pénztárgépnél csak személyes
     const kisz=false;
     // fizetés: átvételkori csak személyes átvételnél és nem előre fizetett pénztárgépnél; üzleti pénztárgépnél csak az
@@ -1913,7 +1932,7 @@ function bindCheckout(f){
     const box=document.getElementById('co-sum'); if(box){ const su=$('#sum-uz'), ss=$('#sum-ship'); su.hidden=!t.uz; su.lastElementChild.textContent=ft(uzembeAr()||0)+' + ÁFA'; $('#sum-net').textContent=ft(t.net); ss.hidden=!kisz; ss.lastElementChild.textContent=t.ship?ft(t.ship):(SHIP().dij?'ingyenes':'egyeztetés szerint'); $('#sum-tot').textContent=ft(t.tot); }
     $('#co-submit span',f).textContent=fz==='online'?'Tovább a fizetéshez':'Megrendelés elküldése';
   };
-  f.addEventListener('change',e=>{ if(['elesites','atvetel','fizetes','uzembe'].includes(e.target.name)) upd(); }); upd();
+  f.addEventListener('change',e=>{ if(['elesites','atvetel','fizetes','uzembe','adatlap_mod'].includes(e.target.name)) upd(); }); upd();
   f._upd=upd;
   if(!adl) return;
   const ado=$('[data-fmt=ado]',f); ado?.addEventListener('input',()=>{ const d=ado.value.replace(/\D/g,'').slice(0,11); ado.value=d.length>9?`${d.slice(0,8)}-${d.slice(8,9)}-${d.slice(9)}`:d.length>8?`${d.slice(0,8)}-${d.slice(8)}`:d; });
@@ -1924,7 +1943,8 @@ function bindCheckout(f){
 }
 function checkAdatlap(f){
   const adl=$('#adl',f); if(!adl) return null; const m=(f.querySelector('[name=elesites]:checked')||{}).value;
-  if(m!=='elore') return {ok:true,data:{'Élesítés módja':'Az üzletben fizet, ott tölti ki az adatlapot (1–2 munkanap)'}};
+  const am=(f.querySelector('[name=adatlap_mod]:checked')||{}).value||'bolt';
+  if(m!=='elore' && am!=='online') return {ok:true,data:{'Élesítés módja':am==='pdf'?'Az üzletben fizet; a kitöltött PDF-adatlapot magával hozza (1–2 munkanap)':'Az üzletben fizet, ott tölti ki az adatlapot (1–2 munkanap)'}};
   $$('.bad',f).forEach(x=>x.classList.remove('bad'));
   const miss=[]; $$('#adl-form [data-req]',f).forEach(i=>{ if(!i.value.trim()){ i.classList.add('bad'); miss.push(i); } });
   if(!f.querySelector('[name=ad_minoseg]:checked')){ const r=$('[data-req-radio]',f); r.classList.add('bad'); miss.push(r); }
@@ -1932,11 +1952,11 @@ function checkAdatlap(f){
   if(ado.value&&!/^\d{8}-\d-\d{2}$/.test(ado.value)){ ado.classList.add('bad'); return {ok:false,msg:'Az adószám formátuma: 12345678-1-02.',el:ado}; }
   if(nav.value&&nav.value.replace(/-/g,'').length!==16){ nav.classList.add('bad'); return {ok:false,msg:'A NAV regisztrációs kód 16 karakterből áll (4×4).',el:nav}; }
   if(em.value&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){ em.classList.add('bad'); return {ok:false,msg:'Az adatlapon az e-mail cím hibás.',el:em}; }
-  if(miss.length) return {ok:false,msg:`Előre fizetésnél az adatlap minden mezőjét ki kell tölteni (${miss.length} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.`,el:miss[0]};
+  if(miss.length) return {ok:false,msg:`Az online adatlap minden mezőjét ki kell tölteni (${miss.length} hiányzik). ${m==='elore'?'Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.':'Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.'}`,el:miss[0]};
   if(!$('#ad-nyil',f).checked){ $('#ad-nyil',f).closest('label').classList.add('bad'); return {ok:false,msg:'Kérjük, jelölje be a nyilatkozatot az adatlap végén.',el:$('#ad-nyil',f)}; }
   const g=n=>f.querySelector(`[name=${n}]`)?.value||'', all=n=>$$(`[name=${n}]:checked`,f).map(x=>x.value).join(', ');
   const kor=(f.querySelector('[name=ad_korlat]:checked')||{}).value==='egyeb'?(g('ad_korlat_egyeb')+' Ft'):(f.querySelector('[name=ad_korlat]:checked')||{}).value;
-  return {ok:true,data:{'Élesítés módja':'Előre fizet (díjbekérő) – előre programozható, átvételkor azonnal vihető','Képviselő neve':g('ad_kepviselo'),'Minőség':(f.querySelector('[name=ad_minoseg]:checked')||{}).value,'Cégnév':g('ad_cegnev'),'Személyigazolvány száma':g('ad_szig'),'Székhely':g('ad_szekhely'),'Telephely':g('ad_telephely'),'Adószám':g('ad_adoszam'),'Mobiltelefon':g('ad_mobil'),'E-mail':g('ad_email'),'NAV regisztrációs kód':g('ad_navkod'),'Gép típusa':g('ad_geptipus'),'ÁFA-nemek':all('ad_afa'),'Korlátozás':kor,'Fizetési módok a gépen':all('ad_fizmod')}};
+  return {ok:true,data:{'Élesítés módja':m==='elore'?'Előre fizet (díjbekérő) – előre programozható, átvételkor azonnal vihető':'Az üzletben fizet; az adatlapot online kitöltötte (1–2 munkanap)','Képviselő neve':g('ad_kepviselo'),'Minőség':(f.querySelector('[name=ad_minoseg]:checked')||{}).value,'Cégnév':g('ad_cegnev'),'Személyigazolvány száma':g('ad_szig'),'Székhely':g('ad_szekhely'),'Telephely':g('ad_telephely'),'Adószám':g('ad_adoszam'),'Mobiltelefon':g('ad_mobil'),'E-mail':g('ad_email'),'NAV regisztrációs kód':g('ad_navkod'),'Gép típusa':g('ad_geptipus'),'ÁFA-nemek':all('ad_afa'),'Korlátozás':kor,'Fizetési módok a gépen':all('ad_fizmod')}};
 }
 function pageCart(){ setTimeout(openDrawer,80); return pageCategory('penztargep'); }
 
@@ -1966,14 +1986,14 @@ function pageAbout(){
 function pageBuyInfo(){
   return pageHead('Vásárlási tudnivalók','A pénztárgép vásárlásának és üzembe helyezésének menete.','<a href="../">Kezdőlap</a>›<span>Vásárlás</span>') +
   `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><div class="timeline"><div class="ev"><span class="d">1. lépés</span><div><b>Válassza ki a gépet</b><p class="muted">Webáruházunkban tájékozódhat a kínálatról, személyesen pedig üzletünkben kérhet segítséget a választáshoz. A bemutató készülékeket nyitvatartási időben kipróbálhatja.</p></div></div><div class="ev"><span class="d">2. lépés</span><div><b>Igényeljen üzembe helyezési kódot</b><p class="muted">Az üzembe helyezési kódot Ön vagy könyvelője igényelheti a NAV erre szolgáló elektronikus felületén. Ha kérdése merül fel, keressen minket.</p></div></div><div class="ev"><span class="d">3. lépés</span><div><b>Készítse elő az iratokat</b><p class="muted">Társaság esetén kérjük, hozza magával az aláírási címpéldányt. Megrendelést aláírásra jogosult személy vagy meghatalmazottja adhat le. A szükséges dokumentumokról előzetesen érdeklődjön.</p></div></div><div class="ev"><span class="d">4. lépés</span><div><b>Üzembe helyezés, betanítás</b><p class="muted">A készüléket beállítva és betanítással adjuk át.${uzembeAr()?` Az üzembe helyezés díja ${ft(uzembeAr())} + ÁFA.`:''}</p></div></div></div></div>
-  <div class="panel"><h3>Jó tudni</h3><p>${esc(S().mobildij||'')}</p><p><b>Élesítés:</b> a pénztárgép élesítése visszavonhatatlan, ezért csak kifizetett gépet élesítünk. Ha előre, átutalással fizet és online kitölti az adatlapot, átvételkor azonnal viheti; ha az üzletben fizet, a programozás után 1–2 munkanap múlva.</p><h3 style="margin-top:6px">Letölthető dokumentumok</h3>${dlAdatlap()}<p class="muted">Részletek: <a href="#aszf">Vásárlási feltételek</a> (átvétel, fizetés, elállás).</p><p class="muted">Fizethet díjbekérő alapján átutalással, személyes átvételnél pedig az üzletben készpénzzel. Az árváltoztatás jogát fenntartjuk.</p><a class="btn gold" href="#kat-penztargep" style="justify-self:start">${icon('register')} Pénztárgépek</a></div></div>`;
+  <div class="panel"><h3>Jó tudni</h3><p>${esc(S().mobildij||'')}</p><p><b>Élesítés:</b> a pénztárgép élesítése visszavonhatatlan, ezért csak kifizetett gépet élesítünk. Ha előre, átutalással fizet és online kitölti az adatlapot, átvételkor azonnal viheti; ha az üzletben fizet, a programozás után 1–2 munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.</p><h3 style="margin-top:6px">Letölthető dokumentumok</h3>${dlAdatlap()}<p class="muted">Részletek: <a href="#aszf">Vásárlási feltételek</a> (átvétel, fizetés, elállás).</p><p class="muted">Fizethet díjbekérő alapján átutalással, személyes átvételnél pedig az üzletben készpénzzel. Az árváltoztatás jogát fenntartjuk.</p><a class="btn gold" href="#kat-penztargep" style="justify-self:start">${icon('register')} Pénztárgépek</a></div></div>`;
 }
 const utalasHTML=()=>{ const s=S(); return s.szamlaszam?`<div class="utal"><div><span>Kedvezményezett</span><b>${esc(s.cegnevRovid||s.cegnev)}</b></div><div><span>Bank</span><b>${esc(s.bank||'')}</b></div><div><span>Számlaszám</span><b class="num">${esc(s.szamlaszam)}</b></div><div><span>Adószám</span><b class="num">${esc(s.adoszam||'')}</b></div><div><span>Közlemény</span><b>a díjbekérő / számla sorszáma</b></div></div>`:''; };
 document.addEventListener('click',e=>{ const a=e.target.closest('.atoc [data-jump]'); if(!a) return; e.preventDefault(); document.getElementById(a.dataset.jump)?.scrollIntoView({behavior:'smooth',block:'start'}); });
 function pageAszf(){ const s=S(), sec=(id,t,b)=>`<section class="asec" id="f-${id}"><h3>${t}</h3>${b}</section>`;
   return pageHead('Vásárlási feltételek','Rendelés, átvétel, fizetés és elállás – minden, amit a vásárlás előtt érdemes tudni.','<a href="../">Kezdőlap</a>›<span>Vásárlási feltételek</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:900px"><div class="panel aszf">
   <nav class="atoc" aria-label="Tartalom">${[['atvetel','Átvétel'],['fizetes','Fizetés'],['elojegyzes','Előjegyzés'],['rendeles','A rendelés'],['arak','Árak'],['elallas','Elállás']].map(([a,b])=>`<a href="#aszf" data-jump="f-${a}">${b}</a>`).join('')}</nav>
-  ${sec('atvetel','Személyes átvétel',`<p>A honlapon megrendelt termékeket <b>kizárólag személyesen, üzletünkben</b> lehet átvenni: <b>${esc(s.cim)}</b> (${esc(s.nyitvatartas)}). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.</p><p>Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után 1–2 munkanap múlva. ${dlAdatlap()}</p>`)}
+  ${sec('atvetel','Személyes átvétel',`<p>A honlapon megrendelt termékeket <b>kizárólag személyesen, üzletünkben</b> lehet átvenni: <b>${esc(s.cim)}</b> (${esc(s.nyitvatartas)}). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük.</p><p>Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után 1–2 munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható. ${dlAdatlap()}</p>`)}
   ${sec('fizetes','Fizetés',`<p><b>Átvételkor</b> az üzletben is fizethet, készpénzzel.</p><p><b>Előre utalással:</b> a megrendelt termékről díjbekérőt vagy számlát állítunk ki, és elküldjük a megrendelésben megadott e-mail-címre. Amikor az összeg megérkezik a bankszámlánkra, e-mailben értesítjük, és a terméket az üzletben átveheti.</p><h4>Adatok az utaláshoz</h4>${utalasHTML()}<p class="muted">A fizetési módot a megrendelőlapon adja meg; a fizetendő összeget a rendelés elküldése előtt látja.</p>`)}
   ${sec('elojegyzes','Ha a termék nincs raktáron',`<p>Előjegyzést veszünk fel rá, és a megrendeléskor érvényes áron adjuk át, amint beérkezett hozzánk. A várható érkezésről e-mailben tájékoztatjuk.</p>`)}
   ${sec('rendeles','A rendelés feltételei',`<p>Az online vásárlás feltétele az adatok pontos megadása és a vásárlási feltételek elfogadása. Fenntartjuk a jogot, hogy a megadott adatok valódiságáról meggyőződjünk; kétséges vagy értelmezhetetlen adatok esetén a megrendelést töröljük.</p><p>Rendelést csak 18 éven felüli, saját címmel és telefonszámmal rendelkező személytől fogadunk el. Más nevére vagy címére szóló rendelést nem tudunk elfogadni.</p><p>A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A megrendelést e-mailben visszaigazoljuk; a megrendelés a visszaigazolással lép életbe.</p>`)}

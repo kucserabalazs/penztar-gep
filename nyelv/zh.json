@@ -1262,5 +1262,21 @@
 "Személyes átvétel az üzletünkben": "到我们的店铺亲自取货",
 "Totál Pénztárgép Pécs – pénztárgép szaküzlet és szerviz": "Totál Pénztárgép Pécs – 收银机专卖店及维修服务",
 "üzletünkben, a Hunyadi János utcában": "在我们位于 Hunyadi János utca 的店铺",
-"Webáruház · Totál Pénztárgép Pécs": "网上商店 · Totál Pénztárgép Pécs"
+"Webáruház · Totál Pénztárgép Pécs": "网上商店 · Totál Pénztárgép Pécs",
+"A Hunyadi János u. {#}. alatt fizet. Az adatlapot ott tölti ki, vagy a kitölthető PDF-et előre kitöltve, kinyomtatva hozza magával. A programozás és az élesítés ezután történik, a gépet {#}–{#} munkanap múlva viheti el.": "请在 Hunyadi János u. {#}. 的店内付款。信息表可在店内填写，也可提前填好可填写的 PDF 并打印带来。随后进行编程和激活，您可在 {#}–{#} 个工作日后取走机器。",
+"A kitölthető PDF a gépen vagy telefonon közvetlenül kitölthető és kinyomtatható. Ha nincs nyomtatója, a kitöltött fájlt e-mailben is elküldheti nekünk, vagy hozza el telefonján.": "可填写的 PDF 可直接在电脑或手机上填写并打印。如果您没有打印机，也可以将填好的文件通过电子邮件发送给我们，或用手机带来。",
+"a pénztárgép élesítése visszavonhatatlan, ezért csak kifizetett gépet élesítünk. Ha előre, átutalással fizet és online kitölti az adatlapot, átvételkor azonnal viheti; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "收银机一经激活不可撤销，因此我们只激活已付款的机器。如果您提前转账付款并在线填写信息表，取货时可当场带走；如果在店内付款，则在编程后 {#}–{#} 个工作日取走。您也可以提前填写信息表：可下载的 PDF 可在电脑或手机上填写并打印。",
+"Az adatok a megrendeléssel együtt beérkeznek hozzánk; az üzletben már csak alá kell írnia.": "信息会随订单一并发送给我们；到店后您只需签字即可。",
+"Az üzletben fizet": "在店内付款",
+"Az üzletben fizetek": "我在店内付款",
+"Az üzletben töltöm ki": "我在店内填写",
+"Fizetés a Hunyadi János u. {#}. alatti üzletben. Az adatlapot ott töltjük ki, vagy előre kitöltve hozza (letölthető PDF), vagy most online is megadhatja. A programozás és az élesítés ezután történik, a gépet": "在 Hunyadi János u. {#}. 的店内付款。信息表可在店内一起填写，也可提前填好带来（可下载的 PDF），或现在在线填写。随后进行编程和激活，机器",
+"Hogyan adja meg az adatlap adatait?": "您希望如何提供信息表中的资料？",
+"Kitöltve hozom magammal": "我填好后带来",
+"Letölti a kitölthető PDF-et, számítógépen vagy telefonon kitölti, kinyomtatja, és elhozza – így a vásárlás gyorsabb.": "下载可填写的 PDF，在电脑或手机上填写后打印并带来——这样购买更快。",
+"Most, online kitöltöm": "我现在在线填写",
+"Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "收银机一经激活不可撤销，因此我们只激活已付款的机器。以买方名义编程的机器无法再退货。提前付款并在线填写信息表的，取货时可当场带走；如果在店内付款，则在编程后 {#}–{#} 个工作日取走。您也可以提前填写信息表：可下载的 PDF 可在电脑或手机上填写并打印。",
+"Vásárláskor, helyben kitöltjük együtt.": "购买时我们在现场一起填写。",
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "在线信息表的所有字段均须填写（缺少 {#} 项）。如果您现在无法提供，请选择“我在店内付款”。",
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "在线信息表的所有字段均须填写（缺少 {#} 项）。如果您现在无法提供，请选择“我在店内填写”或“我填好后带来”。"
 }
