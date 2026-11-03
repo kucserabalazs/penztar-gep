@@ -655,10 +655,12 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   .hsz-gomb{display:flex;align-items:flex-end;gap:18px;width:100%}.hsz-gomb .hb{order:1}.hsz-torony{order:2;height:120px;margin-bottom:0}
 }
 /* lábléc: arany panoráma */
-.ffoot{position:relative}
-.f-pano{position:relative;max-width:1500px;margin:clamp(-10px,-1vw,0px) auto 4px;padding-inline:max(16px,env(safe-area-inset-left,0px));pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 88%,transparent)}
-.f-pano img{display:block;width:100%;height:auto;aspect-ratio:2182/776;opacity:.3}
+.ffoot{position:relative;overflow:hidden;isolation:isolate}
+.ffoot>*:not(.f-pano){position:relative;z-index:1}
+.f-pano{position:absolute;inset:0;z-index:0;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 35%,#000 100%);mask-image:linear-gradient(180deg,transparent 0,#000 35%,#000 100%)}
+.f-pano img{display:block;width:max(100%,1100px);max-width:none;height:auto;aspect-ratio:2182/776;opacity:.16;margin-bottom:-2%}
+@media (max-width:760px){.f-pano img{width:300%;opacity:.14}}
 
 
 .top .pan.sarkany{top:auto;bottom:6px;right:max(10px,1.5vw);height:86%;max-height:96px;width:auto;opacity:.9}
