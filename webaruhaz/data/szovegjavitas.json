@@ -274,5 +274,149 @@
  {
   "regi": "magyar ékezetes kezelői, kihúzható és forgatható vevőkijelző",
   "uj": "magyar ékezeteket megjelenítő kezelői kijelző, kihúzható és forgatható vevőkijelző"
+ },
+ {
+  "regi": "Megbízható hitelesített bolti mérleg",
+  "uj": "Megbízható, hitelesített bolti mérleg"
+ },
+ {
+  "regi": "Megbízható, NAV-előírásoknak megfelelő megoldások üzletek és szolgáltatók számára.",
+  "uj": "Megbízható, a NAV előírásainak megfelelő megoldások üzletek és szolgáltatók számára."
+ },
+ {
+  "regi": "Méréshatár / osztás",
+  "uj": "Méréshatár / osztásérték"
+ },
+ {
+  "regi": "Méréshatár / osztás",
+  "uj": "Méréshatár / osztásérték"
+ },
+ {
+  "regi": "Méréshatár / osztás",
+  "uj": "Méréshatár / osztásérték"
+ },
+ {
+  "regi": "mérleg, vonalkódolvasó, bankkártya-terminál, PC, 12 V-os kasszafiók",
+  "uj": "mérleg, vonalkódolvasó, bankkártya-terminál, számítógép, 12 V-os kasszafiók"
+ },
+ {
+  "regi": "mérleg, vonalkódolvasó, kasszafiók, külső vevőkijelző, PC",
+  "uj": "mérleg, vonalkódolvasó, kasszafiók, külső vevőkijelző, számítógép"
+ },
+ {
+  "regi": "Mi kell a pénztárgép üzembe helyezéséhez?",
+  "uj": "Mi szükséges a pénztárgép üzembe helyezéséhez?"
+ },
+ {
+  "regi": "Milyen szoftver fut a POS terminálon?",
+  "uj": "Milyen szoftver fut a POS-terminálon?"
+ },
+ {
+  "regi": "Minden általunk forgalmazott típushoz",
+  "uj": "Az általunk forgalmazott valamennyi típushoz"
+ },
+ {
+  "regi": "mini USB-B, USB-A host, kasszafiók / táp közös csatlakozó",
+  "uj": "mini USB-B, USB-A host, közös kasszafiók-/tápcsatlakozó"
+ },
+ {
+  "regi": "nagy forgalmú üzletek, rendszerbe köthető",
+  "uj": "nagy forgalmú üzletekbe, rendszerbe köthető"
+ },
+ {
+  "regi": "Nagy teljesítményű modell kasszafiókkal, nagy forgalmú üzletekbe",
+  "uj": "Nagy teljesítményű, kasszafiókos modell nagy forgalmú üzletekbe"
+ },
+ {
+  "regi": "Nagyméretű érintőképernyős POS-terminál állvánnyal, NTAK-kompatibilis vendéglátó-szoftverekhez",
+  "uj": "Nagyméretű, állványos érintőképernyős POS-terminál NTAK-kompatibilis vendéglátó-szoftverekhez"
+ },
+ {
+  "regi": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegy- és 8 érmetartóval, nagy címlet bedobónyílással. Kulccsal nyitható és zárható. Mérete 400 × 450 × 100 mm; fekete vagy fehér színben érhető el.",
+  "uj": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: 400 × 450 × 100 mm. Fekete vagy fehér színben kapható."
+ },
+ {
+  "regi": "négysoros grafikus, háttérvilágítással",
+  "uj": "négysoros, háttérvilágítással ellátott grafikus kijelző"
+ },
+ {
+  "regi": "Normál vagy cseppálló sík billentyűzet",
+  "uj": "Normál vagy cseppálló, sík billentyűzet"
+ },
+ {
+  "regi": "Öntapadós árazócímkék és festékhengerek egysoros és kétsoros árazógépekhez. Fehér és színes címkék is elérhetők a megadott kínálat szerint. Vásárlás előtt egyeztesse a címke méretét és a gép típusát.",
+  "uj": "Öntapadós árazócímkék és festékhengerek egysoros és kétsoros árazógépekhez. A kínálatban fehér és színes címkék is szerepelnek. Vásárlás előtt egyeztesse a szükséges címkeméretet és a készülék típusát."
+ },
+ {
+  "regi": "PC, CAS ER vagy Aclas PS1 mérleg, vonalkódolvasó, bankkártya-terminál, kasszafiók",
+  "uj": "számítógép, CAS ER vagy Aclas PS1 mérleg, vonalkódolvasó, bankkártya-terminál, kasszafiók"
+ },
+ {
+  "regi": "pénznem- és mértékegység-jelek, dátum",
+  "uj": "pénznem- és mértékegységjelölések, dátum"
+ },
+ {
+  "regi": "pénztárgép-típus szerint, vásárláskor egyeztetjük",
+  "uj": "pénztárgéptípus szerint; vásárláskor egyeztetjük"
+ },
+ {
+  "regi": "Pénztárgépe éves felülvizsgálatának egyeztetéséhez vegye fel velünk a kapcsolatot. A vizsgálat díja és az esetleg szükséges további munka a készüléktől és az elvégzendő feladatoktól függ; kérjen egyedi tájékoztatást.",
+  "uj": "Pénztárgépe éves felülvizsgálatának egyeztetéséhez vegye fel velünk a kapcsolatot. A vizsgálat díja és az esetlegesen szükséges további munkák költsége a készülék típusától és az elvégzendő feladatoktól függ. Kérjen egyedi tájékoztatást."
+ },
+ {
+  "regi": "Renesas RX631, 32 bit",
+  "uj": "Renesas RX631, 32 bites"
+ },
+ {
+  "regi": "RJ11 (egyes változatokon RS232 / USB), 12 V vagy 24 V",
+  "uj": "RJ11 (egyes változatokon RS232 vagy USB), 12 V vagy 24 V"
+ },
+ {
+  "regi": "RS232 / LAN / mini USB (PC), RS232 (mérleg), USB host (vonalkódolvasó, mérleg), kasszafiók, külső kijelző",
+  "uj": "RS232 / LAN / mini USB (számítógép), RS232 (mérleg), USB host (vonalkódolvasó, mérleg), kasszafiók, külső kijelző"
+ },
+ {
+  "regi": "magyar karaktereket kezelő kezelői és vevőkijelző",
+  "uj": "magyar karakterek megjelenítésére alkalmas kezelői és vevőkijelző"
+ },
+ {
+  "regi": "magyar karakteres kezelői és vevőkijelző",
+  "uj": "magyar karaktereket megjelenítő kezelői és vevőkijelző"
+ },
+ {
+  "regi": "nagy címlet / bizonylat bedobónyílás",
+  "uj": "nagy címletű bankjegyek és bizonylatok bedobónyílása"
+ },
+ {
+  "regi": "nagy címlet bedobónyílás",
+  "uj": "nagy címletű bankjegyek bedobónyílása"
+ },
+ {
+  "regi": "Nagyobb forgalmú üzletekbe szánt, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címlet bedobónyílással és nagy sebességű hőnyomtatóval rendelkezik, számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA; a garancia további 2 évvel 15 000 Ft + ÁFA díjért bővíthető.",
+  "uj": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + ÁFA díj ellenében."
+ },
+ {
+  "regi": "NAV engedélyszám",
+  "uj": "NAV-engedélyszám"
+ },
+ {
+  "regi": "NAV engedélyszám",
+  "uj": "NAV-engedélyszám"
+ },
+ {
+  "regi": "NAV engedélyszám",
+  "uj": "NAV-engedélyszám"
+ },
+ {
+  "regi": "NAV engedélyszám: A311",
+  "uj": "NAV-engedélyszám: A311"
+ },
+ {
+  "regi": "NTAK vendéglátó szoftverekhez",
+  "uj": "NTAK-kompatibilis vendéglátó-szoftverekhez"
+ },
+ {
+  "regi": "NTAK vendéglátó szoftverekhez",
+  "uj": "NTAK-kompatibilis vendéglátó-szoftverekhez"
  }
 ]

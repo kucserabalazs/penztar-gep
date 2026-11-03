@@ -53,7 +53,7 @@
    "leiras": "Válasszon a különböző üzleti feladatokra kínált online pénztárgépeink közül. A készülékek funkciói, csatlakozói, engedélyei és üzembe helyezési feltételei modellenként eltérnek. Vásárlás előtt segítünk áttekinteni a vállalkozása számára fontos szempontokat.",
    "gyik": [
     [
-     "Mi kell a pénztárgép üzembe helyezéséhez?",
+     "Mi szükséges a pénztárgép üzembe helyezéséhez?",
      "Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
     ],
     [
@@ -72,7 +72,7 @@
    "banner": {
     "cim1": "Online",
     "cim2": "pénztárgépek",
-    "szoveg": "Megbízható, NAV-előírásoknak megfelelő megoldások üzletek és szolgáltatók számára.",
+    "szoveg": "Megbízható, a NAV előírásainak megfelelő megoldások üzletek és szolgáltatók számára.",
     "kep": "../assets/banner-penztargep.webp"
    },
    "listaCim": "Pénztárgépeink"
@@ -84,7 +84,7 @@
    "leiras": "Érintőképernyős POS-terminálok, blokk- és címkenyomtatók, valamint vonalkódolvasók bolti és vendéglátóipari felhasználásra. Az eszközök együttműködése a választott szoftvertől és a csatlakozási lehetőségektől függ; rendelés előtt egyeztessen velünk.",
    "gyik": [
     [
-     "Milyen szoftver fut a POS terminálon?",
+     "Milyen szoftver fut a POS-terminálon?",
      "Igény szerint bolti vagy vendéglátóipari szoftvert telepítünk és állítunk be."
     ],
     [
@@ -233,7 +233,7 @@
    "keszletDb": 2,
    "specs": [
     [
-     "NAV engedélyszám",
+     "NAV-engedélyszám",
      "A315"
     ],
     [
@@ -317,7 +317,7 @@
    "keszletDb": 2,
    "specs": [
     [
-     "NAV engedélyszám",
+     "NAV-engedélyszám",
      "A315"
     ],
     [
@@ -362,7 +362,7 @@
     ],
     [
      "Processzor",
-     "Renesas RX631, 32 bit"
+     "Renesas RX631, 32 bites"
     ],
     [
      "Kasszafiók",
@@ -451,7 +451,7 @@
    "kategoria": "penztargep",
    "marka": "Sam4s",
    "nev": "NR-440 PRO 4G",
-   "alcim": "Nagy teljesítményű modell kasszafiókkal, nagy forgalmú üzletekbe",
+   "alcim": "Nagy teljesítményű, kasszafiókos modell nagy forgalmú üzletekbe",
    "ar": 149500,
    "arTol": false,
    "akciosAr": null,
@@ -459,9 +459,9 @@
    "kiemelt": true,
    "engedely": "A311",
    "modell": "nagy",
-   "leiras": "Nagyobb forgalmú üzletekbe szánt, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címlet bedobónyílással és nagy sebességű hőnyomtatóval rendelkezik, számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA; a garancia további 2 évvel 15 000 Ft + ÁFA díjért bővíthető.",
+   "leiras": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + ÁFA díj ellenében.",
    "jellemzok": [
-    "NAV engedélyszám: A311",
+    "NAV-engedélyszám: A311",
     "Beépített kasszafiókkal",
     "A Sam4s leggyorsabb hőnyomtatója",
     "Forgatható vevőkijelző",
@@ -474,7 +474,7 @@
    "keszletDb": 2,
    "specs": [
     [
-     "NAV engedélyszám",
+     "NAV-engedélyszám",
      "A311"
     ],
     [
@@ -483,7 +483,7 @@
     ],
     [
      "Felhasználás",
-     "nagy forgalmú üzletek, rendszerbe köthető"
+     "nagy forgalmú üzletekbe, rendszerbe köthető"
     ],
     [
      "Kijelző",
@@ -559,7 +559,7 @@
     ],
     [
      "Kijelző",
-     "négysoros grafikus, háttérvilágítással"
+     "négysoros, háttérvilágítással ellátott grafikus kijelző"
     ],
     [
      "Nyomtató",
@@ -676,7 +676,7 @@
     ],
     [
      "Csatlakozók",
-     "RS232 / LAN / mini USB (PC), RS232 (mérleg), USB host (vonalkódolvasó, mérleg), kasszafiók, külső kijelző"
+     "RS232 / LAN / mini USB (számítógép), RS232 (mérleg), USB host (vonalkódolvasó, mérleg), kasszafiók, külső kijelző"
     ],
     [
      "Méret",
@@ -747,7 +747,7 @@
     ],
     [
      "Csatlakozók",
-     "mini USB-B, USB-A host, kasszafiók / táp közös csatlakozó"
+     "mini USB-B, USB-A host, közös kasszafiók-/tápcsatlakozó"
     ],
     [
      "Felhasználás",
@@ -851,7 +851,7 @@
     ],
     [
      "Kijelzők",
-     "magyar karaktereket kezelő kezelői és vevőkijelző"
+     "magyar karakterek megjelenítésére alkalmas kezelői és vevőkijelző"
     ],
     [
      "Adatmentés",
@@ -859,7 +859,7 @@
     ],
     [
      "Csatlakoztatható",
-     "PC, CAS ER vagy Aclas PS1 mérleg, vonalkódolvasó, bankkártya-terminál, kasszafiók"
+     "számítógép, CAS ER vagy Aclas PS1 mérleg, vonalkódolvasó, bankkártya-terminál, kasszafiók"
     ],
     [
      "Méret",
@@ -896,7 +896,7 @@
    "leiras": "Közepes forgalmú üzletek számára készült online pénztárgép kasszafiókkal. Hagyományos vagy sík, cseppálló billentyűzettel, kulcsos üzemmódválasztóval, vevő- és kezelőkijelzővel, valamint 57,5 mm-es hőnyomtatóval rendelhető. A megadott kapacitás 1 157 árucikk és 30 eladó.",
    "jellemzok": [
     "Kasszafiókkal együtt",
-    "Normál vagy cseppálló sík billentyűzet",
+    "Normál vagy cseppálló, sík billentyűzet",
     "Kulcsos üzemmód",
     "1 157 árucikk, 30 eladó"
    ],
@@ -915,7 +915,7 @@
     ],
     [
      "Kijelzők",
-     "magyar karakteres kezelői és vevőkijelző"
+     "magyar karaktereket megjelenítő kezelői és vevőkijelző"
     ],
     [
      "Billentyűzet",
@@ -1110,7 +1110,7 @@
     ],
     [
      "Csatlakoztatható",
-     "mérleg, vonalkódolvasó, kasszafiók, külső vevőkijelző, PC"
+     "mérleg, vonalkódolvasó, kasszafiók, külső vevőkijelző, számítógép"
     ],
     [
      "Tápellátás",
@@ -1351,7 +1351,7 @@
     ],
     [
      "Csatlakoztatható",
-     "mérleg, vonalkódolvasó, bankkártya-terminál, PC, 12 V-os kasszafiók"
+     "mérleg, vonalkódolvasó, bankkártya-terminál, számítógép, 12 V-os kasszafiók"
     ],
     [
      "Méret",
@@ -1378,7 +1378,7 @@
    "illusztracio": false,
    "id": "imin-15-pos",
    "nev": "15,6\" Android POS terminál",
-   "alcim": "Nagyméretű érintőképernyős POS-terminál állvánnyal, NTAK-kompatibilis vendéglátó-szoftverekhez",
+   "alcim": "Nagyméretű, állványos érintőképernyős POS-terminál NTAK-kompatibilis vendéglátó-szoftverekhez",
    "ar": 129900,
    "keszletDb": 1,
    "keszlet": "raktaron",
@@ -1390,7 +1390,7 @@
    "jellemzok": [
     "15,6\" Full HD érintőképernyő",
     "Android 11",
-    "NTAK vendéglátó szoftverekhez",
+    "NTAK-kompatibilis vendéglátó-szoftverekhez",
     "Meglévő pénztárgéphez is csatlakoztatható",
     "Üzletünkben kipróbálható"
    ],
@@ -1456,7 +1456,7 @@
    "jellemzok": [
     "10,1\" érintőképernyő",
     "Android 11",
-    "NTAK vendéglátó szoftverekhez",
+    "NTAK-kompatibilis vendéglátó-szoftverekhez",
     "Meglévő pénztárgéphez is csatlakoztatható",
     "Üzletünkben kipróbálható"
    ],
@@ -1694,7 +1694,7 @@
     ],
     [
      "Csatlakozó",
-     "pénztárgép-típus szerint, vásárláskor egyeztetjük"
+     "pénztárgéptípus szerint; vásárláskor egyeztetjük"
     ]
    ],
    "letoltesek": [],
@@ -1736,7 +1736,7 @@
     ],
     [
      "Bedobó",
-     "nagy címlet / bizonylat bedobónyílás"
+     "nagy címletű bankjegyek és bizonylatok bedobónyílása"
     ],
     [
      "Trezor funkció",
@@ -1777,7 +1777,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegy- és 8 érmetartóval, nagy címlet bedobónyílással. Kulccsal nyitható és zárható. Mérete 400 × 450 × 100 mm; fekete vagy fehér színben érhető el.",
+   "leiras": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: 400 × 450 × 100 mm. Fekete vagy fehér színben kapható.",
    "jellemzok": [
     "Több rekesz",
     "Kulccsal zárható"
@@ -1794,7 +1794,7 @@
     ],
     [
      "Bedobó",
-     "nagy címlet bedobónyílás"
+     "nagy címletű bankjegyek bedobónyílása"
     ],
     [
      "Zár",
@@ -1802,7 +1802,7 @@
     ],
     [
      "Csatlakozó",
-     "RJ11 (egyes változatokon RS232 / USB), 12 V vagy 24 V"
+     "RJ11 (egyes változatokon RS232 vagy USB), 12 V vagy 24 V"
     ],
     [
      "Szerkezet",
@@ -1858,7 +1858,7 @@
    "keszletDb": 2,
    "specs": [
     [
-     "Méréshatár / osztás",
+     "Méréshatár / osztásérték",
      "15 kg × 5 g vagy 30 kg × 10 g"
     ],
     [
@@ -1888,7 +1888,7 @@
    "kategoria": "merleg",
    "marka": "CAS",
    "nev": "ER-plus",
-   "alcim": "Megbízható hitelesített bolti mérleg",
+   "alcim": "Megbízható, hitelesített bolti mérleg",
    "ar": 52900,
    "arTol": false,
    "akciosAr": null,
@@ -1911,7 +1911,7 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Méréshatár / osztás",
+     "Méréshatár / osztásérték",
      "6/15 kg, 2/5 g (kettős tartomány)"
     ],
     [
@@ -1974,7 +1974,7 @@
    "keszletDb": 1,
    "specs": [
     [
-     "Méréshatár / osztás",
+     "Méréshatár / osztásérték",
      "6/15 kg, 2/5 g"
     ],
     [
@@ -2117,7 +2117,7 @@
     ],
     [
      "Beállítható",
-     "pénznem- és mértékegység-jelek, dátum"
+     "pénznem- és mértékegységjelölések, dátum"
     ],
     [
      "Kellékek",
@@ -2284,7 +2284,7 @@
    "kategoria": "kellek",
    "marka": "",
    "nev": "Hőpapírtekercsek",
-   "alcim": "Minden általunk forgalmazott típushoz",
+   "alcim": "Az általunk forgalmazott valamennyi típushoz",
    "ar": null,
    "arTol": false,
    "akciosAr": null,
@@ -2321,7 +2321,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "papir",
-   "leiras": "Öntapadós árazócímkék és festékhengerek egysoros és kétsoros árazógépekhez. Fehér és színes címkék is elérhetők a megadott kínálat szerint. Vásárlás előtt egyeztesse a címke méretét és a gép típusát.",
+   "leiras": "Öntapadós árazócímkék és festékhengerek egysoros és kétsoros árazógépekhez. A kínálatban fehér és színes címkék is szerepelnek. Vásárlás előtt egyeztesse a szükséges címkeméretet és a készülék típusát.",
    "jellemzok": [
     "Fehér és színes címke",
     "Festékhenger"
@@ -2384,7 +2384,7 @@
   {
    "id": "felulvizsgalat",
    "nev": "Éves felülvizsgálat",
-   "leiras": "Pénztárgépe éves felülvizsgálatának egyeztetéséhez vegye fel velünk a kapcsolatot. A vizsgálat díja és az esetleg szükséges további munka a készüléktől és az elvégzendő feladatoktól függ; kérjen egyedi tájékoztatást.",
+   "leiras": "Pénztárgépe éves felülvizsgálatának egyeztetéséhez vegye fel velünk a kapcsolatot. A vizsgálat díja és az esetlegesen szükséges további munkák költsége a készülék típusától és az elvégzendő feladatoktól függ. Kérjen egyedi tájékoztatást.",
    "ar": null
   },
   {
