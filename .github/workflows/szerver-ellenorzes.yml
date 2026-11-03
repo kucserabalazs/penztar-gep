@@ -1,0 +1,41 @@
+# Biztonsági ellenőrzés: a tárhelyen lévő, a GitHubon NEM szereplő fájlok listája
+# (pl. a régi, feltört weboldal maradványai). Csak olvas, semmit nem módosít és nem töröl.
+# A webáruház adatmappáit (data, uploads) nem listázza név szerint, mert a napló nyilvános.
+# Indítás: Actions › "Tárhely biztonsági ellenőrzése" › Run workflow.
+
+name: Tárhely biztonsági ellenőrzése
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ellenorzes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: lftp telepítése
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Fájlok összevetése
+        env:
+          SFTP_HOST: fw.elin.hu
+          SFTP_PORT: "2253"
+          SFTP_USER: web5109
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          kapcs "cd $CEL; find" > "$RUNNER_TEMP/szerver.txt"
+          sed -e 's#^\./##' -e '/\/$/d' "$RUNNER_TEMP/szerver.txt" | sort -u > "$RUNNER_TEMP/szerver_fajlok.txt"
+          git ls-files | sort -u > "$RUNNER_TEMP/repo.txt"
+          comm -23 "$RUNNER_TEMP/szerver_fajlok.txt" "$RUNNER_TEMP/repo.txt" > "$RUNNER_TEMP/csak_szerveren.txt"
+          echo "Összes fájl a tárhelyen: $(wc -l < "$RUNNER_TEMP/szerver_fajlok.txt")"
+          echo "Webáruház adat- és feltöltött fájlok (nem listázva): $(grep -cE '^webaruhaz/(data|uploads)/' "$RUNNER_TEMP/csak_szerveren.txt" || true)"
+          echo "=== Csak a tárhelyen lévő egyéb fájlok (nincsenek a GitHubon) ==="
+          grep -vE '^webaruhaz/(data|uploads)/|^webaruhaz/config\.local\.php$|^\.well-known/' "$RUNNER_TEMP/csak_szerveren.txt" || echo "(nincs ilyen)"
+          echo "=== Mappák a tárhely gyökerében ==="
+          kapcs "cd $CEL; cls -1 -d */" || true
+          echo "=== A belépési mappa tartalma ==="
+          kapcs "cls -1 web5109/" || kapcs "cls -1" || true
+          rm -f "$RUNNER_TEMP"/*.txt
