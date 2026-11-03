@@ -1298,7 +1298,7 @@ html[dir=rtl] .top .hnyelv{display:none}
   .dd .menu a:hover{background:var(--surface-2)!important}
   .dd .menu a span.c{color:var(--muted)!important}
 }
-</style><style id="arbox-vilagos">.pbox{background:linear-gradient(180deg,#fffdf8,#f7f1e4)!important;border:1.5px solid #d6a64e!important;box-shadow:0 6px 18px rgba(8,39,70,.12)!important;padding:18px 16px 16px!important;color:#182e48!important}.pbox .pr{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px}.pbox .lbl{color:#182e48!important;font-size:17px!important;font-weight:700!important}.pbox .net{display:block;margin-top:8px;color:#3d5167!important;font-size:15px!important;font-weight:600!important}.pbox .stock{font-size:15px!important}.pbox .stock.s-ok{color:#13723f!important}</style></head>
+</style><style id="arbox-vilagos">.pbox{background:linear-gradient(180deg,#fffdf8,#f7f1e4)!important;border:1.5px solid #d6a64e!important;box-shadow:0 6px 18px rgba(8,39,70,.12)!important;padding:18px 16px 16px!important;color:#182e48!important}.pbox .pr{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px}.pbox .lbl{color:#182e48!important;font-size:17px!important;font-weight:700!important}.pbox .net{display:block;margin-top:8px;color:#3d5167!important;font-size:15px!important;font-weight:600!important}.pbox .stock{font-size:15px!important}.pbox .stock.s-ok{color:#13723f!important}</style><style id="mobil-szlogen">@media (max-width:480px){.top .wrap{column-gap:9px!important;padding-left:12px!important}.top .logo img{width:118px!important}.top .vbar{height:42px!important}.top .slogan{font-size:13.5px!important;line-height:1.22!important;white-space:nowrap!important}.top .pan.sarkany{height:66px!important;width:auto!important;max-width:none!important;right:-4px!important;top:10px!important}}@media (max-width:370px){.top .slogan{font-size:12.5px!important}.top .logo img{width:108px!important}}</style></head>
 <body>
 
 <header class="top">
@@ -2737,7 +2737,7 @@ function geo(){var R=top.getBoundingClientRect(),d=vis(top.querySelector('.pan.s
 function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
 var C=15000,t0=performance.now();
 function frame(now){requestAnimationFrame(frame);if(!on||!L)return;var c=((now-t0)%C)/C*15,ext;
- if(c<5)ext=0;else if(c<9)ext=ease((c-5)/4);else if(c<11.5)ext=1;else if(c<14)ext=1-ease((c-11.5)/2.5);else ext=0;
+ if(c<2)ext=0;else if(c<5.5)ext=ease((c-2)/3.5);else if(c<12.5)ext=1;else if(c<14.5)ext=1-ease((c-12.5)/2);else ext=0;
  if(ext<=0.002){p.setAttribute('d','');return;}
  var s=L*ext,ph=now/1000*4.2,amp=3.2,lam=58,d='',i,last=null,lx,ly,nx,ny,tx,ty;
  for(i=0;i<P.length&&S[i]<=s;i++){var j=Math.min(i+1,P.length-1),k=Math.max(i-1,0);tx=P[j][0]-P[k][0];ty=P[j][1]-P[k][1];var ln=Math.hypot(tx,ty)||1;tx/=ln;ty/=ln;nx=-ty;ny=tx;
