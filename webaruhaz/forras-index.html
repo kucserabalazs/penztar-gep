@@ -3,7 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Webáruház · Totál Pénztárgép Pécs</title>
+<title>Pénztárgép webáruház Pécs – online pénztárgépek, POS, mérlegek | Totál</title>
+<link rel="canonical" href="https://penztar-gep.hu/webaruhaz/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Totál Pénztárgép Pécs">
+<meta property="og:url" content="https://penztar-gep.hu/webaruhaz/">
+<meta property="og:title" content="Pénztárgép webáruház Pécs – Totál">
+<meta property="og:description" content="Pénztárgép webáruház Pécsen: online pénztárgépek, POS terminálok, kasszafiókok, mérlegek, árazógépek, kellékanyagok. Átvétel és szerviz a Hunyadi J. u. 34-ben.">
+<meta property="og:image" content="https://penztar-gep.hu/assets/og-kep.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://penztar-gep.hu/webaruhaz/#oldal","url":"https://penztar-gep.hu/webaruhaz/","name":"Pénztárgép webáruház Pécs – Totál","inLanguage":"hu-HU","isPartOf":{"@id":"https://penztar-gep.hu/#web"},"about":{"@id":"https://penztar-gep.hu/#uzlet"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kezdőlap","item":"https://penztar-gep.hu/"},{"@type":"ListItem","position":2,"name":"Webáruház","item":"https://penztar-gep.hu/webaruhaz/"}]}},{"@type":["Store","ElectronicsStore"],"@id":"https://penztar-gep.hu/#uzlet","name":"Totál Pénztárgép és Számítástechnika","url":"https://penztar-gep.hu/","telephone":"+36 72 215 652","image":"https://penztar-gep.hu/assets/uzlet-homlokzat.webp","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Hunyadi János utca 34.","postalCode":"7625","addressLocality":"Pécs","addressRegion":"Baranya","addressCountry":"HU"}}]}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="manifest" href="kezelo.webmanifest">
 <link rel="apple-touch-icon" href="kezelo-180.png">
@@ -12,8 +23,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#082746">
-<meta name="description" content="Online pénztárgépek, POS terminálok, mérlegek, árazógépek és kellékanyagok Pécsen. Kis készlet, alapos bemutatás, 360°-os nézet, helyi szerviz.">
+<meta name="description" content="Pénztárgép webáruház Pécsen: online pénztárgépek, POS terminálok, kasszafiókok, mérlegek, árazógépek, kellékanyagok. Átvétel és szerviz a Hunyadi J. u. 34-ben.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Layout: világos webáruház a főoldal stílusjegyeivel – sötétkék fejléc arany menüvel, krém és fehér felületek, arany kiemelések; a termék a főszereplő */
@@ -1305,7 +1317,7 @@ html[dir=rtl] .top .hnyelv{display:none}
   </div>
 </section>
 <div class="osztas" aria-hidden="true"><span></span></div>
-<footer class="slim"><div class="f-pano" aria-hidden="true"><img src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1101" alt="" loading="lazy" decoding="async"></div><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="#aszf">Vásárlási feltételek</a> · <a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
+<footer class="slim"><div class="f-pano" aria-hidden="true"><img src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1101" alt="" loading="lazy" decoding="async"></div><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="termek.php">Termékkatalógus</a> · <a href="#aszf">Vásárlási feltételek</a> · <a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
 
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Kosár" aria-hidden="true"></aside>
@@ -2651,7 +2663,7 @@ async function route(){
   $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(nav))));
   closeMenus(); if(!document.fullscreenElement && !(shop && h.startsWith('kat-'))) scrollTo(0,0); renderCmpBar();
   const p=h.startsWith('t-')&&prod(h.slice(2))||(h.includes('/')&&prod(h.split('/')[1]));
-  document.title=p?`${fullName(p)} · Totál Pénztárgép Pécs`:(h==='admin'?'Admin · Totál Pénztárgép Pécs':'Webáruház · Totál Pénztárgép Pécs');
+  document.title=p?`${fullName(p)} · Totál Pénztárgép Pécs`:(h==='admin'?'Admin · Totál Pénztárgép Pécs':'Pénztárgép webáruház Pécs – online pénztárgépek, POS, mérlegek | Totál');
 }
 function closeMenus(){ const bx=$('#modal .box'); if(bx) bx.style.maxWidth=''; ['#drawer','#modal','#searchpal'].forEach(q=>{ const e=$(q); e.classList.remove('show'); e.setAttribute('aria-hidden','true'); }); $('#filters')?.classList.remove('open'); closeLb(); hideOverlay(); $('#navbar').classList.remove('open'); $('#burger').setAttribute('aria-expanded','false'); $('#dd').classList.remove('open'); $('#ddb').setAttribute('aria-expanded','false'); }
 function fillChrome(){

@@ -31,6 +31,8 @@
   function detect() {
     const q = (/[?&]lang=([a-z]{2})/i.exec(location.search) || [])[1];
     if (q && CODES.includes(q.toLowerCase())) return q.toLowerCase();
+    /* keresőrobotok mindig az eredeti, magyar oldalt kapják (a Google angol böngészőnyelvvel érkezik) */
+    if (/bot|crawl|spider|slurp|inspectiontool|google-|bingpreview|yandex|baidu|lighthouse|headless|facebookexternalhit/i.test(navigator.userAgent || "")) return "hu";
     const s = store.get(); if (s && CODES.includes(s)) return s;
     const pref = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "hu"]).map((l) => String(l).toLowerCase().split("-")[0]);
     for (const p of pref) if (READY.includes(p)) return p;

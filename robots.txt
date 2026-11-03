@@ -1,0 +1,12 @@
+# Penztar-gep.hu – keresőrobotok szabályai
+User-agent: *
+Allow: /
+Disallow: /webaruhaz/api.php
+Disallow: /webaruhaz/data/
+Disallow: /webaruhaz/uploads/
+Disallow: /mentesek/
+Disallow: /referencia/
+Disallow: /eszkozok/
+Disallow: /*?forditas=
+
+Sitemap: https://penztar-gep.hu/sitemap.php
