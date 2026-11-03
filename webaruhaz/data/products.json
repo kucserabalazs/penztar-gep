@@ -54,7 +54,7 @@
    "gyik": [
     [
      "Mi szükséges a pénztárgép üzembe helyezéséhez?",
-     "Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
+     "Üzembe helyezési kód (amelyet Ön vagy könyvelője igényel az Ügyfélkapun keresztül); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
     ],
     [
      "Mennyibe kerül a mobil adatkapcsolat?",
@@ -187,7 +187,7 @@
    "leiras": "Szervizünkben bevizsgált, átszemélyesített használt pénztárgépek és eszközök, az aktuális készlet függvényében. Az elérhető típusokról és állapotukról telefonon vagy üzletünkben érdeklődhet.",
    "gyik": [
     [
-     "Van garancia a használt gépekre?",
+     "Van garancia a használt készülékekre?",
      "Igen, a használt készülékekre is garanciát vállalunk; a garancia időtartamát az adott termék adatlapján tüntetjük fel."
     ],
     [
@@ -262,7 +262,7 @@
     ],
     [
      "Kapcsolat",
-     "USB, RS232, PC; Windows, Android és iOS rendszerekhez"
+     "USB, RS232, PC; Windows, Android és iOS operációs rendszerekhez"
     ],
     [
      "Bizonylat",
@@ -780,7 +780,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Szervizünkben bevizsgált és átszemélyesített használt pénztárgépek, az aktuális készlet függvényében. Az elérhető típusokról és állapotukról telefonon vagy üzletünkben érdeklődhet. Használt készülék vásárlása előtt egyeztessen a szükséges átszemélyesítésről, üzembe helyezésről és garanciális feltételekről.",
+   "leiras": "Szervizünkben bevizsgált és átszemélyesített használt pénztárgépek, az aktuális készlet függvényében. Az elérhető típusokról és azok állapotáról telefonon vagy üzletünkben érdeklődhet. Használt készülék vásárlása előtt egyeztessen a szükséges átszemélyesítésről, üzembe helyezésről és a garanciális feltételekről.",
    "jellemzok": [
     "Szervizben bevizsgálva",
     "Átszemélyesítve",
@@ -1496,7 +1496,7 @@
    "kategoria": "pos",
    "marka": "Sam4s · Citizen · Bixolon",
    "nev": "Blokk- és címkenyomtatók",
-   "alcim": "Soros, párhuzamos és USB kivitelben",
+   "alcim": "Soros, párhuzamos vagy USB-csatlakozású kivitelben",
    "ar": null,
    "arTol": false,
    "akciosAr": null,
@@ -1506,7 +1506,7 @@
    "modell": "nyomtato",
    "leiras": "Blokk- és címkenyomtatók POS-rendszerekhez, számlázási és címkézési feladatokhoz. Típustól függően soros, párhuzamos vagy USB-csatlakozással érhetők el. A kompatibilitás a készüléktől és az alkalmazott szoftvertől függ.",
    "jellemzok": [
-    "Soros, párhuzamos, USB",
+    "Soros, párhuzamos vagy USB-csatlakozás",
     "Hőnyomtatós kivitel"
    ],
    "kepek": [
@@ -1525,7 +1525,7 @@
    "kategoria": "pos",
    "marka": "Argox",
    "nev": "AS-8060 CCD vonalkódolvasó",
-   "alcim": "Strapabíró 1D vonalkódolvasó állvánnyal",
+   "alcim": "Strapabíró 1D vonalkódolvasó, állvánnyal",
    "ar": 16990,
    "arTol": false,
    "akciosAr": null,
@@ -1603,7 +1603,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "scanner",
-   "leiras": "USB-csatlakozású, kamerás 2D vonalkódolvasó QR-kódok beolvasásához. A megadott leírás szerint telefon kijelzőjén megjelenített kódokat is képes olvasni.",
+   "leiras": "USB-csatlakozású, kamerás 2D vonalkódolvasó QR-kódok beolvasásához. A megadott leírás szerint a telefon kijelzőjén megjelenített kódokat is képes olvasni.",
    "jellemzok": [
     "2D kamerás",
     "QR-kód",
@@ -1637,7 +1637,7 @@
     ],
     [
      "Különlegesség",
-     "telefon kijelzőjéről is olvas (pl. QR-kód, kupon)"
+     "telefon kijelzőjéről is képes olvasni (pl. QR-kódot vagy kupont)"
     ]
    ],
    "letoltesek": [],
@@ -1928,7 +1928,7 @@
     ],
     [
      "Tápellátás",
-     "tölthető akkumulátor, hálózati adapter"
+     "újratölthető akkumulátor, hálózati adapter"
     ],
     [
      "Csatlakozás",
@@ -2183,7 +2183,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "arazo",
-   "leiras": "Szálbelövő pisztoly árcédulák ruhákhoz és más textíliákhoz történő rögzítésére. A hozzá való tű és belövőszál többféle méretben és kivitelben kapható.",
+   "leiras": "Szálbelövő pisztoly árcédulák ruhákhoz és más textíliákhoz való rögzítésére. A hozzá tartozó tű és belövőszál többféle méretben és kivitelben kapható.",
    "jellemzok": [
     "Ruhaárazó",
     "Szálbelövő"
@@ -2360,7 +2360,7 @@
    "leiras": "5000 darabos belövőszál-csomag ruhaárazó szálbelövő pisztolyhoz. A szálbelövő tű és a belövőszál többféle méretben és kivitelben kapható.",
    "jellemzok": [
     "5000 db / csomag",
-    "Több méretben és fajtában"
+    "Többféle méretben és kivitelben"
    ],
    "specs": [
     [
@@ -2378,7 +2378,7 @@
   {
    "id": "uzembe",
    "nev": "Új pénztárgép üzembe helyezése",
-   "leiras": "Segítünk a készülék beállításában és üzembe helyezésében, majd bemutatjuk a mindennapi használat legfontosabb lépéseit. A szükséges kódokról és iratokról vásárlás előtt tájékoztatjuk.",
+   "leiras": "Segítünk a készülék beállításában és üzembe helyezésében, majd bemutatjuk a mindennapi használat legfontosabb lépéseit. A szükséges kódokról és dokumentumokról vásárlás előtt tájékoztatjuk.",
    "ar": 15000
   },
   {
@@ -2402,7 +2402,7 @@
   {
    "id": "atallas",
    "nev": "E-pénztárgépes tájékoztatás",
-   "leiras": "Segítünk áttekinteni a vállalkozása számára szóba jövő megoldásokat és a kapcsolódó teendőket. Az aktuális szabályozásról és a forgalmazói kínálatról kérjen személyes tájékoztatást.",
+   "leiras": "Segítünk áttekinteni a vállalkozása számára szóba jöhető megoldásokat és a kapcsolódó teendőket. Az aktuális szabályozásról és a forgalmazók kínálatáról kérjen személyes tájékoztatást.",
    "ar": null
   },
   {
@@ -2414,7 +2414,7 @@
   {
    "id": "halozat",
    "nev": "Hálózat és internet kiépítése",
-   "leiras": "Üzleti és irodai hálózatok, Wi-Fi-kapcsolat és pénztárgépek hálózati csatlakoztatása. A helyszín, a meglévő eszközök és a kívánt működés alapján egyeztetjük a szükséges munkát.",
+   "leiras": "Üzleti és irodai hálózatok, Wi-Fi-kapcsolatok, valamint pénztárgépek hálózati csatlakoztatása. A szükséges munkát a helyszín, a meglévő eszközök és az elvárt működés alapján egyeztetjük.",
    "ar": null
   }
  ]

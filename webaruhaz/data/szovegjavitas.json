@@ -418,5 +418,65 @@
  {
   "regi": "NTAK vendéglátó szoftverekhez",
   "uj": "NTAK-kompatibilis vendéglátó-szoftverekhez"
+ },
+ {
+  "regi": "Segítünk a készülék beállításában és üzembe helyezésében, majd bemutatjuk a mindennapi használat legfontosabb lépéseit. A szükséges kódokról és iratokról vásárlás előtt tájékoztatjuk.",
+  "uj": "Segítünk a készülék beállításában és üzembe helyezésében, majd bemutatjuk a mindennapi használat legfontosabb lépéseit. A szükséges kódokról és dokumentumokról vásárlás előtt tájékoztatjuk."
+ },
+ {
+  "regi": "Segítünk áttekinteni a vállalkozása számára szóba jövő megoldásokat és a kapcsolódó teendőket. Az aktuális szabályozásról és a forgalmazói kínálatról kérjen személyes tájékoztatást.",
+  "uj": "Segítünk áttekinteni a vállalkozása számára szóba jöhető megoldásokat és a kapcsolódó teendőket. Az aktuális szabályozásról és a forgalmazók kínálatáról kérjen személyes tájékoztatást."
+ },
+ {
+  "regi": "Soros, párhuzamos és USB kivitelben",
+  "uj": "Soros, párhuzamos vagy USB-csatlakozású kivitelben"
+ },
+ {
+  "regi": "Soros, párhuzamos, USB",
+  "uj": "Soros, párhuzamos vagy USB-csatlakozás"
+ },
+ {
+  "regi": "Strapabíró 1D vonalkódolvasó állvánnyal",
+  "uj": "Strapabíró 1D vonalkódolvasó, állvánnyal"
+ },
+ {
+  "regi": "Szálbelövő pisztoly árcédulák ruhákhoz és más textíliákhoz történő rögzítésére. A hozzá való tű és belövőszál többféle méretben és kivitelben kapható.",
+  "uj": "Szálbelövő pisztoly árcédulák ruhákhoz és más textíliákhoz való rögzítésére. A hozzá tartozó tű és belövőszál többféle méretben és kivitelben kapható."
+ },
+ {
+  "regi": "Szervizünkben bevizsgált és átszemélyesített használt pénztárgépek, az aktuális készlet függvényében. Az elérhető típusokról és állapotukról telefonon vagy üzletünkben érdeklődhet. Használt készülék vásárlása előtt egyeztessen a szükséges átszemélyesítésről, üzembe helyezésről és garanciális feltételekről.",
+  "uj": "Szervizünkben bevizsgált és átszemélyesített használt pénztárgépek, az aktuális készlet függvényében. Az elérhető típusokról és azok állapotáról telefonon vagy üzletünkben érdeklődhet. Használt készülék vásárlása előtt egyeztessen a szükséges átszemélyesítésről, üzembe helyezésről és a garanciális feltételekről."
+ },
+ {
+  "regi": "Több méretben és fajtában",
+  "uj": "Többféle méretben és kivitelben"
+ },
+ {
+  "regi": "USB-csatlakozású, kamerás 2D vonalkódolvasó QR-kódok beolvasásához. A megadott leírás szerint telefon kijelzőjén megjelenített kódokat is képes olvasni.",
+  "uj": "USB-csatlakozású, kamerás 2D vonalkódolvasó QR-kódok beolvasásához. A megadott leírás szerint a telefon kijelzőjén megjelenített kódokat is képes olvasni."
+ },
+ {
+  "regi": "USB, RS232, PC; Windows, Android és iOS rendszerekhez",
+  "uj": "USB, RS232, PC; Windows, Android és iOS operációs rendszerekhez"
+ },
+ {
+  "regi": "Üzembe helyezési kód (Ön vagy könyvelője igényli az ügyfélkapun), társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük.",
+  "uj": "Üzembe helyezési kód (amelyet Ön vagy könyvelője igényel az Ügyfélkapun keresztül); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
+ },
+ {
+  "regi": "Üzleti és irodai hálózatok, Wi-Fi-kapcsolat és pénztárgépek hálózati csatlakoztatása. A helyszín, a meglévő eszközök és a kívánt működés alapján egyeztetjük a szükséges munkát.",
+  "uj": "Üzleti és irodai hálózatok, Wi-Fi-kapcsolatok, valamint pénztárgépek hálózati csatlakoztatása. A szükséges munkát a helyszín, a meglévő eszközök és az elvárt működés alapján egyeztetjük."
+ },
+ {
+  "regi": "Van garancia a használt gépekre?",
+  "uj": "Van garancia a használt készülékekre?"
+ },
+ {
+  "regi": "telefon kijelzőjéről is olvas (pl. QR-kód, kupon)",
+  "uj": "telefon kijelzőjéről is képes olvasni (pl. QR-kódot vagy kupont)"
+ },
+ {
+  "regi": "tölthető akkumulátor, hálózati adapter",
+  "uj": "újratölthető akkumulátor, hálózati adapter"
  }
 ]
