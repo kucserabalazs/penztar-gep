@@ -661,12 +661,14 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .f-pano img{display:block;width:100%;height:auto;aspect-ratio:2182/776;opacity:.3}
 
 
+.top .pan.sarkany{top:auto;bottom:6px;right:max(10px,1.5vw);height:86%;max-height:96px;width:auto;opacity:.9}
+@media (max-width:820px){.top .pan.sarkany{height:62px;opacity:.55;right:4px}}
 </style>
 </head>
 <body>
 
 <header class="top">
-  <img class="pan" src="assets/panorama.webp" alt="">
+  <img class="pan sarkany" src="assets/illusztraciok/web/zsolnay-kut-okorfej-arany.svg?v=1108" alt="" aria-hidden="true" width="1653" height="1038">
   <div class="wrap">
     <button class="mburger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="fomenu" onclick="var n=document.getElementById('fomenu');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <a class="logo" href="./" aria-label="Totál Pénztárgép és Számítástechnika – kezdőlap"><img src="assets/logo/total-logo-fejlec.svg" alt="TOTÁL – Pénztárgép-Számítástechnika" width="345" height="146"></a>
