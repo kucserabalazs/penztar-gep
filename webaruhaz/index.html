@@ -1125,9 +1125,9 @@ body:has(.adm2) .shop-pano{display:none}
 
 <main id="app"></main>
 
-<div class="shop-pano" aria-hidden="true"><img src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1054" alt="" loading="lazy" decoding="async"></div>
+<div class="shop-pano" aria-hidden="true"><img src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1058" alt="" loading="lazy" decoding="async"></div>
 <section class="svcband" aria-label="Szolgáltatásaink">
-  <img class="dz" src="../assets/illusztraciok/web/dzsami-szepia.svg?v=1054" alt="" aria-hidden="true" loading="lazy" decoding="async">
+  <img class="dz" src="../assets/illusztraciok/web/dzsami-szepia.svg?v=1058" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="wrap">
     <div class="sb"><img src="../assets/ikonok/shield.svg" alt=""><span>Hivatalos<br>forgalmazó</span></div>
     <div class="sb"><img src="../assets/ikonok/tools.svg" alt=""><span>Szerviz<br>Pécsen</span></div>
@@ -1418,7 +1418,7 @@ const catRoute = id => 'kat-'+id;
 const ILL='../assets/illusztraciok/web/';
 const PH_IL=[[/^Szerviz/,'tv-torony'],[/e-pénztárgép/i,'zsolnay-kut-okorfej'],[/^Pécsen/,'szekesegyhaz'],[/^Keressen minket/,'dzsami'],[/^(Vásárlási|Megrendelés|Fizetés|Összehasonlítás)/,'szechenyi-ter'],[/./,'szekesegyhaz']];
 function pageHead(title, sub, crumbs, extra=''){ const il=(PH_IL.find(([re])=>re.test(title))||[])[1];
-  return `<section class="pagehead${il?' ph-'+il:''}">${il?`<img class="ph-il" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1054" alt="" aria-hidden="true" decoding="async">`:''}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section>`; }
+  return `<section class="pagehead${il?' ph-'+il:''}">${il?`<img class="ph-il" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1058" alt="" aria-hidden="true" decoding="async">`:''}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section>`; }
 const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
 const SVG = n => `<img src="../assets/ikonok/${n}.svg" alt="" aria-hidden="true">`;
 function sortItems(items){
