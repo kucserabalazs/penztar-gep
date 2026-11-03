@@ -1029,7 +1029,7 @@ body:has(.adm2) .svcband,body:has(.adm2) footer.slim{display:none}
 .adl-bolt{display:flex;gap:10px;align-items:center;font-size:.92rem;color:#3f5166}.adl-bolt .ic{width:22px;height:22px;color:var(--gold-d);flex-shrink:0}
 .dlrow{display:flex;gap:8px;flex-wrap:wrap}
 .dlrow .dl{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line-2);background:#fff;font-weight:700;color:var(--n2)}
-.dlrow .dl .ic{width:20px;height:20px;color:var(--bad)}
+.dlrow .dl .ic{width:20px;height:20px;color:var(--bad);flex-shrink:0}.dlrow .dl span{display:grid;gap:1px}.dlrow .dl small{font-weight:500;font-size:.8rem;color:var(--muted)}
 .dlrow .dl:hover{border-color:var(--gold)}
 .oadl{border:1px solid #e3d7bd;border-radius:12px;background:#fffdf6;padding:0 12px}
 .oadl summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:800;color:var(--n2);cursor:pointer}
@@ -1699,8 +1699,8 @@ function pageCheckout(){
       <button class="btn gold" type="submit" id="co-submit">${icon('check')} <span>Megrendelés elküldése</span></button></form></div>
     <div class="sumcol"><div class="panel"><h3>Rendelése</h3>${items.map(x=>`<div class="sumrow"><span>${x.db} × ${esc(fullName(x.p))}</span><span class="num">${x.p.ar?ft(now(x.p)*x.db):'kérésre'}</span></div>`).join('')}<div style="border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px" id="co-sum"><div class="sumrow" id="sum-uz" hidden><span>Üzembe helyezés</span><span class="num"></span></div><div class="sumrow"><span>Nettó</span><span class="num" id="sum-net">${ft(sum)}</span></div><div class="sumrow" id="sum-ship" hidden><span>Szállítás</span><span class="num"></span></div><div class="sumrow tot"><span>Fizetendő (bruttó)</span><span class="num" id="sum-tot">${ft(cartTotals(items).tot)}</span></div></div><a class="btn line sm" href="#kosar" style="justify-self:start">Kosár módosítása</a></div></div></div>`;
 }
-const ADATLAP_PDF='letoltesek/penztargep-megrendelo-adatlap.pdf', ADATLAP_DOC='letoltesek/penztargep-megrendelo-adatlap.doc';
-const dlAdatlap=()=>`<div class="dlrow"><a class="dl" href="${ADATLAP_PDF}" target="_blank" rel="noopener" download>${icon('file')}Pénztárgép-megrendelő adatlap (PDF)</a><a class="dl" href="${ADATLAP_DOC}" download>${icon('file')}Ugyanez Word-formátumban (DOC)</a></div>`;
+const ADATLAP_PDF='letoltesek/penztargep-megrendelo-adatlap.pdf';
+const dlAdatlap=()=>`<div class="dlrow"><a class="dl" href="${ADATLAP_PDF}" target="_blank" rel="noopener" download>${icon('file')}<span>Pénztárgép-megrendelő (kitölthető PDF)<small>Számítógépen vagy telefonon is kitölthető, majd kinyomtatva aláírható</small></span></a></div>`;
 function adatlapHTML(regs){
   const tipus=[...new Set(regs.map(x=>fullName(x.p)))].join(', ');
   const ck=(n,v,l,c)=>`<label class="chk2"><input type="checkbox" name="${n}" value="${v}" ${c?'checked':''}><span>${l}</span></label>`;
