@@ -46,6 +46,29 @@ AddType application/manifest+json .webmanifest
   Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
+# ---- A régi weboldal címeinek átirányítása ------------------------------------------
+# A Google még a régi (feltört, idegen linkeket tartalmazó) oldal címeit is ismeri
+# (pl. /fooldal/, /kapcsolat/, /tudnivalok/). Ezek végleges (301) átirányítást kapnak az új
+# oldal megfelelő részére, így a Google a régi tartalmat lecseréli az újra.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^fooldal/?$ / [R=301,L]
+  RewriteRule ^(kapcsolat|elerhetoseg|elerhetosegek|kapcsolatfelvetel)/?$ /#kapcsolat [R=301,NE,L]
+  RewriteRule ^(tudnivalok|aszf|szallitas|szallitasi-feltetelek|szallitas-es-fizetes|vasarlasi-feltetelek)/?$ /webaruhaz/#aszf [R=301,NE,L]
+  RewriteRule ^(adatkezeles|adatvedelem|adatkezelesi-tajekoztato)/?$ /webaruhaz/#adatkezeles [R=301,NE,L]
+  RewriteRule ^(szerviz|javitas)/?$ /webaruhaz/#szerviz [R=301,NE,L]
+  # Régi WordPress-mappák: véglegesen megszűntek
+  RewriteRule ^(wp-admin|wp-content|wp-includes|wp-json)(/|$) - [G,L]
+  RewriteRule ^(wp-login\.php|xmlrpc\.php)$ - [G,L]
+  # Régi ?p=123 / ?page_id=123 típusú címek a főoldalra
+  RewriteCond %{QUERY_STRING} (^|&)(p|page_id|product|product_cat)=
+  RewriteRule ^(index\.php)?$ / [R=301,QSD,L]
+  # Minden egyéb, már nem létező régi „/valami/” cím a webáruházba
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^[^/.]+(/[^/.]+)*/$ /webaruhaz/ [R=301,L]
+</IfModule>
+
 # ---- Belső mappák elrejtése ---------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
