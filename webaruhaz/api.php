@@ -517,7 +517,8 @@ switch ($a) {
     if ($nev === '' || ($tel === '' && $email === '')) out(['error' => 'Adja meg a nevét és legalább egy elérhetőséget.'], 400);
     $kosar = ($b['tipus'] ?? '') === 'megrendeles' && !empty($b['tetelek']);
     $fizmod = in_array($b['fizmod'] ?? '', ['online', 'atutalas', 'atvetelkor'], true) ? $b['fizmod'] : 'atvetelkor';
-    $kiszall = ($b['atvetel'] ?? '') === 'Kiszállítással';
+    $kiszall = false;   // jelenleg csak személyes átvétel van
+    if (($b['atvetel'] ?? '') === 'Kiszállítással') out(['error' => 'A termékeket jelenleg csak üzletünkben lehet átvenni.'], 400);
     if ($kosar && !filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.'], 400);
     if ($kosar && $fizmod === 'online' && !barion_on()) out(['error' => 'Az online fizetés most nem érhető el. Kérjük, válasszon másik fizetési módot.'], 400);
     if ($kosar && $fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre, átutalással kell fizetni.'], 400);
