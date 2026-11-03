@@ -126,6 +126,21 @@ if (!$P) {
   $ld[] = ['@type' => 'ItemList', 'name' => $kat !== '' ? $CATS[$kat]['nev'] : 'Termékkatalógus', 'itemListElement' => array_map(fn($p, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'url' => SHOP . plink($p), 'name' => fullname($p)], $lst, array_keys($lst))];
 }
 
+function ajanlott(array $p): string {
+  static $A = [
+    'penztargep' => ['kezi' => 'Mozgóárusításhoz, kiszállításhoz, piaci és rendezvényes árusításhoz, ahol nincs állandó pénztárhely.', 'kompakt' => 'Kisebb üzleteknek és szolgáltatóknak, ahol a pulton kevés a hely.', 'nagy' => 'Nagyobb forgalmú üzleteknek, ahol kasszafiók, vonalkódolvasó vagy mérleg is csatlakozik a géphez.', '_' => 'Üzleteknek és szolgáltatóknak, amelyeknek online pénztárgépet kell használniuk.'],
+    'hasznalt' => ['_' => 'Annak, aki kedvezőbb áron, szervizünkben bevizsgált és átszemélyesített pénztárgépet keres.'],
+    'pos' => ['scanner' => 'Üzleteknek, ahol a termékeket vonalkód alapján, gyorsan kell beolvasni.', 'nyomtato' => 'POS-rendszerekhez, számlázási és címkézési feladatokra.', '_' => 'Vendéglátóhelyeknek és üzleteknek, amelyek érintőképernyős kasszarendszert szeretnének.'],
+    'fiok' => ['_' => 'Pénztárgéphez vagy POS-rendszerhez, a készpénz biztonságos tárolásához.'],
+    'merleg' => ['_' => 'Boltoknak, piaci árusoknak és pultos kiszolgáláshoz, ahol a termékeket súly szerint árazzák.'],
+    'arazo' => ['_' => 'Üzleteknek a termékek gyors és jól olvasható árazásához.'],
+    'irodatechnika' => ['_' => 'Irodáknak, üzleteknek és otthoni használatra, igény szerint összeállítva és telepítve.'],
+    'kellek' => ['_' => 'A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.'],
+  ];
+  if (!empty($p['ajanlott'])) return (string)$p['ajanlott'];
+  $k = $A[$p['kategoria'] ?? ''] ?? [];
+  return $k[$p['modell'] ?? ''] ?? ($k['_'] ?? '');
+}
 function card(array $p): string {
   $pr = nowprice($p);
   $i = img($p);
@@ -229,6 +244,7 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
     <?php if (!empty($P['jellemzok'])): ?><h2>Főbb jellemzők</h2><ul class="jel"><?php foreach ($P['jellemzok'] as $j): ?><li><?= h($j) ?></li><?php endforeach; ?></ul><?php endif; ?>
   </div>
 </article>
+<?php if (ajanlott($P) !== ''): ?><section><h2>Kinek ajánljuk?</h2><p class="lead"><?= h(ajanlott($P)) ?></p></section><?php endif; ?>
 <?php if (!empty($P['leiras'])): ?><section><h2>Leírás</h2><p class="lead"><?= nl2br(h($P['leiras'])) ?></p></section><?php endif; ?>
 <?php if (!empty($P['specs'])): ?><section><h2>Műszaki adatok</h2><table><?php foreach ($P['specs'] as $s): ?><tr><th scope="row"><?= h($s[0]) ?></th><td><?= h($s[1]) ?></td></tr><?php endforeach; ?></table></section><?php endif; ?>
 <section><h2>Vásárlás, átvétel és szerviz Pécsen</h2><p class="lead">A terméket üzletünkben, Pécsen, a Hunyadi János utca 34. alatt veheti át (hétfőtől péntekig 9:00–15:00). Fizethet készpénzzel átvételkor vagy előre banki átutalással. <?= $P['kategoria'] === 'penztargep' ? 'Pénztárgépek esetén az üzembe helyezést, a NAV-bejelentést, a kezelés betanítását és az éves felülvizsgálatot is mi végezzük.' : 'A beállításban és a használatba vételben is segítünk.' ?></p></section>

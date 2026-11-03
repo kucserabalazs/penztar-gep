@@ -429,6 +429,19 @@ svg.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;s
 .qty button[disabled]{opacity:.35;cursor:not-allowed}
 .qty input{width:48px;text-align:center;border:0;background:transparent;font-weight:700}
 .perks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pnote{margin:0;font-size:.95rem;color:var(--muted,#4a5a6e);line-height:1.5}
+.pdx{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:28px}
+.pdx-c{display:grid;gap:10px;align-content:start;padding:20px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.pdx-c h3{margin:0;font-size:1.15rem}.pdx-c p{margin:0;line-height:1.55}
+.pdx-c ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}.pdx-c li{display:grid;gap:2px}.pdx-c li span{color:var(--muted,#4a5a6e);font-size:.95rem;line-height:1.45}
+.pdx-c .ic.big{width:30px;height:30px;color:var(--gold-d,#b7832e)}
+.pdnext{margin-top:28px;padding:22px;border-radius:20px;background:linear-gradient(180deg,rgba(214,166,78,.12),rgba(214,166,78,.04));border:1px solid rgba(183,131,46,.35)}
+.pdnext h3{margin:0 0 14px;font-size:1.25rem}
+.pdnext-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.pdn{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:4px;padding:16px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 14px rgba(12,26,51,.06);transition:transform .15s,box-shadow .15s}
+.pdn:hover,.pdn:focus-visible{transform:translateY(-2px);box-shadow:0 10px 24px rgba(12,26,51,.12)}.pdn:focus-visible{outline:3px solid var(--gold-d,#b7832e);outline-offset:2px}
+.pdn b{font-size:1.05rem}.pdn span{color:var(--muted,#4a5a6e);font-size:.92rem;line-height:1.4}.pdn .ic.big{width:28px;height:28px;color:var(--gold-d,#b7832e)}
+
 .perk{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
 .perk svg{width:26px;height:26px;color:var(--gold-d);flex-shrink:0;stroke-width:1.6}
 .perk b{display:block;font-size:.92rem}
@@ -1836,6 +1849,50 @@ function openQuote(p){
   $('[name="termek"]',box).value=fullName(p); bindForms(box); $('.x',box).onclick=closeModal;
 }
 
+
+/* ===== termékoldal: kinek ajánljuk, mire lehet szükség, szolgáltatás, következő lépés ===== */
+const PD_AJANL={
+  penztargep:{kezi:'Mozgóárusításhoz, kiszállításhoz, piaci és rendezvényes árusításhoz, ahol nincs állandó pénztárhely.',kompakt:'Kisebb üzleteknek és szolgáltatóknak, ahol a pulton kevés a hely.',nagy:'Nagyobb forgalmú üzleteknek, ahol kasszafiók, vonalkódolvasó vagy mérleg is csatlakozik a géphez.',_:'Üzleteknek és szolgáltatóknak, amelyeknek online pénztárgépet kell használniuk.'},
+  hasznalt:{_:'Annak, aki kedvezőbb áron, szervizünkben bevizsgált és átszemélyesített pénztárgépet keres.'},
+  pos:{scanner:'Üzleteknek, ahol a termékeket vonalkód alapján, gyorsan kell beolvasni.',nyomtato:'POS-rendszerekhez, számlázási és címkézési feladatokra.',_:'Vendéglátóhelyeknek és üzleteknek, amelyek érintőképernyős kasszarendszert szeretnének.'},
+  fiok:{_:'Pénztárgéphez vagy POS-rendszerhez, a készpénz biztonságos tárolásához.'},
+  merleg:{_:'Boltoknak, piaci árusoknak és pultos kiszolgáláshoz, ahol a termékeket súly szerint árazzák.'},
+  arazo:{_:'Üzleteknek a termékek gyors és jól olvasható árazásához.'},
+  irodatechnika:{_:'Irodáknak, üzleteknek és otthoni használatra, igény szerint összeállítva és telepítve.'},
+  kellek:{_:'A mindennapi munkához: pénztárgépekhez, nyomtatókhoz és árazógépekhez.'}
+};
+const PD_KELL={
+  penztargep:[['Üzembe helyezési kód','Ön vagy könyvelője igényli a NAV felületén; segítünk benne.',''],['Mobil adatkapcsolat','A pénztárgép a NAV felé mobilhálózaton küldi az adatokat; a havi díjat vásárlás előtt egyeztetjük.',''],['Hőpapírtekercs','A gép nyomtatójához illő szélességben.','#kat-kellek'],['Kasszafiók','Külön rendelhető, ha a géphez nem tartozik.','#kat-fiok']],
+  hasznalt:[['Üzembe helyezési kód','Ön vagy könyvelője igényli a NAV felületén; segítünk benne.',''],['Hőpapírtekercs','A gép nyomtatójához illő szélességben.','#kat-kellek']],
+  pos:[['Szoftver és perifériák','A nyomtatót, a vonalkódolvasót és a kasszafiókot az Ön munkájához állítjuk össze.',''],['Hálózati kapcsolat','Igény szerint kiépítjük vagy beállítjuk.','#szerviz']],
+  fiok:[['Csatlakozás a pénztárgéphez','A bekötés a pénztárgép típusától függ; vásárlás előtt egyeztetjük.','']],
+  merleg:[['Hitelesítés','A hitelesítés lehetőségéről és díjáról vásárlás előtt tájékoztatjuk.',''],['Csatlakozás pénztárgéphez','A kompatibilitást a pénztárgép típusa alapján ellenőrizzük.','']],
+  arazo:[['Árazócímke és festékhenger','A géphez illő méretben üzletünkben is kapható.','#kat-kellek']],
+  irodatechnika:[['Telepítés és beállítás','Kérésre telepítjük és hálózatba kötjük.','#szerviz']],
+  kellek:[['A pontos méret','A készülék típusa alapján segítünk kiválasztani.','']]
+};
+const PD_SZOLG={penztargep:['uzembe','felulvizsgalat','javitas'],hasznalt:['uzembe','felulvizsgalat','javitas'],pos:['halozat'],irodatechnika:['pc-javitas','halozat']};
+function pdTel(v){ return `<a class="num" href="tel:${esc(String(v).replace(/[^+\d]/g,''))}">${esc(v)}</a>`; }
+function pdSvcPrice(s){ return s&&s.ar?`${ft(s.ar)} + ÁFA`:'egyeztetés szerint'; }
+function pdExtra(p){
+  const aj=p.ajanlott||(PD_AJANL[p.kategoria]||{})[p.modell]||(PD_AJANL[p.kategoria]||{})._||'';
+  const kell=PD_KELL[p.kategoria]||[];
+  const sv=(PD_SZOLG[p.kategoria]||[]).map(id=>(DB.services||[]).find(s=>s.id===id)).filter(Boolean);
+  if(!aj&&!kell.length&&!sv.length) return '';
+  return `<div class="pdx">
+    ${aj?`<div class="pdx-c">${icon('checkc','ic big')}<h3>Kinek ajánljuk?</h3><p>${esc(aj)}</p></div>`:''}
+    ${kell.length?`<div class="pdx-c">${icon('file','ic big')}<h3>Amire szüksége lehet</h3><ul>${kell.map(([n,d,h])=>`<li><b>${h?`<a href="${h}">${esc(n)}</a>`:esc(n)}</b><span>${esc(d)}</span></li>`).join('')}</ul></div>`:''}
+    ${sv.length?`<div class="pdx-c">${icon('wrench','ic big')}<h3>Kérhető szolgáltatás</h3><ul>${sv.map(s=>`<li><b>${esc(s.nev)}</b><span class="num">${pdSvcPrice(s)}</span></li>`).join('')}</ul><a class="btn line sm" href="#szerviz" style="justify-self:start">Szolgáltatások ${icon('chev')}</a></div>`:''}
+  </div>`;
+}
+function pdNext(p){ const s=S();
+  return `<div class="pdnext"><h3>Hogyan tovább?</h3><div class="pdnext-g">
+    <button class="pdn" type="button" data-pdn="kosar">${icon('cart','ic big')}<b>Megrendelem</b><span>Kosárba teszem, és online elküldöm a rendelést.</span></button>
+    <button class="pdn" type="button" data-pdn="ajanlat">${icon('file','ic big')}<b>Ajánlatot kérek</b><span>Személyre szabott ajánlat, üzembe helyezéssel együtt.</span></button>
+    <a class="pdn" href="tel:${esc(String(s.telefon||'').replace(/[^+\d]/g,''))}">${icon('headset','ic big')}<b>Felhívom az üzletet</b><span class="num">${esc(s.telefon||'')}</span></a>
+    <a class="pdn" href="https://www.google.com/maps/dir/?api=1&amp;destination=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener">${icon('pin','ic big')}<b>Útvonaltervezés</b><span>Pécs, Hunyadi János utca 34.</span></a>
+  </div></div>`;
+}
 function pageProduct(id){
   const p=prod(id);
   if(!p) return pageHead('Ez a termék nem található','Lehet, hogy már nem forgalmazzuk.','<a href="#termekek">Termékek</a>')+`<div class="wrap" style="padding-block:30px"><a class="btn gold" href="#termekek">Vissza a termékekhez</a></div>`;
@@ -1853,6 +1910,7 @@ function pageProduct(id){
       <p class="lead">${esc(p.alcim)}</p>
       ${p.ar==null||p.ar===''?`<div class="pricebox"><span class="big">Ár kérésre</span><div class="row"><span>Tegye a kosárba a terméket, az árat pedig a visszaigazolásban küldjük el.</span></div></div>`
         :`<div class="pricebox">${p.akciosAr?`<div class="row"><span>Eredeti ár</span><span class="old num">${ft(p.ar)}</span></div>`:''}<span class="big num goldtxt">${ft(now(p))}${p.arTol?'-tól':''}</span><div class="row"><span>nettó + ${esc(S().afa)}% ÁFA</span><span>bruttó <b class="num">${ft(gross(now(p)))}</b></span></div></div>`}
+      ${['penztargep','hasznalt'].includes(p.kategoria)?(()=>{ const u=(DB.services||[]).find(s=>s.id==='uzembe'); return u&&u.ar?`<p class="pnote">Az ár a készüléket tartalmazza. Üzembe helyezés, NAV-bejelentés és betanítás külön kérhető: <b class="num">${ft(u.ar)} + ÁFA</b>.</p>`:''; })():''}
       <div>${stockHTML(p,true)}</div>
       <div class="buyrow">
         <div class="qty"><button type="button" data-q="-1" aria-label="Kevesebb">−</button><input id="qty" class="num" value="1" inputmode="numeric" aria-label="Mennyiség"><button type="button" data-q="1" aria-label="Több" ${free<=1?'disabled':''}>+</button></div>
@@ -1869,13 +1927,13 @@ function pageProduct(id){
   </div>
   <nav class="tabs" aria-label="Termékinformációk"><div class="wrap"><a href="#t-${esc(id)}" data-jump="attekintes" class="on">Áttekintés</a><a href="#t-${esc(id)}" data-jump="adatok">Műszaki adatok</a><a href="#t-${esc(id)}" data-jump="tamogatas">Támogatás</a>${gyik.length?`<a href="#t-${esc(id)}" data-jump="gyik">Gyakori kérdések</a>`:''}</div></nav>
   <div class="wrap">
-    <section class="sec" id="attekintes"><h2 class="it-title">Áttekintés</h2><p style="max-width:75ch;font-size:1.06rem">${esc(p.leiras)}</p>${(p.jellemzok||[]).length?`<ul class="feat" style="margin-top:20px">${p.jellemzok.map(j=>`<li>${icon('check')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}</section>
+    <section class="sec" id="attekintes"><h2 class="it-title">Áttekintés</h2><p style="max-width:75ch;font-size:1.06rem">${esc(p.leiras)}</p>${(p.jellemzok||[]).length?`<ul class="feat" style="margin-top:20px">${p.jellemzok.map(j=>`<li>${icon('check')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}${pdExtra(p)}${pdNext(p)}</section>
     <section class="sec" id="adatok"><h2 class="it-title">Műszaki adatok</h2><table class="spec"><tbody>${specs.map(([k,v])=>`<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table></section>
     <section class="sec" id="tamogatas"><h2 class="it-title">Terméktámogatás</h2>
       <div class="support">
         <div class="scard">${icon('file','ic big')}<h3>Letöltések</h3>${(p.letoltesek||[]).length?p.letoltesek.map(d=>`<a class="dl" href="${esc(d.url)}" target="_blank" rel="noopener">${icon('file')}${esc(d.nev)}</a>`).join(''):`<p class="muted">A kezelési útmutatót és a programozási leírást átvételkor nyomtatva vagy e-mailben átadjuk. Kérésre most is elküldjük.</p>`}</div>
         <div class="scard">${icon('wrench','ic big')}<h3>Szerviz és üzembe helyezés</h3><p class="muted">Saját szervizünkben javítjuk, és évente felülvizsgáljuk. ${p.kategoria==='penztargep'?'Az üzembe helyezést és a NAV-bejelentést mi intézzük.':''}</p><a class="btn line sm" href="#szerviz" style="justify-self:start">Szervizbejelentés ${icon('chev')}</a></div>
-        <div class="scard">${icon('headset','ic big')}<h3>Kérdése van?</h3><p class="muted">Hívjon minket vagy írjon nekünk, és segítünk kiválasztani az Ön igényeinek megfelelő gépet.</p><div class="contact" style="gap:6px"><span class="num" style="font-weight:700">${esc(S().telefon)}</span><span style="font-weight:600">${esc(S().email)}</span></div>${p.video?`<a class="dl" href="${esc(p.video)}" target="_blank" rel="noopener">${icon('video')}Bemutató videó</a>`:''}</div>
+        <div class="scard">${icon('headset','ic big')}<h3>Kérdése van?</h3><p class="muted">Hívjon minket vagy írjon nekünk, és segítünk kiválasztani az Ön igényeinek megfelelő gépet.</p><div class="contact" style="gap:6px"><span style="font-weight:700">${pdTel(S().telefon)}</span><a style="font-weight:600" href="mailto:${esc(S().email)}">${esc(S().email)}</a></div>${p.video?`<a class="dl" href="${esc(p.video)}" target="_blank" rel="noopener">${icon('video')}Bemutató videó</a>`:''}</div>
       </div></section>
     ${gyik.length?`<section class="sec" id="gyik"><h2 class="it-title">Gyakori kérdések</h2>${gyik.map(([k,v])=>`<details class="faq"><summary>${esc(k)}</summary><p>${esc(v)}</p></details>`).join('')}</section>`:''}
     ${related.length?`<section class="sec"><h2 class="it-title">Hasonló termékek</h2><div class="pcards">${related.map(cardHTML).join('')}</div></section>`:''}
@@ -1889,6 +1947,7 @@ function bindProduct(id){
   const upd=()=>{ q.value=Math.max(1,Math.min(max(),parseInt(q.value)||1)); $('[data-q="1"]').disabled=+q.value>=max(); $('[data-q="-1"]').disabled=+q.value<=1; };
   $$('[data-q]').forEach(b=>b.onclick=()=>{ q.value=(parseInt(q.value)||1)+(+b.dataset.q); upd(); }); q.onchange=upd; upd();
   $('#addcart').onclick=()=>{ addCart(id,+q.value); };
+  $$('[data-pdn]').forEach(b=>b.onclick=()=>{ if(b.dataset.pdn==='kosar'){ addCart(id,+q.value||1); } else openQuote(p); });
   $$('[data-jump]').forEach(a=>a.onclick=e=>{ e.preventDefault(); document.getElementById(a.dataset.jump)?.scrollIntoView({behavior:reduce?'auto':'smooth'}); });
   const box=$('#buybox'), sb=$('#stickybuy');
   const io=new IntersectionObserver(([en])=>sb.classList.toggle('show',!en.isIntersecting && en.boundingClientRect.top<0)); io.observe($('.buyrow',box));
