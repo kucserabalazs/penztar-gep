@@ -1,0 +1,19 @@
+# Egyszeri feladat: a betűtípusokat letölti (Fontsource) és a repóba menti (assets/fonts).
+name: Betűtípusok saját tárhelyre
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fonts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i --no-save --no-audit --no-fund @fontsource/montserrat@5 @fontsource/inter@5 @fontsource/vt323@5 @fontsource/courier-prime@5
+      - run: node eszkozok/betutipusok.mjs
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/fonts
+          git commit -m "Betűtípusok saját tárhelyen (assets/fonts)" || echo "nincs változás"
+          git push
