@@ -9,7 +9,7 @@
    "+36 20 322 2669"
   ],
   "email": "info@penztar-gep.hu",
-  "nyitvatartas": "Hétfő–péntek 9:00–15:00, szombat–vasárnap zárva",
+  "nyitvatartas": "Hétfőtől péntekig 9:00–15:00; szombaton és vasárnap zárva",
   "alapitas": "1982",
   "afa": 27,
   "mobildij": "A pénztárgép mobil adatkapcsolatának díja gépenként havonta 1 500 Ft + ÁFA. A szerződéskötés részleteit és az aktuális díjat vásárlás előtt egyeztetjük.",
@@ -85,10 +85,10 @@
    "gyik": [
     [
      "Milyen szoftver fut a POS terminálon?",
-     "Igény szerint bolti vagy vendéglátós szoftvert telepítünk és állítunk be."
+     "Igény szerint bolti vagy vendéglátóipari szoftvert telepítünk és állítunk be."
     ],
     [
-     "Köthető hozzá vonalkódolvasó és nyomtató?",
+     "Csatlakoztatható hozzá vonalkódolvasó és nyomtató?",
      "Igen, a terminálhoz nyomtatót, vonalkódolvasót és kasszafiókot is csatlakoztatunk."
     ]
    ],
@@ -188,7 +188,7 @@
    "gyik": [
     [
      "Van garancia a használt gépekre?",
-     "Igen, a használt készülékekre is vállalunk garanciát; az időtartamot a terméknél tüntetjük fel."
+     "Igen, a használt készülékekre is garanciát vállalunk; a garancia időtartamát az adott termék adatlapján tüntetjük fel."
     ],
     [
      "Üzembe helyezhető a használt pénztárgép?",
@@ -222,7 +222,7 @@
    "jellemzok": [
     "Többfunkciós készülék 4G-kapcsolatú AEE-vel",
     "80 mm-es nyomtató, 57 mm-es papír használatának lehetőségével",
-    "Kapcsolódás Windows, Android és iOS rendszerekhez",
+    "Kapcsolódás Windows-, Android- és iOS-eszközökhöz",
     "20-féle fizetőeszköz kezelése",
     "Fehér vagy fekete kivitel"
    ],
@@ -303,7 +303,7 @@
    "kiemelt": true,
    "engedely": "A315",
    "modell": "kompakt",
-   "leiras": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, kialakítása pedig kis helyigényű. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról kérjük, vásárlás előtt érdeklődjön. Engedélyszám: A315.",
+   "leiras": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A315.",
    "jellemzok": [
     "NAV-engedélyszám: A315",
     "Nagy sebességű hőnyomtató",
@@ -322,11 +322,11 @@
     ],
     [
      "Tápellátás",
-     "hálózati, akkumulátor nélkül"
+     "hálózati tápellátás, akkumulátor nélkül"
     ],
     [
      "Nyomtató",
-     "közvetlen hőnyomtató, 57,5 mm, dobd bele és nyomtass"
+     "közvetlen hőnyomtató, 57,5 mm, egyszerűen behelyezhető papírtekercs"
     ],
     [
      "Billentyűzet",
@@ -387,7 +387,7 @@
    "kiemelt": false,
    "engedely": "A316",
    "modell": "kompakt",
-   "leiras": "Helytakarékos online pénztárgép kisboltok és szolgáltatók számára. A 4G-s adóügyi egység mellett elöl és hátul is kétsoros kijelzővel rendelkezik, papírtekercse pedig könnyen befűzhető. Kasszafiók csatlakoztatható hozzá.",
+   "leiras": "Kis helyigényű online pénztárgép kisboltok és szolgáltatók számára. A 4G-s adóügyi egység mellett elöl és hátul is kétsoros kijelzővel rendelkezik. A papírtekercs cseréje egyszerű, a készülékhez pedig kasszafiók is csatlakoztatható.",
    "jellemzok": [
     "4G-s adóügyi egység",
     "Kétsoros kijelző elöl és hátul",
@@ -414,7 +414,7 @@
     ],
     [
      "Tápellátás",
-     "hálózati, akkumulátor nélkül"
+     "hálózati tápellátás, akkumulátor nélkül"
     ],
     [
      "Kijelző",
@@ -463,7 +463,7 @@
    "jellemzok": [
     "NAV engedélyszám: A311",
     "Beépített kasszafiókkal",
-    "Leggyorsabb Sam4s hőnyomtató",
+    "A Sam4s leggyorsabb hőnyomtatója",
     "Forgatható vevőkijelző",
     "PC-hez köthető"
    ],
@@ -487,7 +487,7 @@
     ],
     [
      "Kijelző",
-     "magyar ékezetes kezelői, kihúzható és forgatható vevőkijelző"
+     "magyar ékezeteket megjelenítő kezelői kijelző, kihúzható és forgatható vevőkijelző"
     ],
     [
      "Billentyűzet",
@@ -541,7 +541,7 @@
     "Beépített akkumulátor",
     "Négysoros grafikus kijelző",
     "57 mm-es hőnyomtató",
-    "Kasszafiók, PC, szkenner, mérleg csatlakoztatható"
+    "Kasszafiók, PC, vonalkódolvasó és mérleg csatlakoztatható"
    ],
    "kepek": [
     "kepek/termekek/montel-sento-h-light-1.webp",
@@ -600,7 +600,7 @@
      "url": "https://www.montel.hu/upload/MONTEL%20Sento%20H%20User%20Manual%20v3.1.pdf"
     },
     {
-     "nev": "Használati alapok egy oldalon – Sento H (Light) (gyártói PDF)",
+     "nev": "Rövid használati útmutató egy oldalon – Sento H (Light) (gyártói PDF)",
      "url": "https://www.montel.hu/images/downloads/Montel_Sento_H_%28Light%29_haszn%C3%A1lati_alapok_V0010_1oldal_v2.pdf"
     }
    ],
@@ -621,12 +621,12 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kompakt",
-   "leiras": "Hordozható, GPS-szel és 4G-kapcsolattal rendelkező online pénztárgép. Belső akkumulátora a megadott adatok szerint körülbelül 300 nyugta nyomtatására elegendő egy töltéssel. A készülék 57 mm-es Seiko nyomtatóval rendelkezik; kasszafiók, számítógép, USB-s vonalkódolvasó és mérleg is csatlakoztatható hozzá.",
+   "leiras": "Hordozható, GPS-szel és 4G-kapcsolattal rendelkező online pénztárgép. A megadott adatok szerint belső akkumulátora egy feltöltéssel körülbelül 300 nyugta nyomtatására elegendő. A készülék 57 mm-es Seiko nyomtatóval rendelkezik; kasszafiók, számítógép, USB-s vonalkódolvasó és mérleg is csatlakoztatható hozzá.",
    "jellemzok": [
     "GPS és 4G",
     "Belső akkumulátor, egy töltéssel kb. 300 nyugta",
     "57 mm-es Seiko nyomtató",
-    "Kasszafiók, PC, szkenner, mérleg"
+    "Kasszafiók, PC, vonalkódolvasó, mérleg"
    ],
    "kepek": [
     "kepek/termekek/micra-jota-e-1.webp"
@@ -697,7 +697,7 @@
    "kategoria": "penztargep",
    "marka": "Micra",
    "nev": "K10",
-   "alcim": "Hordozható, GPS-es mobil pénztárgép piacra, kiszállításhoz",
+   "alcim": "Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz",
    "ar": 129900,
    "arTol": false,
    "akciosAr": null,
@@ -705,7 +705,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "kezi",
-   "leiras": "Hordozható, GPS-szel, érintőképernyővel és akkumulátorral rendelkező, 4G-s online pénztárgép. Taxisok, mozgóárusok és változó helyszínen dolgozó vállalkozások számára kínálhat megoldást. Akkumulátora cserélhető és külön is tölthető.",
+   "leiras": "Hordozható, GPS-szel, érintőképernyővel és akkumulátorral rendelkező 4G-s online pénztárgép. Taxisok, mozgóárusok és változó helyszíneken dolgozó vállalkozások számára is megfelelő megoldás lehet. Akkumulátora cserélhető, és külön is tölthető.",
    "jellemzok": [
     "Hordozható",
     "Beépített GPS",
@@ -839,7 +839,7 @@
     ],
     [
      "Tápellátás",
-     "hálózati, akkumulátor nélkül"
+     "hálózati tápellátás, akkumulátor nélkül"
     ],
     [
      "Nyomtató",
@@ -892,8 +892,8 @@
    "marka": "Sam4s",
    "nev": "NR-270 kasszafiókkal",
    "modell": "nagy",
-   "alcim": "Közepes forgalomra, cseppálló billentyűzettel kérhető",
-   "leiras": "Közepes forgalmú üzletekbe szánt online pénztárgép kasszafiókkal. Hagyományos vagy sík, cseppálló billentyűzettel kérhető, kulcsos üzemmódválasztóval, vevő- és kezelőkijelzővel, valamint 57,5 mm-es hőnyomtatóval. A megadott kapacitás 1 157 árucikk és 30 eladó.",
+   "alcim": "Közepes forgalomra, igény szerint cseppálló billentyűzettel",
+   "leiras": "Közepes forgalmú üzletek számára készült online pénztárgép kasszafiókkal. Hagyományos vagy sík, cseppálló billentyűzettel, kulcsos üzemmódválasztóval, vevő- és kezelőkijelzővel, valamint 57,5 mm-es hőnyomtatóval rendelhető. A megadott kapacitás 1 157 árucikk és 30 eladó.",
    "jellemzok": [
     "Kasszafiókkal együtt",
     "Normál vagy cseppálló sík billentyűzet",
@@ -907,7 +907,7 @@
     ],
     [
      "Tápellátás",
-     "hálózati, akkumulátor nélkül"
+     "hálózati tápellátás, akkumulátor nélkül"
     ],
     [
      "Nyomtató",
@@ -919,7 +919,7 @@
     ],
     [
      "Billentyűzet",
-     "hagyományos vagy sík, cseppálló; kulcsos üzemmód"
+     "hagyományos vagy sík, cseppálló billentyűzet; kulcsos üzemmódválasztó"
     ],
     [
      "Árucikkek",
@@ -1014,7 +1014,7 @@
     ],
     [
      "Kijelzők",
-     "kezelői 2 × 16 karakter, vevői 10 szegmenses"
+     "kezelői kijelző: 2 × 16 karakter; vevői kijelző: 10 szegmens"
     ],
     [
      "Nyomtató",
@@ -1186,7 +1186,7 @@
     ],
     [
      "Kijelzők",
-     "kezelői LCD, vevőoldali LED"
+     "kezelői LCD-kijelző, vevőoldali LED-kijelző"
     ],
     [
      "Csatlakozók",
@@ -1265,7 +1265,7 @@
     ],
     [
      "Nyomtató",
-     "hőnyomtató, 20 sor/s, 57 mm papír"
+     "hőnyomtató, 20 sor/s, 57 mm-es papír"
     ],
     [
      "Csatlakozók",
@@ -1331,7 +1331,7 @@
     ],
     [
      "Nyomtató",
-     "hőnyomtató, 20 sor/s, 57 mm papír"
+     "hőnyomtató, 20 sor/s, 57 mm-es papír"
     ],
     [
      "Árucikkek (PLU)",
@@ -1397,7 +1397,7 @@
    "specs": [
     [
      "Modell",
-     "iMin D3-504 (a régi weboldalon SWAN2 néven)"
+     "iMin D3-504 (a korábbi weboldalon SWAN2 néven szerepelt)"
     ],
     [
      "Kijelző",
@@ -1444,7 +1444,7 @@
    "illusztracio": false,
    "id": "imin-d2",
    "nev": "D2 10,1\" Android POS terminál",
-   "alcim": "Kompakt érintőképernyős terminál állvánnyal, NTAK vendéglátó szoftverekhez",
+   "alcim": "Kompakt, érintőképernyős terminál állvánnyal, vendéglátóipari NTAK-szoftverekhez",
    "ar": 92900,
    "keszletDb": 2,
    "keszlet": "raktaron",
@@ -1533,7 +1533,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "scanner",
-   "leiras": "Kézi CCD vonalkódolvasó állvánnyal, pénztárgéphez vagy számítógéphez. A csatlakozási mód és a támogatott kódok pontos köréről kérjük, vásárlás előtt tájékozódjon.",
+   "leiras": "Állvánnyal ellátott, kézi CCD-vonalkódolvasó pénztárgéphez vagy számítógéphez. A csatlakozási módról és a támogatott kódokról kérjük, vásárlás előtt tájékozódjon.",
    "jellemzok": [
     "Lézeres",
     "Kézi"
@@ -1566,7 +1566,7 @@
     ],
     [
      "Védelem",
-     "IP42, 1,5 m-es esésnek ellenáll"
+     "IP42-es védettség, 1,5 méteres esésnek ellenáll"
     ],
     [
      "Méret",
@@ -1595,7 +1595,7 @@
    "kategoria": "pos",
    "marka": "Polpos",
    "nev": "PS-200 USB 2D vonalkódolvasó",
-   "alcim": "Kamerás olvasó QR-kódhoz is",
+   "alcim": "Kamerás olvasó, QR-kódokhoz is",
    "ar": 24500,
    "arTol": false,
    "akciosAr": null,
@@ -1650,7 +1650,7 @@
    "kategoria": "fiok",
    "marka": "",
    "nev": "CWY-1 kasszafiók",
-   "alcim": "Kedvező árú kasszafiók pénztárgéphez és POS-rendszerhez",
+   "alcim": "Kedvező árú kasszafiók pénztárgépekhez és POS-rendszerekhez",
    "ar": 18800,
    "arTol": false,
    "akciosAr": null,
@@ -1658,7 +1658,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Kulccsal nyitható és zárható fém kasszafiók 4 bankjegy- és 8 érmetartóval. Fekete vagy fehér kivitelben, 330 × 370 × 100 mm méretben érhető el. Pénztárgéphez vagy POS-rendszerhez használható; vásárlás előtt egyeztesse a csatlakozást.",
+   "leiras": "Kulccsal nyitható és zárható fém kasszafiók 4 bankjegy- és 8 érmetartóval. Fekete vagy fehér kivitelben, 330 × 370 × 100 mm méretben érhető el. Pénztárgéphez vagy POS-rendszerhez használható; a csatlakoztatást kérjük, vásárlás előtt egyeztesse velünk.",
    "jellemzok": [
     "Kulccsal zárható",
     "Pénztárgéphez köthető"
@@ -1818,7 +1818,7 @@
     ],
     [
      "Élettartam",
-     "legfeljebb 1 millió nyitás"
+     "legfeljebb 1 millió nyitási ciklus"
     ],
     [
      "Szín",
@@ -1843,7 +1843,7 @@
    "kiemelt": true,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg-os méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: 15 kg-os változatnál 4 000 Ft + ÁFA, 30 kg-os változatnál 7 000 Ft + ÁFA.",
+   "leiras": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: a 15 kg-os változatnál 4 000 Ft + ÁFA, a 30 kg-os változatnál 7 000 Ft + ÁFA.",
    "jellemzok": [
     "15 vagy 30 kg",
     "Hitelesítve",
@@ -1920,7 +1920,7 @@
     ],
     [
      "Kijelző",
-     "háttérvilágításos LCD mindkét oldalon"
+     "háttérvilágítású LCD-kijelző mindkét oldalon"
     ],
     [
      "Tálca",
@@ -1940,7 +1940,7 @@
     ],
     [
      "Hitelesítés",
-     "hitelesítve, benne van az árban"
+     "hitelesítve, a hitelesítés díja benne van az árban"
     ]
    ],
    "letoltesek": [],
@@ -2007,7 +2007,7 @@
     ],
     [
      "Egyéb",
-     "hálózaton menedzselhető, hitelesítve"
+     "hálózaton keresztül kezelhető, hitelesített"
     ]
    ],
    "letoltesek": [],
@@ -2039,7 +2039,7 @@
    "marka": "Pris",
    "nev": "EP-210 lapos bolti mérleg",
    "modell": "merleg",
-   "alcim": "Lapos, hitelesíthető árszorzós mérleg",
+   "alcim": "Lapos kivitelű, hitelesíthető árszorzós mérleg",
    "leiras": "Lapos kialakítású, árszorzós bolti mérleg háttérvilágítású LCD-kijelzővel és 100 PLU-val. Hálózatról vagy belső akkumulátorról is működtethető. RS-232-kapcsolaton keresztül pénztárgéphez vagy számítógéphez csatlakoztatható. A hitelesíthetőségről kérjük, érdeklődjön.",
    "jellemzok": [
     "Lapos kivitel",
@@ -2058,7 +2058,7 @@
     ],
     [
      "Kijelző",
-     "háttérvilágításos LCD"
+     "háttérvilágítású LCD-kijelző"
     ],
     [
      "PLU",
@@ -2070,7 +2070,7 @@
     ],
     [
      "Tápellátás",
-     "hálózati és belső akkumulátor"
+     "hálózati tápellátás és belső akkumulátor"
     ],
     [
      "Csatlakozás",
@@ -2095,7 +2095,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "arazo",
-   "leiras": "Kétsoros kézi árazógép 26 × 16 mm-es címkéhez. A felső sorban 8, az alsó sorban 6 karakter helyezhető el, így az ár mellett egységár, dátum vagy cikkszám is feltüntethető. Címkét és festékhengert üzletünkben is vásárolhat.",
+   "leiras": "Kétsoros kézi árazógép 26 × 16 mm-es címkékhez. A felső sorban 8, az alsó sorban 6 karakter helyezhető el, így az ár mellett egységár, dátum vagy cikkszám is feltüntethető. Címkét és festékhengert üzletünkben is vásárolhat.",
    "jellemzok": [
     "Kétsoros",
     "Strapabíró"
@@ -2233,7 +2233,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "pc",
-   "leiras": "Irodai, bolti vagy otthoni használatra szánt számítógép, az Ön igényei szerint összeállítva, telepítve és beállítva. A pontos konfigurációt és a garanciális feltételeket az ajánlatban egyeztetjük.",
+   "leiras": "Irodai, bolti vagy otthoni használatra szánt számítógépet az Ön igényei szerint állítunk össze, telepítünk és konfigurálunk. A pontos konfigurációt és a garanciális feltételeket az ajánlatban egyeztetjük.",
    "jellemzok": [
     "Egyedi összeállítás",
     "Telepítés, beállítás",
@@ -2254,7 +2254,7 @@
    "id": "nyomtato-iroda",
    "kategoria": "irodatechnika",
    "marka": "",
-   "nev": "Irodai nyomtatók, multifunkciós gépek",
+   "nev": "Irodai nyomtatók és multifunkciós gépek",
    "alcim": "Beszerzés és üzembe helyezés",
    "ar": null,
    "arTol": false,
@@ -2263,7 +2263,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "printer2",
-   "leiras": "Lézer- és tintasugaras nyomtatók, valamint multifunkciós készülékek beszerzésében, telepítésében és hálózatba kötésében is segítünk. A megfelelő típust az igények és a várható használat alapján választjuk ki.",
+   "leiras": "Lézer- és tintasugaras nyomtatók, valamint multifunkciós készülékek beszerzésében, telepítésében és hálózatba kapcsolásában is segítünk. A megfelelő típust az Ön igényei és a várható használat alapján választjuk ki.",
    "jellemzok": [
     "Telepítés",
     "Hálózatba kötés"
@@ -2283,7 +2283,7 @@
    "id": "hopapir",
    "kategoria": "kellek",
    "marka": "",
-   "nev": "Hőpapír tekercsek",
+   "nev": "Hőpapírtekercsek",
    "alcim": "Minden általunk forgalmazott típushoz",
    "ar": null,
    "arTol": false,
@@ -2292,7 +2292,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "papir",
-   "leiras": "Hőpapírtekercsek pénztárgépekhez és blokknyomtatókhoz, a megadott kínálat szerint 57 és 80 mm-es szélességben. A megfelelő méret ellenőrzéséhez kérjük, nézze meg a készülék dokumentációját, vagy adja meg a gép pontos típusát.",
+   "leiras": "Hőpapírtekercsek pénztárgépekhez és blokknyomtatókhoz, a kínálatban 57 és 80 mm-es szélességben. A megfelelő méret kiválasztásához ellenőrizze készüléke dokumentációját, vagy adja meg nekünk a pontos típust.",
    "jellemzok": [
     "57 és 80 mm széles",
     "Csomagban is elérhető"
@@ -2408,7 +2408,7 @@
   {
    "id": "pc-javitas",
    "nev": "Számítógépek és laptopok javítása",
-   "leiras": "Hibakeresés, alkatrészcsere, víruseltávolítás és adatmentés. A hiba leírásával, valamint a készülék típusával kérjük, segítse a gyorsabb előzetes tájékozódást.",
+   "leiras": "Hibakeresést, alkatrészcserét, víruseltávolítást és adatmentést vállalunk. A gyorsabb előzetes tájékozódás érdekében kérjük, írja le a hibát, és adja meg a készülék típusát.",
    "ar": null
   },
   {
