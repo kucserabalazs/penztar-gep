@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Pri pokladnici je aktivácia nezvratná, preto aktivujeme iba zaplatené prístroje. Prístroj naprogramovaný na meno kupujúceho už nie je možné vrátiť. Pri platbe vopred a online vyplnenom formulári si prístroj môžete odniesť ihneď pri prevzatí; ak platíte v predajni, po {#}–{#} pracovných dňoch od naprogramovania. Formulár môžete vyplniť aj vopred: PDF na stiahnutie sa dá vyplniť v počítači alebo v telefóne a vytlačiť.",
 "Vásárláskor, helyben kitöltjük együtt.": "Vyplníme ho spolu pri nákupe, na mieste.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Všetky polia online formulára musia byť vyplnené (chýba ich {#}). Ak údaje teraz nemôžete zadať, vyberte možnosť „Platím v predajni“.",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Všetky polia online formulára musia byť vyplnené (chýba ich {#}). Ak údaje teraz nemôžete zadať, vyberte možnosť „Vyplním v predajni“ alebo „Prinesiem vyplnené so sebou“."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Všetky polia online formulára musia byť vyplnené (chýba ich {#}). Ak údaje teraz nemôžete zadať, vyberte možnosť „Vyplním v predajni“ alebo „Prinesiem vyplnené so sebou“.",
+"Megjelenítés:": "Zobrazenie:",
+"Automatikus": "Automatické",
+"Asztali": "Počítač",
+"Táblagép": "Tablet",
+"Mobil": "Mobil"
 }

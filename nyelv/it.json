@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Per un registratore di cassa l'attivazione è irreversibile, perciò attiviamo solo dispositivi già pagati. Un dispositivo programmato a nome dell'acquirente non può più essere restituito. Con pagamento anticipato e scheda compilata online, il dispositivo può essere portato via subito al ritiro; se pagate in negozio, dopo {#}–{#} giorni lavorativi dalla programmazione. La scheda può essere compilata anche in anticipo: il PDF scaricabile si compila al computer o sul telefono e si può stampare.",
 "Vásárláskor, helyben kitöltjük együtt.": "La compiliamo insieme al momento dell'acquisto, sul posto.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Tutti i campi della scheda online devono essere compilati ({#} mancanti). Se non potete fornirli ora, scegliete «Pago in negozio».",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Tutti i campi della scheda online devono essere compilati ({#} mancanti). Se non potete fornirli ora, scegliete «Compilo in negozio» oppure «Lo porto già compilato»."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Tutti i campi della scheda online devono essere compilati ({#} mancanti). Se non potete fornirli ora, scegliete «Compilo in negozio» oppure «Lo porto già compilato».",
+"Megjelenítés:": "Visualizzazione:",
+"Automatikus": "Automatica",
+"Asztali": "Desktop",
+"Táblagép": "Tablet",
+"Mobil": "Mobile"
 }

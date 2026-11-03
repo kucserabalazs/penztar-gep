@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "W przypadku kasy fiskalnej fiskalizacja jest nieodwracalna, dlatego fiskalizujemy wyłącznie opłacone urządzenia. Urządzenia zaprogramowanego na dane kupującego nie można już zwrócić. Przy płatności z góry i formularzu wypełnionym online urządzenie można zabrać od razu przy odbiorze; jeśli płacą Państwo w sklepie, po {#}–{#} dniach roboczych od zaprogramowania. Formularz można wypełnić także wcześniej: pobrany plik PDF można wypełnić na komputerze lub telefonie i wydrukować.",
 "Vásárláskor, helyben kitöltjük együtt.": "Wypełniamy go wspólnie przy zakupie, na miejscu.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Należy wypełnić wszystkie pola formularza online (brakuje: {#}). Jeśli nie mogą Państwo podać danych teraz, proszę wybrać opcję „Płacę w sklepie”.",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Należy wypełnić wszystkie pola formularza online (brakuje: {#}). Jeśli nie mogą Państwo podać danych teraz, proszę wybrać opcję „Wypełniam w sklepie” lub „Przynoszę wypełniony”."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Należy wypełnić wszystkie pola formularza online (brakuje: {#}). Jeśli nie mogą Państwo podać danych teraz, proszę wybrać opcję „Wypełniam w sklepie” lub „Przynoszę wypełniony”.",
+"Megjelenítés:": "Widok:",
+"Automatikus": "Automatyczny",
+"Asztali": "Komputer",
+"Táblagép": "Tablet",
+"Mobil": "Telefon"
 }

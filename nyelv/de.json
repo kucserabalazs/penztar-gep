@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Bei einer Registrierkasse ist die Aktivierung unwiderruflich, daher aktivieren wir nur bezahlte Geräte. Ein auf den Namen des Käufers programmiertes Gerät kann nicht mehr zurückgegeben werden. Bei Vorauszahlung und online ausgefülltem Datenblatt kann das Gerät bei Abholung sofort mitgenommen werden; wenn Sie im Geschäft zahlen, nach {#}–{#} Werktagen nach der Programmierung. Das Datenblatt können Sie auch vorab ausfüllen: Das herunterladbare PDF lässt sich am Computer oder Smartphone ausfüllen und ausdrucken.",
 "Vásárláskor, helyben kitöltjük együtt.": "Wir füllen es beim Kauf gemeinsam vor Ort aus.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Alle Felder des Online-Datenblatts müssen ausgefüllt werden ({#} fehlen). Wenn Sie die Angaben jetzt nicht machen können, wählen Sie „Ich zahle im Geschäft“.",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Alle Felder des Online-Datenblatts müssen ausgefüllt werden ({#} fehlen). Wenn Sie die Angaben jetzt nicht machen können, wählen Sie „Ich fülle es im Geschäft aus“ oder „Ich bringe es ausgefüllt mit“."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Alle Felder des Online-Datenblatts müssen ausgefüllt werden ({#} fehlen). Wenn Sie die Angaben jetzt nicht machen können, wählen Sie „Ich fülle es im Geschäft aus“ oder „Ich bringe es ausgefüllt mit“.",
+"Megjelenítés:": "Ansicht:",
+"Automatikus": "Automatisch",
+"Asztali": "Desktop",
+"Táblagép": "Tablet",
+"Mobil": "Mobil"
 }

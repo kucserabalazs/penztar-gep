@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="../assets/nezet.js"></script>
 <title>Pénztárgép webáruház Pécs – online pénztárgépek, POS, mérlegek | Totál</title>
 <link rel="canonical" href="https://penztar-gep.hu/webaruhaz/">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
@@ -1298,7 +1299,45 @@ html[dir=rtl] .top .hnyelv{display:none}
   .dd .menu a:hover{background:var(--surface-2)!important}
   .dd .menu a span.c{color:var(--muted)!important}
 }
-</style><style id="arbox-vilagos">.pbox{background:linear-gradient(180deg,#fffdf8,#f7f1e4)!important;border:1.5px solid #d6a64e!important;box-shadow:0 6px 18px rgba(8,39,70,.12)!important;padding:18px 16px 16px!important;color:#182e48!important}.pbox .pr{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px}.pbox .lbl{color:#182e48!important;font-size:17px!important;font-weight:700!important}.pbox .net{display:block;margin-top:8px;color:#3d5167!important;font-size:15px!important;font-weight:600!important}.pbox .stock{font-size:15px!important}.pbox .stock.s-ok{color:#13723f!important}</style><style id="mobil-szlogen">@media (max-width:480px){.top .wrap{column-gap:9px!important;padding-left:12px!important}.top .logo img{width:118px!important}.top .vbar{height:42px!important}.top .slogan{font-size:13.5px!important;line-height:1.22!important;white-space:nowrap!important}.top .pan.sarkany{height:66px!important;width:auto!important;max-width:none!important;right:-4px!important;top:10px!important}}@media (max-width:370px){.top .slogan{font-size:12.5px!important}.top .logo img{width:108px!important}}</style></head>
+</style><style id="arbox-vilagos">.pbox{background:linear-gradient(180deg,#fffdf8,#f7f1e4)!important;border:1.5px solid #d6a64e!important;box-shadow:0 6px 18px rgba(8,39,70,.12)!important;padding:18px 16px 16px!important;color:#182e48!important}.pbox .pr{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px}.pbox .lbl{color:#182e48!important;font-size:17px!important;font-weight:700!important}.pbox .net{display:block;margin-top:8px;color:#3d5167!important;font-size:15px!important;font-weight:600!important}.pbox .stock{font-size:15px!important}.pbox .stock.s-ok{color:#13723f!important}</style><style id="mobil-szlogen">@media (max-width:480px){.top .wrap{column-gap:9px!important;padding-left:12px!important}.top .logo img{width:118px!important}.top .vbar{height:42px!important}.top .slogan{font-size:13.5px!important;line-height:1.22!important;white-space:nowrap!important}.top .pan.sarkany{height:66px!important;width:auto!important;max-width:none!important;right:-4px!important;top:10px!important}}@media (max-width:370px){.top .slogan{font-size:12.5px!important}.top .logo img{width:108px!important}}</style><style id="latvanyos-kosar">
+/* látványos kosár: arany gomb, nagy darabszám-jelvény, minden nézetben */
+#cartbtn{width:auto!important;height:46px!important;padding:0 16px 0 13px!important;margin-left:6px!important;gap:8px!important;display:inline-flex!important;align-items:center!important;border-radius:999px!important;
+  background:linear-gradient(180deg,#ffe6a3 0%,#f0c46e 45%,#c98e2b 100%)!important;color:#1a1200!important;border:0!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.35),0 0 0 2px rgba(255,230,160,.35),inset 0 1px 0 rgba(255,255,255,.7)!important;font:800 16px/1 var(--fd)!important;transition:transform .15s,filter .15s}
+#cartbtn:hover{transform:translateY(-1px);filter:brightness(1.07)}
+#cartbtn svg{width:25px!important;height:25px!important;stroke-width:2.2!important;color:#1a1200!important}
+#cartbtn .kl{display:inline}
+#cartbtn .badge{position:absolute!important;top:-7px!important;right:-7px!important;min-width:24px!important;height:24px!important;border-radius:12px!important;background:#c0352b!important;color:#fff!important;font-size:.82rem!important;box-shadow:0 0 0 2px #fff,0 3px 8px rgba(0,0,0,.35)!important}
+#cartbtn.van{animation:kosarpulz 2.6s ease-in-out infinite}
+@keyframes kosarpulz{0%,100%{box-shadow:0 6px 16px rgba(0,0,0,.35),0 0 0 2px rgba(255,230,160,.35),inset 0 1px 0 rgba(255,255,255,.7)}50%{box-shadow:0 6px 16px rgba(0,0,0,.35),0 0 0 7px rgba(255,214,120,.28),inset 0 1px 0 rgba(255,255,255,.7)}}
+#cartbtn.ugrik{animation:kosarugrik .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes kosarugrik{0%{transform:scale(1)}35%{transform:scale(1.22) rotate(-6deg)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+@media (max-width:900px){
+  #navbar .tools #cartbtn,#cartbtn{width:auto!important;height:46px!important;border-radius:999px!important;padding:0 14px 0 11px!important;background:linear-gradient(180deg,#ffe6a3 0%,#f0c46e 45%,#c98e2b 100%)!important;color:#1a1200!important;border:0!important}
+  #cartbtn .kl{font-size:15px}
+}
+@media (min-width:901px) and (max-width:1440px){#cartbtn .kl{display:none}#cartbtn{padding:0 12px!important}.navbar .it{padding:8px 9px!important}}
+@media (min-width:901px) and (max-width:1240px){.navbar .links>a.it:first-child{display:none}}
+@media (max-width:400px){#cartbtn .kl{display:none}#navbar .tools #cartbtn,#cartbtn{padding:0 11px!important}}
+@media (prefers-reduced-motion:reduce){#cartbtn.van,#cartbtn.ugrik{animation:none}}
+</style>
+<style id="meretigazitas">
+/* olvashatóság: nagyobb termékkártyák és betűk minden nézetben */
+.pcards{grid-template-columns:repeat(auto-fill,minmax(178px,1fr))!important;gap:14px!important}
+.pcard h3{font-size:1rem!important;line-height:1.2!important}
+.pcard p{font-size:.88rem!important;line-height:1.35!important}
+.pcard .pbtn{font-size:.9rem!important;min-height:36px!important}
+.pcard .ptag{font-size:.72rem!important;padding:4px 8px!important}
+@media (max-width:900px){.pcard{flex:0 0 calc((100% - 16px)/2.6)!important}.pcard h3{font-size:.86rem!important}}
+@media (max-width:420px){.pcard{flex:0 0 calc((100% - 8px)/2.2)!important}}
+/* asztali fejléc: a nyelvválasztó ne csússzon a sárkányfejre */
+@media (min-width:901px){.top .wrap>.zi-pick{margin-right:calc(var(--dw,110px) * .82)!important}}
+@media (max-width:1700px){.top .addr{display:none!important}}
+#cartbtn:not(.van) .badge{background:#0b3158!important;color:#f4d58d!important;box-shadow:0 0 0 2px #f4d58d!important}
+/* menüsor nagy képernyőn nagyobb betűvel */
+@media (min-width:1441px){.navbar .it{font-size:1rem!important;padding:8px 14px!important}}
+</style>
+</head>
 <body>
 
 <header class="top">
@@ -1332,7 +1371,7 @@ html[dir=rtl] .top .hnyelv{display:none}
     <div class="tools">
       <button class="nb" id="searchbtn" type="button" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg></button>
       <a class="nb admbtn" href="#admin" aria-label="Admin belépés"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Admin</span></a>
-      <button class="nb" id="cartbtn" type="button" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="badge num" data-cartcount>0</span></button>
+      <button class="nb" id="cartbtn" type="button" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg><span class="kl">Kosár</span><span class="badge num" data-cartcount>0</span></button>
     </div>
   </div>
 </nav>
@@ -1459,7 +1498,7 @@ let CART = LS.get('ptg-cart3', []);
 let CMP = LS.get('ptg-cmp', []);
 let SEEN = LS.get('ptg-seen', []);
 const inCart = id => (CART.find(x=>x.id===id)?.db)||0;
-function saveCart(){ CART = CART.filter(x=>prod(x.id)); LS.set('ptg-cart3',CART); const n=CART.reduce((a,b)=>a+b.db,0); $$('[data-cartcount]').forEach(c=>c.textContent=n); }
+function saveCart(){ CART = CART.filter(x=>prod(x.id)); LS.set('ptg-cart3',CART); const n=CART.reduce((a,b)=>a+b.db,0); $$('[data-cartcount]').forEach(c=>c.textContent=n); const cb=document.getElementById('cartbtn'); if(cb){ const prev=+(cb.dataset.n||0); cb.classList.toggle('van',n>0); if(n>prev){ cb.classList.remove('ugrik'); void cb.offsetWidth; cb.classList.add('ugrik'); } cb.dataset.n=n; } }
 function addCart(id, db=1, open=true){
   const p=prod(id); if(!p) return;
   const free = avail(p) - inCart(id);
@@ -2732,7 +2771,7 @@ function geo(){var R=top.getBoundingClientRect(),d=vis(top.querySelector('.pan.s
  P=[];var i,t,u;function add(x,y){P.push([x,y]);}
  for(i=0;i<=40;i++){t=i/40;u=1-t;add(u*u*u*mx+3*u*u*t*(mx-20)+3*u*t*t*(mx-30)+t*t*t*(mx-70),u*u*u*my+3*u*u*t*(my+3)+3*u*t*t*by+t*t*t*by);}
  var x0=mx-70,x1=lr+34,n=Math.max(2,Math.round((x0-x1)/3));for(i=1;i<=n;i++)add(x0+(x1-x0)*i/n,by);
- for(i=1;i<=30;i++){t=i/30;u=1-t;add(u*u*x1+2*u*t*lr+t*t*lr,u*u*by+2*u*t*by+t*t*lm);}
+ for(i=1;i<=30;i++){t=i/30;u=1-t;add(u*u*x1+2*u*t*lr+t*t*lr,by);}
  S=[0];for(i=1;i<P.length;i++)S.push(S[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));L=S[S.length-1];}
 function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
 var C=15000,t0=performance.now();

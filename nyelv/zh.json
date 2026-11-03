@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "收银机一经激活不可撤销，因此我们只激活已付款的机器。以买方名义编程的机器无法再退货。提前付款并在线填写信息表的，取货时可当场带走；如果在店内付款，则在编程后 {#}–{#} 个工作日取走。您也可以提前填写信息表：可下载的 PDF 可在电脑或手机上填写并打印。",
 "Vásárláskor, helyben kitöltjük együtt.": "购买时我们在现场一起填写。",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "在线信息表的所有字段均须填写（缺少 {#} 项）。如果您现在无法提供，请选择“我在店内付款”。",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "在线信息表的所有字段均须填写（缺少 {#} 项）。如果您现在无法提供，请选择“我在店内填写”或“我填好后带来”。"
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "在线信息表的所有字段均须填写（缺少 {#} 项）。如果您现在无法提供，请选择“我在店内填写”或“我填好后带来”。",
+"Megjelenítés:": "显示：",
+"Automatikus": "自动",
+"Asztali": "桌面",
+"Táblagép": "平板",
+"Mobil": "手机"
 }

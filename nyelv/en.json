@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "For a cash register, activation is irreversible, so we only activate machines that have been paid for. A machine programmed in the buyer's name can no longer be returned. With advance payment and an online-completed data sheet, the machine can be taken away immediately on pickup; if you pay in the shop, after {#}–{#} business days following programming. You can also fill in the data sheet in advance: the downloadable PDF can be filled in and printed on a computer or phone.",
 "Vásárláskor, helyben kitöltjük együtt.": "We fill it in together at the time of purchase, on the spot.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Every field of the online data sheet must be filled in ({#} missing). If you cannot provide them now, choose “I will pay at the shop”.",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Every field of the online data sheet must be filled in ({#} missing). If you cannot provide them now, choose “I will fill it in at the shop” or “I bring it completed”."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Every field of the online data sheet must be filled in ({#} missing). If you cannot provide them now, choose “I will fill it in at the shop” or “I bring it completed”.",
+"Megjelenítés:": "Display:",
+"Automatikus": "Automatic",
+"Asztali": "Desktop",
+"Táblagép": "Tablet",
+"Mobil": "Mobile"
 }

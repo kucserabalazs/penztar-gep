@@ -1278,5 +1278,10 @@
 "Pénztárgépnél az élesítés visszavonhatatlan, ezért csak kifizetett gépet élesítünk. A vevő nevére beprogramozott gép már nem küldhető vissza. Előre fizetésnél és online kitöltött adatlappal a gép átvételkor azonnal vihető; ha az üzletben fizet, a programozás után {#}–{#} munkanap múlva. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható.": "Kod blagajne je aktivacija nepovratna, stoga aktiviramo samo plaćene uređaje. Uređaj programiran na ime kupca više se ne može vratiti. Uz plaćanje unaprijed i online ispunjen obrazac uređaj se može odnijeti odmah pri preuzimanju; ako plaćate u trgovini, nakon {#}–{#} radnih dana od programiranja. Obrazac možete ispuniti i unaprijed: PDF koji se može preuzeti može se ispuniti na računalu ili telefonu i ispisati.",
 "Vásárláskor, helyben kitöltjük együtt.": "Ispunjavamo ga zajedno pri kupnji, na licu mjesta.",
 "Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.": "Sva polja online obrasca moraju biti ispunjena (nedostaje ih: {#}). Ako podatke sada ne možete unijeti, odaberite „Plaćam u trgovini“.",
-"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Sva polja online obrasca moraju biti ispunjena (nedostaje ih: {#}). Ako podatke sada ne možete unijeti, odaberite „Ispunjavam u trgovini“ ili „Donosim ispunjeno sa sobom“."
+"Az online adatlap minden mezőjét ki kell tölteni ({#} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben töltöm ki” vagy a „Kitöltve hozom magammal” lehetőséget.": "Sva polja online obrasca moraju biti ispunjena (nedostaje ih: {#}). Ako podatke sada ne možete unijeti, odaberite „Ispunjavam u trgovini“ ili „Donosim ispunjeno sa sobom“.",
+"Megjelenítés:": "Prikaz:",
+"Automatikus": "Automatski",
+"Asztali": "Računalo",
+"Táblagép": "Tablet",
+"Mobil": "Mobitel"
 }
