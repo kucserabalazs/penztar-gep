@@ -624,6 +624,18 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .tl div.key::after{display:none}
 .tl div.key:hover{transform:none!important}
 .fp .im .tg.used{background:linear-gradient(180deg,#7b68b8,#4b3b80)!important;box-shadow:0 4px 10px rgba(75,59,128,.4)!important}
+
+/* élesítés: két út */
+.elesit{margin-top:34px;display:grid;gap:16px;padding:22px;border-radius:20px;border:1.5px solid transparent;background:linear-gradient(180deg,#fffdf6,#fbf6e9) padding-box,linear-gradient(155deg,#fbf0d2,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a) border-box;box-shadow:0 18px 36px -24px rgba(8,39,70,.35)}
+.el-why{font-size:1rem;line-height:1.55;color:#3f5166}.el-why b{color:var(--n2,#0a2a4c)}
+.el-opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.el-opt{display:grid;gap:6px;align-content:start;padding:16px 18px;border-radius:14px;background:#fff;border:1px solid #e6dcc6}
+.el-opt h3{margin:0;font-size:1.08rem;color:#0a2a4c}.el-opt p{margin:0;color:#5f6f81;line-height:1.55}
+.el-tag{justify-self:start;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:10px;background:#e4f5eb;color:#17804a}.el-tag.w{background:#fdf3e2;color:#9a5c00}
+.el-dl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-weight:700}
+.el-dl a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:12px;border:1.5px solid #d9cfbb;background:#fff;color:#0a2a4c;text-decoration:none}
+.el-dl a:hover{border-color:#d6a64e}
+@media (max-width:700px){.el-opts{grid-template-columns:1fr}.elesit{padding:16px}.el-why,.el-opt p{font-size:1.02rem}}
 </style>
 </head>
 <body>
@@ -763,7 +775,15 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Pénztárgép vásárlás</span><h2 class="sh2">Így zajlik <em>lépésről lépésre</em></h2><p class="slead">A pénztárgépet beállítva és üzemkészen adjuk át. Önnek az üzembe helyezéshez szükséges iratokat kell magával hoznia.</p></div></div>
     <div class="steps">
-      <div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#01</b></span><h3>Válassza ki a gépet</h3><p>Webáruházunkban tájékozódhat a kínálatról, személyesen pedig üzletünkben kérhet segítséget a választáshoz. A bemutató készülékeket nyitvatartási időben kipróbálhatja.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#02</b></span><h3>Üzembe helyezési kód</h3><p>Az üzembe helyezési kódot Ön vagy könyvelője igényelheti a NAV erre szolgáló elektronikus felületén. Ha kérdése merül fel, keressen minket.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#03</b></span><h3>Hozza az iratokat</h3><p>Társaság esetén kérjük, hozza magával az aláírási címpéldányt. Megrendelést aláírásra jogosult személy vagy meghatalmazottja adhat le. A szükséges iratokról előzetesen érdeklődjön.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#04</b></span><h3>Üzembe helyezés</h3><p>A készüléket beállítjuk, és áttekintjük Önnel az alapvető kezelési tudnivalókat. Az üzembe helyezés díja 15 000 Ft + ÁFA.</p><span class="ok"><span>KÉSZ</span><span>✓ ÜZEMKÉSZ</span></span></div></div>
+      <div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#01</b></span><h3>Válassza ki a gépet</h3><p>Webáruházunkban tájékozódhat a kínálatról, személyesen pedig üzletünkben kérhet segítséget a választáshoz. A bemutató készülékeket nyitvatartási időben kipróbálhatja.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#02</b></span><h3>Üzembe helyezési kód</h3><p>Az üzembe helyezési kódot Ön vagy könyvelője igényelheti a NAV erre szolgáló elektronikus felületén. Ha kérdése merül fel, keressen minket.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#03</b></span><h3>Adatlap és iratok</h3><p>A gép beprogramozásához ki kell tölteni a pénztárgép-megrendelő adatlapot: online a rendeléskor, vagy az üzletben. Társaság esetén hozza magával az aláírási címpéldányt; megrendelést aláírásra jogosult személy vagy meghatalmazottja adhat le.</p><span class="ok"><span>TOVÁBB</span><span>→</span></span></div></div><div class="step rv"><div class="slip"><span class="no"><span>TÉTEL</span><b>#04</b></span><h3>Üzembe helyezés</h3><p>A készüléket beállítjuk, és áttekintjük Önnel az alapvető kezelési tudnivalókat. Az üzembe helyezés díja 15 000 Ft + ÁFA.</p><span class="ok"><span>KÉSZ</span><span>✓ ÜZEMKÉSZ</span></span></div></div>
+    </div>
+    <div class="elesit rv">
+      <div class="el-why"><b>Miért kell előre fizetni?</b> A pénztárgép élesítése visszavonhatatlan: az élesített gép csak a megadott tulajdonosé lehet. Ezért csak kifizetett gépet élesítünk.</div>
+      <div class="el-opts">
+        <div class="el-opt"><span class="el-tag">Átvételkor azonnal vihető</span><h3>Előre fizet, online adatlappal</h3><p>Rendeléskor kitölti az adatlapot, mi díjbekérőt küldünk. A vételár beérkezése után beprogramozzuk és élesítjük a gépet, így átvételkor már működik.</p></div>
+        <div class="el-opt"><span class="el-tag w">1–2 munkanap</span><h3>Az üzletben fizet és tölti ki</h3><p>A Hunyadi János u. 34. alatt fizet és tölti ki az adatlapot. A programozás és az élesítés ezután történik, a gépet 1–2 munkanap múlva viheti el.</p></div>
+      </div>
+      <div class="el-dl"><span>Előre is kitöltheti:</span><a href="webaruhaz/letoltesek/penztargep-megrendelo-adatlap.pdf" target="_blank" rel="noopener" download>Megrendelő adatlap (PDF)</a><a href="webaruhaz/letoltesek/penztargep-megrendelo-adatlap.doc" download>Word (DOC)</a></div>
     </div>
   </div>
 </section>

@@ -998,6 +998,43 @@ body:has(.adm2) .svcband,body:has(.adm2) footer.slim{display:none}
 .bdg.used{background:#efeafb;color:#4b3b80;border-color:#d9cff3}
 .trow .sort + .sort{margin-left:4px}
 @media (max-width:900px){.trow{flex-wrap:wrap}.trow .sort{flex:1 1 auto}.trow .sort select{min-width:0;width:100%}}
+
+/* pénztárgép-adatlap a megrendelésben */
+.adl{display:grid;gap:14px;padding:18px;border-radius:16px;border:1.5px solid transparent;background:linear-gradient(180deg,#fffdf6,#fbf6e9) padding-box,linear-gradient(155deg,#fbf0d2,#e6cd8e 25%,#fff7e2 45%,#d4b26a 65%,#f3e3b6 85%,#cfa75a) border-box;margin:6px 0 4px}
+.adl h3{display:flex;align-items:center;gap:10px}.adl h3 .ic{width:26px;height:26px;color:var(--gold-d)}
+.adl .adl-why{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:10px;align-items:flex-start}.adl-why>span,.adl-bolt>span{flex:1 1 0;min-width:0}.adl-why .ic{width:22px;height:22px;flex-shrink:0;color:var(--warn);margin-top:2px}
+.adl-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.adl-opt{position:relative;cursor:pointer}.adl-opt input{position:absolute;opacity:0}
+.ao-in{display:grid;gap:6px;height:100%;padding:14px 14px 14px 46px;border-radius:14px;border:2px solid var(--line-2);background:#fff;transition:border-color .2s,box-shadow .2s}
+.ao-in::before{content:"";position:absolute;left:14px;top:16px;width:20px;height:20px;border-radius:50%;border:2px solid var(--line-2);background:#fff}
+.adl-opt.on .ao-in{border-color:var(--n2);box-shadow:0 0 0 3px rgba(214,166,78,.35),0 10px 20px -10px rgba(8,39,70,.35)}
+.adl-opt.on .ao-in::before{border-color:var(--n2);background:radial-gradient(circle,var(--n2) 0 5px,#fff 6px)}
+.adl-opt input:focus-visible+.ao-in{outline:3px solid var(--gold);outline-offset:2px}
+.ao-in b{font-family:var(--fd);font-size:1rem;color:var(--n2);line-height:1.25}.ao-in small{color:var(--muted);line-height:1.45;font-size:.88rem}
+.ao-badge{justify-self:start;font-size:.7rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:10px;background:#e4f5eb;color:#17804a}.ao-badge.g{background:#fdf3e2;color:#9a5c00}
+.adl-form{display:grid;gap:12px;padding:16px;border-radius:14px;background:#fff;border:1px dashed #d9cfbb}
+.adl-head{display:grid;gap:2px;padding-bottom:8px;border-bottom:2px dashed #e3d7bd}.adl-head b{font-family:var(--fd);font-size:1.05rem;color:var(--n2)}.adl-head span{font-size:.86rem;color:var(--muted)}
+.radios.inl{display:flex!important;flex-direction:row!important;gap:8px;flex-wrap:wrap;padding:8px 0 0}.radios.inl label{flex:1 1 auto;margin:0!important}
+.navkod{letter-spacing:.06em;text-transform:uppercase}.navkod::placeholder{letter-spacing:.02em}
+.adl-prog{display:grid;gap:10px;padding:12px;border-radius:12px;background:var(--surface-2)}
+.adl-prog>b{font-family:var(--fd);font-size:.92rem;color:var(--n2)}
+.pg-row{display:grid;grid-template-columns:170px 1fr;gap:10px;align-items:center}.pg-row>span{font-weight:700;font-size:.88rem}.pg-row small{font-weight:500;color:var(--muted)}
+.chks{display:flex;gap:8px;flex-wrap:wrap}
+.chk2{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:10px;border:1.5px solid var(--line-2);background:#fff;font-weight:700;font-size:.88rem;cursor:pointer}
+.chk2 input{width:18px;height:18px;accent-color:var(--n2)}
+.chk2:has(input:checked){border-color:var(--n2);background:#eef3fa}
+.chk2.oth .i{width:120px;min-height:32px;padding:4px 8px}
+.bad,.bad.i{border-color:var(--bad)!important;box-shadow:0 0 0 3px rgba(192,53,43,.15)!important}
+.check.req.bad{color:var(--bad)}
+.adl-bolt{display:flex;gap:10px;align-items:center;font-size:.92rem;color:#3f5166}.adl-bolt .ic{width:22px;height:22px;color:var(--gold-d);flex-shrink:0}
+.dlrow{display:flex;gap:8px;flex-wrap:wrap}
+.dlrow .dl{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line-2);background:#fff;font-weight:700;color:var(--n2)}
+.dlrow .dl .ic{width:20px;height:20px;color:var(--bad)}
+.dlrow .dl:hover{border-color:var(--gold)}
+.oadl{border:1px solid #e3d7bd;border-radius:12px;background:#fffdf6;padding:0 12px}
+.oadl summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:800;color:var(--n2);cursor:pointer}
+.oadl dl{display:grid;grid-template-columns:minmax(120px,40%) 1fr;gap:4px 10px;margin:0 0 12px;font-size:.88rem}.oadl dt{color:var(--muted);font-weight:600}.oadl dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+@media (max-width:700px){.adl{padding:14px}.adl-opts{grid-template-columns:1fr}.pg-row{grid-template-columns:1fr}.adl-form .row2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1344,7 +1381,7 @@ function tabContent(p,k){
   const c=cat(p.kategoria);
   if(k==='leiras') return `<p>${esc(p.leiras)}</p>${(p.jellemzok||[]).length>5?`<ul class="checks" style="margin-top:10px">${p.jellemzok.slice(5).map(j=>`<li>${icon('checkc')}<span>${esc(j)}</span></li>`).join('')}</ul>`:''}`;
   if(k==='muszaki'){ const specs=[['Gyártó',p.marka||'—'],...(p.specs||[]),['Garancia',p.garancia||'—']]; return `<table class="spec"><tbody>${specs.map(([a,b])=>`<tr><th scope="row">${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')}</tbody></table>`; }
-  if(k==='letoltes') return (p.letoltesek||[]).length?p.letoltesek.map(d=>`<a class="dl" href="${esc(d.url)}" target="_blank" rel="noopener">${icon('file')}${esc(d.nev)}</a>`).join(''):`<p>A kezelési útmutatót és a programozási leírást átvételkor nyomtatva vagy e-mailben átadjuk. Kérésre előre is elküldjük: <b>${esc(S().email)}</b></p>`;
+  if(k==='letoltes') return ((p.kategoria==='penztargep'||p.kategoria==='hasznalt')?`<p style="margin-bottom:8px"><b>Pénztárgép vásárlásához:</b> a megrendelő adatlapot előre is kitöltheti, és behozhatja az üzletbe.</p>${dlAdatlap()}`:'')+((p.letoltesek||[]).length?p.letoltesek.map(d=>`<a class="dl" href="${esc(d.url)}" target="_blank" rel="noopener">${icon('file')}${esc(d.nev)}</a>`).join(''):`<p>A kezelési útmutatót és a programozási leírást átvételkor nyomtatva vagy e-mailben átadjuk. Kérésre előre is elküldjük: <b>${esc(S().email)}</b></p>`);
   const ids=p.kategoria==='penztargep'?['uzembe','felulvizsgalat','javitas','aee']:['javitas'];
   const sv=DB.services.filter(x=>ids.includes(x.id));
   return `<div class="svc">${sv.map(svcRow).join('')}</div>${(c?.gyik||[]).length?`<div style="margin-top:12px">${c.gyik.map(([q,a])=>`<details class="faq"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>`:''}`;
@@ -1601,7 +1638,7 @@ function pageCompare(){
 function pageCheckout(){
   const items=CART.map(c=>({...c,p:prod(c.id)})).filter(x=>x.p);
   if(!items.length) return pageHead('Megrendelés','A kosár üres.','<a href="#termekek">Termékek</a>')+`<div class="wrap" style="padding-block:20px 60px"><a class="btn gold" href="#termekek">${icon('cart')} Termékeink</a></div>`;
-  const sum=items.reduce((a,x)=>a+(now(x.p)||0)*x.db,0), hasReg=items.some(x=>x.p.kategoria==='penztargep');
+  const sum=items.reduce((a,x)=>a+(now(x.p)||0)*x.db,0), regs=items.filter(x=>x.p.kategoria==='penztargep'||(x.p.kategoria==='hasznalt'&&/pénztárgép/i.test(fullName(x.p)))), hasReg=regs.length>0;
   return pageHead('Megrendelés','Fizetni csak átvételkor kell. A megrendelést telefonon vagy e-mailben visszaigazoljuk.','<a href="../">Kezdőlap</a>›<a href="#kosar">Kosár</a>›<span>Megrendelés</span>') +
   `<div class="wrap checkout"><div class="panel"><div class="steps3"><span class="on"><b>1</b>Adatok</span><span class="on"><b>2</b>Átvétel, fizetés</span><span><b>3</b>Visszaigazolás</span></div>
     <form class="f" data-form="megrendeles" data-cart="1" novalidate>
@@ -1609,14 +1646,78 @@ function pageCheckout(){
       <div class="row2"><label class="l">Név<input class="i" name="nev" id="co-nev" required autocomplete="name"></label><label class="l">Cégnév <span class="o">(nem kötelező)</span><input class="i" name="ceg" id="co-ceg" autocomplete="organization"></label></div>
       <div class="row2"><label class="l">Telefon<input class="i" name="telefon" id="co-tel" type="tel" autocomplete="tel"></label><label class="l">E-mail<input class="i" name="email" id="co-email" type="email" autocomplete="email"></label></div>
       <div class="row2"><label class="l">Adószám <span class="o">(cégnek)</span><input class="i" name="adoszam" id="co-adoszam"></label><label class="l">Számlázási cím<input class="i" name="szamlacim" id="co-cim" autocomplete="street-address"></label></div>
-      <h3>Átvétel</h3><div class="radios"><label><input type="radio" name="atvetel" value="Személyesen az üzletben" checked> Személyesen az üzletben (Pécs, Hunyadi J. u. 34.)</label><label><input type="radio" name="atvetel" value="Kiszállítással"> Kiszállítással (díját visszaigazoláskor közöljük)</label></div>
-      <h3>Fizetés</h3><div class="radios"><label><input type="radio" name="fizetes" value="Átvételkor készpénzzel vagy kártyával" checked> Átvételkor, készpénzzel vagy bankkártyával</label><label><input type="radio" name="fizetes" value="Átutalással, díjbekérő alapján"> Átutalással, díjbekérő alapján</label></div>
-      ${hasReg?`<div class="msg info" style="font-weight:500"><b>Pénztárgép vásárlásához szükséges:</b> üzembe helyezési kód (ügyfélkapun igényelhető), társaság esetén aláírási címpéldány. Megrendelést csak aláírásra jogosult személy vagy írásos meghatalmazottja tehet.</div><label class="check"><input type="checkbox" name="uzembe" id="co-uzembe" checked> Kérem az üzembe helyezést, betanítást és a teljes ügyintézést${uzembeAr()?` (${ft(uzembeAr())} + ÁFA)`:''}</label>`:''}
+      ${hasReg?adatlapHTML(regs):''}
+      <h3>Átvétel</h3><div class="radios" id="co-atv"><label><input type="radio" name="atvetel" value="Személyesen az üzletben" checked> Személyesen az üzletben (Pécs, Hunyadi J. u. 34.)</label><label><input type="radio" name="atvetel" value="Kiszállítással"> Kiszállítással (díját visszaigazoláskor közöljük)</label></div>
+      <h3>Fizetés</h3><div class="radios" id="co-fiz"><label data-fz="bolt"><input type="radio" name="fizetes" value="Átvételkor készpénzzel vagy kártyával" checked> Átvételkor, készpénzzel vagy bankkártyával</label><label data-fz="elore"><input type="radio" name="fizetes" value="Átutalással, díjbekérő alapján"> Átutalással, díjbekérő alapján (előre)</label></div>
+      ${hasReg?`<label class="check"><input type="checkbox" name="uzembe" id="co-uzembe" checked> Kérem az üzembe helyezést, betanítást és a teljes ügyintézést${uzembeAr()?` (${ft(uzembeAr())} + ÁFA)`:''}</label>`:''}
       <label class="l">Megjegyzés <span class="o">(nem kötelező)</span><textarea class="i" name="uzenet" id="co-uzenet"></textarea></label>
       <label class="check"><input type="checkbox" name="adatkezeles" id="co-adat"> Hozzájárulok, hogy adataimat a megrendelés teljesítéséhez kezeljék.</label>
       <input class="hp" name="web" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="out" aria-live="polite"></div>
       <button class="btn gold" type="submit">${icon('check')} Megrendelés elküldése</button></form></div>
     <div class="sumcol"><div class="panel"><h3>Rendelése</h3>${items.map(x=>`<div class="sumrow"><span>${x.db} × ${esc(fullName(x.p))}</span><span class="num">${x.p.ar?ft(now(x.p)*x.db):'kérésre'}</span></div>`).join('')}<div style="border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px"><div class="sumrow"><span>Nettó</span><span class="num">${ft(sum)}</span></div><div class="sumrow tot"><span>Bruttó</span><span class="num">${ft(gross(sum))}</span></div></div><a class="btn line sm" href="#kosar" style="justify-self:start">Kosár módosítása</a></div></div></div>`;
+}
+const ADATLAP_PDF='letoltesek/penztargep-megrendelo-adatlap.pdf', ADATLAP_DOC='letoltesek/penztargep-megrendelo-adatlap.doc';
+const dlAdatlap=()=>`<div class="dlrow"><a class="dl" href="${ADATLAP_PDF}" target="_blank" rel="noopener" download>${icon('file')}Pénztárgép-megrendelő adatlap (PDF)</a><a class="dl" href="${ADATLAP_DOC}" download>${icon('file')}Ugyanez Word-formátumban (DOC)</a></div>`;
+function adatlapHTML(regs){
+  const tipus=[...new Set(regs.map(x=>fullName(x.p)))].join(', ');
+  const ck=(n,v,l,c)=>`<label class="chk2"><input type="checkbox" name="${n}" value="${v}" ${c?'checked':''}><span>${l}</span></label>`;
+  return `<section class="adl" id="adl">
+    <h3>${icon('register')} Pénztárgép élesítése – hogyan kéri?</h3>
+    <div class="msg info adl-why">${icon('alert')}<span><b>Fontos:</b> a pénztárgép élesítése (a gép hozzárendelése a vevőhöz és a NAV-hoz) <b>visszavonhatatlan</b> – az élesített gép csak a megadott tulajdonosé lehet, másnak már nem adható el. Ezért <b>pénztárgépet csak teljes kifizetés után élesítünk.</b></span></div>
+    <div class="adl-opts" role="radiogroup" aria-label="Élesítés módja">
+      <label class="adl-opt"><input type="radio" name="elesites" value="elore" checked><span class="ao-in"><span class="ao-badge">Átvételkor azonnal vihető</span><b>Előre fizetem, a gépet előre beprogramozzák</b><small>Díjbekérőt küldünk; a vételár beérkezése után a szerviz beprogramozza és élesíti a gépet, így átvételkor már működik. Ehhez <b>most ki kell töltenie az adatlapot.</b></small></span></label>
+      <label class="adl-opt"><input type="radio" name="elesites" value="bolt"><span class="ao-in"><span class="ao-badge g">1–2 munkanap várakozás</span><b>Az üzletben fizetek és ott adom meg az adatokat</b><small>Fizetés és az adatlap kitöltése a Hunyadi János u. 34. alatti üzletben. A programozás és az élesítés ezután történik, a gépet <b>1–2 munkanap múlva</b> viheti el.</small></span></label>
+    </div>
+    <div class="adl-form" id="adl-form">
+      <div class="adl-head"><b>Pénztárgép-megrendelő adatlap</b><span>Ezek az adatok a gép beprogramozásához és a NAV-bejelentéshez kellenek; csak Ön rendelkezik velük.</span></div>
+      <div class="row2"><label class="l">Képviselő neve<input class="i" name="ad_kepviselo" id="ad-kepviselo" autocomplete="name" data-req></label>
+        <div class="l">Képviselő minősége<div class="radios inl" data-req-radio="ad_minoseg"><label><input type="radio" name="ad_minoseg" value="tulajdonos"> tulajdonos</label><label><input type="radio" name="ad_minoseg" value="meghatalmazott"> meghatalmazott</label></div></div></div>
+      <div class="row2"><label class="l">Cégnév / vállalkozás neve<input class="i" name="ad_cegnev" id="ad-cegnev" autocomplete="organization" data-req></label><label class="l">Személyigazolvány száma<input class="i num" name="ad_szig" id="ad-szig" autocomplete="off" data-req placeholder="pl. 123456AB"></label></div>
+      <label class="l">Székhely<input class="i" name="ad_szekhely" id="ad-szekhely" autocomplete="street-address" data-req></label>
+      <label class="l">Telephely <span class="o">(ahol a gép üzemel)</span><input class="i" name="ad_telephely" id="ad-telephely" data-req></label>
+      <div class="row2"><label class="l">Adószám<input class="i num" name="ad_adoszam" id="ad-adoszam" inputmode="numeric" placeholder="12345678-1-02" maxlength="13" data-req data-fmt="ado"></label><label class="l">Mobiltelefonszám<input class="i num" name="ad_mobil" id="ad-mobil" type="tel" autocomplete="tel" data-req></label></div>
+      <div class="row2"><label class="l">E-mail cím<input class="i" name="ad_email" id="ad-email" type="email" autocomplete="email" data-req></label><label class="l">NAV regisztrációs kód <span class="o">(16 karakter, a NAV-tól kapott üzembe helyezési kód)</span><input class="i num navkod" name="ad_navkod" id="ad-navkod" autocomplete="off" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" data-req data-fmt="nav"></label></div>
+      <label class="l">Gép típusa<input class="i" name="ad_geptipus" id="ad-geptipus" value="${esc(tipus)}" data-req></label>
+      <div class="adl-prog"><b>Programozási segédlet</b>
+        <div class="pg-row"><span>ÁFA-nemek</span><div class="chks">${[['27','27%',1],['18','18%'],['5','5%'],['AJT','AJT%'],['TAM','TAM'],['AAM','AAM']].map(([v,l,c])=>ck('ad_afa',v,l,c)).join('')}</div></div>
+        <div class="pg-row"><span>Korlátozás <small>(legnagyobb tétel)</small></span><div class="chks"><label class="chk2"><input type="radio" name="ad_korlat" value="10 000 Ft" checked><span>10 000 Ft</span></label><label class="chk2"><input type="radio" name="ad_korlat" value="100 000 Ft"><span>100 000 Ft</span></label><label class="chk2 oth"><input type="radio" name="ad_korlat" value="egyeb"><span>egyéb:</span><input class="i num" name="ad_korlat_egyeb" inputmode="numeric" placeholder="összeg Ft"></label></div></div>
+        <div class="pg-row"><span>Fizetési módok a gépen</span><div class="chks">${ck('ad_fizmod','készpénz','készpénz',1)}${ck('ad_fizmod','átutalás','átutalás')}${ck('ad_fizmod','bankkártya','bankkártya')}</div></div>
+      </div>
+      <label class="check req"><input type="checkbox" name="ad_nyilatkozat" id="ad-nyil"><span>Kijelentem, hogy a megadott adatok a valóságnak megfelelnek. <span class="o">(Az adatlapot átvételkor aláírja.)</span></span></label>
+    </div>
+    <div class="adl-bolt" id="adl-bolt" hidden>${icon('clock')}<span>Az adatlapot az üzletben tölti ki. Ha szeretné előre kitölteni és magával hozni, töltse le:</span></div>
+    ${dlAdatlap()}
+  </section>`;
+}
+function bindCheckout(f){
+  const adl=$('#adl',f); if(!adl) return;
+  const upd=()=>{ const m=(f.querySelector('[name=elesites]:checked')||{}).value||'elore', el=m==='elore';
+    $('#adl-form',f).hidden=!el; $('#adl-bolt',f).hidden=el;
+    $$('[data-fz]',f).forEach(l=>{ const on=l.dataset.fz===m; l.hidden=!on; const r=l.querySelector('input'); if(on) r.checked=true; });
+    const atv=$$('#co-atv label',f); atv.forEach(l=>{ const v=l.querySelector('input').value; l.hidden=!el&&v!=='Személyesen az üzletben'; if(!el&&v==='Személyesen az üzletben') l.querySelector('input').checked=true; });
+    $$('.adl-opt',f).forEach(o=>o.classList.toggle('on',o.querySelector('input').checked)); };
+  $$('[name=elesites]',f).forEach(r=>r.addEventListener('change',upd)); upd();
+  const ado=$('[data-fmt=ado]',f); ado?.addEventListener('input',()=>{ const d=ado.value.replace(/\D/g,'').slice(0,11); ado.value=d.length>9?`${d.slice(0,8)}-${d.slice(8,9)}-${d.slice(9)}`:d.length>8?`${d.slice(0,8)}-${d.slice(8)}`:d; });
+  const nav=$('[data-fmt=nav]',f); nav?.addEventListener('input',()=>{ const d=nav.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16); nav.value=d.match(/.{1,4}/g)?.join('-')||''; });
+  $('[name=ad_korlat_egyeb]',f)?.addEventListener('focus',()=>{ f.querySelector('[name=ad_korlat][value=egyeb]').checked=true; });
+  const em=$('#co-email',f), ae=$('#ad-email',f), tl=$('#co-tel',f), am=$('#ad-mobil',f), cg=$('#co-ceg',f), ac=$('#ad-cegnev',f), ad=$('#co-adoszam',f), aa=$('#ad-adoszam',f), nv=$('#co-nev',f), ak=$('#ad-kepviselo',f);
+  [[em,ae],[tl,am],[cg,ac],[ad,aa],[nv,ak]].forEach(([a,b])=>a&&b&&a.addEventListener('input',()=>{ if(!b.dataset.touched) { b.value=a.value; b.dispatchEvent(new Event('input')); } })); $$('#adl-form .i',f).forEach(i=>i.addEventListener('keydown',()=>i.dataset.touched=1));
+}
+function checkAdatlap(f){
+  const adl=$('#adl',f); if(!adl) return null; const m=(f.querySelector('[name=elesites]:checked')||{}).value;
+  if(m!=='elore') return {ok:true,data:{'Élesítés módja':'Az üzletben fizet, ott tölti ki az adatlapot (1–2 munkanap)'}};
+  $$('.bad',f).forEach(x=>x.classList.remove('bad'));
+  const miss=[]; $$('#adl-form [data-req]',f).forEach(i=>{ if(!i.value.trim()){ i.classList.add('bad'); miss.push(i); } });
+  if(!f.querySelector('[name=ad_minoseg]:checked')){ const r=$('[data-req-radio]',f); r.classList.add('bad'); miss.push(r); }
+  const ado=$('#ad-adoszam',f), nav=$('#ad-navkod',f), em=$('#ad-email',f);
+  if(ado.value&&!/^\d{8}-\d-\d{2}$/.test(ado.value)){ ado.classList.add('bad'); return {ok:false,msg:'Az adószám formátuma: 12345678-1-02.',el:ado}; }
+  if(nav.value&&nav.value.replace(/-/g,'').length!==16){ nav.classList.add('bad'); return {ok:false,msg:'A NAV regisztrációs kód 16 karakterből áll (4×4).',el:nav}; }
+  if(em.value&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){ em.classList.add('bad'); return {ok:false,msg:'Az adatlapon az e-mail cím hibás.',el:em}; }
+  if(miss.length) return {ok:false,msg:`Előre fizetésnél az adatlap minden mezőjét ki kell tölteni (${miss.length} hiányzik). Ha most nem tudja megadni, válassza az „Az üzletben fizetek” lehetőséget.`,el:miss[0]};
+  if(!$('#ad-nyil',f).checked){ $('#ad-nyil',f).closest('label').classList.add('bad'); return {ok:false,msg:'Kérjük, jelölje be a nyilatkozatot az adatlap végén.',el:$('#ad-nyil',f)}; }
+  const g=n=>f.querySelector(`[name=${n}]`)?.value||'', all=n=>$$(`[name=${n}]:checked`,f).map(x=>x.value).join(', ');
+  const kor=(f.querySelector('[name=ad_korlat]:checked')||{}).value==='egyeb'?(g('ad_korlat_egyeb')+' Ft'):(f.querySelector('[name=ad_korlat]:checked')||{}).value;
+  return {ok:true,data:{'Élesítés módja':'Előre fizet (díjbekérő) – előre programozható, átvételkor azonnal vihető','Képviselő neve':g('ad_kepviselo'),'Minőség':(f.querySelector('[name=ad_minoseg]:checked')||{}).value,'Cégnév':g('ad_cegnev'),'Személyigazolvány száma':g('ad_szig'),'Székhely':g('ad_szekhely'),'Telephely':g('ad_telephely'),'Adószám':g('ad_adoszam'),'Mobiltelefon':g('ad_mobil'),'E-mail':g('ad_email'),'NAV regisztrációs kód':g('ad_navkod'),'Gép típusa':g('ad_geptipus'),'ÁFA-nemek':all('ad_afa'),'Korlátozás':kor,'Fizetési módok a gépen':all('ad_fizmod')}};
 }
 function pageCart(){ setTimeout(openDrawer,80); return pageCategory('penztargep'); }
 
@@ -1646,7 +1747,7 @@ function pageAbout(){
 function pageBuyInfo(){
   return pageHead('Vásárlási tudnivalók','A pénztárgép vásárlásának és üzembe helyezésének menete.','<a href="../">Kezdőlap</a>›<span>Vásárlás</span>') +
   `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><div class="timeline"><div class="ev"><span class="d">1. lépés</span><div><b>Válassza ki a gépet</b><p class="muted">Webáruházunkban tájékozódhat a kínálatról, személyesen pedig üzletünkben kérhet segítséget a választáshoz. A bemutató készülékeket nyitvatartási időben kipróbálhatja.</p></div></div><div class="ev"><span class="d">2. lépés</span><div><b>Igényeljen üzembe helyezési kódot</b><p class="muted">Az üzembe helyezési kódot Ön vagy könyvelője igényelheti a NAV erre szolgáló elektronikus felületén. Ha kérdése merül fel, keressen minket.</p></div></div><div class="ev"><span class="d">3. lépés</span><div><b>Készítse elő az iratokat</b><p class="muted">Társaság esetén kérjük, hozza magával az aláírási címpéldányt. Megrendelést aláírásra jogosult személy vagy meghatalmazottja adhat le. A szükséges dokumentumokról előzetesen érdeklődjön.</p></div></div><div class="ev"><span class="d">4. lépés</span><div><b>Üzembe helyezés, betanítás</b><p class="muted">A készüléket beállítva és betanítással adjuk át.${uzembeAr()?` Az üzembe helyezés díja ${ft(uzembeAr())} + ÁFA.`:''}</p></div></div></div></div>
-  <div class="panel"><h3>Jó tudni</h3><p>${esc(S().mobildij||'')}</p><p class="muted">Fizetés átvételkor készpénzzel vagy bankkártyával, illetve díjbekérő alapján átutalással lehetséges. Az árváltoztatás jogát fenntartjuk.</p><a class="btn gold" href="#kat-penztargep" style="justify-self:start">${icon('register')} Pénztárgépek</a></div></div>`;
+  <div class="panel"><h3>Jó tudni</h3><p>${esc(S().mobildij||'')}</p><p><b>Élesítés:</b> a pénztárgép élesítése visszavonhatatlan, ezért csak kifizetett gépet élesítünk. Ha előre (díjbekérővel) fizet és online kitölti az adatlapot, átvételkor azonnal viheti; ha az üzletben fizet, a programozás után 1–2 munkanap múlva.</p><h3 style="margin-top:6px">Letölthető dokumentumok</h3>${dlAdatlap()}<p class="muted">Fizetés átvételkor készpénzzel vagy bankkártyával, illetve díjbekérő alapján átutalással lehetséges. Az árváltoztatás jogát fenntartjuk.</p><a class="btn gold" href="#kat-penztargep" style="justify-self:start">${icon('register')} Pénztárgépek</a></div></div>`;
 }
 function pageImpresszum(){ const s=S(), row=(k,v)=>v?`<tr><th scope="row">${k}</th><td>${esc(v)}</td></tr>`:'';
   return pageHead('Impresszum','','<a href="../">Kezdőlap</a>›<span>Impresszum</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:860px"><div class="panel"><table class="spec"><tbody>
@@ -1656,7 +1757,7 @@ function pageAdatkezeles(){ const s=S();
   const sec=(t,b)=>`<h3 style="margin-top:8px">${t}</h3>${b}`;
   return pageHead('Adatkezelési tájékoztató','Röviden és közérthetően bemutatjuk, milyen adatokat kezelünk, és milyen célból.','<a href="../">Kezdőlap</a>›<span>Adatkezelés</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:860px"><div class="panel" style="line-height:1.65">
   ${sec('Adatkezelő',`<p>${esc(s.cegnev)} · ${esc(s.cim)} · ${esc(s.email)} · ${esc(s.telefon)}</p>`)}
-  ${sec('Milyen adatot kezelünk?',`<p>Megrendelés, ajánlatkérés, szervizbejelentés vagy üzenetküldés során az Ön által megadott nevet, cégnevet, telefonszámot, e-mail-címet, számlázási címet, adószámot és az üzenet tartalmát kezeljük. Pénztárgép-szerviz esetén a készülék típusát és AP-számát is kérhetjük.</p>`)}
+  ${sec('Milyen adatot kezelünk?',`<p>Megrendelés, ajánlatkérés, szervizbejelentés vagy üzenetküldés során az Ön által megadott nevet, cégnevet, telefonszámot, e-mail-címet, számlázási címet, adószámot és az üzenet tartalmát kezeljük. Pénztárgép-szerviz esetén a készülék típusát és AP-számát is kérhetjük.</p><p><b>Pénztárgép vásárlásakor</b> a gép beprogramozásához és jogszabály szerinti nyilvántartásba vételéhez a megrendelő adatlapon a képviselő nevét és minőségét, a személyigazolvány számát, a vállalkozás nevét, székhelyét, telephelyét, adószámát, a NAV regisztrációs (üzembe helyezési) kódot, valamint a kapcsolattartási adatokat kezeljük. Ezeket az adatokat csak a pénztárgép élesítéséhez és a kötelező bejelentésekhez használjuk; a webáruház védett tárhelyen őrzi őket, e-mailben nem továbbítja.</p>`)}
   ${sec('Mire használjuk?',`<p>A személyes adatokat a megrendelés, az ajánlatkérés vagy a szervizmunka teljesítéséhez, a kapcsolattartáshoz, valamint a jogszabályban előírt dokumentáció elkészítéséhez használjuk fel. Hírlevelet nem küldünk, és személyes adatokat nem értékesítünk. Adatot harmadik félnek csak a teljesítéshez szükséges esetben és mértékben adunk át, például NAV-bejelentés vagy kézbesítés céljából.</p>`)}
   ${sec('Meddig őrizzük?',`<p>Az adatokat a megrendelés teljesítéséig, illetve a vonatkozó jogszabályokban meghatározott megőrzési ideig őrizzük meg. A számlázási bizonylatokat és a hozzájuk kapcsolódó adatokat a számviteli szabályok szerint 8 évig kell megőrizni.</p>`)}
   ${sec('Sütik és helyi tárolás',`<p>A webáruház nem használ követő vagy reklámcélú sütit. A kosár tartalmát az Ön böngészője tárolja helyben. Az admin belépéshez technikailag szükséges munkamenet-süti tartozik. A főoldalon a térképet a Google Térkép jeleníti meg, a betűtípusokat a Google Fonts szolgálja ki.</p>`)}
@@ -1669,13 +1770,15 @@ function pageContact(){
   <div class="panel"><h3>Üzenet küldése</h3>${orderForm('uzenet')}</div></div>`;
 }
 function bindForms(root=document){
+  $$('form[data-form]',root).forEach(f=>{ if(f.dataset.cart) bindCheckout(f); });
   $$('form[data-form]',root).forEach(f=>f.addEventListener('submit',async e=>{
     e.preventDefault(); const fd=new FormData(f), out=$('.out',f), btn=$('button[type=submit]',f), d=Object.fromEntries(fd.entries());
     if(!d.nev?.trim()||(!d.telefon?.trim()&&!d.email?.trim())){ out.innerHTML='<div class="msg err">Adja meg a nevét, és legalább a telefonszámát vagy az e-mail-címét.</div>'; return; }
+    const AD=f.dataset.cart?checkAdatlap(f):null; if(AD&&!AD.ok){ out.innerHTML=`<div class="msg err">${esc(AD.msg)}</div>`; AD.el?.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>AD.el?.focus?.(),400); return; }
     if(f.dataset.cart&&!fd.get('adatkezeles')){ out.innerHTML='<div class="msg err">A megrendeléshez fogadja el az adatkezelést.</div>'; return; }
     const skip=['nev','ceg','telefon','email','uzenet','web','idopont','adatkezeles'], lbl={termek:'Termék',mennyiseg:'Darabszám',szolg:'Szolgáltatás',geptipus:'Géptípus',ap:'AP szám',tevekenyseg:'Tevékenység',adoszam:'Adószám',szamlacim:'Számlázási cím',atvetel:'Átvétel',fizetes:'Fizetés',uzembe:'Üzembe helyezést kér'};
-    const extra=Object.entries(d).filter(([k,v])=>!skip.includes(k)&&v).map(([k,v])=>`${lbl[k]||k}: ${v==='on'?'igen':v}`).join('\n');
-    const payload={tipus:f.dataset.form,nev:d.nev,ceg:d.ceg,telefon:d.telefon,email:d.email,idopont:d.idopont||'',web:d.web||'',uzenet:[extra,d.uzenet].filter(Boolean).join('\n\n'),tetelek:f.dataset.cart?CART.map(c=>({id:c.id,db:c.db,nev:fullName(prod(c.id)),ar:now(prod(c.id))||null})):[]};
+    const extra=Object.entries(d).filter(([k,v])=>!skip.includes(k)&&!k.startsWith('ad_')&&k!=='elesites'&&v).map(([k,v])=>`${lbl[k]||k}: ${v==='on'?'igen':v}`).join('\n');
+    const payload={tipus:f.dataset.form,nev:d.nev,ceg:d.ceg,telefon:d.telefon,email:d.email,idopont:d.idopont||'',web:d.web||'',uzenet:[extra,d.uzenet].filter(Boolean).join('\n\n'),adatlap:AD?AD.data:null,tetelek:f.dataset.cart?CART.map(c=>({id:c.id,db:c.db,nev:fullName(prod(c.id)),ar:now(prod(c.id))||null})):[]};
     btn.disabled=true;
     try{
       let msg;
@@ -1683,7 +1786,7 @@ function bindForms(root=document){
       else { if(f.dataset.cart){ for(const c of CART){ const p=prod(c.id); if(avail(p)!==Infinity){ if(avail(p)<c.db) throw new Error(`${fullName(p)}: csak ${avail(p)} db van raktáron.`); p.keszletDb=avail(p)-c.db; if(p.keszletDb===0) p.keszlet='elfogyott'; } } LS.set('ptg-data3',DB); }
         const o=LS.get('ptg-orders3',[]); o.unshift({...payload,id:'ELONEZET-'+(o.length+1),ido:new Date().toISOString(),allapot:'uj'}); LS.set('ptg-orders3',o);
         msg='<div class="msg info">Előnézeti mód: a megrendelés ebben a böngészőben tárolódott, az admin felületen látható, és a készlet is csökkent. Az élő oldalon a bolthoz érkezik.</div>'; }
-      if(f.dataset.cart){ CART=[]; saveCart(); $$('.steps3 span').forEach(s=>s.classList.add('on')); }
+      if(f.dataset.cart){ CART=[]; saveCart(); $$('.steps3 span').forEach(s=>s.classList.add('on')); if(AD?.data?.['Élesítés módja']?.startsWith('Előre')) msg+=`<div class="msg info" style="font-weight:500">Pénztárgép: e-mailben díjbekérőt küldünk. A vételár beérkezése után beprogramozzuk és élesítjük a gépet, majd szólunk, hogy átveheti. Átvételkor az adatlapot alá kell írnia.</div>`; else if(AD) msg+=`<div class="msg info" style="font-weight:500">Pénztárgép: a fizetés és az adatlap kitöltése az üzletben történik; utána 1–2 munkanap a programozás.</div>${dlAdatlap()}`; }
       f.outerHTML=msg;
     }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)} Kérjük, módosítsa a kosarat, vagy hívjon minket.</div>`; btn.disabled=false; }
   }));
@@ -1973,6 +2076,7 @@ async function admOrders(){
   ${shown.length?`<div class="olist">${shown.map(o=>{ const [nm,ic]=names[o.tipus]||[o.tipus,'file']; const sum=(o.tetelek||[]).reduce((a,t)=>a+(t.ar||0)*(t.db||1),0); const tel=(o.telefon||'').replace(/[^\d+]/g,'');
     return `<article class="ocard st-${esc(o.allapot)}"><header><span class="oic">${icon(ic)}</span><div><b>${esc(o.nev)}${o.ceg?` <small>· ${esc(o.ceg)}</small>`:''}</b><small>${esc(nm)} · <span class="num">${esc(new Date(o.ido).toLocaleString('hu-HU',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</span> · <span class="num">#${esc(o.id)}</span></small></div></header>
       ${(o.tetelek||[]).length?`<ul class="oitems">${o.tetelek.map(t=>`<li><span><b class="num">${esc(t.db)}×</b> ${esc(t.nev)}</span><span class="num">${t.ar?ft(t.ar*(t.db||1)):'kérésre'}</span></li>`).join('')}${sum?`<li class="tot"><span>Összesen (nettó)</span><span class="num">${ft(sum)}</span></li>`:''}</ul>`:''}
+      ${o.adatlap?`<details class="oadl" ${o.allapot==='uj'?'open':''}><summary>${icon('register','ic','width:18px;height:18px')} Pénztárgép-adatlap</summary><dl>${Object.entries(o.adatlap).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl></details>`:''}
       ${o.uzenet?`<p class="omsg">${esc(o.uzenet)}</p>`:''}${o.idopont?`<p class="muted">${icon('clock','ic','width:16px;height:16px;vertical-align:-3px')} Időpont: ${esc(o.idopont)}</p>`:''}
       <div class="oact">${tel?`<a class="btn line sm" href="tel:${esc(tel)}">${icon('phone')} Hívás</a>`:''}${o.email?`<a class="btn line sm" href="mailto:${esc(o.email)}?subject=${encodeURIComponent('Megrendelése: #'+o.id)}">${icon('mail')} E-mail</a>`:''}</div>
       <div class="oseg" role="group" aria-label="Állapot">${[['uj','Új'],['folyamatban','Folyamatban'],['kesz','Kész']].map(([k,l])=>`<button type="button" class="${o.allapot===k?'on':''}" data-ost="${esc(o.id)}" data-v="${k}">${l}</button>`).join('')}</div></article>`; }).join('')}</div>`:`<div class="empty2">${icon('bell')}<b>${of==='uj'?'Nincs új rendelés':'Nincs itt semmi'}</b><span>A webáruházból érkező megrendelések, ajánlatkérések, szervizbejelentések és üzenetek itt jelennek meg.</span></div>`}`;

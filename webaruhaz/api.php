@@ -405,6 +405,21 @@ switch ($a) {
     if (!empty($b['web'])) out(['ok' => true]);           // csapda a robotoknak (rejtett mező)
     $nev = trim((string)($b['nev'] ?? '')); $tel = trim((string)($b['telefon'] ?? '')); $email = trim((string)($b['email'] ?? ''));
     if ($nev === '' || ($tel === '' && $email === '')) out(['error' => 'Adja meg a nevét és legalább egy elérhetőséget.'], 400);
+    // pénztárgép-adatlap (előre fizetésnél kötelező): külön mezőben tároljuk, e-mailben NEM küldjük ki
+    $adatlap = null;
+    if (is_array($b['adatlap'] ?? null)) {
+      $adatlap = [];
+      foreach (array_slice($b['adatlap'], 0, 25, true) as $k => $v) {
+        $k = mb_substr(trim((string)$k), 0, 60); if ($k === '' || is_array($v)) continue;
+        $adatlap[$k] = mb_substr(trim((string)$v), 0, 200);
+      }
+      if (str_starts_with($adatlap['Élesítés módja'] ?? '', 'Előre')) {
+        foreach (['Képviselő neve', 'Cégnév', 'Személyigazolvány száma', 'Székhely', 'Telephely', 'Adószám', 'Mobiltelefon', 'E-mail', 'NAV regisztrációs kód', 'Gép típusa'] as $req)
+          if (($adatlap[$req] ?? '') === '') out(['error' => 'Előre fizetésnél a pénztárgép-adatlapot teljesen ki kell tölteni (hiányzik: ' . $req . ').'], 400);
+        if (!preg_match('/^\d{8}-\d-\d{2}$/', $adatlap['Adószám'])) out(['error' => 'Az adatlapon az adószám formátuma hibás.'], 400);
+        if (strlen(preg_replace('/[^A-Za-z0-9]/', '', $adatlap['NAV regisztrációs kód'])) !== 16) out(['error' => 'A NAV regisztrációs kód 16 karakterből áll.'], 400);
+      }
+    }
     // tételek: név és ár a szerver katalógusából; készlet ellenőrzése és csökkentése zárolás alatt
     $tetelek = [];
     $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
@@ -434,6 +449,7 @@ switch ($a) {
       'tetelek' => $tetelek,
       'idopont' => mb_substr((string)($b['idopont'] ?? ''), 0, 40),
       'uzenet' => mb_substr((string)($b['uzenet'] ?? ''), 0, 3000),
+      'adatlap' => $adatlap,
       'allapot' => 'uj'
     ];
     array_unshift($orders, $rec);
@@ -444,6 +460,7 @@ switch ($a) {
       $txt = "Új " . $rec['tipus'] . " a weboldalról ({$rec['id']})\n\nNév: {$rec['nev']}\nCég: {$rec['ceg']}\nTelefon: {$rec['telefon']}\nE-mail: {$rec['email']}\nIdőpont: {$rec['idopont']}\n\n";
       foreach ($rec['tetelek'] as $t) $txt .= '- ' . ($t['db'] ?? 1) . ' × ' . ($t['nev'] ?? '') . "\n";
       $txt .= "\n" . $rec['uzenet'];
+      if ($adatlap) $txt .= "\n\nPénztárgép élesítése: " . ($adatlap['Élesítés módja'] ?? '') . (count($adatlap) > 1 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '');
       @mail($set['email'], '=?UTF-8?B?' . base64_encode('Új megrendelés: ' . $rec['nev']) . '?=', $txt, "Content-Type: text/plain; charset=UTF-8");
     }
     out(['ok' => true, 'id' => $rec['id']]);
