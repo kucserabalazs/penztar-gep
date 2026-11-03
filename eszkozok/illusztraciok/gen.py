@@ -16,7 +16,7 @@ SPARK='M0 -9L2 -2L9 0L2 2L0 9L-2 2L-9 0L-2 -2Z'
 CFG={
  'tv-torony':{'cim':'TV-torony (Misina)','parts':[('csucs-also',[rect(452,478,572,763)],(512,763),None),('csucs-kozep',[rect(452,203,572,478)],(512,478),'csucs-also'),('csucs-felso',[rect(452,0,572,203)],(512,203),'csucs-kozep')],'spark':[]},
  'zsolnay-kut-okorfej':{'cim':'Zsolnay-kút – ökörfej','parts':[('ful-bal',[rect(370,40,610,285)],(500,285),None),('ful-jobb',[rect(610,40,850,285)],(722,285),None)],'spark':[],
-   'extra':'<path id="nyelv" class="resz" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M1024 845C1060 849 1090 862 1125 856S1175 826 1210 832S1250 858 1262 850L1296 830M1262 850L1294 874"/>','vbx':1306},
+   'extra':'<path id="nyelv" class="resz" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" d="M1024 845C1060 849 1090 862 1125 856S1175 826 1210 832S1262 864 1302 852S1352 824 1388 836L1426 816M1388 836L1422 864"/>','vbx':1436,'tukor':True},
  'dzsami':{'cim':'Gázi Kászim pasa dzsámija','top':95,'parts':[('jelkep',[rect(700,26,748,93)],(724,93),'kupola'),('kupola',[[(360,20),(1095,20),(1095,334),(1065,333),(912,291),(535,291),(380,331),(360,331)]],(724,300),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="3.5" d="M374 336C470 356 975 356 1071 336"/>')],'spark':[(758,40,1.4,0),(690,70,1,1.2)]},
  'szechenyi-ter':{'cim':'Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor','top':62,'parts':[('szobor',[rect(1412,0,1803,356)],(1745,356),None),('csillag',[rect(538,33,602,89)],(570,64),None),('felhold',[rect(1021,77,1049,101)],(1035,100),'kupola'),('kupola',[[(840,75),(1210,75),(1210,288),(1172,268),(1037,258),(908,264),(845,288)]],(1035,270),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="2.2" d="M852 292C910 304 1150 304 1205 292"/>')],'spark':[(1060,80,1.1,0.6),(600,40,1,2.2)]},
  'szekesegyhaz':{'cim':'Pécsi székesegyház','parts':[],'spark':[(866,22,1.3,0),(342,352,1,1.1),(683,458,.9,2.1),(1232,214,1.1,3)]},
@@ -64,7 +64,10 @@ for name,c in CFG.items():
   ys,xs=np.nonzero(bw); x0,y0,x1,y1=xs.min()/S,ys.min()/S,xs.max()/S,ys.max()/S; p=6
   vb=f'{x0-p:g} {y0-p:g} {x1-x0+2*p:g} {y1-y0+2*p:g}'
   full=trace(bw)
-  open(f'{OUT}/{name}.svg','w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{c["cim"]}"><path fill="currentColor" fill-rule="evenodd" d="{full}"/></svg>')
+  fp=f'<path fill="currentColor" fill-rule="evenodd" d="{full}"/>'
+  if c.get('tukor'):
+    vx,vy,vw,vh=[float(v) for v in vb.split()]; fp=f'<g transform="translate({2*vx+vw:g} 0) scale(-1 1)">{fp}</g>'
+  open(f'{OUT}/{name}.svg','w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{c["cim"]}">{fp}</svg>')
   # rétegek: szülő → gyerek
   def boxof(pid): return ubox([parts[pid]['box']]+[boxof(k) for k,v in parts.items() if v['parent']==pid])
   def grp(pid):
@@ -79,7 +82,10 @@ for name,c in CFG.items():
   # a szikra transform attribútumát egy csoportba tesszük, hogy a CSS-animáció ne írja felül
   sp=''.join(f'<g transform="translate({x} {y}) scale({s})"><path class="szikra" d="{SPARK}" style="animation-delay:{dl}s"/></g>' for x,y,s,dl in c['spark'])
   style=f'<style>.resz{{transform-box:fill-box}}@media (prefers-reduced-motion:no-preference){{{CSS[name]}}}{COMMON}</style>'
-  svg=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{c["cim"]} – mozgó"><title>{c["cim"]}</title>{style}<g fill="currentColor" fill-rule="evenodd">{body}{sp}</g></svg>'
+  inner=body+sp
+  if c.get('tukor'):
+    vx,vy,vw,vh=[float(v) for v in vb.split()]; inner=f'<g transform="translate({2*vx+vw:g} 0) scale(-1 1)">{inner}</g>'
+  svg=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{c["cim"]} – mozgó"><title>{c["cim"]}</title>{style}<g fill="currentColor" fill-rule="evenodd">{inner}</g></svg>'
   open(f'{OUT}/{name}-mozgo.svg','w').write(svg)
   lst.append(dict(nev=name,cim=c['cim'],reszek=[k for k in parts],szikrak=len(c['spark']),vb=vb))
   print(name,os.path.getsize(f'{OUT}/{name}.svg')//1024,os.path.getsize(f'{OUT}/{name}-mozgo.svg')//1024,'KB')
