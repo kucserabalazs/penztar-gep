@@ -1,7 +1,9 @@
-TOTÁL kategóriaérmék – nagyított körgravírozással
+TOTÁL kategóriaérmék – körgravírozott változat
 
-Mind az öt érme aranysávjában körbefutó felirat: „Pénztárgép és Számítástechnika Pécs, Hunyadi János u. 34. 1982.”
-A körirat kétszer ismétlődik a teljes peremen. A betűmagasságot az aranysávhoz méreteztem, a szöveg a belső és külső peremtől kis margót hagy.
+Hat különálló bicolor arany-ezüst érme, domború kategóriaillusztrációval és a teljes peremen körbefutó felirattal.
 
-Kategóriák: pénztárgép; számítástechnika; kellékanyagok; szerviz; tanácsadás és támogatás.
-PNG: átlátszó hátterű kész kép. SVG: átméretezhető fájl, szerkeszthető felirattal és beágyazott érmealappal.
+Peremfelirat: „Pénztárgép és Számítástechnika Pécs, Hunyadi János u. 34. 1982.” A körirat kétszer ismétlődik.
+
+Kategóriák: pénztárgép; számítástechnika; kellékanyagok; szerviz; tanácsadás és támogatás; e-pénztárgép.
+
+PNG: átlátszó hátterű kész kép. SVG: átméretezhető fájl, szerkeszthető felirattal és beágyazott érmealappal. Az e-pénztárgép középső illusztrációja külön, átlátszó PNG-ként is mellékelve van.
