@@ -645,18 +645,14 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .szdisz[src*='-zold']{opacity:1}
 .szdisz.lovas{height:clamp(170px,20vw,280px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
 #hasznalt{position:relative;overflow:hidden}
+.hsz-gomb{flex:0 0 auto;display:grid;justify-items:center;align-self:flex-end}
+.hsz-torony{display:block;width:auto;height:clamp(190px,19vw,250px);margin-bottom:-4px;opacity:.85;pointer-events:none}
 #hasznalt>.wrap{position:relative;z-index:1}
-#hasznalt:has(#usedlist>:nth-child(3)) .hsz-torony{right:max(5vw,40px);height:calc(100% - 270px);bottom:-20px}
-#hasznalt:has(#usedlist>:nth-child(4)) .hsz-torony{display:none}  /* csak akkor jelenik meg, ha marad mellette üres hely */
-@media (max-width:1100px){#hasznalt:has(#usedlist>:nth-child(2)) .hsz-torony{display:none}}
-.hsz-torony{position:absolute;right:max(26vw,24px);bottom:-30px;height:calc(100% - 20px);width:auto;opacity:.7;pointer-events:none;z-index:0;
-  -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent)}
 @media (max-width:760px){
   .shead:has(.szdisz){flex-wrap:wrap}
   .szdisz,.szdisz.lovas{position:absolute;right:-6px;top:-18px;height:118px;margin:0;opacity:.2;z-index:0}
   .shead:has(.szdisz)>div:first-child{position:relative;z-index:1}
-  .hsz-torony{height:70%;opacity:.25;right:-30px}
-  #hasznalt:has(#usedlist>:nth-child(2)) .hsz-torony{display:none}
+  .hsz-gomb{display:flex;align-items:flex-end;gap:18px;width:100%}.hsz-gomb .hb{order:1}.hsz-torony{order:2;height:120px;margin-bottom:0}
 }
 /* lábléc: arany panoráma */
 .ffoot{position:relative}
@@ -769,9 +765,8 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 
 <section class="sec white" id="hasznalt" hidden>
-  <img class="hsz-torony" src="assets/illusztraciok/web/tv-torony-szepia.svg?v=1101" alt="" aria-hidden="true" width="449" height="1469" loading="lazy" decoding="async">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Használt termékek</span><h2 class="sh2">Bevizsgált <em>használt gépek</em></h2><p class="slead">Szervizünkben bevizsgált, átszemélyesített készülékek garanciával, kedvezőbb áron. Az aktuális kínálatról telefonon is érdeklődhet.</p></div><a class="hb line" href="webaruhaz/#kat-hasznalt">Összes használt <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div>
+    <div class="shead rv"><div><span class="eye">Használt termékek</span><h2 class="sh2">Bevizsgált <em>használt gépek</em></h2><p class="slead">Szervizünkben bevizsgált, átszemélyesített készülékek garanciával, kedvezőbb áron. Az aktuális kínálatról telefonon is érdeklődhet.</p></div><div class="hsz-gomb"><img class="hsz-torony" src="assets/illusztraciok/web/tv-torony-szepia.svg?v=1101" alt="" aria-hidden="true" width="449" height="1469" loading="lazy" decoding="async"><a class="hb line" href="webaruhaz/#kat-hasznalt">Összes használt <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div></div>
     <div class="feat" id="usedlist"></div>
   </div>
 </section>
