@@ -1268,22 +1268,20 @@ html[dir=rtl] .top .hnyelv{display:none}
    felső sor: telefon · e-mail · nyelv; alatta embléma | arany vonal | szlogen … sárkányfej, a nyelve a szlogen alatt fut az embléma végéig;
    alatta ugyanaz az arany menüsáv, mint asztalon (oldalra húzható) */
 @media (max-width:900px){
-  .top{--th:52px;--dh:66px;--dw:calc(var(--dh) * 1.1124)}
-  .top .wrap{display:grid!important;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-areas:"pills pills pills lang" "logo bar slogan slogan";align-items:center;column-gap:10px!important;row-gap:10px;min-height:0!important;padding:9px 12px 20px!important}
+  .top{--th:54px;--dh:86px;--dw:calc(var(--dh) * 1.1124)}
+  .top .wrap{display:grid!important;grid-template-columns:auto auto minmax(0,1fr);grid-template-areas:"logo bar slogan";align-items:center;column-gap:10px!important;min-height:0!important;padding:12px 12px 28px!important}
   .top .mburger,.top .mtools{display:none!important}
-  .top .contacts{grid-area:pills;display:flex!important;gap:6px;margin:0!important;min-width:0}
-  .top .contacts .pill{flex:0 1 auto;min-width:0;height:34px;padding:0 10px!important;gap:6px!important;font-size:clamp(12px,3.35vw,14px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .top .contacts .pill svg{width:16px!important;height:16px!important;flex:0 0 16px}
-  .top .zi-pick{grid-area:lang;margin:0!important;justify-self:end}
-  .top .zi-btn{height:34px!important;padding:0 8px!important;gap:5px!important;font-size:14px!important}
+  .top .contacts{display:none!important}
+  .navbar .zi-pick{flex:none;margin:0 0 0 4px!important}.navbar .zi-btn{height:36px!important;padding:0 8px 0 7px!important;gap:5px!important;font-size:0!important;letter-spacing:0!important}.navbar .zi-btn .zi-flag{font-size:22px!important}
   .top .logo{grid-area:logo;flex:none!important;width:auto!important;min-width:0!important}
   .top .logo img{height:var(--th)!important;width:auto!important;max-width:none!important}
   .top .vbar{grid-area:bar;display:block!important;width:3px;height:40px}
-  .top .slogan{grid-area:slogan;display:block!important;white-space:nowrap;font-size:clamp(12px,3.6vw,16px)!important;line-height:1.15;padding-right:calc(var(--dw) * .6);min-width:0}
-  .top .pan.sarkany{display:block!important;top:50px!important;right:6px!important;height:var(--dh)!important;width:var(--dw)!important;opacity:1!important}
+  .top .slogan{grid-area:slogan;display:block!important;white-space:nowrap;font-size:clamp(12px,3.6vw,16px)!important;line-height:1.15;padding-right:calc(var(--dw) * .52);min-width:0}
+  .top .pan.sarkany{display:block!important;top:4px!important;right:2px!important;height:var(--dh)!important;width:var(--dw)!important;opacity:1!important;filter:saturate(1.9) brightness(1.18) contrast(1.08) drop-shadow(0 0 3px rgba(255,196,60,.55))!important}
+  .top .hnyelv path{stroke:#ffcc3d!important;stroke-width:2.3!important}
+  .top .hnyelv{filter:drop-shadow(0 0 3px rgba(255,190,40,.75))!important}
 }
-@media (max-width:459px){.top .contacts .pill[href^="mailto"]{font-size:0!important;gap:0!important}.top .contacts .pill[href^="mailto"]::after{content:"E-mail";font-size:13.5px;margin-left:6px}}
-@media (max-width:359px){.top{--th:46px;--dh:60px}.top .slogan{font-size:11.5px!important}}
+@media (max-width:374px){.top{--th:48px;--dh:80px}.top .slogan{font-size:12px!important}}
 /* mobil menüsáv: ugyanaz a sáv, mint asztalon – a menüpontok oldalra húzhatók, kereső / admin / kosár jobb oldalt */
 @media (max-width:900px){
   .navbar,.navbar.open{position:sticky!important;top:env(safe-area-inset-top,0px)!important;display:block!important;max-height:none!important;overflow:visible!important}
@@ -2723,7 +2721,7 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
 </script>
 <script>window.ZEPHYR_I18N_BASE="../nyelv/";</script>
 <script src="../assets/nyelv.js"></script>
-<script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"), { before: document.querySelector(".top .mtools") });</script>
+<script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"), { before: document.querySelector(".top .mtools") });</script><script>/* mobilon a nyelvválasztó a menüsávba kerül (a fejlécben nincs neki hely) */(function(){var pk=document.querySelector(".top .zi-pick");if(!pk)return;var home=pk.parentNode,nx=pk.nextSibling,mq=matchMedia("(max-width:900px)");function hely(){if(mq.matches){var t=document.querySelector(".navbar .tools");if(t&&pk.parentNode!==t)t.insertBefore(pk,t.firstChild);}else if(pk.parentNode!==home){home.insertBefore(pk,nx&&nx.parentNode===home?nx:null);}}hely();mq.addEventListener?mq.addEventListener("change",hely):mq.addListener(hely);})();</script>
 <script>/* sárkánynyelv: a szájból indul, a feliratok alatti szabad sáv közepén kígyózva halad, a TOTÁL embléma végénél annak közepéig emelkedik, megrebben, majd lassan visszahúzódik */
 (function(){var top=document.querySelector('.top'),sv=top&&top.querySelector('.hnyelv');if(!sv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 var p=sv.querySelector('path'),P=[],S=[],L=0,on=true,W=0,H=0;
