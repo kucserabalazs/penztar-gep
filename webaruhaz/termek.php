@@ -156,9 +156,7 @@ function card(array $p): string {
 <meta property="og:url" content="<?= h($canon ?? SHOP) ?>">
 <meta property="og:image" content="<?= h($ogimg ?? SITE . '/assets/og-kep.jpg') ?>">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;1,800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261104">
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $ld], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <style>
 :root{--n0:#041a33;--n2:#082746;--n3:#123b61;--gold:#d6a64e;--gold-l:#f4d58d;--gold-d:#b7832e;--ink:#182e48;--muted:#5f6f80;--line:#e3dccd;--cream:#f7f3eb;--fd:"Montserrat","Arial Black",Arial,sans-serif;--fb:"Inter","Segoe UI",system-ui,sans-serif}
