@@ -14,12 +14,12 @@
   if (window.ZI18N) return;
   const LANGS = [
     ["hu", "Magyar", "🇭🇺"], ["en", "English", "🇬🇧"], ["de", "Deutsch", "🇩🇪"], ["it", "Italiano", "🇮🇹"],
-    ["hr", "Hrvatski", "🇭🇷"], ["sk", "Slovenčina", "🇸🇰"], ["zh", "中文", "🇨🇳"]
+    ["hr", "Hrvatski", "🇭🇷"], ["sk", "Slovenčina", "🇸🇰"], ["pl", "Polski", "🇵🇱"], ["zh", "中文", "🇨🇳"]
   ];
   const RTL = { ar: 1, ur: 1 };
   const CODES = LANGS.map((l) => l[0]);
   /* mely nyelvekhez van már szótár – a build tölti ki a nyelv/ mappa alapján */
-  const READY = (window.ZEPHYR_I18N_READY || ["hu", "en", "de", "it", "hr", "sk", "zh"]).filter((c) => CODES.includes(c));
+  const READY = (window.ZEPHYR_I18N_READY || ["hu", "en", "de", "it", "hr", "sk", "pl", "zh"]).filter((c) => CODES.includes(c));
   const BASE = window.ZEPHYR_I18N_BASE || "nyelv/";
   const KEY = "ptg-lang";
   const COLLECT = /(^|[?&])forditas=gyujt/.test(location.search);
