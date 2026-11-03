@@ -13,16 +13,13 @@
 (function () {
   if (window.ZI18N) return;
   const LANGS = [
-    ["hu", "Magyar", "🇭🇺"], ["en", "English", "🇬🇧"], ["de", "Deutsch", "🇩🇪"], ["fr", "Français", "🇫🇷"], ["it", "Italiano", "🇮🇹"],
-    ["es", "Español", "🇪🇸"], ["nl", "Nederlands", "🇳🇱"], ["pl", "Polski", "🇵🇱"], ["cs", "Čeština", "🇨🇿"], ["sk", "Slovenčina", "🇸🇰"],
-    ["ro", "Română", "🇷🇴"], ["hr", "Hrvatski", "🇭🇷"], ["pt", "Português", "🇵🇹"], ["ru", "Русский", "🇷🇺"], ["tr", "Türkçe", "🇹🇷"],
-    ["zh", "中文", "🇨🇳"], ["ja", "日本語", "🇯🇵"], ["ko", "한국어", "🇰🇷"], ["vi", "Tiếng Việt", "🇻🇳"], ["id", "Bahasa Indonesia", "🇮🇩"],
-    ["hi", "हिन्दी", "🇮🇳"], ["bn", "বাংলা", "🇧🇩"], ["ur", "اردو", "🇵🇰"], ["ar", "العربية", "🇸🇦"]
+    ["hu", "Magyar", "🇭🇺"], ["en", "English", "🇬🇧"], ["de", "Deutsch", "🇩🇪"], ["it", "Italiano", "🇮🇹"],
+    ["hr", "Hrvatski", "🇭🇷"], ["sk", "Slovenčina", "🇸🇰"], ["zh", "中文", "🇨🇳"]
   ];
   const RTL = { ar: 1, ur: 1 };
   const CODES = LANGS.map((l) => l[0]);
   /* mely nyelvekhez van már szótár – a build tölti ki a nyelv/ mappa alapján */
-  const READY = (window.ZEPHYR_I18N_READY || ["hu", "ar", "bn", "cs", "de", "en", "es", "fr", "hi", "hr", "id", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "sk", "tr", "ur", "vi", "zh"]).filter((c) => CODES.includes(c));
+  const READY = (window.ZEPHYR_I18N_READY || ["hu", "en", "de", "it", "hr", "sk", "zh"]).filter((c) => CODES.includes(c));
   const BASE = window.ZEPHYR_I18N_BASE || "nyelv/";
   const KEY = "ptg-lang";
   const COLLECT = /(^|[?&])forditas=gyujt/.test(location.search);
@@ -129,12 +126,12 @@
 .zi-flag { font-size: 22px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
 .zi-car { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #ffd978; transition: transform .2s; }
 .zi-pick.open .zi-car { transform: rotate(180deg); }
-.zi-menu { position: absolute; z-index: 2147483000; top: calc(100% + 10px); inset-inline-end: 0; width: min(560px, calc(100vw - 24px)); max-height: min(70vh, 560px); overflow: auto; padding: 14px; border-radius: 20px; color: #0b2a4a;
+.zi-menu { position: absolute; z-index: 2147483000; top: calc(100% + 10px); inset-inline-end: 0; width: min(380px, calc(100vw - 24px)); max-height: min(70vh, 560px); overflow: auto; padding: 14px; border-radius: 20px; color: #0b2a4a;
   background: linear-gradient(180deg, #ffffff, #f3f7fb); box-shadow: 0 24px 60px rgba(4,20,40,.45), 0 0 0 1px rgba(11,42,74,.08); display: none; }
 .zi-pick.open .zi-menu { display: block; animation: ziIn .22s ease; } @keyframes ziIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
 .zi-hd { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 2px 4px 10px; border-bottom: 1px solid #e3eaf1; margin-bottom: 10px; }
 .zi-hd b { font: 900 17px/1.2 inherit; } .zi-hd small { font: 700 13px/1.3 inherit; color: #5a6b7b; }
-.zi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.zi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .zi-it { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 9px; min-height: 46px; padding: 6px 10px; border-radius: 12px; font: 700 15px/1.2 inherit; color: #0b2a4a; transition: background .15s; }
 .zi-it .zi-flag { font-size: 24px; }
 .zi-it span { display: flex; flex-direction: column; min-width: 0; } .zi-it em { font-style: normal; font: 700 11.5px/1.2 inherit; color: #8a96a2; }
