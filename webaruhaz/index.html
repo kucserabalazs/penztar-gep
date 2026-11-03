@@ -1246,12 +1246,16 @@ footer.slim{padding-top:24px}
 html[dir=rtl] .top .hnyelv{display:none}
 .top .logo img{height:calc(var(--th) - 12px)!important;width:auto!important;max-width:none}
 @media (max-width:820px){.top{--th:66px}.top .logo img{height:auto!important;width:min(150px,calc(100vw - 230px))!important}.top .pan.sarkany{opacity:.6!important}}
+
+.top .hnyelv{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;top:0!important;left:0!important;clip-path:none!important;filter:drop-shadow(0 0 2px rgba(244,213,141,.5))!important;animation:none!important;overflow:visible}
+.top .hnyelv path{fill:none;stroke:#f0cf7e;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--L,3000) var(--L,3000);stroke-dashoffset:var(--L,3000);animation:hnyelv2 7s cubic-bezier(.3,.7,.3,1) infinite 2.2s}
+@keyframes hnyelv2{0%,56%{stroke-dashoffset:var(--L,3000)}70%,76%{stroke-dashoffset:0}88%,100%{stroke-dashoffset:var(--L,3000)}}
 </style>
 </head>
 <body>
 
 <header class="top">
-  <img class="pan sarkany" src="../assets/illusztraciok/web/zsolnay-fej-fejlec.svg?v=1108" alt="" aria-hidden="true" width="1153" height="1038"><svg class="hnyelv" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true"><path d="M1000 20 Q975 8 950 20 Q925 32 900 20 Q875 8 850 20 Q825 32 800 20 Q775 8 750 20 Q725 32 700 20 Q675 8 650 20 Q625 32 600 20 Q575 8 550 20 Q525 32 500 20 Q475 8 450 20 Q425 32 400 20 Q375 8 350 20 Q325 32 300 20 Q275 8 250 20 Q225 32 200 20 Q175 8 150 20 Q125 32 100 20 Q75 8 50 20 L14 20 M14 20 L0 9 M14 20 L0 31" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>
+  <img class="pan sarkany" src="../assets/illusztraciok/web/zsolnay-fej-fejlec.svg?v=1108" alt="" aria-hidden="true" width="1153" height="1038"><svg class="hnyelv" aria-hidden="true"><path/></svg>
   <div class="wrap">
     <a class="logo" href="../" aria-label="Totál – kezdőlap"><img src="../assets/logo/total-logo-fejlec.svg" alt="TOTÁL – Pénztárgép-Számítástechnika" width="345" height="146"></a>
     <span class="vbar" aria-hidden="true"></span>
@@ -2671,5 +2675,13 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
 <script>window.ZEPHYR_I18N_BASE="../nyelv/";</script>
 <script src="../assets/nyelv.js"></script>
 <script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"), { before: document.querySelector(".top .mtools") });</script>
+<script>/* sárkánynyelv a fejlécben: a szájból lefelé, a fejléc alján balra, a TOTÁL emblémánál kicsit felhajlik, majd visszahúzódik */
+(function(){var top=document.querySelector('.top'),sv=top&&top.querySelector('.hnyelv');if(!sv)return;var p=sv.querySelector('path');
+function rajz(){var H=top.getBoundingClientRect(),d=top.querySelector('.pan.sarkany').getBoundingClientRect(),l=top.querySelector('.logo img').getBoundingClientRect();
+ var W=H.width,h=H.height;sv.setAttribute('viewBox','0 0 '+W+' '+h);
+ var mx=d.left-H.left+d.width*.2445,my=d.top-H.top+d.height*.745,by=h-3.5,lr=l.right-H.left,ll=l.left-H.left,ex=ll+l.width*.6,ey=by-4;
+ var dd='M'+mx+' '+my+' C'+(mx-18)+' '+(my+4)+' '+(mx-26)+' '+by+' '+(mx-60)+' '+by+' L'+(lr+12)+' '+by+' Q'+(ll+l.width*.7)+' '+by+' '+ex+' '+ey+' M'+ex+' '+ey+' l-9 -3 M'+ex+' '+ey+' l-7 6';
+ p.setAttribute('d',dd);var L=Math.ceil(p.getTotalLength());sv.style.setProperty('--L',L);}
+rajz();addEventListener('resize',rajz);addEventListener('load',rajz);setTimeout(rajz,800);})();</script>
 </body>
 </html>
