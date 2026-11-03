@@ -43,6 +43,7 @@ jobs:
           SFTP_PORT: "2253"
           SFTP_USER: web5109
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          CONFIG_LOCAL_PHP: ${{ secrets.CONFIG_LOCAL_PHP }}
           TERMEKADATOK: ${{ github.event.inputs.termekadatok }}
         run: |
           set -euo pipefail
@@ -90,6 +91,17 @@ jobs:
             --exclude-glob webaruhaz/data/.lock \
             $KIZAR_TERMEK \
             . $CEL"
+
+          # Titkos beállítások (tulajdonosok e-mail címei, titkosító kulcs) – csak a GitHub titkai között vannak.
+          if [ -n "${CONFIG_LOCAL_PHP:-}" ]; then
+            umask 077
+            printf '%s\n' "$CONFIG_LOCAL_PHP" > "$RUNNER_TEMP/config.local.php"
+            kapcs "put $RUNNER_TEMP/config.local.php -o $CEL/webaruhaz/config.local.php"
+            rm -f "$RUNNER_TEMP/config.local.php"
+            echo "config.local.php feltöltve."
+          else
+            echo "::notice::Nincs CONFIG_LOCAL_PHP titok – a config.local.php nem került feltöltésre."
+          fi
 
           echo "Kész: https://penztar-gep.hu"
 
