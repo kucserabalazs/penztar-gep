@@ -218,7 +218,7 @@
    "kiemelt": true,
    "engedely": "A315",
    "modell": "kompakt",
-   "leiras": "Az NR-330 új generációs, 4G-kapcsolatú adóügyi egységgel működő online pénztárgép. Nyugták mellett számlák nyomtatására is alkalmas. A modell 80 mm-es nyomtatóval használható, és a megadott adatok szerint 57 mm-es papírt is kezel. Kapcsolódási lehetőségei Windows-, Android- és iOS-eszközöket is támogatnak, a készülék pedig 20-féle fizetőeszköz kezelésére alkalmas. Fehér vagy fekete kivitelben érhető el.",
+   "leiras": "Az NR-330 új generációs online pénztárgép, amely 4G-kapcsolattal rendelkező adóügyi egységgel működik. Nyugták mellett számlák nyomtatására is alkalmas. A modell 80 mm-es nyomtatóval használható, és a megadott műszaki adatok szerint 57 mm széles papírt is kezel. Windows-, Android- és iOS-eszközökkel is összekapcsolható, továbbá 20 különböző fizetőeszköz kezelésére alkalmas. Fehér és fekete kivitelben érhető el.",
    "jellemzok": [
     "Többfunkciós készülék 4G-kapcsolatú AEE-vel",
     "80 mm-es nyomtató, 57 mm-es papír használatának lehetőségével",
@@ -499,7 +499,7 @@
     ],
     [
      "Kasszafiók",
-     "fém, a gépre szerelve, nagy címlet bedobónyílással"
+     "fém kivitel, a gépre szerelve, nagy címletű bankjegyekhez való bedobónyílással"
     ],
     [
      "Bővíthetőség",
@@ -514,7 +514,7 @@
      "139 500 Ft + ÁFA"
     ],
     [
-     "Garancia bővítés",
+     "Garanciakiterjesztés",
      "+2 év: 15 000 Ft + ÁFA"
     ]
    ],
@@ -555,7 +555,7 @@
    "specs": [
     [
      "Tápellátás",
-     "beépített 6 V / 3 Ah akkumulátor, 12 V / 500 mA hálózati adapter"
+     "beépített 6 V / 3 Ah kapacitású akkumulátor, 12 V / 500 mA-es hálózati adapter"
     ],
     [
      "Kijelző",
@@ -563,7 +563,7 @@
     ],
     [
      "Nyomtató",
-     "Fujitsu FTP628 hőnyomtató (korábbi kivitelben Seiko), 57 mm papír"
+     "Fujitsu FTP628 hőnyomtató (korábbi változatban Seiko), 57 mm-es papírhoz"
     ],
     [
      "Adattárolás",
@@ -624,7 +624,7 @@
    "leiras": "Hordozható, GPS-szel és 4G-kapcsolattal rendelkező online pénztárgép. Belső akkumulátora a megadott adatok szerint körülbelül 300 nyugta nyomtatására elegendő egy töltéssel. A készülék 57 mm-es Seiko nyomtatóval rendelkezik; kasszafiók, számítógép, USB-s vonalkódolvasó és mérleg is csatlakoztatható hozzá.",
    "jellemzok": [
     "GPS és 4G",
-    "Belső akku, kb. 300 nyugta",
+    "Belső akkumulátor, egy töltéssel kb. 300 nyugta",
     "57 mm-es Seiko nyomtató",
     "Kasszafiók, PC, szkenner, mérleg"
    ],
@@ -975,7 +975,7 @@
    "marka": "Elcom",
    "nev": "Euro-150TE Flexy",
    "modell": "kompakt",
-   "alcim": "Egyszerű, gyors asztali online pénztárgép",
+   "alcim": "Egyszerűen kezelhető, gyors asztali online pénztárgép",
    "leiras": "Akkumulátor nélküli, asztali online pénztárgép Seiko hőnyomtatóval és programozható billentyűzettel. A megadott adatok szerint 2 000 PLU-t és 10 pénztárost kezel. Kasszafiók, vonalkódolvasó, digitális mérleg és számítógép csatlakoztatható hozzá.",
    "jellemzok": [
     "Seiko hőnyomtató",
@@ -1309,11 +1309,11 @@
    "nev": "Mini",
    "modell": "kezi",
    "alcim": "Hordozható, GPS-es, autós táppal is",
-   "leiras": "GPS-szel és beépített akkumulátorral rendelkező mobil online pénztárgép kiszállításhoz és mozgóárusításhoz. A megadott adatok szerint 230 V-os hálózatról vagy gépkocsi-csatlakozóról is működtethető, tömege 0,855 kg. 10 000 PLU-t és 20 pénztárost kezel. Vonalkódolvasó, bankkártya-terminál, mérleg, számítógép és 12 V-os kasszafiók csatlakoztatható hozzá.",
+   "leiras": "GPS-szel és beépített akkumulátorral rendelkező mobil online pénztárgép kiszállításhoz és mozgóárusításhoz. A megadott adatok szerint 230 V-os hálózati tápegységről vagy gépkocsi-csatlakozóról is működtethető; tömege 0,855 kg. 10 000 PLU-t és 20 pénztárost képes kezelni. Vonalkódolvasó, bankkártya-terminál, mérleg, számítógép és 12 V-os kasszafiók csatlakoztatható hozzá.",
    "jellemzok": [
-    "GPS, akkumulátor",
+    "GPS és akkumulátor",
     "Csak 0,855 kg",
-    "Autós tápról is",
+    "Autós tápegységről is működtethető",
     "10 000 PLU, 20 pénztáros"
    ],
    "specs": [
@@ -1323,7 +1323,7 @@
     ],
     [
      "Tápellátás",
-     "beépített akkumulátor; 230 V vagy gépkocsi-csatlakozó"
+     "beépített akkumulátor; 230 V-os hálózati vagy gépkocsi-csatlakozós tápellátás"
     ],
     [
      "GPS",
@@ -1475,7 +1475,7 @@
     ],
     [
      "Hálózat",
-     "Ethernet, Wi-Fi, Bluetooth 4.2"
+     "Ethernet, Wi-Fi és Bluetooth 4.2"
     ],
     [
      "Csatlakozók",
@@ -1617,7 +1617,7 @@
    "specs": [
     [
      "Technológia",
-     "CMOS képalkotó (kamerás), 1D és 2D / QR kódok"
+     "CMOS képalkotó (kamerás) olvasó, 1D és 2D/QR-kódokhoz"
     ],
     [
      "Csatlakozás",
@@ -1715,7 +1715,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Gyári fém kasszafiók Sam4s NR-440, illetve a megadott típusok szerint Samsung ER-420F és ER-420M készülékhez. Négy bankjegy- és nyolc érmetartóval, nagy címlet bedobónyílással és trezorfunkcióval rendelkezik, kulccsal zárható. Mérete 400 × 450 × 100 mm. A bekötés készüléktípustól függ; rendelés előtt egyeztetünk Önnel.",
+   "leiras": "Gyári fém kasszafiók Sam4s NR-440, valamint a megadott típusok szerint Samsung ER-420F és ER-420M készülékekhez. Négy bankjegytartóval és nyolc érmetartóval, nagy címletű bankjegyekhez való bedobónyílással, valamint trezorfunkcióval rendelkezik. Kulccsal zárható. Mérete: 400 × 450 × 100 mm. A csatlakoztatás a készülék típusától függ, ezért rendelés előtt egyeztetünk Önnel.",
    "jellemzok": [
     "Fém kivitel",
     "Kulccsal zárható"
@@ -1896,7 +1896,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel. A hitelesítési lehetőségekről, a méréshatárról és az aktuális konfigurációról kérjük, érdeklődjön.",
+   "leiras": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel. A hitelesítés lehetőségéről, a méréshatárról és az aktuális konfigurációról kérjük, érdeklődjön.",
    "jellemzok": [
     "Hitelesítve",
     "Árszorzó",
@@ -1961,7 +1961,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Címkenyomtatós rendszermérleg hentes-, csemege- és zöldségpultokba. Vonalkódos címke készítésére alkalmas; a hálózatba kötés és a rendszerekkel való együttműködés feltételei a konfigurációtól függenek.",
+   "leiras": "Címkenyomtatós rendszermérleg hentesüzletek, csemegepultok és zöldségpultok számára. Vonalkódos címkék készítésére alkalmas. A hálózati csatlakozás és az egyéb rendszerekkel való együttműködés lehetősége a konfigurációtól függ.",
    "jellemzok": [
     "Címkenyomtató",
     "Vonalkódos címke",
@@ -1999,7 +1999,7 @@
     ],
     [
      "Kapcsolat",
-     "Ethernet (LAN), RS232, POS rendszerbe köthető"
+     "Ethernet (LAN), RS232; POS-rendszerbe köthető"
     ],
     [
      "Méret",
@@ -2255,7 +2255,7 @@
    "kategoria": "irodatechnika",
    "marka": "",
    "nev": "Irodai nyomtatók, multifunkciós gépek",
-   "alcim": "Beszerzés és beüzemelés",
+   "alcim": "Beszerzés és üzembe helyezés",
    "ar": null,
    "arTol": false,
    "akciosAr": null,
@@ -2295,7 +2295,7 @@
    "leiras": "Hőpapírtekercsek pénztárgépekhez és blokknyomtatókhoz, a megadott kínálat szerint 57 és 80 mm-es szélességben. A megfelelő méret ellenőrzéséhez kérjük, nézze meg a készülék dokumentációját, vagy adja meg a gép pontos típusát.",
    "jellemzok": [
     "57 és 80 mm széles",
-    "Csomagban is"
+    "Csomagban is elérhető"
    ],
    "kepek": [
     "kepek/termekek/hopapir-1.webp",

@@ -100,6 +100,20 @@ jobs:
             $KIZAR_TERMEK \
             . $CEL"
 
+          # Lektorált termékszövegek: az adminban tárolt termékadatokban csak a pontosan egyező
+          # régi szövegeket cseréli az újra (árak, készlet érintetlen), előtte biztonsági mentést készít.
+          if [ -n "$KIZAR_TERMEK" ] && [ -s webaruhaz/data/szovegjavitas.json ]; then
+            if kapcs "get $CEL/webaruhaz/data/products.json -o $RUNNER_TEMP/products.json"; then
+              cp "$RUNNER_TEMP/products.json" "$RUNNER_TEMP/products.eredeti.json"
+              if python3 eszkozok/szovegjavitas.py "$RUNNER_TEMP/products.json" webaruhaz/data/szovegjavitas.json; then
+                MENTES="products.backup-szoveg-$(date +%Y%m%d-%H%M%S).json"
+                kapcs "put $RUNNER_TEMP/products.eredeti.json -o $CEL/webaruhaz/data/$MENTES; put $RUNNER_TEMP/products.json -o $CEL/webaruhaz/data/products.json"
+                echo "Termékszövegek frissítve, mentés: $MENTES"
+              fi
+              rm -f "$RUNNER_TEMP/products.json" "$RUNNER_TEMP/products.eredeti.json"
+            fi
+          fi
+
           # Titkos beállítások (tulajdonosok e-mail címei, titkosító kulcs) – csak a GitHub titkai között vannak.
           if [ -n "${CONFIG_LOCAL_PHP:-}" ]; then
             umask 077
