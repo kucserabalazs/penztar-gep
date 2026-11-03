@@ -19,6 +19,8 @@ bármekkora méretben éles, és a **színe CSS-ből állítható** (a vonal sz�
 - **Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor** – `szechenyi-ter`: Hunyadi a lovával együtt leugrik a talapzatról, a ló ágaskodik, majd visszaugranak (szobor); a web/lovasszobor-szepia.svg csak ezt a részletet mutatja; a dzsámi kupolája megemelkedik (kupola), a félhold meglendül (felhold); a Szentháromság-szobor csillaga forog (csillag).
 - **Pécsi székesegyház** – `szekesegyhaz`: a négy torony keresztjén csillanások.
 
+A Zsolnay-kút ökörfejének webes változata Zsolnay-zöld vonalú: `web/zsolnay-kut-okorfej-zold.svg`.
+
 ## Használat a weboldalon
 Egyszerű kép (mozog, de a színe fix fekete):
 ```html
