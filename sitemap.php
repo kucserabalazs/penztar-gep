@@ -12,6 +12,7 @@ $u = [];
 $u[] = [SITE . '/', $hmod, 'weekly', '1.0'];
 $u[] = [SITE . '/webaruhaz/', $dmod, 'daily', '0.9'];
 $u[] = [SITE . '/webaruhaz/termek.php', $dmod, 'daily', '0.8'];
+foreach (['tudnivalok', 'szerviz', 'penztargep-valasztas'] as $o) $u[] = [SITE . "/$o/", date('Y-m-d', @filemtime(__DIR__ . "/$o/index.php") ?: time()), 'monthly', '0.8'];
 $prods = array_values(array_filter($db['products'] ?? [], fn($p) => empty($p['rejtett'])));
 foreach (($db['categories'] ?? []) as $c) {
   if (!array_filter($prods, fn($p) => $p['kategoria'] === $c['id'])) continue;
