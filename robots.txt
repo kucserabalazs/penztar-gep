@@ -3,7 +3,6 @@ User-agent: *
 Allow: /
 Disallow: /webaruhaz/api.php
 Disallow: /webaruhaz/data/
-Disallow: /webaruhaz/uploads/
 Disallow: /mentesek/
 Disallow: /referencia/
 Disallow: /eszkozok/
