@@ -5,7 +5,7 @@
    - A szótár kulcsa maga a MAGYAR felirat → nem kell minden szöveget kóddal megjelölni:
      a motor a megjelenő szövegeket (és a placeholder / aria-label / title / alt mezőket)
      a szótár alapján cseréli, a később megjelenő ablakokat is (foglalás, galéria…).
-   - Számokat tartalmazó feliratok: a szótárban {#} jelöli a számot ("{#} / {#}").
+   - Számokat tartalmazó feliratok: a szótárban {#} jelöli a számot ("{#} / {#}"); {#1}, {#2} … a magyar szöveg 1., 2. számát jelöli, ha a fordításban más a sorrend (pl. dátum).
    - Arab és urdu: jobbról balra (dir="rtl").
    - Szótárak: nyelv/xx.json  ({ "magyar felirat": "fordítás" }); a mesterlista: nyelv/hu.json.
    - Gyűjtő mód: ?forditas=gyujt → a még nem fordított feliratokat összegyűjti (ZI18N.collected()).
@@ -46,14 +46,14 @@
   const wanted = (k) => k.length > 1 && /\p{L}/u.test(k);
   const seen = new Set();
   function note(k) { if (!COLLECT || !wanted(k)) return; const p = k.replace(NUM, "{#}"); if (dict && (dict[k] != null || dict[p] != null)) return; seen.add(p); }
-  function tr1(x) { if (dict[x] != null) return dict[x]; const nums = []; const p = x.replace(NUM, (m) => { nums.push(m); return "{#}"; }); if (nums.length && dict[p] != null) { let i = 0; return dict[p].replace(/\{#\}/g, () => nums[i++] ?? ""); } return x; }
+  function tr1(x) { if (dict[x] != null) return dict[x]; const nums = []; const p = x.replace(NUM, (m) => { nums.push(m); return "{#}"; }); if (nums.length && dict[p] != null) { let i = 0; return dict[p].replace(/\{#(\d*)\}/g, (m, d) => (d ? nums[d - 1] : nums[i++]) ?? ""); } return x; }
   function tr(raw) {
     const k = norm(raw); if (!k) return null;
     note(k);
     if (!dict) return null;
     if (dict[k] != null) return dict[k];
     const nums = []; const p = k.replace(NUM, (m) => { nums.push(m); return "{#}"; });
-    if (nums.length && dict[p] != null) { let i = 0; return dict[p].replace(/\{#\}/g, () => (nums[i++] != null ? nums[i - 1] : "")); }
+    if (nums.length && dict[p] != null) { let i = 0; return dict[p].replace(/\{#(\d*)\}/g, (m, d) => { const v = d ? nums[d - 1] : nums[i++]; return v != null ? v : ""; }); }
     if (k.includes(" · ")) { const parts = k.split(" · "); const o = parts.map((x) => tr1(x)); if (o.some((x, i) => x !== parts[i])) return o.join(" · "); }   /* összetett felirat: részenként */
     return null;
   }
@@ -103,7 +103,7 @@
   async function loadDict(c) {
     if (c === "hu") return null;
     const inl = window.ZEPHYR_I18N_DICTS && window.ZEPHYR_I18N_DICTS[c]; if (inl) return inl;
-    for (const b of [BASE]) { try { const r = await fetch(b + c + ".json", { cache: "force-cache" }); if (r.ok) return await r.json(); } catch (e) {} }
+    for (const b of [BASE]) { try { const r = await fetch(b + c + ".json", { cache: "no-cache" }); if (r.ok) return await r.json(); } catch (e) {} }
     return null;
   }
   async function setLang(c, remember) {

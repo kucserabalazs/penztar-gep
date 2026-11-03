@@ -9,7 +9,8 @@ hu=json.load(open(os.path.join(R,'hu.json')))
 for c in sys.argv[1:]:
   d=json.load(open(os.path.join(R,c+'.json')))
   miss=[k for k in hu if k not in d]; extra=[k for k in d if k not in hu]
-  bad=[k for k in hu if k in d and d[k].count('{#}')!=k.count('{#}')]
+  import re
+  bad=[k for k in hu if k in d and len(re.findall(r'\{#\d*\}',d[k]))!=k.count('{#}')]
   empty=[k for k in hu if k in d and not str(d[k]).strip()]
   print(f"{c}: {len(d)}/{len(hu)} kulcs, hiányzik {len(miss)}, fölösleges {len(extra)}, rossz helyőrző {len(bad)}, üres {len(empty)}")
   for k in (miss[:5]+bad[:5]+extra[:3]): print('   ',repr(k[:90]))
