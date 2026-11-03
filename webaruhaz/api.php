@@ -82,11 +82,120 @@ function need_auth(): void { if (!authed()) out(['error' => 'Be kell jelentkezni
 function need_owner(): void { need_auth(); if ((me()['szerep'] ?? '') !== 'tulajdonos') out(['error' => 'Ezt csak a tulajdonosok végezhetik el.'], 403); }
 
 /* ---- e-mailes kód ---- */
-function send_mail(string $to, string $subj, string $text): bool {
+/* ===== Online fizetés: Barion =====
+   A kulcsok a config.local.php-ban vannak: 'barion' => ['poskey' => '...', 'payee' => 'barion-fiók e-mail', 'teszt' => true]
+   Amíg nincs kitöltve, a webáruház nem kínál online fizetést. */
+function barion_cfg(): array { global $LOCAL; $b = (array)($LOCAL['barion'] ?? []); return ['poskey' => trim((string)($b['poskey'] ?? '')), 'payee' => trim((string)($b['payee'] ?? '')), 'teszt' => !empty($b['teszt'])]; }
+function barion_on(): bool { $c = barion_cfg(); return $c['poskey'] !== '' && $c['payee'] !== ''; }
+function barion_api(): string { global $LOCAL; if (!empty($LOCAL['barion']['api'])) return rtrim((string)$LOCAL['barion']['api'], '/'); return barion_cfg()['teszt'] ? 'https://api.test.barion.com' : 'https://api.barion.com'; }
+function http_json(string $method, string $url, ?array $body = null): ?array {
+  $payload = $body !== null ? json_encode($body, JSON_UNESCAPED_UNICODE) : null;
+  if (function_exists('curl_init')) {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 30, CURLOPT_CUSTOMREQUEST => $method, CURLOPT_HTTPHEADER => ['Content-Type: application/json', 'Accept: application/json']]);
+    if ($payload !== null) curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    $r = curl_exec($ch); curl_close($ch);
+  } else {
+    $r = @file_get_contents($url, false, stream_context_create(['http' => ['method' => $method, 'header' => "Content-Type: application/json\r\nAccept: application/json\r\n", 'content' => (string)$payload, 'timeout' => 30, 'ignore_errors' => true]]));
+  }
+  if (!is_string($r) || $r === '') return null;
+  $j = json_decode($r, true); return is_array($j) ? $j : null;
+}
+// a webáruház címe (a visszairányításhoz); a config.local.php 'oldal' kulcsával rögzíthető, pl. https://penztar-gep.hu/webaruhaz
+function shop_url(): string {
+  global $LOCAL; if (!empty($LOCAL['oldal'])) return rtrim((string)$LOCAL['oldal'], '/');
+  $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+  $host = preg_replace('/[^A-Za-z0-9.:-]/', '', (string)($_SERVER['HTTP_HOST'] ?? 'penztar-gep.hu'));
+  $dir = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? '/webaruhaz/api.php'))), '/');
+  return ($https ? 'https' : 'http') . '://' . $host . $dir;
+}
+function ft(int $n): string { return number_format($n, 0, ',', ' ') . ' Ft'; }
+function brutto($net, $afa): int { return (int)round((float)$net * (1 + (float)$afa / 100)); }
+// megrendelés összesítője e-mailhez
+function order_text(array $o): string {
+  $t = ''; foreach ($o['tetelek'] as $x) $t .= '- ' . ($x['db'] ?? 1) . ' × ' . ($x['nev'] ?? '') . (isset($x['brutto']) ? '  (' . ft((int)$x['brutto'] * (int)($x['db'] ?? 1)) . ')' : '') . "\n";
+  foreach (($o['extrak'] ?? []) as $x) $t .= '- ' . $x['nev'] . '  (' . ft((int)$x['brutto']) . ")\n";
+  if (!empty($o['osszeg'])) $t .= "\nFizetendő összesen (bruttó): " . ft((int)$o['osszeg']) . "\n";
+  $t .= "\nÁtvétel: " . ($o['atvetel'] ?? '') . (!empty($o['szallcim']) ? ' – ' . $o['szallcim'] : '') . "\nFizetés: " . ($o['fizmod'] ?? '') . "\n";
+  return $t;
+}
+// visszaigazolás a vevőnek
+function mail_customer(array $o, string $subj, string $intro): void {
+  if (empty($o['email'])) return;
+  $set = read_json(DATA . '/products.json', [])['settings'] ?? [];
+  $txt = "Kedves {$o['nev']}!\n\n$intro\n\nRendelésszám: {$o['id']}\n\n" . order_text($o);
+  if (($o['fizetes']['mod'] ?? '') === 'atutalas' && !empty($set['szamlaszam']))
+    $txt .= "\nUtalási adatok (a díjbekérő megérkezése után):\nKedvezményezett: " . ($set['cegnevRovid'] ?? $set['cegnev'] ?? '') . "\nBank: " . ($set['bank'] ?? '') . "\nSzámlaszám: {$set['szamlaszam']}\nKözlemény: {$o['id']}\n";
+  $txt .= "\nKérdése van? Válaszoljon erre a levélre, vagy írjon: " . ($set['email'] ?? '') . "\n\n" . ($set['cegnev'] ?? 'Totál Pénztárgép és Számítástechnika') . "\n" . ($set['cim'] ?? '');
+  send_mail($o['email'], $subj, $txt, (string)($set['email'] ?? ''));
+}
+function mail_shop(array $o, string $subj, string $extra = ''): void {
+  $set = read_json(DATA . '/products.json', [])['settings'] ?? [];
+  if (empty($set['email'])) return;
+  $txt = "$subj ({$o['id']})\n\nNév: {$o['nev']}\nCég: {$o['ceg']}\nTelefon: {$o['telefon']}\nE-mail: {$o['email']}\nIdőpont: {$o['idopont']}\n\n";
+  $txt .= ($o['tetelek'] || !empty($o['osszeg'])) ? order_text($o) : '';
+  $txt .= "\n" . $o['uzenet'] . $extra;
+  if (!empty($o['adatlap'])) $txt .= "\n\nPénztárgép élesítése: " . ($o['adatlap']['Élesítés módja'] ?? '') . (count($o['adatlap']) > 1 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '');
+  send_mail($set['email'], $subj . ': ' . $o['nev'], $txt);
+}
+// fizetés indítása a Barionnál; visszaadja a fizetési oldal címét, vagy null-t
+function barion_start(array &$o): ?string {
+  $c = barion_cfg(); $items = [];
+  foreach ($o['tetelek'] as $t) $items[] = ['Name' => mb_substr($t['nev'], 0, 250), 'Description' => mb_substr($t['nev'], 0, 250), 'Quantity' => (int)$t['db'], 'Unit' => 'db', 'UnitPrice' => (int)$t['brutto'], 'ItemTotal' => (int)$t['brutto'] * (int)$t['db'], 'SKU' => mb_substr((string)$t['id'], 0, 100)];
+  foreach (($o['extrak'] ?? []) as $x) $items[] = ['Name' => $x['nev'], 'Description' => $x['nev'], 'Quantity' => 1, 'Unit' => 'db', 'UnitPrice' => (int)$x['brutto'], 'ItemTotal' => (int)$x['brutto'], 'SKU' => $x['id']];
+  $req = [
+    'POSKey' => $c['poskey'], 'PaymentType' => 'Immediate', 'GuestCheckOut' => true, 'FundingSources' => ['All'],
+    'PaymentRequestId' => $o['id'], 'OrderNumber' => $o['id'], 'PayerHint' => $o['email'], 'Locale' => 'hu-HU', 'Currency' => 'HUF',
+    'RedirectUrl' => shop_url() . '/index.html?rendeles=' . rawurlencode($o['id']),
+    'CallbackUrl' => shop_url() . '/api.php?a=barion-callback',
+    'Transactions' => [['POSTransactionId' => $o['id'], 'Payee' => $c['payee'], 'Total' => (int)$o['osszeg'], 'Items' => $items]],
+  ];
+  $r = http_json('POST', barion_api() . '/v2/Payment/Start', $req);
+  if (!$r || empty($r['PaymentId']) || empty($r['GatewayUrl'])) { $o['fizetes']['hiba'] = mb_substr(json_encode($r['Errors'] ?? 'nincs válasz', JSON_UNESCAPED_UNICODE), 0, 500); return null; }
+  $o['fizetes']['paymentId'] = (string)$r['PaymentId'];
+  return (string)$r['GatewayUrl'];
+}
+// raktárkészlet visszaadása (sikertelen fizetésnél)
+function restock(array $tetelek): void {
+  global $PRODUCTS;
+  locked(function () use ($tetelek, $PRODUCTS) {
+    $cat = read_json($PRODUCTS, []); $by = []; foreach (($cat['products'] ?? []) as $i => $p) $by[$p['id']] = $i;
+    foreach ($tetelek as $t) { if (!isset($by[$t['id']])) continue; $p = &$cat['products'][$by[$t['id']]];
+      if (isset($p['keszletDb']) && $p['keszletDb'] !== null) { $p['keszletDb'] += (int)$t['db']; if ($p['keszletDb'] > 0 && ($p['keszlet'] ?? '') === 'elfogyott') $p['keszlet'] = 'raktaron'; } unset($p); }
+    write_json($PRODUCTS, $cat);
+  });
+}
+// a Barion szerint mi a fizetés állapota; frissíti a rendelést, és értesít
+function pay_refresh(string $orderId): ?array {
+  global $ORDERS;
+  $orders = read_json($ORDERS, []); $o = null; foreach ($orders as $x) if (($x['id'] ?? '') === $orderId) $o = $x;
+  if (!$o || ($o['fizetes']['mod'] ?? '') !== 'online') return $o;
+  if (($o['fizetes']['allapot'] ?? '') !== 'fizetesre_var' || empty($o['fizetes']['paymentId'])) return $o;
+  $c = barion_cfg();
+  $r = http_json('GET', barion_api() . '/v2/Payment/GetPaymentState?' . http_build_query(['POSKey' => $c['poskey'], 'PaymentId' => $o['fizetes']['paymentId']]));
+  $st = (string)($r['Status'] ?? '');
+  $uj = $st === 'Succeeded' ? 'fizetve' : (in_array($st, ['Canceled', 'Expired', 'Failed'], true) ? 'sikertelen' : null);
+  if (!$uj) return $o;
+  $changed = locked(function () use ($orderId, $uj, $st) {
+    global $ORDERS; $orders = read_json($ORDERS, []); $hit = null;
+    foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') { $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c'); $hit = $x; }
+    unset($x); if ($hit) write_json($ORDERS, $orders); return $hit;
+  });
+  if (!$changed) { foreach (read_json($ORDERS, []) as $x) if (($x['id'] ?? '') === $orderId) return $x; return $o; }
+  if ($uj === 'fizetve') {
+    mail_shop($changed, 'Új, online kifizetett megrendelés', "\n\nA vételárat a vevő bankkártyával kifizette (Barion).");
+    mail_customer($changed, "Sikeres fizetés – rendelés {$changed['id']}", "Köszönjük a vásárlást! A fizetés sikeres volt, a megrendelését feldolgozzuk." . (!empty($changed['adatlap']) ? " A pénztárgépet beprogramozzuk és élesítjük, és e-mailben jelezzük, amikor átveheti." : " E-mailben értesítjük, amikor a csomagot átadtuk a futárnak, vagy amikor átveheti az üzletben."));
+  } else {
+    restock($changed['tetelek'] ?? []);
+  }
+  return $changed;
+}
+
+function send_mail(string $to, string $subj, string $text, string $reply = ''): bool {
   if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return false;
   if ($dev = getenv('PTG_MAIL_LOG')) { file_put_contents($dev, json_encode(['to' => $to, 'subj' => $subj, 'text' => $text], JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND); return true; }  // csak fejlesztői teszthez
   if (!function_exists('mail')) return false;
-  $h = "From: =?UTF-8?B?" . base64_encode('Totál webáruház') . "?= <" . MAIL_FROM . ">\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
+  $h = "From: =?UTF-8?B?" . base64_encode('Totál webáruház') . "?= <" . MAIL_FROM . ">\r\n" . (filter_var($reply, FILTER_VALIDATE_EMAIL) ? "Reply-To: $reply\r\n" : '') . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
   return @mail($to, '=?UTF-8?B?' . base64_encode($subj) . '?=', $text, $h, '-f' . MAIL_FROM);
 }
 function send_code(array $u, string $cel): void {
@@ -178,7 +287,7 @@ $m = $_SERVER['REQUEST_METHOD'];
 
 switch ($a) {
   case 'data':      // nyilvános: termékek, kategóriák, szolgáltatások
-    out(read_json($PRODUCTS, []));
+    out(read_json($PRODUCTS, []) + ['fizetes' => ['online' => barion_on(), 'teszt' => barion_on() && barion_cfg()['teszt']]]);
 
   case 'status':
     $me = authed() ? me() : null;
@@ -384,6 +493,7 @@ switch ($a) {
     // csak az utolsó 20 mentést tartjuk meg
     $bk = glob(DATA . '/products.backup-*.json'); sort($bk);
     while (count($bk) > 20) { @unlink(array_shift($bk)); }
+    unset($b['fizetes']);
     write_json($PRODUCTS, $b);
     out(['ok' => true]);
 
@@ -405,6 +515,19 @@ switch ($a) {
     if (!empty($b['web'])) out(['ok' => true]);           // csapda a robotoknak (rejtett mező)
     $nev = trim((string)($b['nev'] ?? '')); $tel = trim((string)($b['telefon'] ?? '')); $email = trim((string)($b['email'] ?? ''));
     if ($nev === '' || ($tel === '' && $email === '')) out(['error' => 'Adja meg a nevét és legalább egy elérhetőséget.'], 400);
+    $kosar = ($b['tipus'] ?? '') === 'megrendeles' && !empty($b['tetelek']);
+    $fizmod = in_array($b['fizmod'] ?? '', ['online', 'atutalas', 'atvetelkor'], true) ? $b['fizmod'] : 'atvetelkor';
+    $kiszall = ($b['atvetel'] ?? '') === 'Kiszállítással';
+    if ($kosar && !filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.'], 400);
+    if ($kosar && $fizmod === 'online' && !barion_on()) out(['error' => 'Az online fizetés most nem érhető el. Kérjük, válasszon másik fizetési módot.'], 400);
+    if ($kosar && $fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre kell fizetni (online vagy átutalással).'], 400);
+    $szallcim = '';
+    if ($kosar && $kiszall) {
+      $sc = is_array($b['szallcim'] ?? null) ? $b['szallcim'] : [];
+      $irsz = trim((string)($sc['irsz'] ?? '')); $varos = trim((string)($sc['varos'] ?? '')); $utca = trim((string)($sc['utca'] ?? ''));
+      if (!preg_match('/^\d{4}$/', $irsz) || $varos === '' || $utca === '') out(['error' => 'Adja meg a szállítási címet (irányítószám, település, utca, házszám).'], 400);
+      $szallcim = mb_substr("$irsz $varos, $utca", 0, 200);
+    }
     // pénztárgép-adatlap (előre fizetésnél kötelező): külön mezőben tároljuk, e-mailben NEM küldjük ki
     $adatlap = null;
     if (is_array($b['adatlap'] ?? null)) {
@@ -429,19 +552,28 @@ switch ($a) {
       $id = (string)($t['id'] ?? ''); $db = max(1, min(99, (int)($t['db'] ?? 1)));
       if (!isset($byId[$id])) continue;
       $p = &$cat['products'][$byId[$id]];
+      if ($kosar && $fizmod === 'online' && ($p['akciosAr'] ?? $p['ar'] ?? null) === null) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': az ára egyeztetés után derül ki, ezért online nem fizethető. Kérjük, válasszon átutalást.'], 400); }
       if (isset($p['keszletDb']) && $p['keszletDb'] !== null) {
         if ($p['keszletDb'] < $db) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': csak ' . (int)$p['keszletDb'] . ' db van raktáron.'], 409); }
         $p['keszletDb'] -= $db;
         if ($p['keszletDb'] <= 0) { $p['keszletDb'] = 0; $p['keszlet'] = 'elfogyott'; }
       }
-      $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $p['akciosAr'] ?? $p['ar'] ?? null];
+      $net = $p['akciosAr'] ?? $p['ar'] ?? null;
+      $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $net, 'brutto' => $net === null ? null : brutto($net, $cat['settings']['afa'] ?? 27)];
       unset($p);
     }
     if ($tetelek) write_json($PRODUCTS, $cat);
     flock($lock, LOCK_UN);
-    $orders = read_json($ORDERS, []);
+    // díjak: üzembe helyezés, szállítás
+    $set = $cat['settings'] ?? []; $extrak = []; $osszeg = 0;
+    foreach ($tetelek as $t) $osszeg += (int)($t['brutto'] ?? 0) * $t['db'];
+    if ($kosar && !empty($b['uzembe'])) foreach (($cat['services'] ?? []) as $sv) if (($sv['id'] ?? '') === 'uzembe' && !empty($sv['ar'])) $extrak[] = ['id' => 'uzembe', 'nev' => 'Üzembe helyezés, betanítás, ügyintézés', 'brutto' => brutto($sv['ar'], $set['afa'] ?? 27)];
+    foreach ($extrak as $x) $osszeg += $x['brutto'];
+    if ($kosar && $kiszall) { $dij = (int)($set['szallitasDij'] ?? 0); $hat = (int)($set['ingyenesSzallitasFelett'] ?? 0); if ($hat && $osszeg >= $hat) $dij = 0;
+      if ($dij) { $extrak[] = ['id' => 'szallitas', 'nev' => 'Szállítás (' . ($set['futar'] ?? 'futárszolgálat') . ')', 'brutto' => $dij]; $osszeg += $dij; } }
+    $fizszoveg = ['online' => 'Online bankkártyával (Barion)', 'atutalas' => 'Átutalással, díjbekérő alapján', 'atvetelkor' => 'Átvételkor, készpénzzel vagy bankkártyával'][$fizmod];
     $rec = [
-      'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2))),
+      'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3))),
       'ido' => date('c'),
       'tipus' => mb_substr((string)($b['tipus'] ?? 'ajanlat'), 0, 30),
       'nev' => mb_substr($nev, 0, 120), 'ceg' => mb_substr((string)($b['ceg'] ?? ''), 0, 120),
@@ -452,18 +584,29 @@ switch ($a) {
       'adatlap' => $adatlap,
       'allapot' => 'uj'
     ];
-    array_unshift($orders, $rec);
-    write_json($ORDERS, $orders);
-    // értesítő e-mail a boltnak (ha a tárhely engedi a mail() függvényt)
-    $set = read_json($PRODUCTS, [])['settings'] ?? [];
-    if (!empty($set['email']) && function_exists('mail')) {
-      $txt = "Új " . $rec['tipus'] . " a weboldalról ({$rec['id']})\n\nNév: {$rec['nev']}\nCég: {$rec['ceg']}\nTelefon: {$rec['telefon']}\nE-mail: {$rec['email']}\nIdőpont: {$rec['idopont']}\n\n";
-      foreach ($rec['tetelek'] as $t) $txt .= '- ' . ($t['db'] ?? 1) . ' × ' . ($t['nev'] ?? '') . "\n";
-      $txt .= "\n" . $rec['uzenet'];
-      if ($adatlap) $txt .= "\n\nPénztárgép élesítése: " . ($adatlap['Élesítés módja'] ?? '') . (count($adatlap) > 1 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '');
-      @mail($set['email'], '=?UTF-8?B?' . base64_encode('Új megrendelés: ' . $rec['nev']) . '?=', $txt, "Content-Type: text/plain; charset=UTF-8");
+    if ($kosar) $rec += ['extrak' => $extrak, 'osszeg' => $osszeg, 'atvetel' => $kiszall ? 'Kiszállítással' : 'Személyesen az üzletben', 'szallcim' => $szallcim, 'fizmod' => $fizszoveg,
+      'fizetes' => ['mod' => $fizmod, 'allapot' => $fizmod === 'online' ? 'fizetesre_var' : 'nem_online']];
+    $gw = null;
+    if ($kosar && $fizmod === 'online') {
+      $gw = barion_start($rec);
+      if (!$gw) { restock($tetelek); out(['error' => 'Az online fizetést most nem sikerült elindítani. Kérjük, próbálja újra néhány perc múlva, vagy válasszon átutalást.'], 502); }
     }
+    locked(function () use ($rec, $ORDERS) { $orders = read_json($ORDERS, []); array_unshift($orders, $rec); write_json($ORDERS, $orders); });
+    if ($gw) out(['ok' => true, 'id' => $rec['id'], 'fizetes' => $gw]);   // az értesítők a sikeres fizetés után mennek ki
+    mail_shop($rec, $kosar ? 'Új megrendelés a weboldalról' : 'Új ' . $rec['tipus'] . ' a weboldalról');
+    if ($kosar) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Az alábbi adatokkal rögzítettük.' . ($fizmod === 'atutalas' ? ' Hamarosan e-mailben küldjük a díjbekérőt.' : ''));
     out(['ok' => true, 'id' => $rec['id']]);
+
+  case 'barion-callback':   // a Barion szól, ha egy fizetés állapota megváltozott
+    $pid = (string)($_POST['PaymentId'] ?? $_GET['PaymentId'] ?? $_GET['paymentId'] ?? (body()['PaymentId'] ?? ''));
+    if ($pid !== '') foreach (read_json($ORDERS, []) as $x) if (($x['fizetes']['paymentId'] ?? '') === $pid) { pay_refresh($x['id']); break; }
+    out(['ok' => true]);
+
+  case 'pay-status':        // nyilvános: a vevő visszatér a fizetésből – csak az állapotot adja vissza
+    $id = (string)($_GET['id'] ?? '');
+    $o = $id !== '' ? pay_refresh($id) : null;
+    if (!$o || ($o['fizetes']['mod'] ?? '') !== 'online') out(['error' => 'Nincs ilyen online fizetés.'], 404);
+    out(['id' => $o['id'], 'allapot' => $o['fizetes']['allapot'], 'osszeg' => $o['osszeg'] ?? null, 'adatlap' => !empty($o['adatlap']), 'atvetel' => $o['atvetel'] ?? '']);
 
   case 'orders':
     need_auth(); out(read_json($ORDERS, []));

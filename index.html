@@ -34,7 +34,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 .top{position:relative;background:radial-gradient(ellipse 70% 120% at 30% 0%,#0b2a52 0%,var(--n1) 55%,var(--n0) 100%);overflow:hidden}
 .top .pan{position:absolute;right:0;top:0;height:112px;width:auto;opacity:.95;pointer-events:none}
 .top .wrap{display:flex;align-items:center;gap:clamp(16px,2.4vw,40px);min-height:110px;position:relative}
-.logo img{display:block;height:auto;width:clamp(200px,24vw,370px)}
+.logo img{display:block;height:auto;width:clamp(150px,15vw,232px)}
 .vbar{width:4px;height:66px;border-radius:2px;background:linear-gradient(180deg,var(--gold-l),var(--gold-d));flex-shrink:0}
 .slogan{white-space:nowrap;font-family:var(--fd);font-style:italic;font-weight:700;font-size:clamp(1.15rem,2.1vw,2.05rem);line-height:1.08;color:var(--txt)}
 .contacts{margin-left:auto;display:flex;gap:22px;margin-right:clamp(0px,7vw,120px)}
@@ -293,7 +293,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .ffoot h4{margin:0 0 14px;font-family:var(--fd);font-weight:700;font-size:1rem;color:#fff;letter-spacing:.02em}
 .ffoot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
 .ffoot a:hover{color:#f4d58d}
-.fbrand img{width:190px;height:auto;display:block}
+.fbrand img{width:170px;height:auto;display:block}
 .fbrand p{margin:14px 0 16px;line-height:1.6;max-width:36ch}
 .fopen{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:30px;border:1px solid rgba(255,255,255,.18);font-weight:600;color:#fff}
 .fopen i{width:9px;height:9px;border-radius:50%;background:#9aa6b2}
@@ -342,7 +342,7 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
   .mburger{display:grid;place-items:center;flex-shrink:0;width:46px;height:46px;margin-left:-6px;border-radius:12px;border:1.5px solid rgba(255,217,138,.55);background:rgba(4,17,42,.45);color:var(--gold-l);cursor:pointer}
   .mburger svg{width:26px;height:26px;stroke-width:2.2}
   .mburger[aria-expanded="true"]{background:rgba(233,185,87,.16)}
-  .logo img{width:min(230px,calc(100vw - 110px))}
+  .logo img{width:min(150px,calc(100vw - 140px))}
   .navbar{display:none}
   .navbar.open{display:block;height:auto}
   .navbar .burger,.navbar .search,.navbar .admbtn,.navbar .wave.t{display:none!important}
@@ -644,7 +644,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   <img class="pan" src="assets/panorama.webp" alt="">
   <div class="wrap">
     <button class="mburger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="fomenu" onclick="var n=document.getElementById('fomenu');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <a class="logo" href="./" aria-label="Totál Pénztárgép és Számítástechnika – kezdőlap"><img src="assets/logo.webp" alt="TOTÁL – Pénztárgép és Számítástechnika" width="685" height="216"></a>
+    <a class="logo" href="./" aria-label="Totál Pénztárgép és Számítástechnika – kezdőlap"><img src="assets/logo/total-logo-fejlec.svg" alt="TOTÁL – Pénztárgép-Számítástechnika" width="345" height="146"></a>
     <span class="vbar" aria-hidden="true"></span>
     <p class="slogan">Pénztárgép<br>Szaküzlet és Szerviz</p>
     <div class="contacts">
@@ -780,7 +780,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
     <div class="elesit rv">
       <div class="el-why"><b>Miért kell előre fizetni?</b> A pénztárgép élesítése visszavonhatatlan: az élesített gép csak a megadott tulajdonosé lehet. Ezért csak kifizetett gépet élesítünk.</div>
       <div class="el-opts">
-        <div class="el-opt"><span class="el-tag">Átvételkor azonnal vihető</span><h3>Előre fizet, online adatlappal</h3><p>Rendeléskor kitölti az adatlapot, mi díjbekérőt küldünk. A vételár beérkezése után beprogramozzuk és élesítjük a gépet, így átvételkor már működik.</p></div>
+        <div class="el-opt"><span class="el-tag">Átvételkor azonnal vihető</span><h3>Előre fizet, online adatlappal</h3><p>Rendeléskor kitölti az adatlapot, és online bankkártyával vagy átutalással fizet. A vételár beérkezése után beprogramozzuk és élesítjük a gépet, így átvételkor már működik.</p></div>
         <div class="el-opt"><span class="el-tag w">1–2 munkanap</span><h3>Az üzletben fizet és tölti ki</h3><p>A Hunyadi János u. 34. alatt fizet és tölti ki az adatlapot. A programozás és az élesítés ezután történik, a gépet 1–2 munkanap múlva viheti el.</p></div>
       </div>
       <div class="el-dl"><span>Előre is kitöltheti:</span><a href="webaruhaz/letoltesek/penztargep-megrendelo-adatlap.pdf" target="_blank" rel="noopener" download>Megrendelő adatlap (PDF)</a><a href="webaruhaz/letoltesek/penztargep-megrendelo-adatlap.doc" download>Word (DOC)</a></div>
@@ -805,7 +805,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
       <details><summary>Mennyibe kerül a pénztárgép mobil adatkapcsolata?</summary><p>A mobil adatkapcsolat díja gépenként havonta 1 500 Ft + ÁFA. A szerződés és az aktuális díj részleteiről vásárlás előtt kérjen tájékoztatást.</p></details>
       <details><summary>Meddig használható az online pénztárgép?</summary><p>A NAV tájékoztatása szerint az online pénztárgépek 2028. július 1-jéig használhatók. A pénztárgéphasználatra kötelezett vállalkozásoknak ettől az időponttól hardveralapú e-pénztárgépet kell használniuk. Az Ön vállalkozására vonatkozó szabályokat egyeztesse könyvelőjével.</p></details>
       <details><summary>Hová fordulhatok, ha meghibásodik a készülék?</summary><p>Jelentse be a hibát telefonon vagy a szervizűrlapon. Kérjük, adja meg a készülék típusát, és pénztárgép esetén az AP-számot is, ha rendelkezésére áll. A javítás várható menetéről egyeztetünk Önnel.</p></details>
-      <details><summary>Hogyan fizethetek?</summary><p>Készpénzzel vagy bankkártyával átvételkor, illetve díjbekérő alapján átutalással fizethet. Az adott rendelésre vonatkozó lehetőségekről a megrendelés során tájékoztatjuk.</p></details>
+      <details><summary>Hogyan fizethetek?</summary><p>A webáruházban online bankkártyával (Barion) vagy díjbekérő alapján átutalással, személyes átvételnél az üzletben készpénzzel vagy bankkártyával is fizethet. Az adott rendelésre vonatkozó lehetőségekről a megrendelés során tájékoztatjuk.</p></details>
       <details><summary>Van parkolási lehetőség az üzletnél?</summary><p>Igen, az üzlet előtt ingyenes parkolási lehetőség áll rendelkezésre.</p></details>
     </div>
   </div>
@@ -834,7 +834,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 <footer class="ffoot">
   <div class="wrap fcols">
     <div class="fbrand">
-      <img src="assets/logo.webp" alt="TOTÁL – Pénztárgép és Számítástechnika" width="685" height="216" loading="lazy">
+      <img src="assets/logo/total-logo-fejlec.svg" alt="TOTÁL – Pénztárgép-Számítástechnika" width="345" height="146" loading="lazy">
       <p>Pénztárgép-szaküzlet és -szerviz Pécsen, 1982 óta. Pénztárgépek, POS-rendszerek, mérlegek, árazógépek, számítástechnika és kellékanyagok.</p>
       <a class="fopen" href="#kapcsolat" data-open2><i></i><span>Nyitvatartás</span></a>
     </div>
