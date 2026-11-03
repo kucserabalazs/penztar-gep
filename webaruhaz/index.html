@@ -1087,26 +1087,9 @@ body:has(.adm2) .shop-pano{display:none}
 @media (max-width:820px){.top .pan.sarkany{height:62px;opacity:.55;right:4px}}
 footer.slim>.wrap{position:relative;z-index:1}
 footer.slim .f-pano{position:absolute;inset:0;z-index:0;pointer-events:none;display:flex;align-items:flex-end;justify-content:center}
-footer.slim .f-pano img{width:max(100%,900px);max-width:none;height:auto;aspect-ratio:2182/776;opacity:.11;margin-bottom:-4%}
+footer.slim .f-pano img{width:auto;height:auto;max-width:100%;max-height:100%;aspect-ratio:2182/776;opacity:.11}
 .svcband{margin-top:28px!important}
 
-/* ===== Egységes díszítő elem: pénztárszalag-osztás (sárgaréz szegecsek, perforált nyugtaszalag, pénztárgép-billentyű) ===== */
-.osztas{position:relative;height:0;z-index:6;pointer-events:none}
-.osztas::before{content:"";position:absolute;left:max(16px,3vw);right:max(16px,3vw);top:-8px;height:16px;padding:0 20px;box-sizing:border-box;
-  background:
-   radial-gradient(circle at 8px 8px,#fffbe8 0 1.4px,#f1cf7c 2.6px,#b9862e 5.2px,#6b4710 7.4px,transparent 8px) left center/16px 16px no-repeat border-box,
-   radial-gradient(circle at 8px 8px,#fffbe8 0 1.4px,#f1cf7c 2.6px,#b9862e 5.2px,#6b4710 7.4px,transparent 8px) right center/16px 16px no-repeat border-box,
-   linear-gradient(90deg,#b98a32,#f4d58d 25%,#c9993f 50%,#f4d58d 75%,#b98a32) center 3px/100% 1.6px no-repeat content-box,
-   linear-gradient(90deg,#b98a32,#f4d58d 25%,#c9993f 50%,#f4d58d 75%,#b98a32) center calc(100% - 3px)/100% 1.6px no-repeat content-box,
-   radial-gradient(circle,#c9993f 0 1.3px,transparent 1.8px) 0 center/9px 16px repeat-x content-box;
-  filter:drop-shadow(0 1px 1px rgba(60,40,10,.35))}
-.osztas span{position:absolute;left:50%;top:-15px;transform:translateX(-50%);display:grid;place-items:center;width:48px;height:30px;border-radius:8px;
-  font:italic 900 15px/1 var(--fd,"Montserrat",Arial,sans-serif);color:#0a2a4c;letter-spacing:-.02em;
-  background:linear-gradient(180deg,#fffdf4,#f1e6c8 60%,#e3d1a1);border:1.5px solid #c9993f;
-  box-shadow:0 1px 0 #fff inset,0 -3px 0 rgba(150,110,40,.28) inset,0 3px 0 #9b7128,0 6px 10px -4px rgba(50,35,10,.55)}
-.osztas:has(+ [hidden]){display:none}
-.osztas.sotet span{background:linear-gradient(180deg,#123b61,#082746);color:#f4d58d;border-color:#d6a64e}
-@media (max-width:600px){.osztas::before{left:10px;right:10px}.osztas span{width:40px;height:26px;top:-13px;font-size:13px}}
 .adm2 ~ .osztas,body:has(.adm2) .osztas{display:none}
 
 .top .zi-pick{flex:0 0 auto;margin-left:12px;z-index:70}
@@ -1164,6 +1147,78 @@ html[dir=rtl] .top .pan.sarkany{right:auto;left:max(10px,1.5vw);transform:scaleX
 .wrap .panel>h3:first-child::after{content:"";position:absolute;left:0;bottom:0;width:90px;height:3px;border-radius:3px;background:linear-gradient(90deg,#c9993f,#f4d58d,transparent)}
 .wrap .panel>h3:first-child::before{content:"";display:inline-block;width:12px;height:12px;margin-right:10px;vertical-align:1px;border-radius:50%;
   background:radial-gradient(circle at 35% 35%,#fffbe8 0 1.4px,#f1cf7c 2.6px,#b9862e 4.6px,#6b4710 6px)}
+/* ===================== RÉGI PÉNZEK ÉS PÉNZTÁRGÉPEK – egységes díszítés (minden oldalon) ===================== */
+:root{--gilos:url("../assets/motivumok/gilos-vilagos.svg");--gilos-s:url("../assets/motivumok/gilos-sotet.svg");--papir:#faf6ec;--papir2:#f4ecd8}
+/* hátterek: bankjegyek gilosmintája a kockás felosztás helyett */
+body,.svcband,.pagehead{background:radial-gradient(ellipse 85% 70% at 50% 35%,rgba(255,253,247,.94),rgba(250,246,236,.5) 70%),var(--gilos) 0 0/240px 60px,linear-gradient(180deg,var(--papir),var(--papir2))!important}
+.catsec .detail{background:radial-gradient(ellipse 85% 70% at 50% 35%,rgba(255,255,255,.97),rgba(255,255,255,.72) 70%),var(--gilos) 0 0/240px 60px,#fffdf8!important}
+
+/* elválasztó: bankjegyszegély-szalag sárgaréz szegecsekkel, középen forgó forint */
+.osztas{position:relative;height:0;z-index:6;pointer-events:none}
+.osztas::before{content:"";position:absolute;left:max(16px,3vw);right:max(16px,3vw);top:-9px;height:18px;border-radius:2px;
+  background:url("../assets/motivumok/szalag.svg") 0 50%/auto 100% repeat-x;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 3px 8px -4px rgba(70,50,15,.45);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.osztas span{position:absolute;left:50%;top:-29px;width:58px;height:58px;margin-left:-29px;border-radius:50%;
+  background:url("../assets/motivumok/erme-total.svg") center/contain no-repeat;filter:drop-shadow(0 4px 5px rgba(60,40,10,.45));animation:ermeforog 9s ease-in-out infinite}
+.osztas:nth-of-type(2n) span{background-image:url("../assets/motivumok/erme-total.svg");animation-delay:-4.5s}
+.osztas:has(+ [hidden]){display:none}
+@keyframes ermeforog{0%,78%,100%{transform:rotateY(0)}88%{transform:rotateY(180deg)}}
+@media (max-width:600px){.osztas::before{left:10px;right:10px;height:14px;top:-7px}.osztas span{width:46px;height:46px;margin-left:-23px;top:-23px}}
+
+/* a régi pénzek fala – az üzlet hagyománya: sín, rajta lógó érmék és bankjegyek */
+.penzfal{position:relative;height:clamp(150px,13vw,190px);overflow:hidden;pointer-events:none;
+  background:radial-gradient(ellipse 60% 120% at 50% 0%,rgba(255,250,235,.7),transparent 70%),var(--gilos) 0 0/240px 60px,linear-gradient(180deg,#efe5cc,#e6d8b6)}
+.penzfal::before{content:"";position:absolute;left:0;right:0;top:12px;height:12px;z-index:1;
+  background:linear-gradient(180deg,#a8743a,#7a4f22 45%,#5c3916 55%,#8a5d2c),repeating-linear-gradient(90deg,transparent 0 160px,rgba(0,0,0,.18) 160px 162px);
+  box-shadow:0 3px 6px rgba(50,30,10,.4),inset 0 1px 0 rgba(255,220,170,.5)}
+.penzfal::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:linear-gradient(180deg,transparent,rgba(80,55,20,.18))}
+.penzfal img{position:absolute;left:50%;top:6px;transform:translateX(-50%);height:calc(100% - 6px);width:auto;min-width:100%;max-width:none}
+
+/* érmés kártyaikonok (a kis kék kockák helyett) – számok nélkül */
+.area .ai.ermes{width:92px!important;height:92px!important;padding:0!important;border:0!important;border-radius:50%!important;background:none!important;box-shadow:none!important;
+  filter:drop-shadow(0 6px 8px rgba(60,40,10,.3));transition:transform .8s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.area .ai.ermes .erme{width:100%;height:100%;display:block}
+.area:hover .ai.ermes{transform:rotateY(360deg) translateY(-3px)}
+.area::before,.area:hover::before{content:none!important}
+
+/* vízjelek: antik pénztárgép és bankjegy-rozetta a nagy üres felületeken */
+.vizjel-reg,.vizjel-roz{position:relative;isolation:isolate}
+.vizjel-reg::after{content:"";position:absolute;z-index:-1;pointer-events:none;width:clamp(240px,30vw,420px);aspect-ratio:340/330;left:-2%;bottom:-10px;
+  background:#b98a32;opacity:.1;-webkit-mask:url("../assets/motivumok/antik-penztargep.svg") no-repeat center/contain;mask:url("../assets/motivumok/antik-penztargep.svg") no-repeat center/contain}
+.vizjel-reg.jobb::after{left:auto;right:-2%}
+.vizjel-roz::after{content:"";position:absolute;z-index:-1;pointer-events:none;width:clamp(260px,32vw,460px);aspect-ratio:1;right:-6%;top:6%;
+  background:url("../assets/motivumok/rozetta.svg") no-repeat center/contain;opacity:.55;animation:rozforog 120s linear infinite}
+.vizjel-roz.bal::after{right:auto;left:-6%}
+@keyframes rozforog{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.vizjel-roz::after,.osztas span{animation:none}}
+
+/* sötét felületek: arany rozetta és sötét gilos */
+.sotet-roz{position:relative;isolation:isolate}
+.sotet-roz::before{content:"";position:absolute;z-index:0;pointer-events:none;width:min(520px,70%);aspect-ratio:1;right:-8%;top:50%;transform:translateY(-50%);
+  background:url("../assets/motivumok/rozetta-arany.svg") no-repeat center/contain;opacity:.32;animation:rozforog 160s linear infinite}
+
+/* GYIK: érme a sorszám helyett; lenyitáskor átfordul */
+.faqg details{position:relative;padding-left:64px!important}
+.faqg details::before{content:"";position:absolute;left:16px;top:14px;width:32px;height:32px;border-radius:50%;
+  background:url("../assets/motivumok/erme-total.svg") center/contain no-repeat;filter:drop-shadow(0 2px 3px rgba(60,40,10,.4));transition:transform .6s}
+.faqg details:nth-child(even)::before{background-image:url("../assets/motivumok/erme-total.svg")}
+.faqg details[open]::before{transform:rotateY(180deg)}
+
+/* panelcímek: kis érme a szegecs helyett */
+.wrap .panel>h3:first-child::before{width:20px!important;height:20px!important;vertical-align:-3px!important;background:url("../assets/motivumok/erme-total.svg") center/contain no-repeat!important}
+
+.pagehead{position:relative;isolation:isolate}
+.pagehead::before{content:"";position:absolute;z-index:0;pointer-events:none;width:clamp(220px,26vw,360px);aspect-ratio:1;left:50%;top:50%;transform:translate(-10%,-50%);background:url("../assets/motivumok/rozetta.svg") no-repeat center/contain;opacity:.45}
+.banner{isolation:isolate}
+.banner::before{content:"";position:absolute;z-index:0;pointer-events:none;width:min(520px,60%);aspect-ratio:1;left:38%;top:50%;transform:translateY(-50%);background:url("../assets/motivumok/rozetta-arany.svg") no-repeat center/contain;opacity:.22;animation:rozforog 160s linear infinite}
+.drawer .dh,.drawer header{background-image:var(--gilos-s);background-size:240px 60px}
+.pbox{background-image:var(--gilos-s),linear-gradient(135deg,#0a2c50,#061a33)!important;background-size:240px 60px,auto!important}
+.adm2 ~ .penzfal,body:has(.adm2) .penzfal{display:none}
+.wrap.split,.wrap.checkout{position:relative;isolation:isolate}
+.wrap.split::after,.wrap.checkout::after{content:"";position:absolute;z-index:-1;pointer-events:none;width:clamp(240px,28vw,400px);aspect-ratio:340/330;right:-3%;bottom:20px;
+  background:#b98a32;opacity:.08;-webkit-mask:url("../assets/motivumok/antik-penztargep.svg") no-repeat center/contain;mask:url("../assets/motivumok/antik-penztargep.svg") no-repeat center/contain}
+html,body{overflow-x:clip}
+footer.slim{padding-top:24px}
 </style>
 </head>
 <body>
@@ -1207,7 +1262,8 @@ html[dir=rtl] .top .pan.sarkany{right:auto;left:max(10px,1.5vw);transform:scaleX
 <main id="app"></main>
 
 
-<div class="osztas" aria-hidden="true"><span>T</span></div>
+<div class="osztas" aria-hidden="true"><span></span></div>
+<div class="penzfal" aria-hidden="true"><img src="../assets/motivumok/penzfal.svg" alt="" loading="lazy" decoding="async"></div>
 <section class="svcband" aria-label="Szolgáltatásaink">
   <img class="dz" src="../assets/illusztraciok/web/dzsami-szepia.svg?v=1101" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="wrap">
@@ -1218,7 +1274,7 @@ html[dir=rtl] .top .pan.sarkany{right:auto;left:max(10px,1.5vw);transform:scaleX
     <div class="sb"><img src="../assets/ikonok/truck.svg" alt=""><span>Országos<br>kiszállítás</span></div>
   </div>
 </section>
-<div class="osztas" aria-hidden="true"><span>T</span></div>
+<div class="osztas" aria-hidden="true"><span></span></div>
 <footer class="slim"><div class="f-pano" aria-hidden="true"><img src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1101" alt="" loading="lazy" decoding="async"></div><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="#aszf">Vásárlási feltételek</a> · <a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
 
 <div class="overlay" id="overlay"></div>
@@ -1501,7 +1557,7 @@ const catRoute = id => 'kat-'+id;
 const ILL='../assets/illusztraciok/web/';
 const PH_IL=[[/^Szerviz/,'tv-torony'],[/e-pénztárgép/i,'zsolnay-kut-okorfej'],[/^Pécsen/,'szekesegyhaz'],[/^Keressen minket/,'dzsami'],[/^(Vásárlási|Megrendelés|Fizetés|Összehasonlítás)/,'szechenyi-ter'],[/./,'szekesegyhaz']];
 function pageHead(title, sub, crumbs, extra=''){ const il=(PH_IL.find(([re])=>re.test(title))||[])[1];
-  return `<section class="pagehead${il?' ph-'+il:''}">${il?`<img class="ph-il" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1101" alt="" aria-hidden="true" decoding="async">`:''}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section><div class="osztas" aria-hidden="true"><span>T</span></div>`; }
+  return `<section class="pagehead${il?' ph-'+il:''}">${il?`<img class="ph-il" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1101" alt="" aria-hidden="true" decoding="async">`:''}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section><div class="osztas" aria-hidden="true"><span></span></div>`; }
 const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
 const SVG = n => `<img src="../assets/ikonok/${n}.svg" alt="" aria-hidden="true">`;
 function sortItems(items){
@@ -1564,7 +1620,7 @@ function catSection(c, selId, first){
     <div class="detail" id="detail-${esc(c.id)}" aria-label="Kiválasztott termék: ${esc(c.nev)}">${detailHTML(sel)}</div>
   </section>`;
 }
-const OSZTAS='<div class="osztas" aria-hidden="true"><span>T</span></div>';
+const OSZTAS='<div class="osztas" aria-hidden="true"><span></span></div>';
 const PARADE='<div class="parade" aria-hidden="true"><span class="pult"></span><i class="pi pi1" style="--d:0.0s;--t:58s;--s:0.72"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40h48l-3-14H11z"/><path d="M6 40h52v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M22 26V12h16v14M26 16h8M26 20h8"/><path d="M15 45h6M25 45h6M35 45h6M45 45h4M15 49h34"/></svg></i><i class="pi pi2" style="--d:-7.3s;--t:71s;--s:0.79"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 50h44l-4-10H14z"/><path d="M20 40l4-14h16l4 14"/><rect x="24" y="12" width="16" height="10" rx="2"/><path d="M32 22v4M27 31h10M26 35h12"/></svg></i><i class="pi pi3" style="--d:-14.6s;--t:62s;--s:0.86"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="8" width="36" height="28" rx="3"/><path d="M20 14h24v14H20z"/><path d="M32 36v8M22 52h20l-4-8H26z"/></svg></i><i class="pi pi4" style="--d:-21.9s;--t:75s;--s:0.93"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h16l8 14-6 4-4-6v32a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3V24z"/><path d="M42 24l10 4"/></svg></i><i class="pi pi5" style="--d:-29.2s;--t:66s;--s:1.00"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6h28v46l-4-3-3 3-4-3-3 3-4-3-3 3-4-3-3 3z"/><path d="M24 16h16M24 22h16M24 28h10M24 38h16"/></svg></i><i class="pi pi6" style="--d:-36.5s;--t:79s;--s:0.77"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="18" width="48" height="30" rx="3"/><path d="M8 30h48M28 24h8M18 40h28"/></svg></i><i class="pi pi7" style="--d:-43.8s;--t:70s;--s:0.84"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="40" height="52" rx="4"/><rect x="18" y="12" width="28" height="10" rx="1.5"/><path d="M20 30h4M30 30h4M40 30h4M20 38h4M30 38h4M40 38h4M20 46h4M30 46h4M40 46h4"/></svg></i><i class="pi pi8" style="--d:-51.1s;--t:61s;--s:0.91"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="32" cy="16" rx="16" ry="6"/><path d="M16 16v10c0 3 7 6 16 6s16-3 16-6V16M16 26v10c0 3 7 6 16 6s16-3 16-6V26M16 36v10c0 3 7 6 16 6s16-3 16-6V36"/></svg></i><i class="pi pi9" style="--d:-58.4s;--t:74s;--s:0.98"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="22" width="44" height="22" rx="4"/><path d="M18 22V10h28v12M18 36h28v18H18z"/><path d="M23 42h18M23 48h12"/></svg></i><i class="pi pi1" style="--d:-65.7s;--t:65s;--s:0.75"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40h48l-3-14H11z"/><path d="M6 40h52v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M22 26V12h16v14M26 16h8M26 20h8"/><path d="M15 45h6M25 45h6M35 45h6M45 45h4M15 49h34"/></svg></i><i class="pi pi2" style="--d:-73.0s;--t:78s;--s:0.82"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 50h44l-4-10H14z"/><path d="M20 40l4-14h16l4 14"/><rect x="24" y="12" width="16" height="10" rx="2"/><path d="M32 22v4M27 31h10M26 35h12"/></svg></i><i class="pi pi3" style="--d:-80.3s;--t:69s;--s:0.89"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="8" width="36" height="28" rx="3"/><path d="M20 14h24v14H20z"/><path d="M32 36v8M22 52h20l-4-8H26z"/></svg></i><i class="pi pi4" style="--d:-87.6s;--t:60s;--s:0.96"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h16l8 14-6 4-4-6v32a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3V24z"/><path d="M42 24l10 4"/></svg></i><i class="pi pi5" style="--d:-94.9s;--t:73s;--s:0.73"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6h28v46l-4-3-3 3-4-3-3 3-4-3-3 3-4-3-3 3z"/><path d="M24 16h16M24 22h16M24 28h10M24 38h16"/></svg></i></div><canvas class="aranypor" aria-hidden="true"></canvas>';
 function pageCategory(catId, selId){
   const c=catId?cat(catId):cat('penztargep');
