@@ -15,8 +15,8 @@ def orig(b,px,py): return f'{(px-b[0])/(b[2]-b[0])*100:.1f}% {(py-b[1])/(b[3]-b[
 SPARK='M0 -9L2 -2L9 0L2 2L0 9L-2 2L-9 0L-2 -2Z'
 CFG={
  'tv-torony':{'cim':'TV-torony (Misina)','parts':[('csucs-also',[rect(452,478,572,763)],(512,763),None),('csucs-kozep',[rect(452,203,572,478)],(512,478),'csucs-also'),('csucs-felso',[rect(452,0,572,203)],(512,203),'csucs-kozep')],'spark':[]},
- 'zsolnay-kut-okorfej':{'cim':'Zsolnay-kút – ökörfej','parts':[('szem',[rect(635,419,688,472)],(661,445),None,'')],'spark':[],
-   'extra':'<path id="szemhej" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M633 444Q661 462 689 444M641 451l-5 7M652 456l-2 8M664 457l1 8M676 454l4 7"/><path id="nyelv" class="resz" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" d="M1024 845C1060 849 1090 862 1125 856S1175 826 1210 832S1262 864 1302 852S1352 824 1390 832S1440 862 1480 852S1530 824 1570 832S1620 862 1660 852S1710 826 1748 836L1794 812M1748 836L1790 868"/>','vbx':1806,'tukor':True},
+ 'zsolnay-kut-okorfej':{'cim':'Zsolnay-kút – ökörfej','parts':[],'spark':[],
+   'extra':'<defs><clipPath id="szemkor"><path d="M598 420L615 402L650 396L690 398L715 412L735 428L748 438L740 444L715 466L690 486L650 491L615 484L600 470L595 445Z"/></clipPath></defs><g clip-path="url(#szemkor)"><g id="hej"><path style="fill:var(--ill-hatter,#fff)" d="M560 300H790V440L752 440Q665 515 590 470L560 470Z"/><path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M590 470Q665 515 752 440"/></g></g><path id="pillak" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" d="M628 490l-4 10M658 494l0 11M688 488l4 10M714 472l6 8"/><path id="nyelv" class="resz" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" d="M1024 845C1060 849 1090 862 1125 856S1175 826 1210 832S1262 864 1302 852S1352 824 1390 832S1440 862 1480 852S1530 824 1570 832S1620 862 1660 852S1710 826 1748 836L1794 812M1748 836L1790 868"/>','vbx':1806,'tukor':True},
  'dzsami':{'cim':'Gázi Kászim pasa dzsámija','top':95,'parts':[('jelkep',[rect(700,26,748,93)],(724,93),'kupola'),('kupola',[[(360,20),(1095,20),(1095,334),(1065,333),(912,291),(535,291),(380,331),(360,331)]],(724,300),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="3.5" d="M374 336C470 356 975 356 1071 336"/>')],'spark':[(758,40,1.4,0),(690,70,1,1.2)]},
  'szechenyi-ter':{'cim':'Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor','top':62,'parts':[('szobor',[rect(1412,0,1803,356)],(1745,356),None),('csillag',[rect(538,33,602,89)],(570,64),None),('felhold',[rect(1021,77,1049,101)],(1035,100),'kupola'),('kupola',[[(840,75),(1210,75),(1210,288),(1172,268),(1037,258),(908,264),(845,288)]],(1035,270),None,'<path class="perem" fill="none" stroke="currentColor" stroke-width="2.2" d="M852 292C910 304 1150 304 1205 292"/>')],'spark':[(1060,80,1.1,0.6),(600,40,1,2.2)]},
  'szekesegyhaz':{'cim':'Pécsi székesegyház','parts':[],'spark':[(866,22,1.3,0),(342,352,1,1.1),(683,458,.9,2.1),(1232,214,1.1,3)]},
@@ -26,9 +26,9 @@ CSS={
 @keyframes tvA{0%,62%,100%{transform:rotate(0)}70%{transform:rotate(2.2deg)}78%{transform:rotate(-1.2deg)}85%{transform:rotate(.6deg)}92%{transform:rotate(-.2deg)}}
 @keyframes tvB{0%,62%,100%{transform:rotate(0)}70%{transform:rotate(3deg)}78%{transform:rotate(-1.6deg)}85%{transform:rotate(.8deg)}92%{transform:rotate(-.3deg)}}
 @keyframes tvC{0%,62%,100%{transform:rotate(0)}70%{transform:rotate(4.5deg)}78%{transform:rotate(-2.4deg)}85%{transform:rotate(1.1deg)}92%{transform:rotate(-.4deg)}}''',
- 'zsolnay-kut-okorfej':'''#szem{animation:kacsint 7s ease-in-out infinite .4s}#szemhej{opacity:0;animation:szemhej 7s ease-in-out infinite .4s}
-@keyframes kacsint{0%,30%,48%,100%{transform:scaleY(1)}33%,45%{transform:scaleY(.06)}}
-@keyframes szemhej{0%,31%,47%,100%{opacity:0}33%,45%{opacity:1}}
+ 'zsolnay-kut-okorfej':'''#hej{transform:translateY(-120px);animation:hej 7s ease-in-out infinite .4s}#pillak{opacity:0;animation:pilla 7s ease-in-out infinite .4s}
+@keyframes hej{0%,29%,50%,100%{transform:translateY(-120px)}34%,44%{transform:translateY(0)}}
+@keyframes pilla{0%,33%,45%,100%{opacity:0}34.5%,44%{opacity:1}}
 #nyelv{transform:scaleX(0);transform-origin:0% 50%;animation-fill-mode:both!important;animation:nyelv 7s cubic-bezier(.2,.8,.3,1) infinite 2.2s}
 @keyframes nyelv{0%,60%,100%{transform:scaleX(0);opacity:0}61%{opacity:1}66%{transform:scaleX(1) skewY(0)}69%{transform:scaleX(1) skewY(-4deg)}72%{transform:scaleX(1) skewY(4deg)}75%{transform:scaleX(1) skewY(-3deg)}78%{transform:scaleX(1) skewY(0)}83%{transform:scaleX(0);opacity:1}84%{opacity:0}}
 ''',
