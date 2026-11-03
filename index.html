@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#082746">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&family=VT323&family=Courier+Prime:wght@400;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Inter:wght@400;500;600&family=VT323&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Layout: az elfogadott terv – sötétkék fejléc logóval és elérhetőségekkel, arany menüsor, kék fénysugaras kezdőkép a termékcsoporttal, arany hullámok, ikonsáv, krémszínű alsó sáv */
 :root{
@@ -637,74 +637,29 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .el-dl a:hover{border-color:#d6a64e}
 @media (max-width:700px){.el-opts{grid-template-columns:1fr}.elesit{padding:16px}.el-why,.el-opt p{font-size:1.02rem}}
 
-/* ===== PÉCSI METSZETEK – vonalrajzos illusztrációk ===== */
-.pecs-sav{position:relative;padding-block:clamp(40px,5vw,72px) clamp(44px,5vw,76px);color:#2b3c53;
-  background:radial-gradient(ellipse 70% 90% at 50% 40%,#fdfaf2 0%,#f6efdf 62%,#ece1c8 100%);overflow:hidden}
-.pecs-sav::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background:repeating-linear-gradient(0deg,rgba(120,96,52,.035) 0 1px,transparent 1px 4px),radial-gradient(ellipse 120% 100% at 50% 50%,transparent 60%,rgba(120,90,40,.16) 100%)}
-.pecs-sav::after{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--goldrim)}
-.ps-keret{position:relative;padding:clamp(14px,2.4vw,34px) clamp(14px,2.6vw,40px) clamp(10px,1.8vw,26px);border:1.5px solid #c9a24e;
-  box-shadow:inset 0 0 0 5px #f9f3e3,inset 0 0 0 6px rgba(185,138,50,.55),0 18px 40px -30px rgba(70,50,20,.6);border-radius:4px;background:rgba(255,253,246,.55)}
-.ps-sarok{position:absolute;width:clamp(30px,4vw,54px);aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60' fill='none' stroke='%23b98a32' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4 56V14Q4 4 14 4h42'/%3E%3Cpath d='M10 56V20q0-10 10-10h36' stroke-width='.9'/%3E%3Cpath d='M16 28c0-8 4-12 12-12M22 22c4-1 6 1 6 5 0 3-3 4-5 2'/%3E%3Ccircle cx='10' cy='10' r='2.2' fill='%23b98a32'/%3E%3C/svg%3E") no-repeat center/contain;pointer-events:none}
-.ps-sarok.bf{left:8px;top:8px}.ps-sarok.jf{right:8px;top:8px;transform:scaleX(-1)}.ps-sarok.ba{left:8px;bottom:8px;transform:scaleY(-1)}.ps-sarok.ja{right:8px;bottom:8px;transform:scale(-1)}
-.ps-kep{display:block;width:100%;height:auto;aspect-ratio:2182/776}
-.ps-tabla{position:relative;margin:-22px auto 0;width:max-content;max-width:calc(100% - 24px);display:flex;align-items:center;gap:14px;padding:10px 22px;border-radius:6px;
-  background:var(--goldrim);color:#2a1d07;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 -2px 0 rgba(90,60,10,.35) inset,0 10px 22px -12px rgba(60,40,10,.7);text-align:center}
-.ps-tabla div{display:grid;gap:2px}
-.ps-tabla b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:clamp(1.15rem,1.8vw,1.5rem);letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 0 rgba(255,245,210,.8)}
-.ps-tabla span{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(.95rem,1.3vw,1.08rem);color:#4a3712}
-.szog{width:12px;height:12px;flex:0 0 auto;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7dc,#b98a32 55%,#6e4d14);box-shadow:0 1px 1px rgba(0,0,0,.35)}
-.ps-mott{margin:18px auto 0;max-width:60ch;text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(1.1rem,1.6vw,1.3rem);color:#5a4a2c}
+/* ===== PÉCSI ILLUSZTRÁCIÓK – kitöltő rajzok, keret és felirat nélkül ===== */
 
-/* íves kirakatablak a szakaszfejekben */
-.shead:has(.ivablak){align-items:flex-end;flex-wrap:nowrap}
-.shead:has(.ivablak)>div:first-child{flex:1 1 auto;min-width:0}
-.ivablak{flex:0 0 auto;width:clamp(170px,17vw,232px);margin:0 0 -6px;display:grid;justify-items:center;gap:0}
-.ivablak.iv-szeles{width:clamp(190px,19vw,252px)}
-.iv-lap{position:relative;width:100%;aspect-ratio:4/5;border-radius:999px 999px 10px 10px;padding:7px;background:var(--goldrim);
-  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 16px 30px -18px rgba(8,39,70,.55),0 2px 4px rgba(90,60,10,.25)}
-.iv-lap::before{content:"";position:absolute;inset:7px;border-radius:999px 999px 6px 6px;
-  background:radial-gradient(ellipse 80% 70% at 50% 35%,#fffdf6,#f5eedc 70%,#e9dcbd);box-shadow:inset 0 0 0 1px rgba(185,138,50,.7),inset 0 0 0 5px #fbf6e7,inset 0 0 0 6px rgba(185,138,50,.4),inset 0 8px 18px rgba(120,90,40,.18)}
-.iv-lap img{position:absolute;left:9%;top:11%;width:82%;height:80%;object-fit:contain;object-position:50% 100%}
-.iv-szeles .iv-lap img{left:5%;width:90%;top:14%;height:76%;object-position:50% 60%}
-.ivablak figcaption{position:relative;margin-top:-14px;padding:6px 16px 7px;border-radius:5px;background:var(--goldrim);color:#2a1d07;text-align:center;line-height:1.05;
-  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 -2px 0 rgba(90,60,10,.3) inset,0 8px 16px -10px rgba(60,40,10,.7)}
-.ivablak figcaption span{display:block;font-family:var(--fb);font-weight:600;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:#6b4e18}
-.ivablak figcaption{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:1.12rem;letter-spacing:.03em}
-
-/* e-pénztárgép: arany TV-torony a sötét kártyán */
-.epz{isolation:isolate}
-.epz-torony{position:absolute;right:clamp(-30px,-1vw,0px);bottom:-6%;height:118%;width:auto;aspect-ratio:449/1469;opacity:.3;z-index:-1;pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}
-.epz>div:first-child{position:relative}
-
-/* rólunk: székesegyház vízjel */
-#rolunk{position:relative;overflow:hidden}
-.rol-dom{position:absolute;right:-4%;bottom:-2%;width:min(62vw,820px);height:auto;aspect-ratio:1139/995;opacity:.09;pointer-events:none}
-#rolunk>.wrap{position:relative}
-
+.shead:has(.szdisz){flex-wrap:nowrap;align-items:flex-end;position:relative}
+.shead:has(.szdisz)>div:first-child{flex:1 1 auto;min-width:0}
+.szdisz{flex:0 0 auto;width:auto;height:clamp(150px,17vw,240px);margin:-40px 0 -18px;opacity:.82;pointer-events:none}
+.szdisz.lovas{height:clamp(170px,20vw,280px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+#hasznalt{position:relative;overflow:hidden}
+#hasznalt>.wrap{position:relative;z-index:1}
+.hsz-torony{position:absolute;right:max(26vw,24px);bottom:-30px;height:calc(100% - 20px);width:auto;opacity:.7;pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent)}
+@media (max-width:760px){
+  .shead:has(.szdisz){flex-wrap:wrap}
+  .szdisz,.szdisz.lovas{position:absolute;right:-6px;top:-18px;height:118px;margin:0;opacity:.2;z-index:0}
+  .shead:has(.szdisz)>div:first-child{position:relative;z-index:1}
+  .hsz-torony{height:70%;opacity:.25;right:-30px}
+}
 /* lábléc: arany panoráma */
 .ffoot{position:relative}
 .f-pano{position:relative;max-width:1500px;margin:clamp(-10px,-1vw,0px) auto 4px;padding-inline:max(16px,env(safe-area-inset-left,0px));pointer-events:none;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent 0,#000 6%,#000 88%,transparent)}
-.f-pano img{display:block;width:100%;height:auto;aspect-ratio:2182/776;opacity:.42}
+.f-pano img{display:block;width:100%;height:auto;aspect-ratio:2182/776;opacity:.3}
 
-@media (max-width:760px){
-  .shead:has(.ivablak){position:relative;flex-wrap:wrap}
-  .shead:has(.ivablak) .eye,.shead:has(.ivablak) .sh2{padding-right:112px}
-  .shead:has(.ivablak) .sh2{min-height:118px}
-  .ivablak,.ivablak.iv-szeles{position:absolute;right:0;top:0;width:104px}
-  .ivablak figcaption{font-size:.9rem;padding:4px 8px 5px;margin-top:-10px}
-  .ivablak figcaption span{font-size:.52rem;letter-spacing:.14em}
-  .ps-tabla{margin-top:12px;padding:8px 14px;gap:10px}
-  .ps-keret{overflow:hidden;padding:12px 0 8px}
-  .ps-kep{width:175%;max-width:none;animation:psPan 28s ease-in-out infinite alternate}
-  @keyframes psPan{from{transform:translateX(0)}to{transform:translateX(-42.86%)}}
-  .ps-tabla span{font-size:.9rem}
-  .ps-tabla b{letter-spacing:.07em;font-size:1.08rem}
-  .epz-torony{height:60%;opacity:.22;right:-20px;bottom:-4%}
-}
-@media (prefers-reduced-motion:reduce){.ps-kep,.iv-lap img{animation:none}}
+
 </style>
 </head>
 <body>
@@ -776,21 +731,11 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 <section class="lcdband" aria-label="Kijelző">
   <div class="wrap"><div class="bezel"><span class="tot"><b>ÖSSZESEN</b>1 HELYEN</span><div><span class="lbl">TOTÁL · Multi-Line Display</span><div class="lcd"><div class="marq" aria-hidden="true"><span>TOTÁL PÉNZTÁRGÉP ★ PÉCSEN 1982 ÓTA ★ ONLINE PÉNZTÁRGÉPEK ★ POS-RENDSZEREK ★ E-PÉNZTÁRGÉP-ÁTÁLLÁS ★ HELYI SZERVIZ ★ HŐPAPÍR RAKTÁRRÓL ★ INGYENES PARKOLÁS ★</span><span>TOTÁL PÉNZTÁRGÉP ★ PÉCSEN 1982 ÓTA ★ ONLINE PÉNZTÁRGÉPEK ★ POS-RENDSZEREK ★ E-PÉNZTÁRGÉP-ÁTÁLLÁS ★ HELYI SZERVIZ ★ HŐPAPÍR RAKTÁRRÓL ★ INGYENES PARKOLÁS ★</span></div></div></div></div></div>
 </section>
-<section class="pecs-sav" aria-labelledby="pecs-cim">
-  <div class="wrap">
-    <div class="ps-keret">
-      <i class="ps-sarok bf"></i><i class="ps-sarok jf"></i><i class="ps-sarok ba"></i><i class="ps-sarok ja"></i>
-      <img class="ps-kep" src="assets/illusztraciok/web/szechenyi-ter-szepia.svg" alt="Pécs, Széchenyi tér: a Szentháromság-szobor, Gázi Kászim pasa dzsámija és Hunyadi János lovasszobra – vonalrajz" width="2182" height="776" loading="lazy" decoding="async">
-    </div>
-    <div class="ps-tabla"><i class="szog"></i><div><b id="pecs-cim">Pécs · Széchenyi tér</b><span>Szentháromság-szobor · Gázi Kászim pasa dzsámija · Hunyadi János lovasszobra</span></div><i class="szog"></i></div>
-    <p class="ps-mott">„A belváros szívétől néhány utcányira – 1982 óta a pécsi vállalkozások szolgálatában.”</p>
-  </div>
-</section>
 
 <main class="lt">
 <section class="sec" id="szolgaltatasok">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Amivel foglalkozunk</span><h2 class="sh2">Minden egy helyen, <em>Pécsen</em></h2><p class="slead">A pénztárgéptől a számítógépig segítünk a megfelelő eszköz kiválasztásában, beállításában és használatának elsajátításában. Később is számíthat ránk a javításban – üzlete technikai hátterét egy helyen intézheti.</p></div><a class="hb navy" href="webaruhaz/#termekek"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg>Webáruház</a><figure class="ivablak "><div class="iv-lap"><img src="assets/illusztraciok/web/szekesegyhaz-szepia.svg" alt="A pécsi székesegyház négy tornya – vonalrajz" loading="lazy" decoding="async"></div><figcaption><span>Dóm tér</span>Székesegyház</figcaption></figure></div>
+    <div class="shead rv"><div><span class="eye">Amivel foglalkozunk</span><h2 class="sh2">Minden egy helyen, <em>Pécsen</em></h2><p class="slead">A pénztárgéptől a számítógépig segítünk a megfelelő eszköz kiválasztásában, beállításában és használatának elsajátításában. Később is számíthat ránk a javításban – üzlete technikai hátterét egy helyen intézheti.</p></div><a class="hb navy" href="webaruhaz/#termekek"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.4-1.1l1.7-7.3H6.3"/></svg>Webáruház</a><img class="szdisz" src="assets/illusztraciok/web/szekesegyhaz-szepia.svg" alt="" aria-hidden="true" width="1139" height="995" loading="lazy" decoding="async"></div>
     <div class="areas"><a class="area rv" href="webaruhaz/#kat-penztargep"><span class="ai"><svg class="ic" viewBox="0 0 64 64"><path d="M8 40h48l-3-14H11z"/><path d="M6 40h52v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M22 26V14h16v12M26 18h8M26 22h8"/><path d="M38 20h10l3 6M15 45h6M25 45h6M35 45h6M45 45h4M15 49h34"/></svg></span><h3>Pénztárgépek és POS rendszerek</h3><p>Online pénztárgépek és érintőképernyős kasszarendszerek különböző üzleti feladatokra. Segítünk a megfelelő típus kiválasztásában, az üzembe helyezésben és a kezelés betanulásában.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Sam4s, Micra és Montel készülékek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Üzembe helyezés és NAV-bejelentés</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Kasszafiók, vonalkódolvasó, blokknyomtató</span></li></ul><span class="more">Pénztárgépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-irodatechnika"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></span><h3>Számítástechnika és irodatechnika</h3><p>Számítógépek, laptopok, nyomtatók és hálózati megoldások üzleti és otthoni használatra. Igény szerint segítünk a beszerzésben, az összeállításban, a telepítésben és a javításban.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gépek összeállítása, telepítése</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Számítógép- és laptopjavítás</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hálózat és internet kiépítése</span></li></ul><span class="more">Irodatechnika <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-merleg"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M5 20h14l-1.5-7h-11z"/><path d="M4 9h16M12 9V5M9 5h6"/><rect x="9.5" y="14.5" width="5" height="2.5" rx=".5"/></svg></span><h3>Mérlegek és árazógépek</h3><p>Bolti mérlegek, árazógépek és a hozzájuk tartozó kellékek. A felhasználási cél és a szükséges kapacitás alapján segítünk megtalálni az Ön munkájához illő megoldást.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hitelesített bolti mérlegek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Árazógépek, címkék, festékhengerek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Tanácsadás a választáshoz</span></li></ul><span class="more">Mérlegek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#kat-kellek"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><ellipse cx="9" cy="8" rx="5" ry="3"/><path d="M4 8v8c0 1.7 2.2 3 5 3s5-1.3 5-3V8"/><path d="M14 13h6v7h-6"/></svg></span><h3>Kellékanyagok</h3><p>Hőpapírtekercsek, árazócímkék, festékhengerek és belövőszálak. A megfelelő méret kiválasztásához hozza magával készüléke pontos típusát, vagy hívjon minket.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hőpapír tekercsek minden géphez</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Árazócímkék, festékhengerek</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gyors beszerzés, helyben átvehető</span></li></ul><span class="more">Kellékanyagok <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#szerviz"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3.5 17.5 6.5 20.5l5.9-5.9a4 4 0 0 0 5.3-5.3l-2.4 2.4-2.6-.4-.4-2.6z"/></svg></span><h3>Szerviz és karbantartás</h3><p>Pénztárgépek javítása, felülvizsgálata és adómemória-kiolvasása mellett számítógépek és hálózatok javításával is foglalkozunk. Pénztárgépnél kérjük, adja meg az AP-számot is.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Javítás, éves felülvizsgálat</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Adómemória- és AEE-kiolvasás</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Gyors hibaelhárítás Pécsen</span></li></ul><span class="more">Szerviz bejelentés <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a><a class="area rv" href="webaruhaz/#e-penztargep"><span class="ai"><svg class="ic" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5z"/><path d="m9 13 2 2 4-4"/></svg></span><h3>E-pénztárgépes tájékoztatás</h3><p>Segítünk áttekinteni az e-pénztárgépekkel kapcsolatos lehetőségeket, és felmérni, milyen megoldás illeszkedhet vállalkozása működéséhez.</p><ul><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Felmérjük, melyik megoldás kell</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Hardveralapú e-pénztárgép</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Teljes ügyintézés a NAV felé</span></li></ul><span class="more">Átállási tanács <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></a></div>
   </div>
 </section>
@@ -798,7 +743,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 <section class="sec white" id="gepvalaszto">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Gépválasztó</span><h2 class="sh2">Melyik pénztárgép <em>illik Önhöz?</em></h2><p class="slead">Három pénztárgéptípus közül választhat. Ha bizonytalan, hívjon minket, vagy látogasson el üzletünkbe, ahol a készülékeket ki is próbálhatja.</p></div><figure class="ivablak iv-szeles"><div class="iv-lap"><img src="assets/illusztraciok/web/zsolnay-kut-okorfej-szepia.svg" alt="A Zsolnay-kút ökörfejes vízköpője – vonalrajz" loading="lazy" decoding="async"></div><figcaption><span>Zsolnay-kút</span>Ökörfej</figcaption></figure></div>
+    <div class="shead rv"><div><span class="eye">Gépválasztó</span><h2 class="sh2">Melyik pénztárgép <em>illik Önhöz?</em></h2><p class="slead">Három pénztárgéptípus közül választhat. Ha bizonytalan, hívjon minket, vagy látogasson el üzletünkbe, ahol a készülékeket ki is próbálhatja.</p></div><img class="szdisz" src="assets/illusztraciok/web/zsolnay-kut-okorfej-szepia.svg" alt="" aria-hidden="true" width="1153" height="1038" loading="lazy" decoding="async"></div>
     <div class="pick">
       <a class="pk rv" href="webaruhaz/#kat-penztargep" data-ids="sam4s-nr-300,sam4s-nr-330,sam4s-nr-240,sam4s-nr-240-pro-4g,montel-sento-h-light,euro-150-flexy,cashcube-light"><span class="ph"><img src="webaruhaz/kepek/termekek/sam4s-nr-300-1.webp" alt="Asztali online pénztárgép" loading="lazy"><span class="tag zz-b">BOLTBA · PULTRA</span></span><span class="bd"><h3>Asztali pénztárgép</h3><p>Állandó üzlethelyiségbe, pultra tervezett készülék. A megfelelő típushoz kasszafiók, vonalkódolvasó vagy mérleg is csatlakoztatható; a választás előtt egyeztessen velünk.</p><span class="lcd" data-min>ÁR KÉRÉSRE</span><span class="go">Asztali gépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></span></a>
       <a class="pk rv" href="webaruhaz/#kat-penztargep" data-ids="micra-k10,cashcube-mini,montel-mini-h,micra-jota-e,montel-jota-h"><span class="ph"><img src="webaruhaz/kepek/termekek/cashcube-mini-1.webp" alt="Hordozható online pénztárgép" loading="lazy"><span class="tag zz-b">PIAC · KISZÁLLÍTÁS</span></span><span class="bd"><h3>Hordozható pénztárgép</h3><p>Akkumulátoros és GPS-funkcióval rendelkező modellek piacra és kiszállításhoz. Segítünk a munkavégzés helyéhez illő modell kiválasztásában.</p><span class="lcd" data-min>ÁR KÉRÉSRE</span><span class="go">Hordozható gépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></span></span></a>
@@ -819,6 +764,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 
 <section class="sec white" id="hasznalt" hidden>
+  <img class="hsz-torony" src="assets/illusztraciok/web/tv-torony-szepia.svg" alt="" aria-hidden="true" width="449" height="1469" loading="lazy" decoding="async">
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Használt termékek</span><h2 class="sh2">Bevizsgált <em>használt gépek</em></h2><p class="slead">Szervizünkben bevizsgált, átszemélyesített készülékek garanciával, kedvezőbb áron. Az aktuális kínálatról telefonon is érdeklődhet.</p></div><a class="hb line" href="webaruhaz/#kat-hasznalt">Összes használt <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div>
     <div class="feat" id="usedlist"></div>
@@ -827,7 +773,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 <section class="sec white" id="kapcsolat">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Szaküzletünk és szervizünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is érdeklődhet, és az üzlet előtt ingyenesen parkolhat.</p></div><figure class="ivablak "><div class="iv-lap"><img src="assets/illusztraciok/web/dzsami-szepia.svg" alt="Gázi Kászim pasa dzsámija – vonalrajz" loading="lazy" decoding="async"></div><figcaption><span>Széchenyi tér</span>Dzsámi</figcaption></figure></div>
+    <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Szaküzletünk és szervizünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is érdeklődhet, és az üzlet előtt ingyenesen parkolhat.</p></div><img class="szdisz" src="assets/illusztraciok/web/dzsami-szepia.svg" alt="" aria-hidden="true" width="1032" height="1125" loading="lazy" decoding="async"></div>
     <div class="contactg">
       <div class="cc rv">
         <div class="status" id="status" aria-live="polite"><i></i><div><b id="st-t">Nyitvatartás</b><span id="st-s">Hétfő–péntek 9:00–15:00</span></div></div>
@@ -869,7 +815,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 <section class="sec white" id="e-penztargep">
   <div class="wrap">
-    <div class="epz rv"><img class="epz-torony" src="assets/illusztraciok/web/tv-torony-arany.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="epz rv">
       <div><span class="eye" style="color:#f4d58d">Fontos határidők</span><h2 class="sh2">Készüljön fel <em>időben</em></h2><p class="slead">Az e-pénztárgépek felhőalapú és hardveralapú változatban érhetők el. Segítünk áttekinteni, melyik megoldás jöhet szóba vállalkozásánál; a kötelezettségekről könyvelőjével és a NAV hivatalos tájékoztatóiból is tájékozódjon.</p><div class="btns" style="margin-top:22px"><a class="hb gold" href="webaruhaz/#e-penztargep">E-pénztárgépes tájékoztatást kérek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Hívjon minket</a></div></div>
       <div class="tl"><div><b>2025. 07. 01.</b><span><strong>Elérhető az e-pénztárgép</strong> – az érvényes forgalmazási engedéllyel rendelkező típusok üzembe helyezhetők.</span></div><div><b>2026. 09. 01.</b><span><strong>Adatszolgáltatás a kézi nyugtákról</strong> – napi összesítésben, 3 naptári napon belül a NAV felé.</span></div><div class="key"><b>2028. 07. 01.</b><span><strong>Eddig használhatók az online pénztárgépek</strong> – utána a kötelezetteknek hardveralapú e-pénztárgép kell.</span></div></div>
     </div>
@@ -878,7 +824,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 <section class="sec" id="gyik">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div></div>
+    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div><img class="szdisz lovas" src="assets/illusztraciok/web/lovasszobor-szepia.svg" alt="" aria-hidden="true" width="520" height="756" loading="lazy" decoding="async"></div>
     <div class="faqg rv">
       <details><summary>Mi szükséges egy új pénztárgép üzembe helyezéséhez?</summary><p>Az adott készülék és vállalkozás adatai alapján szükség lehet üzembe helyezési kódra és a vállalkozás képviseletét igazoló dokumentumokra. A pontos iratlistát kérjük, vásárlás előtt egyeztesse velünk vagy könyvelőjével.</p></details>
       <details><summary>Mennyibe kerül a pénztárgép mobil adatkapcsolata?</summary><p>A mobil adatkapcsolat díja gépenként havonta 1 500 Ft + ÁFA. A szerződés és az aktuális díj részleteiről vásárlás előtt kérjen tájékoztatást.</p></details>
@@ -892,7 +838,6 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 
 
 <section class="sec cream2" id="rolunk">
-  <img class="rol-dom" src="assets/illusztraciok/web/szekesegyhaz-szepia.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="wrap about">
     <div class="rv">
       <span class="eye">Rólunk</span><h2 class="sh2">Pécsen, <em>1982 óta</em></h2>
