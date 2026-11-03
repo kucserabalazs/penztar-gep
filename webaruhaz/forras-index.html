@@ -2728,7 +2728,7 @@ var p=sv.querySelector('path'),P=[],S=[],L=0,on=true,W=0,H=0;
 function vis(el){if(!el)return null;var r=el.getBoundingClientRect();return r.width&&r.height&&getComputedStyle(el).visibility!=='hidden'?r:null;}
 function geo(){var R=top.getBoundingClientRect(),d=vis(top.querySelector('.pan.sarkany')),l=vis(top.querySelector('.logo img'));if(!d||!l)return;W=R.width;H=R.height;sv.setAttribute('viewBox','0 0 '+W+' '+H);
  var tb=0;['.slogan','.contacts','.zi-pick','.mtools','.vbar'].forEach(function(q){var r=vis(top.querySelector(q));if(r)tb=Math.max(tb,r.bottom-R.top);});
- var mx=d.left-R.left+d.width*.2445,my=d.top-R.top+d.height*.745,by=Math.max(my+4,(tb+H)/2),lr=l.right-R.left+5,lm=l.top-R.top+l.height*.5;if(by>H-3)by=H-3;
+ var mx=d.left-R.left+d.width*.2445,my=d.top-R.top+d.height*.745,by=Math.max(my+4,(tb+H)/2),lr=l.right-R.left+5,lm=l.top-R.top+l.height*.5;if(W<=600){var sg=vis(top.querySelector('.slogan'));if(sg){lr=sg.left-R.left+46;lm=sg.bottom-R.top+3}}if(by>H-3)by=H-3;
  P=[];var i,t,u;function add(x,y){P.push([x,y]);}
  for(i=0;i<=40;i++){t=i/40;u=1-t;add(u*u*u*mx+3*u*u*t*(mx-20)+3*u*t*t*(mx-30)+t*t*t*(mx-70),u*u*u*my+3*u*u*t*(my+3)+3*u*t*t*by+t*t*t*by);}
  var x0=mx-70,x1=lr+34,n=Math.max(2,Math.round((x0-x1)/3));for(i=1;i<=n;i++)add(x0+(x1-x0)*i/n,by);
