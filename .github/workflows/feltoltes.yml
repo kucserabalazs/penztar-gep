@@ -1,0 +1,101 @@
+# Automatikus feltöltés a penztar-gep.hu tárhelyre (ELIN, SFTP)
+# Minden "main" ágra érkező módosítás után magától lefut.
+# Kézzel is indítható: Actions › "Feltöltés a penztar-gep.hu tárhelyre" › Run workflow.
+#
+# Biztonság:
+# - A jelszó csak a GitHub titkos beállításai között van (SFTP_PASSWORD), a kódban nincs.
+# - A szerveren semmit nem töröl, csak feltölt és felülír.
+# - Az adminban módosított adatokat NEM írja felül:
+#     webaruhaz/data/products.json (árak, készlet) – csak akkor tölti fel, ha a szerveren még nincs,
+#     vagy ha kézi indításkor kifejezetten bepipálod;
+#     admin-, rendelés- és ügyféladatok, feltöltött fotók, config.local.php – ezek nincsenek is a GitHubon.
+
+name: Feltöltés a penztar-gep.hu tárhelyre
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      termekadatok:
+        description: "A termékadatokat (webaruhaz/data/products.json) is töltse fel? FIGYELEM: felülírja az adminban módosított árakat és készletet!"
+        type: boolean
+        default: false
+
+concurrency:
+  group: penztar-gep-feltoltes
+  cancel-in-progress: false
+
+jobs:
+  feltoltes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+
+      - name: lftp telepítése
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Feltöltés SFTP-n
+        env:
+          SFTP_HOST: fw.elin.hu
+          SFTP_PORT: "2253"
+          SFTP_USER: web5109
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          TERMEKADATOK: ${{ github.event.inputs.termekadatok }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${SFTP_PASSWORD:-}" ]; then
+            echo "::warning::Még nincs beállítva az SFTP_PASSWORD titok (Settings › Secrets and variables › Actions). Feltöltés kihagyva."
+            exit 0
+          fi
+
+          LFTP_ALAP="set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set net:reconnect-interval-base 5; set cmd:fail-exit yes"
+          kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "$LFTP_ALAP; $1; bye"; }
+
+          # Hova kell feltölteni? Ha a belépési mappában van "web", akkor oda, különben a belépési mappába.
+          GYOKER=$(kapcs "cls -1" || true)
+          echo "Belépési mappa tartalma:"; echo "$GYOKER"
+          if echo "$GYOKER" | grep -qx 'web/'; then CEL="web"; else CEL="."; fi
+          echo "Cél mappa: $CEL"
+
+          # Termékadatok: csak ha a szerveren még nincs, vagy ha kifejezetten kérték.
+          KIZAR_TERMEK="--exclude-glob webaruhaz/data/products.json"
+          if [ "${TERMEKADATOK:-false}" = "true" ]; then
+            echo "Kézi kérésre a termékadatok is feltöltésre kerülnek."
+            KIZAR_TERMEK=""
+          elif ! kapcs "cls $CEL/webaruhaz/data/products.json" >/dev/null 2>&1; then
+            echo "A szerveren még nincs products.json – első feltöltés, ezért felkerül."
+            KIZAR_TERMEK=""
+          else
+            echo "A szerveren lévő products.json (admin adatai) érintetlen marad."
+          fi
+
+          kapcs "mirror --reverse --verbose --parallel=4 --no-perms \
+            --exclude-glob .git/ \
+            --exclude-glob .github/ \
+            --exclude-glob .gitignore \
+            --exclude-glob .nojekyll \
+            --exclude-glob mentesek/ \
+            --exclude-glob referencia/ \
+            --exclude-glob eszkozok/ \
+            --exclude-glob *.md \
+            --exclude-glob webaruhaz/config.local.php \
+            --exclude-glob webaruhaz/data/admin.* \
+            --exclude-glob webaruhaz/data/orders.* \
+            --exclude-glob webaruhaz/data/clients* \
+            --exclude-glob webaruhaz/data/products.backup-* \
+            --exclude-glob webaruhaz/data/.lock \
+            $KIZAR_TERMEK \
+            . $CEL"
+
+          echo "Kész: https://penztar-gep.hu"
+
+      - name: Ellenőrzés
+        run: |
+          sleep 5
+          KOD=$(curl -s -o /dev/null -w '%{http_code}' https://penztar-gep.hu/ || echo 000)
+          echo "A főoldal válaszkódja: $KOD"
+          if [ "$KOD" != "200" ]; then echo "::warning::A főoldal nem 200-as kóddal válaszolt ($KOD)."; fi
