@@ -1,0 +1,52 @@
+[
+ {
+  "nev": "tv-torony",
+  "cim": "TV-torony (Misina)",
+  "reszek": [
+   "csucs-also",
+   "csucs-kozep",
+   "csucs-felso"
+  ],
+  "szikrak": 0,
+  "vb": "397.667 34 228.667 1469.33"
+ },
+ {
+  "nev": "zsolnay-kut-okorfej",
+  "cim": "Zsolnay-kút – ökörfej",
+  "reszek": [
+   "ful-bal",
+   "ful-jobb"
+  ],
+  "szikrak": 0,
+  "vb": "152.667 72 1153.33 1037.67"
+ },
+ {
+  "nev": "dzsami",
+  "cim": "Gázi Kászim pasa dzsámija",
+  "reszek": [
+   "jelkep",
+   "kupola"
+  ],
+  "szikrak": 2,
+  "vb": "207.667 -68.3333 1032 1125"
+ },
+ {
+  "nev": "szechenyi-ter",
+  "cim": "Széchenyi tér – Szentháromság-szobor, dzsámi, Hunyadi-lovasszobor",
+  "reszek": [
+   "lovas",
+   "csillag",
+   "felhold",
+   "kupola"
+  ],
+  "szikrak": 2,
+  "vb": "-6 -45.3333 2181.67 776"
+ },
+ {
+  "nev": "szekesegyhaz",
+  "cim": "Pécsi székesegyház",
+  "reszek": [],
+  "szikrak": 4,
+  "vb": "218.667 10.3333 1139 995.333"
+ }
+]
