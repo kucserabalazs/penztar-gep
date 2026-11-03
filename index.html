@@ -646,6 +646,9 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 .szdisz.lovas{height:clamp(170px,20vw,280px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
 #hasznalt{position:relative;overflow:hidden}
 #hasznalt>.wrap{position:relative;z-index:1}
+#hasznalt:has(#usedlist>:nth-child(3)) .hsz-torony{right:max(5vw,40px);height:calc(100% - 270px);bottom:-20px}
+#hasznalt:has(#usedlist>:nth-child(4)) .hsz-torony{display:none}  /* csak akkor jelenik meg, ha marad mellette üres hely */
+@media (max-width:1100px){#hasznalt:has(#usedlist>:nth-child(2)) .hsz-torony{display:none}}
 .hsz-torony{position:absolute;right:max(26vw,24px);bottom:-30px;height:calc(100% - 20px);width:auto;opacity:.7;pointer-events:none;z-index:0;
   -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent)}
 @media (max-width:760px){
@@ -653,6 +656,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   .szdisz,.szdisz.lovas{position:absolute;right:-6px;top:-18px;height:118px;margin:0;opacity:.2;z-index:0}
   .shead:has(.szdisz)>div:first-child{position:relative;z-index:1}
   .hsz-torony{height:70%;opacity:.25;right:-30px}
+  #hasznalt:has(#usedlist>:nth-child(2)) .hsz-torony{display:none}
 }
 /* lábléc: arany panoráma */
 .ffoot{position:relative}
