@@ -520,7 +520,7 @@ switch ($a) {
     $kiszall = ($b['atvetel'] ?? '') === 'Kiszállítással';
     if ($kosar && !filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.'], 400);
     if ($kosar && $fizmod === 'online' && !barion_on()) out(['error' => 'Az online fizetés most nem érhető el. Kérjük, válasszon másik fizetési módot.'], 400);
-    if ($kosar && $fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre kell fizetni (online vagy átutalással).'], 400);
+    if ($kosar && $fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre, átutalással kell fizetni.'], 400);
     $szallcim = '';
     if ($kosar && $kiszall) {
       $sc = is_array($b['szallcim'] ?? null) ? $b['szallcim'] : [];
@@ -571,7 +571,7 @@ switch ($a) {
     foreach ($extrak as $x) $osszeg += $x['brutto'];
     if ($kosar && $kiszall) { $dij = (int)($set['szallitasDij'] ?? 0); $hat = (int)($set['ingyenesSzallitasFelett'] ?? 0); if ($hat && $osszeg >= $hat) $dij = 0;
       if ($dij) { $extrak[] = ['id' => 'szallitas', 'nev' => 'Szállítás (' . ($set['futar'] ?? 'futárszolgálat') . ')', 'brutto' => $dij]; $osszeg += $dij; } }
-    $fizszoveg = ['online' => 'Online bankkártyával (Barion)', 'atutalas' => 'Átutalással, díjbekérő alapján', 'atvetelkor' => 'Átvételkor, készpénzzel vagy bankkártyával'][$fizmod];
+    $fizszoveg = ['online' => 'Online bankkártyával (Barion)', 'atutalas' => 'Átutalással, díjbekérő alapján', 'atvetelkor' => 'Átvételkor, az üzletben készpénzzel'][$fizmod];
     $rec = [
       'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3))),
       'ido' => date('c'),
