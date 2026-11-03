@@ -56,10 +56,17 @@ jobs:
           LFTP_ALAP="set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set net:reconnect-interval-base 5; set cmd:fail-exit yes"
           kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "$LFTP_ALAP; $1; bye"; }
 
-          # Hova kell feltölteni? Ha a belépési mappában van "web", akkor oda, különben a belépési mappába.
-          GYOKER=$(kapcs "cls -1" || true)
-          echo "Belépési mappa tartalma:"; echo "$GYOKER"
-          if echo "$GYOKER" | grep -qx 'web/'; then CEL="web"; else CEL="."; fi
+          # Hova kell feltölteni? Az ELIN-nél a belépési mappában "web5109/" van, azon belül a "web" a weboldal gyökere.
+          echo "Belépési mappa tartalma:"; kapcs "cls -1" || true
+          CEL=""
+          for c in web5109/web web; do
+            if kapcs "cd $c" >/dev/null 2>&1; then CEL="$c"; break; fi
+          done
+          if [ -z "$CEL" ]; then
+            echo "::error::Nem található a weboldal mappája (web5109/web vagy web). A web5109 tartalma:"
+            kapcs "cls -1 web5109/" || true
+            exit 1
+          fi
           echo "Cél mappa: $CEL"
 
           # Termékadatok: csak ha a szerveren még nincs, vagy ha kifejezetten kérték.
