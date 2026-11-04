@@ -1549,6 +1549,15 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
 .fk-tx::selection,.fk-tx *::selection{background:#ffe49a;color:#1a1200}
 @media (max-width:700px){.fk-gombok{grid-column:1;grid-row:auto;flex-direction:row}.fk-gombok .btn{flex:1 1 0;min-height:46px}}
 </style>
+<style id="belepes-szem">
+.pwwrap{position:relative}
+.pwwrap .i{padding-right:54px;font-size:1.05rem}
+.pweye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:10px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:none}
+.pweye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pweye:hover,.pweye.on{color:#0b2a49;background:#f3ead3}
+.nincskod{margin-top:4px;padding:14px 16px;border-radius:12px;background:#fffaf0;border:1px solid #ead7a6;font-size:.93rem;line-height:1.5}
+.nincskod ol{margin:6px 0 10px;padding-left:20px;display:grid;gap:4px}
+</style>
 </head>
 <body>
 
@@ -2540,6 +2549,7 @@ ADMIN.L={step:'who'};
 async function pageAdmin(){
   try{ const st=await api('status'); ADMIN.in=st.admin; ADMIN.csrf=st.csrf; ADMIN.me=st.me; }catch(e){ ADMIN.in=false; }
   if(!ADMIN.in){ try{ ADMIN.L.users=await api('admins'); }catch(e){ ADMIN.L.users=[]; ADMIN.L.err=e.message; } }
+  if(!ADMIN.in&&ADMIN.L.step==='who'&&!ADMIN.L.valt){ let lu=null; try{ lu=localStorage.getItem('ptg-utolso-belepo'); }catch(_){} const u=(ADMIN.L.users||[]).find(x=>x.id===lu&&x.aktiv); if(u){ ADMIN.L.uid=u.id; ADMIN.L.step='pw'; } }
   return ADMIN.in?adminHTML():loginHTML(); }
 const devNote=c=>c?`<div class="msg info" style="font-weight:500">Előnézet: e-mail nem megy ki, a levélben ez a kód érkezne: <b class="num" style="letter-spacing:.15em">${esc(c)}</b></div>`:'';
 const codeInput=(id,lbl)=>`<label class="l">${lbl}<input class="i num" id="${id}" inputmode="numeric" autocomplete="one-time-code" maxlength="11" placeholder="123456" style="font-size:1.6rem;letter-spacing:.3em;text-align:center" required></label>`;
@@ -2552,13 +2562,13 @@ function loginHTML(){
     <p class="muted" style="font-size:.84rem;display:flex;gap:8px;align-items:flex-start">${icon('shield','ic','width:18px;height:18px;color:var(--gold-d);margin-top:2px')}<span>A belépést a kiválasztott személy saját e-mail címére küldött kóddal kell megerősíteni. Új hozzáférést csak a tulajdonosok adhatnak.</span></p>`);
   const head=`<div class="whohead"><span class="av">${esc(u.nev.replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2))}</span><div><b>${esc(u.nev)}</b><small class="num">${esc(u.tel)}</small></div></div>`;
   if(L.step==='pw') return box(`<span class="eyebrow">1. lépés · jelszó</span>${head}
-    <form class="f" id="lf-pw"><label class="l">Jelszó<input class="i" type="password" id="pw" autocomplete="current-password" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Tovább</button></form>
+    <form class="f" id="lf-pw"><label class="l" for="pw">Jelszó</label><div class="pwwrap"><input class="i" type="password" id="pw" autocomplete="current-password" required><button type="button" class="pweye" id="pweye" aria-label="Jelszó megmutatása (nyomva tartva)" title="Nyomja meg és tartsa lenyomva a jelszó megtekintéséhez"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div><small class="muted" style="font-size:.84rem">Tartsa lenyomva a szem ikont, ha látni szeretné a beírt jelszót.</small><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Tovább</button></form>
     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">${back}<button class="btn ghost sm" type="button" id="forgot">Elfelejtettem a jelszót</button></div>`);
   if(L.step==='code') return box(`<span class="eyebrow">2. lépés · megerősítés</span>${head}
     <div class="msg info" style="font-weight:500;display:flex;gap:10px;align-items:flex-start">${icon('mail','ic','width:20px;height:20px;flex-shrink:0;margin-top:2px')}<span>Kódot küldtünk <b>${esc(u.nev)}</b> saját e-mail címére. Nézze meg a beérkezett leveleket (és a levélszemetet is).</span></div>${devNote(L.devCode)}
     <form class="f" id="lf-code">${codeInput('code','6 jegyű kód az e-mailből')}<div class="out" aria-live="polite"></div><button class="btn gold" type="submit">Megerősítés és belépés</button></form>
     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">${back}<button class="btn ghost sm" type="button" id="resend">Új kód kérése</button></div>
-    ${L.app?'<details class="faq" style="margin:0"><summary>Nem jön az e-mail?</summary><p>Beírhatja a telefonos hitelesítő alkalmazás (iPhone: Jelszavak) 6 jegyű kódját, vagy egy tartalékkódot is.</p></details>':''}`);
+    <div class="nincskod"><b>Nem jött meg a kód?</b><ol><li>Várjon 1–2 percet, és nézze meg a <b>Levélszemét / Spam</b> és az <b>Összes levél</b> mappát is (Gmailben a „Promóciók” fület is).</li><li>Kérjen újat a fenti <b>Új kód kérése</b> gombbal.</li><li>Vagy kérje a kódot az <b>üzlet e-mail címére</b> (info@…), és nézze meg ott:</li></ol><button class="btn line sm" type="button" id="resend-uzlet">${icon('mail')} Kód küldése az üzlet e-mail címére</button>${L.app?'<p style="margin:8px 0 0">Beírhatja a telefonos hitelesítő alkalmazás (iPhone: Jelszavak) 6 jegyű kódját, vagy egy tartalékkódot is.</p>':''}</div>`);
   if(L.step==='set'){ const akt=L.cel==='aktivalas'; return box(`<span class="eyebrow">${akt?'Első belépés':'Új jelszó'}</span>${head}
     <div class="msg info" style="font-weight:500;display:flex;gap:10px;align-items:flex-start">${icon('mail','ic','width:20px;height:20px;flex-shrink:0;margin-top:2px')}<span>Kódot küldtünk <b>${esc(u.nev)}</b> saját e-mail címére. Ezzel igazolja, hogy Ön az, majd ${akt?'adja meg a jelszavát':'adjon meg új jelszót'}.</span></div>${devNote(L.devCode)}
     <form class="f" id="lf-set">${codeInput('scode','6 jegyű kód az e-mailből')}<label class="l">${akt?'Jelszó':'Új jelszó'} <span class="o">legalább 10 karakter</span><input class="i" type="password" id="spw" autocomplete="new-password" required></label><label class="l">Jelszó még egyszer<input class="i" type="password" id="spw2" autocomplete="new-password" required></label><div class="out" aria-live="polite"></div><button class="btn gold" type="submit">${akt?'Jelszó beállítása és belépés':'Új jelszó mentése és belépés'}</button></form>${back}`); }
@@ -2567,9 +2577,13 @@ function loginHTML(){
 function bindLogin(){
   const L=ADMIN.L, go=st=>{ L.step=st; renderAdmin(); }, ok=r=>{ ADMIN.in=true; ADMIN.csrf=r.csrf; ADMIN.me=r.me; ADMIN.L={step:'who'}; ADMIN.tab='termekek'; route(); };
   const sendCode=async(out)=>{ try{ const r=await api('code-start',{body:{id:L.uid}}); Object.assign(L,{cel:r.cel,devCode:r.devCode}); go('set'); }catch(err){ if(out) out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; else toast(err.message); } };
-  $$('[data-who]').forEach(b=>b.onclick=async()=>{ L.uid=b.dataset.who; const u=L.users.find(x=>x.id===L.uid); if(u.aktiv) go('pw'); else { b.disabled=true; await sendCode(); b.disabled=false; } });
-  $$('[data-lstep]').forEach(b=>b.onclick=()=>{ L.devCode=null; go(b.dataset.lstep); });
+  $$('[data-who]').forEach(b=>b.onclick=async()=>{ L.uid=b.dataset.who; try{ localStorage.setItem('ptg-utolso-belepo',L.uid); }catch(_){} const u=L.users.find(x=>x.id===L.uid); if(u.aktiv) go('pw'); else { b.disabled=true; await sendCode(); b.disabled=false; } });
+  $$('[data-lstep]').forEach(b=>b.onclick=()=>{ L.devCode=null; if(b.dataset.lstep==='who') L.valt=true; go(b.dataset.lstep); });
   $('#forgot')?.addEventListener('click',()=>sendCode($('#lf-pw .out')));
+  const eye=$('#pweye'); if(eye){ const pw=$('#pw'), show=e=>{ e.preventDefault(); pw.type='text'; eye.classList.add('on'); }, hide=()=>{ pw.type='password'; eye.classList.remove('on'); };
+    eye.addEventListener('pointerdown',show); ['pointerup','pointerleave','pointercancel','blur'].forEach(ev=>eye.addEventListener(ev,hide)); eye.addEventListener('contextmenu',e=>e.preventDefault());
+    eye.addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter') show(e); }); eye.addEventListener('keyup',hide); }
+  $('#resend-uzlet')?.addEventListener('click',async e=>{ const b=e.currentTarget; b.disabled=true; try{ const r=await api('login-resend',{body:{hova:'uzlet'}}); L.devCode=r.devCode; toast('Kódot küldtünk az üzlet e-mail címére'); if(r.devCode) renderAdmin(); }catch(err){ toast(err.message); } b.disabled=false; });
   const fp=$('#lf-pw'); if(fp){ setTimeout(()=>$('#pw').focus(),50); fp.onsubmit=async e=>{ e.preventDefault(); const out=$('.out',fp), bt=$('button[type=submit]',fp); bt.disabled=true;
     try{ const r=await api('login',{body:{id:L.uid,jelszo:$('#pw').value}}); if(r.need2fa){ Object.assign(L,{app:r.app,devCode:r.devCode}); return go('code'); } ok(r); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; bt.disabled=false; } }; }
   const fc=$('#lf-code'); if(fc){ const c=$('#code'); setTimeout(()=>c.focus(),50);

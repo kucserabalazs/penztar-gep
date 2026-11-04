@@ -196,10 +196,11 @@ function send_mail(string $to, string $subj, string $text, string $reply = ''): 
   if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return false;
   if ($dev = getenv('PTG_MAIL_LOG')) { file_put_contents($dev, json_encode(['to' => $to, 'subj' => $subj, 'text' => $text], JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND); return true; }  // csak fejlesztői teszthez
   if (!function_exists('mail')) return false;
-  $h = "From: =?UTF-8?B?" . base64_encode('Totál webáruház') . "?= <" . MAIL_FROM . ">\r\n" . (filter_var($reply, FILTER_VALIDATE_EMAIL) ? "Reply-To: $reply\r\n" : '') . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
+  $h = "From: =?UTF-8?B?" . base64_encode('Totál webáruház') . "?= <" . MAIL_FROM . ">\r\n" . (filter_var($reply, FILTER_VALIDATE_EMAIL) ? "Reply-To: $reply\r\n" : '') . "Date: " . date('r') . "\r\nMessage-ID: <" . bin2hex(random_bytes(8)) . "." . time() . "@penztar-gep.hu>\r\n" . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
   return @mail($to, '=?UTF-8?B?' . base64_encode($subj) . '?=', $text, $h, '-f' . MAIL_FROM);
 }
-function send_code(array $u, string $cel): void {
+function send_code(array $u, string $cel, string $hova = ''): void {
+  if ($hova === 'uzlet') { $se = (string)((read_json(DATA . '/products.json', [])['settings'] ?? [])['email'] ?? ''); if (!filter_var($se, FILTER_VALIDATE_EMAIL)) out(['error' => 'Nincs beállítva az üzlet e-mail címe.'], 400); $u['email'] = $se; }
   if (empty($u['email'])) out(['error' => 'Ehhez a személyhez még nincs e-mail cím beállítva a tárhelyen (config.local.php), ezért nem tudunk kódot küldeni.'], 400);
   $prev = $_SESSION['code'] ?? null;
   if ($prev && $prev['uid'] === $u['id'] && time() - $prev['sent'] < 45) out(['error' => 'Az előző kódot most küldtük el. Várjon egy percet az újabb kéréssel.'], 429);
@@ -330,7 +331,7 @@ switch ($a) {
   case 'login-resend': // új e-mail kód a 2. lépésben
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
     $p = $_SESSION['pw_ok'] ?? null; if (!$p || time() - $p['t'] > 900) out(['error' => 'Lejárt a belépés, adja meg újra a jelszót.', 'restart' => true], 401);
-    $u = user($p['uid']); send_code($u, 'belepes'); out(['ok' => true]);
+    $u = user($p['uid']); $hova = (string)(body()['hova'] ?? ''); send_code($u, 'belepes', $hova === 'uzlet' ? 'uzlet' : ''); out(['ok' => true, 'hova' => $hova === 'uzlet' ? 'uzlet' : 'sajat']);
 
   case 'login2':    // 2. lépés: e-mailben kapott kód (vagy a telefonos app kódja, vagy tartalékkód)
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
