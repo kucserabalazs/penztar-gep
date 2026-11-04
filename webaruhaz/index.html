@@ -25,7 +25,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#082746">
 <meta name="description" content="Pénztárgép webáruház Pécsen: online pénztárgépek, POS terminálok, kasszafiókok, mérlegek, árazógépek, kellékanyagok. Átvétel és szerviz a Hunyadi J. u. 34-ben.">
-<link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261104">
+<link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261104b">
 <style>
 /* Layout: világos webáruház a főoldal stílusjegyeivel – sötétkék fejléc arany menüvel, krém és fehér felületek, arany kiemelések; a termék a főszereplő */
 :root{
@@ -1463,6 +1463,24 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 @media (max-width:760px){.mm-ic.erm{flex-basis:46px!important;width:46px!important;height:46px!important}}
 @media (prefers-reduced-motion:reduce){.mm-ic.erm img,.mm-ic.erm::after{transition:none}}
 </style>
+<style id="csoport-ermek">
+/* termékcsoportok: ikonok helyett arany érmék, díszes szekciócímek */
+.cbi .cb-erme{display:block;flex:none;width:30px;height:30px;margin:-6px 0 -6px -6px}
+.cbi .cb-erme img{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 2px rgba(80,55,10,.35));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cbi:hover .cb-erme img,.cbi.on .cb-erme img{transform:rotateY(360deg)}
+.cbi{gap:9px!important}
+h2.dcim{display:flex!important;align-items:center;gap:18px;padding-bottom:18px!important;margin:0}
+h2.dcim::after{content:""!important;left:76px!important;right:auto;bottom:0!important;width:260px!important;max-width:calc(100% - 80px);height:16px!important;border-radius:0!important;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='16' viewBox='0 0 260 16'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='120' y2='0'%3E%3Cstop offset='0' stop-color='%23c99a3c'/%3E%3Cstop offset='1' stop-color='%23c99a3c' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23b8862e'%3E%3Cpath d='M2 8L8 2.5L14 8L8 13.5Z'/%3E%3Ccircle cx='20' cy='8' r='1.7'/%3E%3C/g%3E%3Cpath d='M8 4.6L11.4 8L8 11.4L4.6 8Z' fill='%239b1c22'/%3E%3Cpath d='M26 8H250' stroke='url%28%23a%29' stroke-width='1.3'/%3E%3Cpath d='M26 11H170' stroke='url%28%23a%29' stroke-width='.6'/%3E%3C/svg%3E") left center/contain no-repeat!important}
+h2.dcim .dc-erme{position:relative;display:block;flex:none;width:58px;height:58px}
+h2.dcim .dc-erme img{display:block;width:100%;height:100%;filter:drop-shadow(0 5px 6px rgba(80,55,10,.4)) drop-shadow(0 1px 1px rgba(80,55,10,.3))}
+h2.dcim .dc-erme::after{content:"";position:absolute;inset:3px;border-radius:50%;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.7) 50%,transparent 62%) no-repeat;background-size:260% 100%;background-position:140% 0;mix-blend-mode:screen;animation:dcFeny 6s ease-in-out infinite}
+@keyframes dcFeny{0%,70%{background-position:140% 0}100%{background-position:-40% 0}}
+h2.dcim .dc-tx{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px}
+h2.dcim .dc-nev{font:800 clamp(1.55rem,2.6vw,2.05rem)/1.12 "Playfair Display",Georgia,"Times New Roman",serif;color:#0b2a49;letter-spacing:.005em;text-shadow:0 1px 0 #fff}
+h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c7225;padding:5px 12px;border:1px solid rgba(184,134,46,.5);border-radius:999px;background:#fffaf0;white-space:nowrap}
+@media (max-width:640px){h2.dcim{gap:12px}h2.dcim .dc-erme{width:48px;height:48px}h2.dcim::after{left:60px!important}.cbi .cb-erme{width:28px;height:28px}}
+@media (prefers-reduced-motion:reduce){h2.dcim .dc-erme::after{animation:none}.cbi .cb-erme img{transition:none}}
+</style>
 </head>
 <body>
 
@@ -1861,12 +1879,14 @@ function catSection(c, selId, first){
   const items=catItems(c.id); if(!items.length) return '';
   const sel=pickSel(items,selId);
   return `<section class="catsec" id="sec-${esc(c.id)}" data-cat="${esc(c.id)}" aria-label="${esc(c.nev)}">
-    <div class="trow"><h2>${icon(c.ikon)}${esc(c.listaCim||c.nev)} <small class="num">(${items.length} termék)</small></h2>${first?`<label class="sort">Rendezés: <select class="i" id="csort">${SORTS.map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label><label class="sort">Állapot: <select class="i" id="ccond">${[['all','Új és használt'],['uj','Csak új'],['hasznalt','Csak használt']].map(([k,v])=>`<option value="${k}" ${F.cond===k?'selected':''}>${v}</option>`).join('')}</select></label>`:''}</div>
+    <div class="trow"><h2 class="dcim">${CAT_ERME[c.id]?catErme(c.id,'dc-erme'):icon(c.ikon)}<span class="dc-tx"><span class="dc-nev">${esc(c.listaCim||c.nev)}</span><small class="num">${items.length} termék</small></span></h2>${first?`<label class="sort">Rendezés: <select class="i" id="csort">${SORTS.map(([k,v])=>`<option value="${k}" ${F.sort===k?'selected':''}>${v}</option>`).join('')}</select></label><label class="sort">Állapot: <select class="i" id="ccond">${[['all','Új és használt'],['uj','Csak új'],['hasznalt','Csak használt']].map(([k,v])=>`<option value="${k}" ${F.cond===k?'selected':''}>${v}</option>`).join('')}</select></label>`:''}</div>
     ${catIntro(c,items)}
     <div class="carwrap"><button class="cararrow l" type="button" aria-label="Előző termékek">${icon('left','ic','width:16px;height:16px')}</button><div class="pcards">${items.map((p,i)=>pcardHTML(p,p===sel,i)).join('')}</div><button class="cararrow r" type="button" aria-label="Következő termékek">${icon('chev','ic','width:16px;height:16px')}</button><div class="carnav"></div></div>
     <div class="detail" id="detail-${esc(c.id)}" aria-label="Kiválasztott termék: ${esc(c.nev)}">${detailHTML(sel)}</div>
   </section>`;
 }
+const CAT_ERME={penztargep:'penztargep',pos:'szamitastechnika',fiok:'kassza',merleg:'merleg',arazo:'arazogep',irodatechnika:'irodatechnika',kellek:'kellekanyagok',hasznalt:'hasznalt'};
+const catErme=(id,cls='kerm')=>CAT_ERME[id]?`<span class="${cls}" aria-hidden="true"><img src="../assets/kategoria-ermek/${CAT_ERME[id]}-320.webp" alt="" width="64" height="64" decoding="async"></span>`:'';
 const OSZTAS='<div class="osztas" aria-hidden="true"><span></span></div>';
 const KAT_SEGITSEG={penztargep:[['/penztargep-valasztas/','Segítség a választáshoz'],['/tudnivalok/','E-pénztárgép tudnivalók']],hasznalt:[['/penztargep-valasztas/','Segítség a választáshoz']],pos:[['#kapcsolat','Kérjen tanácsot']],merleg:[['#kapcsolat','Hitelesítésről érdeklődöm']],irodatechnika:[['/szerviz/','Szerviz és telepítés']]};
 function catIntro(c,items){
@@ -1888,7 +1908,7 @@ function pageCategory(catId, selId){
   const cats=DB.categories.filter(x=>catItems(x.id).length&&(F.cond==='all'||(F.cond==='hasznalt')===(x.id==='hasznalt')));
   return `<section class="banner"><div class="wrap"><div class="bt"><div><h1>${esc(b.cim1)} <em>${esc(b.cim2)}</em></h1><p>${esc(b.szoveg)}</p></div></div>${bimg}
     ${PARADE}<ul><li>${SVG('shield')}Hivatalos forgalmazó</li><li>${SVG('tools')}Szerviz és támogatás</li><li>${GEAR}Üzembe helyezés</li></ul></div></section>
-  <nav class="catbar" id="catbar" aria-label="Termékcsoportok"><div class="wrap"><div class="cb-in">${cats.map(x=>`<a class="cbi" href="#kat-${esc(x.id)}" data-cbi="${esc(x.id)}">${icon(x.ikon)}<span>${esc(x.nev)}</span><small class="num">${catItems(x.id).length}</small></a>`).join('')}</div></div></nav>
+  <nav class="catbar" id="catbar" aria-label="Termékcsoportok"><div class="wrap"><div class="cb-in">${cats.map(x=>`<a class="cbi" href="#kat-${esc(x.id)}" data-cbi="${esc(x.id)}">${CAT_ERME[x.id]?catErme(x.id,'cb-erme'):icon(x.ikon)}<span>${esc(x.nev)}</span><small class="num">${catItems(x.id).length}</small></a>`).join('')}</div></div></nav>
   <div class="wrap">
     <nav class="crumbs2" aria-label="Útvonal"><a href="../">Kezdőlap</a><span class="sep">›</span><a href="#termekek">Termékkínálat</a><span class="sep">›</span><span id="crumbcat">${esc(c?.nev||'')}</span></nav>
     ${cats.map((x,i)=>catSection(x, x.id===catId?selId:null, i===0)).filter(Boolean).join(OSZTAS)}
