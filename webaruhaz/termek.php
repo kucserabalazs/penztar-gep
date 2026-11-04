@@ -248,7 +248,7 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
 <?php if (!empty($P['specs'])): ?><section><h2>Műszaki adatok</h2><table><?php foreach ($P['specs'] as $s): ?><tr><th scope="row"><?= h($s[0]) ?></th><td><?= h($s[1]) ?></td></tr><?php endforeach; ?></table></section><?php endif; ?>
 <section><h2>Vásárlás, átvétel és szerviz Pécsen</h2><p class="lead">A terméket üzletünkben, Pécsen, a Hunyadi János utca 34. alatt veheti át (hétfőtől péntekig 9:00–15:00). Fizethet készpénzzel átvételkor vagy előre banki átutalással. <?= $P['kategoria'] === 'penztargep' ? 'Pénztárgépek esetén az üzembe helyezést, a NAV-bejelentést, a kezelés betanítását és az éves felülvizsgálatot is mi végezzük.' : 'A beállításban és a használatba vételben is segítünk.' ?></p></section>
 <?php $rel = array_values(array_filter($PRODS, fn($x) => $x['kategoria'] === $P['kategoria'] && $x['id'] !== $P['id'])); if ($rel): ?>
-<section><h2>További <?= h(mb_strtolower($c['nev'])) ?></h2><div class="racs"><?php foreach (array_slice($rel, 0, 8) as $x) echo card($x); ?></div><p><a href="<?= h(klink($c['id'])) ?>">Az összes <?= h(mb_strtolower($c['nev'])) ?> ›</a></p></section>
+<section><h2>Hasonló termékek</h2><div class="racs"><?php foreach (array_slice($rel, 0, 8) as $x) echo card($x); ?></div><p><a href="<?= h(klink($c['id'])) ?>">A csoport összes terméke ›</a></p></section>
 <?php endif; ?>
 
 <?php elseif ($id !== ''): ?>
@@ -272,6 +272,9 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
 <div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br><a href="#uzenet" data-kapcsolat role="button">E-mail küldése</a><br>Nyitvatartás: hétfő–péntek 9:00–15:00</div>
 <div><b>Kínálat</b><br><?php foreach ($CATS as $k => $c) { if (!array_filter($PRODS, fn($p) => $p['kategoria'] === $k)) continue; echo '<a href="' . h(klink($k)) . '">' . h($c['nev']) . '</a><br>'; } ?></div>
 </div></footer>
+<script>window.ZEPHYR_I18N_BASE="/nyelv/";</script>
+<script src="/assets/nyelv.js?v=20261104"></script>
 <script src="/assets/kapcsolat.js?v=20261104" defer></script>
+<script>if (window.ZI18N) ZI18N.mountPicker(document.querySelector("header nav"));</script>
 </body>
 </html>

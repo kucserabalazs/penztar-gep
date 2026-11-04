@@ -34,6 +34,6 @@ ptg_fej('Pénztárgép szerviz Pécs – javítás, felülvizsgálat, üzembe he
 <h2>Elérhetőség</h2>
 <div class="kartyak">
   <div><h3>Üzlet és szerviz</h3><p>7625 Pécs, Hunyadi János utca 34.</p><p>Hétfőtől péntekig 9:00–15:00</p><p><a href="https://www.google.com/maps/dir/?api=1&amp;destination=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener">Útvonaltervezés</a></p></div>
-  <div><h3>Telefon és e-mail</h3><p><a href="tel:+3672215652">72/215-652</a></p><p><a href="mailto:info@penztar-gep.hu">info@penztar-gep.hu</a></p></div>
+  <div><h3>Telefon és e-mail</h3><p><a href="tel:+3672215652">72/215-652</a></p><p><a href="#uzenet" data-kapcsolat role="button">E-mail küldése</a></p></div>
 </div>
 <?php ptg_lab();

@@ -1,6 +1,10 @@
-# Feltöltött képek mappájában semmilyen szkript nem futhat
-php_flag engine off
-RemoveHandler .php .phtml .php5 .php7 .phar
-<FilesMatch "\.(php|phtml|phar|php\d)$">
+# Feltöltött képek mappája: itt semmilyen szkript nem futhat.
+# (A „php_flag” utasítást ez a tárhely nem engedi – 500-as hibát okozott minden feltöltött képre –,
+#  ezért a PHP-fájlokat egyszerűen kiszolgálás nélkül elutasítjuk.)
+<IfModule mod_mime.c>
+  RemoveHandler .php .phtml .php5 .php7 .phar
+  RemoveType .php .phtml .php5 .php7 .phar
+</IfModule>
+<FilesMatch "\.(php|phtml|phar|php\d|pl|py|cgi|sh|htaccess)$">
   Require all denied
 </FilesMatch>

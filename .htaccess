@@ -80,4 +80,7 @@ AddType application/manifest+json .webmanifest
   <FilesMatch "\.(md|py|lock|bak)$">
     Require all denied
   </FilesMatch>
+  <FilesMatch "^(forras-index\.html|OLVASS-EL\.txt|config\.local(\.minta)?\.php)$">
+    Require all denied
+  </FilesMatch>
 </IfModule>
