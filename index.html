@@ -1067,6 +1067,25 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 @media (max-width:760px){.mm-ic.erm{flex-basis:46px!important;width:46px!important;height:46px!important}}
 @media (prefers-reduced-motion:reduce){.mm-ic.erm img,.mm-ic.erm::after{transition:none}}
 </style>
+<style id="erme-porges">
+/* ===== érmék: kidolgozott fém hatás, érintésre / rámutatásra pörgés ===== */
+.cb-erme,.dc-erme,.mm-ic.erm{perspective:420px;-webkit-tap-highlight-color:transparent}
+.erm-forg{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;border-radius:50%}
+.erm-forg img{position:relative;display:block;width:100%;height:100%;transform:translateZ(2.4px);backface-visibility:visible}
+/* érme pereme (vastagság) – oldalnézetben látszik */
+.erm-forg::before{content:"";position:absolute;inset:1.5%;border-radius:50%;transform:translateZ(-2.4px);background:repeating-conic-gradient(from 0deg,#8a5e17 0 2deg,#e9c46e 2deg 4deg),radial-gradient(circle,#b8862e,#6e4a10);box-shadow:0 0 0 1px #6e4a10}
+/* fényes csillanás a felületen */
+.erm-forg::after{content:"";position:absolute;inset:4%;border-radius:50%;transform:translateZ(2px);pointer-events:none;background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.55),rgba(255,255,255,0) 32%),linear-gradient(115deg,transparent 36%,rgba(255,255,255,.75) 50%,transparent 64%) no-repeat;background-size:100% 100%,260% 100%;background-position:0 0,140% 0;mix-blend-mode:screen}
+.cb-erme img,.dc-erme img,.mm-ic.erm img{filter:drop-shadow(0 3px 3px rgba(70,45,8,.35)) drop-shadow(0 1px 0 rgba(255,240,200,.6)) saturate(1.08) contrast(1.04)!important;transition:none!important;transform:translateZ(2.4px)!important}
+.erm-forg.porog{animation:ermePorog 1.25s cubic-bezier(.2,.75,.25,1)}
+.erm-forg.porog::after{animation:ermeFeny 1.25s ease-out}
+@keyframes ermePorog{0%{transform:rotateY(0) scale(1)}35%{transform:rotateY(400deg) scale(1.12)}100%{transform:rotateY(720deg) scale(1)}}
+@keyframes ermeFeny{0%{background-position:0 0,140% 0}100%{background-position:0 0,-40% 0}}
+/* korábbi egyszerű fordulások kikapcsolva, a pörgés veszi át */
+.cbi:hover .cb-erme img,.cbi.on .cb-erme img,a.mm-it:hover .mm-ic.erm img,a.mm-it:focus-visible .mm-ic.erm img{transform:translateZ(2.4px)!important}
+.mm-ic.erm::after,.dc-erme::after{content:none!important}
+@media (prefers-reduced-motion:reduce){.erm-forg.porog,.erm-forg.porog::after{animation:none}}
+</style>
 </head>
 <body>
 
@@ -1425,5 +1444,16 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){close();b.f
 m.addEventListener('click',function(e){if(e.target.closest('a'))close();});
 var t=null;d.addEventListener('mouseenter',function(){if(!mob()){clearTimeout(t);if(m.hidden){hov=Date.now();open();}}});d.addEventListener('mouseleave',function(){if(!mob()){t=setTimeout(close,180);}});
 })();</script>
+<script id="erme-porges-js">
+(function(){
+  var SEL='.cb-erme,.dc-erme,.mm-ic.erm';
+  function wrap(root){ (root||document).querySelectorAll(SEL).forEach(function(s){ if(s.querySelector('.erm-forg')) return; var img=s.querySelector('img'); if(!img) return; var w=document.createElement('span'); w.className='erm-forg'; img.parentNode.insertBefore(w,img); w.appendChild(img); }); }
+  function spin(el){ var f=el&&el.querySelector('.erm-forg'); if(!f||f.classList.contains('porog')) return; f.classList.add('porog'); f.addEventListener('animationend',function h(e){ if(e.target!==f) return; f.classList.remove('porog'); f.removeEventListener('animationend',h); }); }
+  function host(t){ if(!t||!t.closest) return null; var c=t.closest(SEL); if(c) return c; var a=t.closest('.cbi,a.mm-it,h2.dcim'); return a&&a.querySelector(SEL); }
+  document.addEventListener('pointerover',function(e){ if(e.pointerType==='mouse'){ var h=host(e.target), from=e.relatedTarget&&host(e.relatedTarget); if(h&&h!==from) spin(h); } },true);
+  document.addEventListener('pointerdown',function(e){ var h=host(e.target); if(h) spin(h); },true);
+  wrap(); if(window.MutationObserver) new MutationObserver(function(){ wrap(); }).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
