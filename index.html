@@ -672,6 +672,8 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
   .cream .dz.dzs-jelenet{left:var(--dzs-bal,72%);right:auto;top:0;bottom:0;width:calc(100% - var(--dzs-bal,72%));height:100%;min-width:180px;object-fit:cover;object-position:50% 100%;opacity:.9;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
   /* GYIK: a teljes Széchenyi tér; a lovasszobor ugyanott, balra a rajz a „kérdeznek” mögött folytatódik háttérként */
+  /* a fölötte lévő díszcsík (érme) és a jelenet teteje között 12 px tiszta hely maradjon */
+  #gyik{padding-top:calc(120px + clamp(200px,24vw,320px)*.2128)!important}
   #gyik .shead{min-height:calc(clamp(200px,24vw,320px) - 92px)}
   #gyik .shead>div:first-child{position:relative;z-index:1}
   .szdisz.lovas.sz-angyal{position:absolute;right:-10px;bottom:-22px;margin:0;height:calc(clamp(200px,24vw,320px)*1.2128);width:auto;max-width:none;z-index:0;
