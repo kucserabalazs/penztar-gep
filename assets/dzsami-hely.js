@@ -43,7 +43,7 @@
     var hc = mobil ? .54 * H * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
     var szekKep = (W - wc) * (mobil ? .98 : .97);              /* a székesegyház képének bal széle */
     var gw = 0;                                                 /* az írások együttesének szélessége (a legszélesebb sor) */
-    for (var i = 0; i < b.children.length; i++) gw = Math.max(gw, b.children[i].getBoundingClientRect().width);
+    for (var i = 0; i < b.children.length; i++) if (!b.children[i].classList.contains("tj-svg")) gw = Math.max(gw, b.children[i].getBoundingClientRect().width);
     var szovegBal0 = (W - gw) / 2;                              /* az eredeti, középre igazított helyzet bal széle */
     var tvBal = Math.min(szekKep, szovegBal0) / 2 - wt / 2;     /* a toronykép bal széle (a rajz a kép közepén van) */
     var tvJobb = tvBal + wt * .74138;                           /* a torony látható jobb széle */
