@@ -3058,10 +3058,10 @@ async function route(){
   else if(h.startsWith('fizetes-teszt-')) html=pagePayTest(h.slice(14));
   else if(h.startsWith('fizetes-')){ html=pagePayResult(h.slice(8)); after=()=>bindPayResult(h.slice(8)); }
   else if(h==='adatkezeles') html=pageAdatkezeles();
-  else if(h==='admin'){ html=await pageAdmin(); after=bindAdmin; }
+  else if(h==='admin'||h.startsWith('admin-')){ if(h.startsWith('admin-')){ ADMIN.tab=h.slice(6); history.replaceState(null,'','#admin'); } html=await pageAdmin(); after=bindAdmin; }
   else { app.dataset.view='all'; html=pageCategory(''); after=()=>bindCategory(''); }
   if(!shop && h!=='kosar') app.dataset.view='';
-  app.toggleAttribute('data-noi18n', h==='admin');   /* az admin magyar marad */
+  app.toggleAttribute('data-noi18n', h==='admin'||h.startsWith('admin-'));   /* az admin magyar marad */
   app.innerHTML=html; afterRender(); after();
   $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(nav))));
   closeMenus(); if(!document.fullscreenElement && !(shop && h.startsWith('kat-'))) scrollTo(0,0); renderCmpBar();
