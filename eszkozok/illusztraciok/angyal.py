@@ -21,28 +21,48 @@ Futtatás a repó gyökeréből:  python3 eszkozok/illusztraciok/angyal.py
 import os, re
 
 GYOKER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
-FORRAS = os.path.join(GYOKER, "assets/illusztraciok/web/dzsami-szepia.svg")
-CEL = os.path.join(GYOKER, "assets/illusztraciok/web/dzsami-szepia-angyal.svg")
-FENT = 400          # ennyi hely került a rajz fölé
-OLDAL = 1700        # ennyi hely került a rajz mindkét oldalára
+WEB = os.path.join(GYOKER, "assets/illusztraciok/web")
 C = "26s"           # ciklusidő
 ARANY = "#c9973f"
+SZAM = r"(-?\d+(?:\.\d+)?)[ ,](-?\d+(?:\.\d+)?)"
 
-s = open(FORRAS, encoding="utf-8").read()
+def kupola_pontok(svg):
+    k = svg[svg.find('<g id="kupola"'):]
+    return [tuple(map(float, m)) for m in re.findall(SZAM, re.search(r'<path d="([^"]*)"', k).group(1))]
 
-# ---- 1) nagyobb vászon ----
-x0, y0, w0, h0 = 207.667, -68.3333, 1032, 1125
-s = s.replace(f'viewBox="207.667 -68.3333 1032 1125"',
-              f'viewBox="{x0 - OLDAL:.3f} {y0 - FENT:.4f} {w0 + 2 * OLDAL} {h0 + FENT}" preserveAspectRatio="xMidYMax meet"', 1)
-s = s.replace('aria-label="Gázi Kászim pasa dzsámija – mozgó"',
-              'aria-label="Gázi Kászim pasa dzsámija – a kupolából angyal száll ki, felhőn ülve fütyülve tovaúszik"', 1)
+def doboz(p):
+    xs = [a for a, _ in p]; ys = [b for _, b in p]
+    return min(xs), min(ys), max(xs) - min(xs)
 
-# ---- 2) kupola: zsanér a jobb alsó peremen + tömör héj (csak nyitva látszik) ----
-s = s.replace('<g id="kupola" class="resz" style="transform-origin:50.2% 89.4%">',
-              '<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">', 1)
-_kup = s[s.find('<g id="kupola"'):]
-_pts = [tuple(map(float, m)) for m in re.findall(r"(-?\d+(?:\.\d+)?)[ ,](-?\d+(?:\.\d+)?)", re.search(r'<path d="([^"]*)"', _kup).group(1))]
-def _burok(p):
+# a jelenet minden mérete az önálló dzsámi-rajz kupolájához van szabva; más rajzon ehhez arányítunk
+REF = doboz(kupola_pontok(open(os.path.join(WEB, "dzsami-szepia.svg"), encoding="utf-8").read()))
+
+def jelenet(forras, cel, fent, oldal=0, hatter="#fffdf8", felho_emel=0, szobor_mogott=False, cimke=""):
+    """forras: az eredeti (mozgó) rajz; fent/oldal: plusz hely a rajz fölött / két oldalán (a rajz saját egységeiben);
+    felho_emel: a felhő útja a dzsámi fölött ennyivel magasabban halad (a jelenet egységeiben, negatív = feljebb);
+    szobor_mogott: a felhő a lovasszobor mögött úszik (Széchenyi tér)."""
+    s = open(os.path.join(WEB, forras), encoding="utf-8").read()
+
+    # ---- 1) nagyobb vászon ----
+    vb = re.search(r'viewBox="([^"]*)"', s)
+    x0, y0, w0, h0 = map(float, vb.group(1).split())
+    s = s.replace(vb.group(0), f'viewBox="{x0 - oldal:.3f} {y0 - fent:.4f} {w0 + 2 * oldal:.3f} {h0 + fent:.4f}" preserveAspectRatio="xMidYMax meet"', 1)
+    s = re.sub(r'aria-label="([^"]*?)( – mozgó)?"', lambda m: f'aria-label="{m.group(1)} – {cimke}"', s, count=1)
+    VB = (x0 - oldal, y0 - fent, w0 + 2 * oldal, h0 + fent)
+
+    # a jelenet (önálló dzsámi egységei) → ennek a rajznak az egységei
+    bx, by, bw = doboz(kupola_pontok(s))
+    k = bw / REF[2]; dx = bx - REF[0] * k; dy = by - REF[1] * k
+    TR = f'translate({dx:.2f} {dy:.2f}) scale({k:.4f})'
+
+    # ---- 2) kupola: zsanér a jobb alsó peremen + tömör héj (csak nyitva látszik) ----
+    s = re.sub(r'<g id="kupola" class="resz" style="transform-origin:[^"]*">', '<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">', s, count=1)
+    HEJ = '<path class="kup-hej" d="M' + " L".join(f"{x:.1f} {y:.1f}" for x, y in burok(kupola_pontok(s))) + ' Z"/>'
+    s = s.replace('<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">',
+                  '<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">' + HEJ, 1)
+    return s, TR, VB, hatter, felho_emel, szobor_mogott, cel
+
+def burok(p):
     p = sorted(set(p))
     cr = lambda o, a, b: (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0])
     lo, hi = [], []
@@ -53,13 +73,10 @@ def _burok(p):
         while len(hi) >= 2 and cr(hi[-2], hi[-1], q) <= 0: hi.pop()
         hi.append(q)
     return lo[:-1] + hi[:-1]
-HEJ = '<path class="kup-hej" d="M' + " L".join(f"{x:.1f} {y:.1f}" for x, y in _burok(_pts)) + ' Z"/>'
-s = s.replace('<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">',
-              '<g id="kupola" class="resz" style="transform-origin:98.7% 97.5%">' + HEJ, 1)
 
 # ---- 3) stílus és forgatókönyv ----
-ST = """<style>svg{color:#2b3c53;--ill-hatter:#fffdf8}.resz{transform-box:fill-box}
-.takaro{fill:var(--ill-hatter,#fff)}.perem{opacity:0}
+ST = """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
+.perem{opacity:0}
 #repulo,#ulo,#feny,#sugarak,.kup-hej,#felho{opacity:0}
 .kup-hej{fill:var(--ill-hatter,#fff)}
 #repulo,#felho{transform-box:view-box;transform-origin:0 0}
@@ -73,67 +90,62 @@ ST = """<style>svg{color:#2b3c53;--ill-hatter:#fffdf8}.resz{transform-box:fill-b
 .kota{fill:ARANY;stroke:ARANY;stroke-width:2.4;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:50% 100%}
 .f-kulso{fill:var(--ill-hatter,#fff);stroke:currentColor;stroke-width:7}
 .f-belso{fill:var(--ill-hatter,#fff)}
-.szikra{opacity:0;transform-box:fill-box;transform-origin:50% 50%}
 @media (prefers-reduced-motion:no-preference){
-#felho{animation:felho C linear infinite}
-#felho .lebeg{animation:lebeg 2.6s ease-in-out infinite alternate}
-#kupola{animation:fedel C cubic-bezier(.45,.05,.25,1) infinite}
-#kupola .perem{animation:perem C linear infinite}
-#kupola .kup-hej{animation:hej C linear infinite}
-#jelkep{animation:jel C ease-in-out infinite}
-#feny{animation:feny C ease-in-out infinite}
-#sugarak{animation:sugar C ease-in-out infinite}
-#repulo{animation:repul C linear infinite}
-#repulo .test{animation:bob .9s ease-in-out infinite alternate}
-#szb{animation:csapb .5s ease-in-out infinite alternate}
-#szj{animation:csapj .5s ease-in-out infinite alternate}
-#ulo{animation:ul C linear infinite}
-#lab{animation:lograz 1.3s ease-in-out infinite alternate}
-#ulo-szarny{animation:szarnyring 3.2s ease-in-out infinite alternate}
-#fej{animation:dallam 1.3s ease-in-out infinite alternate}
-.kota{animation:kota 2.6s ease-out infinite}
-.szikra{animation:szikra 6s ease-in-out infinite}
+#felho{animation:aj-felho C linear infinite}
+#felho .lebeg{animation:aj-lebeg 2.6s ease-in-out infinite alternate}
+#kupola{animation:aj-fedel C cubic-bezier(.45,.05,.25,1) infinite}
+#kupola .perem{animation:aj-perem C linear infinite}
+#kupola .kup-hej{animation:aj-hej C linear infinite}
+#jelkep,#felhold{animation:aj-jel C ease-in-out infinite}
+#feny{animation:aj-feny C ease-in-out infinite}
+#sugarak{animation:aj-sugar C ease-in-out infinite}
+#repulo{animation:aj-repul C linear infinite}
+#repulo .test{animation:aj-bob .9s ease-in-out infinite alternate}
+#szb{animation:aj-csapb .5s ease-in-out infinite alternate}
+#szj{animation:aj-csapj .5s ease-in-out infinite alternate}
+#ulo{animation:aj-ul C linear infinite}
+#lab{animation:aj-lograz 1.3s ease-in-out infinite alternate}
+#ulo-szarny{animation:aj-szarnyring 3.2s ease-in-out infinite alternate}
+#fej{animation:aj-dallam 1.3s ease-in-out infinite alternate}
+.kota{animation:aj-kota 2.6s ease-out infinite}
 }
 /* felhő: balról lassan közeledik, lelassul, picit a dzsámitól balra megáll, majd az angyallal a dzsámi fölött tovaúszik jobbra, ki a jelenetből */
-@keyframes felho{0%{opacity:1;transform:translate(-2600px,-62px)}
+@keyframes aj-felho{0%{opacity:1;transform:translate(-2600px,-62px)}
  10%{transform:translate(-1500px,-70px)}20%{transform:translate(-560px,-76px)}26%{transform:translate(60px,-74px)}
  29%{transform:translate(215px,-70px)}31%{transform:translate(250px,-68px)}
  42%{transform:translate(250px,-68px);animation-timing-function:ease-in}
- 50%{transform:translate(520px,-92px)}60%{transform:translate(1000px,-104px)}70%{transform:translate(1500px,-100px)}
- 80%{transform:translate(2050px,-90px)}92%{opacity:1;transform:translate(2750px,-80px)}
- 92.1%,100%{opacity:0;transform:translate(2750px,-80px)}}
-@keyframes lebeg{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
+ 50%{transform:translate(520px,Y1px)}60%{transform:translate(1000px,Y2px)}70%{transform:translate(1500px,Y3px)}
+ 80%{transform:translate(2050px,Y4px)}92%{opacity:1;transform:translate(2750px,Y5px)}
+ 92.1%,100%{opacity:0;transform:translate(2750px,Y5px)}}
+@keyframes aj-lebeg{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
 /* kupola: rándulás, majd teljesen kinyílik jobbra (rugózik), nyitva vár, az angyal után visszacsukódik */
-@keyframes fedel{0%,17%{transform:rotate(0)}18%{transform:rotate(1.5deg)}19%{transform:rotate(-.7deg)}20%{transform:rotate(0)}
+@keyframes aj-fedel{0%,17%{transform:rotate(0)}18%{transform:rotate(1.5deg)}19%{transform:rotate(-.7deg)}20%{transform:rotate(0)}
  26%{transform:translate(4px,-6px) rotate(110deg)}27.5%{transform:translate(4px,-6px) rotate(101deg)}29%{transform:translate(4px,-6px) rotate(106deg)}30%,40%{transform:translate(4px,-6px) rotate(105deg)}
  45.5%{transform:rotate(-1.2deg)}46.6%{transform:translate(0,-10px) rotate(2.8deg)}47.8%{transform:rotate(0)}48.6%{transform:translate(0,-3px) rotate(.6deg)}49.4%,100%{transform:rotate(0)}}
-@keyframes perem{0%,20.5%{opacity:0}22%,44%{opacity:1}45%,100%{opacity:0}}
-@keyframes hej{0%,20.4%{opacity:0}21%,45%{opacity:1}45.6%,100%{opacity:0}}
-@keyframes jel{0%,45.5%,100%{transform:rotate(0)}47%{transform:rotate(-9deg)}49%{transform:rotate(6deg)}51%{transform:rotate(-3deg)}53%{transform:rotate(1deg)}55%{transform:rotate(0)}}
-@keyframes feny{0%,21%{opacity:0;transform:scale(.6,.2)}26%{opacity:.95;transform:scale(1,1)}36%{opacity:.85;transform:scale(1.05,1.1)}42%{opacity:.55;transform:scale(1,1)}45.5%,100%{opacity:0;transform:scale(.7,.25)}}
-@keyframes sugar{0%,22%{opacity:0;transform:scaleY(.1)}28%{opacity:.85;transform:scaleY(1)}37%{opacity:.6;transform:scaleY(1.06)}43%{opacity:.3;transform:scaleY(.95)}45.5%,100%{opacity:0;transform:scaleY(.2)}}
+@keyframes aj-perem{0%,20.5%{opacity:0}22%,44%{opacity:1}45%,100%{opacity:0}}
+@keyframes aj-hej{0%,20.4%{opacity:0}21%,45%{opacity:1}45.6%,100%{opacity:0}}
+@keyframes aj-jel{0%,45.5%,100%{transform:rotate(0)}47%{transform:rotate(-9deg)}49%{transform:rotate(6deg)}51%{transform:rotate(-3deg)}53%{transform:rotate(1deg)}55%{transform:rotate(0)}}
+@keyframes aj-feny{0%,21%{opacity:0;transform:scale(.6,.2)}26%{opacity:.95;transform:scale(1,1)}36%{opacity:.85;transform:scale(1.05,1.1)}42%{opacity:.55;transform:scale(1,1)}45.5%,100%{opacity:0;transform:scale(.7,.25)}}
+@keyframes aj-sugar{0%,22%{opacity:0;transform:scaleY(.1)}28%{opacity:.85;transform:scaleY(1)}37%{opacity:.6;transform:scaleY(1.06)}43%{opacity:.3;transform:scaleY(.95)}45.5%,100%{opacity:0;transform:scaleY(.2)}}
 /* repülő angyal: kiemelkedik a tetőn, ívben átrepül a felhőre */
-@keyframes repul{0%,30%{opacity:0;transform:translate(718px,430px) scale(.6) rotate(0)}
+@keyframes aj-repul{0%,30%{opacity:0;transform:translate(718px,430px) scale(.6) rotate(0)}
  30.6%{opacity:1;transform:translate(718px,410px) scale(.62) rotate(0)}
  33%{opacity:1;transform:translate(716px,200px) scale(.8) rotate(-3deg)}
  35%{opacity:1;transform:translate(660px,40px) scale(.84) rotate(-10deg)}
  37%{opacity:1;transform:translate(470px,-110px) scale(.84) rotate(-16deg)}
  38.6%{opacity:1;transform:translate(248px,-210px) scale(.82) rotate(-6deg)}
  39.4%,100%{opacity:0;transform:translate(242px,-214px) scale(.8) rotate(0)}}
-@keyframes bob{from{transform:translateY(-3px)}to{transform:translateY(4px)}}
-@keyframes csapb{from{transform:rotate(14deg)}to{transform:rotate(-22deg)}}
-@keyframes csapj{from{transform:rotate(-14deg)}to{transform:rotate(22deg)}}
+@keyframes aj-bob{from{transform:translateY(-3px)}to{transform:translateY(4px)}}
+@keyframes aj-csapb{from{transform:rotate(14deg)}to{transform:rotate(-22deg)}}
+@keyframes aj-csapj{from{transform:rotate(-14deg)}to{transform:rotate(22deg)}}
 /* ülő angyal (a felhőn): leszállás után jelenik meg, a felhővel együtt halad */
-@keyframes ul{0%,38.8%{opacity:0}39.6%,100%{opacity:1}}
-@keyframes lograz{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}
-@keyframes szarnyring{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
-@keyframes dallam{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
-@keyframes kota{0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0)}12%{opacity:1}
+@keyframes aj-ul{0%,38.8%{opacity:0}39.6%,100%{opacity:1}}
+@keyframes aj-lograz{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}
+@keyframes aj-szarnyring{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+@keyframes aj-dallam{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+@keyframes aj-kota{0%{opacity:0;transform:translate(0,0) scale(.4) rotate(0)}12%{opacity:1}
  60%{opacity:.9;transform:translate(34px,-48px) scale(1) rotate(10deg)}100%{opacity:0;transform:translate(62px,-96px) scale(1.15) rotate(-8deg)}}
-@keyframes szikra{0%,80%,100%{opacity:0;transform:scale(.2) rotate(0)}86%{opacity:1;transform:scale(1) rotate(45deg)}92%{opacity:0;transform:scale(.3) rotate(90deg)}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style>"""
-ST = ST.replace("ARANY", ARANY).replace(" C ", f" {C} ")
-s = re.sub(r"<style>.*?</style>", lambda m: ST, s, count=1, flags=re.S)
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}"""
 
 # ---- 4) fény a nyílásban (a kupola mögött) ----
 FENY = """<defs>
@@ -144,7 +156,6 @@ FENY = """<defs>
 <g id="sugarak"><path fill="url(#g-sugar)" d="M700 302 L560 -40 L612 -46 Z M712 302 L660 -90 L700 -92 Z M724 302 L740 -95 L778 -90 Z M736 302 L830 -60 L878 -48 Z M748 302 L930 0 L968 18 Z M690 302 L470 10 L505 -6 Z"/></g>
 <ellipse id="feny" cx="722" cy="300" rx="300" ry="120" fill="url(#g-feny)"/>
 """
-i = s.find('<g id="kupola"'); s = s[:i] + FENY + s[i:]
 
 # ---- 5) repülő angyal (a kupola előtt) ----
 SZARNY = """<path class="a-vonal" d="M-12 -66 C-40 -96 -86 -128 -150 -150 C-178 -158 -196 -152 -186 -136 C-196 -128 -194 -116 -180 -112 C-192 -102 -188 -90 -172 -88 C-182 -76 -176 -64 -158 -64 C-164 -52 -156 -42 -138 -44 C-140 -32 -128 -26 -112 -30 C-110 -18 -96 -14 -82 -22 C-72 -10 -54 -14 -44 -26 C-30 -36 -18 -50 -12 -66 Z"/>
@@ -190,8 +201,33 @@ FELHO = f"""<g id="felho"><g class="lebeg"><g transform="scale(1.3)">
 {ULO}
 </g></g></g>
 """
-i = s.find('<g transform="translate(758 40)')
-s = s[:i] + REPULO + FELHO + s[i:]
 
-open(CEL, "w", encoding="utf-8").write(s)
-print("Kész:", os.path.relpath(CEL, GYOKER), len(s), "bájt")
+def befejez(s, TR, VB, hatter, felho_emel, szobor_mogott, cel):
+    st = ST.replace("ARANY", ARANY).replace(" C ", f" {C} ").replace("HATTER", hatter)
+    for n, y in zip(("Y1", "Y2", "Y3", "Y4", "Y5"), (-92, -104, -100, -90, -80)):
+        st = st.replace(n, str(y + felho_emel))
+    s = s.replace("</style>", st + "</style>", 1)
+    i = s.find('<g id="kupola"'); s = s[:i] + FENY.replace("<g id=\"sugarak\">", f'<g transform="{TR}"><g id="sugarak">', 1).replace('fill="url(#g-feny)"/>\n', 'fill="url(#g-feny)"/></g>\n', 1) + s[i:]
+    vege = s.rfind("</g>", 0, s.rfind("</svg>"))
+    rep = f'<g transform="{TR}">{REPULO}</g>'
+    fel = f'<g transform="{TR}">{FELHO}</g>'
+    if szobor_mogott and '<g id="szobor"' in s:
+        s = s[:vege] + rep + s[vege:]
+        j = s.find('<g id="szobor"'); s = s[:j] + fel + s[j:]
+    else:
+        s = s[:vege] + fel + rep + s[vege:]
+    open(os.path.join(WEB, cel), "w", encoding="utf-8").write(s)
+    print("Kész:", cel, len(s), "bájt", "viewBox:", " ".join(f"{v:.1f}" for v in VB))
+
+def keszit(forras, cel, **kw):
+    befejez(*jelenet(forras, cel, **kw))
+
+if __name__ == "__main__":
+    CIM_D = "a kupolából angyal száll ki, felhőn ülve fütyülve tovaúszik"
+    CIM_SZ = "a dzsámi kupolájából angyal száll ki, felhőn ülve fütyülve tovaúszik"
+    # önálló dzsámi: széles (üres részek kitöltése, object-fit: cover) és keskenyebb (háttérképnek)
+    keszit("dzsami-szepia.svg", "dzsami-szepia-angyal.svg", fent=400, oldal=1700, cimke=CIM_D)
+    keszit("dzsami-szepia.svg", "dzsami-szepia-angyal-kicsi.svg", fent=400, oldal=700, cimke=CIM_D)
+    # Széchenyi tér (dzsámi + lovasszobor): a felhő a szobor mögött, az égen úszik
+    keszit("szechenyi-ter-szepia.svg", "szechenyi-ter-szepia-angyal.svg", fent=170, hatter="#fbf7ee", szobor_mogott=True, felho_emel=-40, cimke=CIM_SZ)
+    keszit("szechenyi-ter-arany.svg", "szechenyi-ter-arany-angyal.svg", fent=170, hatter="#fbf7ee", szobor_mogott=True, felho_emel=-40, cimke=CIM_SZ)

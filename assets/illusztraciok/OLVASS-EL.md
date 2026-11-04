@@ -43,3 +43,13 @@ Ha a látogató a rendszerében a mozgáscsökkentést kérte, az animációk au
 ## Újragenerálás
 A rétegezés és az animációk a `eszkozok/illusztraciok/gen.py` szkripttel készülnek az `eredeti/` képekből
 (új mozgó rész: egy sokszög a kivágáshoz + forgáspont + CSS-kulcskockák).
+
+## Dzsámi angyallal és felhővel (2026-11-04)
+A weboldal minden dzsámis rajza asztali nézetben ezt a jelenetet játssza (26 mp-es ciklus): a kupola a jobb peremén teljesen kinyílik jobbra,
+balról felhő közeledik és a dzsámitól picit balra megáll, a tetőn kirepülő angyal ráül, fütyülni kezd (kótafejek), és a felhővel tovaúsznak, ki a jelenetből; a kupola visszacsukódik.
+- `web/dzsami-szepia-angyal.svg` – széles vászon (az üres részek kitöltésére, `object-fit: cover`, a dzsámi középen)
+- `web/dzsami-szepia-angyal-kicsi.svg` – keskenyebb (háttérképnek, pl. a térkép helyén)
+- `web/szechenyi-ter-szepia-angyal.svg`, `web/szechenyi-ter-arany-angyal.svg` – Széchenyi tér, teljes szélességben; a felhő a lovasszobor mögött úszik
+- Előállítás: `python3 eszkozok/illusztraciok/angyal.py` (a forrás a meglévő mozgó rajz; más rajzra is ráilleszthető a `keszit()` függvénnyel)
+- Elhelyezés: `assets/dzsami-hely.js` méri a tartalom jobb szélét (`data-dzs-tartalom` a tárolón), a CSS ebből teszi a dzsámit az üres rész közepére.
+- Telefonon a régi, álló rajzok maradnak (a `<picture>` csak 761 px felett cseréli).
