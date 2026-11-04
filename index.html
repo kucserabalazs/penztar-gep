@@ -1147,6 +1147,23 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 .faqg summary::after{flex:none!important}
 @media (max-width:640px){.faqg details{padding:2px 14px 2px 62px!important}.faqg summary{font-size:1.08rem!important}}
 </style>
+<style id="hasznalt-elrendezes">
+/* használt gépek: a „Miért érdemes” panel teljes szélességben a lista fölött, a gépek alatta – akárhány gép lesz, nem tolja el egymást */
+.hsz-row,.hsz-row:has(#usedlist>:only-child){display:flex!important;flex-direction:column;gap:26px;grid-template-columns:none!important}
+.hsz-row .hsz-info{order:2;display:grid!important;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:6px 30px;align-items:start}
+.hsz-row .hsz-info h3{grid-column:1;grid-row:1 / span 2;margin:0!important;align-self:center}
+.hsz-row .hsz-info ul,.hsz-row:has(#usedlist>:only-child) .hsz-info ul{grid-column:2;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px 22px!important}
+.hsz-row .hsz-figy{grid-column:1 / -1;margin-top:14px!important}
+.hsz-row .hsz-cta{grid-column:1 / -1;justify-content:flex-start}
+.hsz-row #usedlist,.hsz-row:has(#usedlist>:only-child) #usedlist{width:100%;grid-template-columns:repeat(auto-fill,minmax(240px,280px))!important;justify-content:start}
+@media (max-width:900px){
+  .hsz-row .hsz-info{grid-template-columns:1fr!important;padding:22px 20px!important}
+  .hsz-row .hsz-info h3{grid-row:auto}
+  .hsz-row .hsz-info ul,.hsz-row:has(#usedlist>:only-child) .hsz-info ul{grid-column:1;grid-template-columns:1fr!important}
+  .hsz-row .hsz-cta .hb{flex:1 1 auto;justify-content:center}
+  .hsz-row #usedlist,.hsz-row:has(#usedlist>:only-child) #usedlist{grid-template-columns:none!important}
+}
+</style>
 </head>
 <body>
 
