@@ -157,17 +157,18 @@
       pupB.setAttribute("r", pr); pupJ.setAttribute("r", pr);
       pupB.setAttribute("cx", f1(-5.2 + px)); pupB.setAttribute("cy", f1(-13 + py)); pupJ.setAttribute("cx", f1(5.2 + px)); pupJ.setAttribute("cy", f1(-13 + py));
       csilB.setAttribute("cx", f1(-5.8 + px)); csilB.setAttribute("cy", f1(-13.8 + py)); csilJ.setAttribute("cx", f1(4.6 + px)); csilJ.setAttribute("cy", f1(-13.8 + py));
-      var hejz = k === "ravasz" ? 1.2 : k === "elégedett" ? .4 : k === "erőlködik" ? .6 : k === "rémült" ? -2 : k === "szédült" ? -2 : 0;
+      var hejz = k === "alszik" ? 3.25 : k === "ravasz" ? 1.2 : k === "elégedett" ? .4 : k === "erőlködik" ? .6 : k === "rémült" ? -2 : k === "szédült" ? -2 : 0;
       function hej(cx) { var y = -17.2 + hejz * 2.6; return "M" + (cx - 4) + " -17.5 C" + (cx - 3) + " -19 " + (cx + 3) + " -19 " + (cx + 4) + " -17.5 L" + (cx + 4) + " " + f1(y) + " C" + (cx + 2) + " " + f1(y + 1.2) + " " + (cx - 2) + " " + f1(y + 1.2) + " " + (cx - 4) + " " + f1(y) + " Z"; }
       szemhejB.setAttribute("d", hej(-5.2)); szemhejJ.setAttribute("d", hej(5.2));
       var szed = k === "szédült";
       szedul.setAttribute("opacity", szed ? 1 : 0);
       [pupB, pupJ, csilB, csilJ, szemhejB, szemhejJ].forEach(function (e) { e.setAttribute("opacity", szed ? 0 : 1); });
       szemoldok.setAttribute("d", k === "rémült" ? "M-9 -21 C-7 -23 -3 -23 -2 -21.5 M2 -21.5 C3 -23 7 -23 9 -21" :
-        k === "erőlködik" ? "M-9 -18 L-2 -16.5 M2 -16.5 L9 -18" : k === "szédült" ? "M-9 -20 C-6 -21 -3 -20 -2 -19 M2 -19 C3 -20 6 -21 9 -20" : "M-9 -20 L-2 -17.2 M2 -17.2 L9 -20");
+        k === "erőlködik" ? "M-9 -18 L-2 -16.5 M2 -16.5 L9 -18" : k === "alszik" ? "M-9 -19 C-6 -20.2 -3.5 -20 -2 -19.2 M2 -19.2 C3.5 -20 6 -20.2 9 -19" : k === "szédült" ? "M-9 -20 C-6 -21 -3 -20 -2 -19 M2 -19 C3 -20 6 -21 9 -20" : "M-9 -20 L-2 -17.2 M2 -17.2 L9 -20");
       if (k === "rémült") { szaj.setAttribute("d", "M-3 -3.5 C-3 -6.5 3 -6.5 3 -3.5 C3 -.5 -3 -.5 -3 -3.5 Z"); agyar.setAttribute("d", ""); }
       else if (k === "erőlködik") { szaj.setAttribute("d", "M-5 -4 L5 -4 L4 -2 L-4 -2 Z"); agyar.setAttribute("d", "M-4 -4 L4 -4 L3.5 -3 L-3.5 -3 Z"); }
       else if (k === "szédült") { szaj.setAttribute("d", "M-5 -3 C-3 -5 -1 -1 1 -3 C3 -5 4 -2 5 -3 L5 -2 C3 -1 -3 -1 -5 -2 Z"); agyar.setAttribute("d", ""); }
+      else if (k === "alszik") { var ny = a.szajNyit || 0; szaj.setAttribute("d", "M-2.4 -4 C-1.2 " + f1(-4.6 - ny) + " 1.2 " + f1(-4.6 - ny) + " 2.4 -4 C1.2 " + f1(-3 + ny) + " -1.2 " + f1(-3 + ny) + " -2.4 -4 Z"); agyar.setAttribute("d", ""); }
       else { szaj.setAttribute("d", "M-6 -5 C-3 -1.5 3 -1.5 7 -5.5 C5 -.2 -3 .8 -6 -5 Z"); agyar.setAttribute("d", "M3.6 -3.6 L4.6 -1.2 L5.4 -4.2 Z"); }
       /* íj */
       var ia = a.ij || {};
