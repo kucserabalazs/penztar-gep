@@ -1502,7 +1502,7 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
 </style>
 <style id="banner-bankjegy">
 /* kategóriabanner: arany vonalas jel helyett gyűrött bankjegy, vagy forgó érme */
-.banner .bimg.bjb{align-self:center;justify-self:center;width:min(440px,100%);max-width:440px;margin:6px 0 4px;filter:none;transform:rotate(-3deg)}
+.banner .bimg.bjb{align-self:center;justify-self:center;width:min(300px,100%);max-width:300px;margin:6px 0 4px;filter:none;transform:rotate(-3deg)}
 .banner .bimg.bjb img{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45)) drop-shadow(0 2px 3px rgba(0,0,0,.35))}
 .banner .bimg.bje{align-self:center;justify-self:center;width:170px;height:170px;max-width:none;margin:0;filter:none;perspective:800px}
 .bje-forg{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;animation:bjeForog 9s cubic-bezier(.45,.05,.35,1) infinite}
@@ -1511,7 +1511,7 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
 .bje-forg img.e-el{transform:translateZ(4px)}
 .bje-forg img.e-hat{transform:rotateY(180deg) translateZ(4px)}
 @keyframes bjeForog{0%,30%{transform:rotateY(0)}50%,80%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
-@media (max-width:900px){.banner .bimg.bjb{width:min(300px,78vw);margin-top:10px}.banner .bimg.bje{width:120px;height:120px}}
+@media (max-width:900px){.banner .bimg.bjb{width:min(220px,60vw);margin-top:10px}.banner .bimg.bje{width:120px;height:120px}}
 @media (prefers-reduced-motion:reduce){.bje-forg{animation:none}}
 </style>
 <style id="kocsi">
@@ -1951,7 +1951,7 @@ function pageCategory(catId, selId){
   const c=catId?cat(catId):cat('penztargep');
   const b=c?.banner||{cim1:'Termék',cim2:'kínálatunk',szoveg:''};
   const bj=CAT_BANKJEGY[c?.id], er=CAT_ERME[c?.id];
-  const bimg = bj ? `<div class="bimg bjb" aria-hidden="true"><img src="../assets/bankjegyek/gyurt/${bj}-820.webp?v=2" srcset="../assets/bankjegyek/gyurt/${bj}-440.webp?v=2 440w, ../assets/bankjegyek/gyurt/${bj}-820.webp?v=2 820w" sizes="(max-width:700px) 80vw, 440px" alt="" width="820" height="460" decoding="async"></div>`
+  const bimg = bj ? `<div class="bimg bjb" aria-hidden="true"><img src="../assets/bankjegyek/gyurt/${bj}-820.webp?v=2" srcset="../assets/bankjegyek/gyurt/${bj}-440.webp?v=2 440w, ../assets/bankjegyek/gyurt/${bj}-820.webp?v=2 820w" sizes="(max-width:700px) 60vw, 300px" alt="" width="820" height="460" decoding="async"></div>`
     : er ? `<div class="bimg bje" aria-hidden="true"><span class="bje-forg"><img class="e-el" src="../assets/kategoria-ermek/${er}-640.webp" alt="" width="320" height="320" decoding="async"><img class="e-hat" src="../assets/kategoria-ermek/${er}-640.webp" alt="" width="320" height="320" decoding="async"></span></div>`
     : b.kep ? `<img class="bimg" src="${esc(b.kep)}" alt="">` : `<div class="bimg icon">${icon(c?.ikon||'register','ic','width:150px;height:150px;stroke-width:1.1')}</div>`;
   const cats=DB.categories.filter(x=>catItems(x.id).length&&(F.cond==='all'||(F.cond==='hasznalt')===(x.id==='hasznalt')));
