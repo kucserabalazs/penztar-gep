@@ -1453,6 +1453,16 @@ html[dir=rtl] .top .hnyelv{display:none}
 .svic svg{width:44px;height:44px;padding:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7b3,#d6a64e 60%,#a8762a);color:#1b1404;box-shadow:0 4px 10px -4px rgba(120,80,20,.6)}
 @media (max-width:640px){.phchips{gap:8px}.phchips>a,.phchips>.phc{width:100%;border-radius:16px}.svc>div{grid-template-columns:38px minmax(0,1fr)}.svc>div .p{grid-column:2}.svic svg{width:38px;height:38px;padding:9px}}
 </style>
+<style id="menu-ermek">
+/* menü: ikonok helyett csillogó arany érmék */
+.mm-ic.erm{background:none!important;box-shadow:none!important;border:0!important;border-radius:50%!important;flex:0 0 54px!important;width:54px!important;height:54px!important;position:relative;overflow:visible!important;margin-top:-4px}
+.mm-ic.erm img{display:block;width:100%;height:100%;filter:drop-shadow(0 4px 5px rgba(80,55,10,.38)) drop-shadow(0 1px 1px rgba(80,55,10,.3));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.mm-ic.erm::after{content:"";position:absolute;inset:3px;border-radius:50%;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.75) 48%,transparent 60%) no-repeat;background-size:250% 100%;background-position:130% 0;mix-blend-mode:screen;transition:background-position .9s ease}
+a.mm-it:hover .mm-ic.erm img,a.mm-it:focus-visible .mm-ic.erm img{transform:rotateY(360deg)}
+a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{background-position:-30% 0}
+@media (max-width:760px){.mm-ic.erm{flex-basis:46px!important;width:46px!important;height:46px!important}}
+@media (prefers-reduced-motion:reduce){.mm-ic.erm img,.mm-ic.erm::after{transition:none}}
+</style>
 </head>
 <body>
 
@@ -2940,8 +2950,9 @@ function fillChrome(){
   const s=S();
   const ci=String(s.cim||'').split(','); $('#hcontacts').innerHTML=`<a class="pill" href="tel:${esc(String(s.telefon).replace(/[^\d+]/g,''))}">${icon('phone')}${esc(s.telefon)}</a><a class="pill" href="mailto:${esc(s.email)}">${icon('mail')}${esc(s.email)}</a><span class="addr">${icon('pin')}<span>${esc(ci[0]||'')},<br>${esc(ci.slice(1).join(',').trim())}</span></span>`;
   const n=id=>visible().filter(p=>p.kategoria===id).length;
+  const MM_ERME={'penztargep': 'penztargep', 'pos': 'szamitastechnika', 'fiok': 'kassza', 'merleg': 'merleg', 'arazo': 'arazogep', 'irodatechnika': 'irodatechnika', 'kellek': 'kellekanyagok', 'hasznalt': 'hasznalt'};
   const KR={penztargep:'Asztali, hordozható és rendszerbe köthető online pénztárgépek',pos:'Érintőképernyős terminálok, nyomtatók, vonalkódolvasók',fiok:'Fém kasszafiókok pénztárgéphez és POS-hoz',merleg:'Árszorzós és címkenyomtatós bolti mérlegek',arazo:'Kézi árazógépek és ruhaárazó szálbelövők',irodatechnika:'Számítógépek, nyomtatók, telepítéssel',kellek:'Hőpapír, árazócímke, festékhenger',hasznalt:'Bevizsgált, átszemélyesített gépek kedvezőbb áron'};
-  $('#ddmenu').innerHTML=`<div class="mm"><div class="mm-cats">${DB.categories.filter(c=>n(c.id)).map(c=>`<a class="mm-it" href="#${catRoute(c.id)}"><span class="mm-ic">${icon(c.ikon)}</span><span class="mm-tx"><b>${esc(c.nev)}<i class="num">${n(c.id)}</i></b><small>${esc(KR[c.id]||'')}</small></span></a>`).join('')}</div>
+  $('#ddmenu').innerHTML=`<div class="mm"><div class="mm-cats">${DB.categories.filter(c=>n(c.id)).map(c=>`<a class="mm-it" href="#${catRoute(c.id)}">${MM_ERME[c.id]?`<span class="mm-ic erm"><img src="../assets/kategoria-ermek/${MM_ERME[c.id]}-320.webp" alt="" width="54" height="54" loading="lazy" decoding="async"></span>`:`<span class="mm-ic">${icon(c.ikon)}</span>`}<span class="mm-tx"><b>${esc(c.nev)}<i class="num">${n(c.id)}</i></b><small>${esc(KR[c.id]||'')}</small></span></a>`).join('')}</div>
     <div class="mm-side"><span class="mm-h">Segítség</span><a href="/penztargep-valasztas/">${icon('checkc')}Melyik pénztárgépet válasszam?</a><a href="/tudnivalok/">${icon('file')}E-pénztárgép tudnivalók</a><a href="#e-penztargep">${icon('clock')}Átállás e-pénztárgépre</a><a href="/szerviz/">${icon('wrench')}Szerviz és támogatás</a><a class="mm-all" href="#termekek">${icon('grid')}Összes termék <i class="num">${visible().length}</i></a><a class="mm-tel" href="tel:${esc(String(s.telefon).replace(/[^\d+]/g,''))}">${icon('phone')}<span><small>Kérdése van? Hívjon!</small><b class="num">${esc(s.telefon)}</b></span></a></div></div>`;
   $('#f-cats').innerHTML=DB.categories.map(c=>`<li><a href="#${catRoute(c.id)}">${esc(c.nev)}</a></li>`).join('');
   $('#mtel').href='tel:'+String(s.telefon).replace(/[^\d+]/g,''); $('#mmail').href='mailto:'+s.email; $('#f-addr').textContent=s.cim; $('#f-tel').textContent=s.telefon; $('#f-hours').textContent=s.nyitvatartas; $('#f-ceg').textContent=s.cegnev; $('#year').textContent=new Date().getFullYear();
