@@ -53,7 +53,7 @@
        így a tornyot sosem takarja */
     if (szekBal - tvJobb < gw + 24) cel = (tvJobb + W) / 2 - gw / 2;
     cel = Math.max(tvJobb + 12, Math.min(W - 12 - gw, cel));
-    var v = tvBal.toFixed(1) + "px", dx = (cel - szovegBal0).toFixed(1) + "px";
+    var v = tvBal.toFixed(1) + "px", dx = "0px";   /* az írások a doboz tetején, vízszintesen középen állnak (a jelenet fölött) */
     if (b.style.getPropertyValue("--tv-bal") !== v) b.style.setProperty("--tv-bal", v);
     if (b.style.getPropertyValue("--szoveg-x") !== dx) b.style.setProperty("--szoveg-x", dx);
   }
