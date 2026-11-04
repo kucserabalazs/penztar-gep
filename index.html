@@ -995,11 +995,10 @@ html[dir=rtl] .top .hnyelv{display:none}
 .hsz-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 @media (max-width:900px){.hsz-row{grid-template-columns:1fr}}
 /* térkép helye: díszesebb háttér */
-/* térkép helye: az egész háttér egy közös pécsi kép – elöl a székesegyház, a Mecsek fölött a TV-torony (a két csúcs egy magasságban) */
-.map-ph{background:radial-gradient(ellipse 46% 32% at 50% 46%,rgba(251,246,234,.95),rgba(251,246,234,.72) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/pecs-szekesegyhaz-tvtorony.svg?v=1104d") 55% 100%/cover no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
+/* térkép helye: balra a TV-torony, jobbra a székesegyház (mozgó vonalrajzok) */
+.map-ph{background:radial-gradient(ellipse 44% 30% at 50% 47%,rgba(251,246,234,.95),rgba(251,246,234,.7) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101") left 5% bottom -6px/auto min(86%,440px) no-repeat,url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101") right 3% bottom -4px/auto min(54%,230px) no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
 .map-ph>*{position:relative;z-index:1}
-.map-ph b,.map-ph small{text-shadow:0 0 4px #fbf6ea,0 0 10px #fbf6ea,0 0 18px #fbf6ea}
-@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 64% 40% at 50% 44%,rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/pecs-szekesegyhaz-tvtorony.svg?v=1104d"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}}
+@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 40% at 50% 46%,rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto 54%,auto 33%,700px,auto!important;background-position:center,left 3% bottom -4px,right 2% bottom -3px,center,center!important}}
 .map-ph b{font-size:1.1rem}
 </style>
 <style id="bankjegyek">
