@@ -1210,6 +1210,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
   .fbottom .barcode{grid-area:b;justify-self:end}
   .fbottom .fadm{grid-area:a;justify-self:end}
 }
+@media (min-width:641px) and (max-width:820px){ .fbottom .fadm,.fbottom .barcode{margin-right:84px} }   /* a lebegő kosár gomb ne takarja */
 @media (max-width:640px){
   .fbottom .wrap{display:grid!important;grid-template-columns:1fr;justify-items:start;gap:10px}
   .fcols>nav[aria-label="Információk"]{grid-column:1/-1}
