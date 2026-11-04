@@ -1510,7 +1510,7 @@ function autoDrift(el,speed){
 
 <script src="assets/nyelv.js?v=20261104"></script>
 <script src="assets/kapcsolat.js?v=20261104" defer></script>
-<script src="assets/dzsami-hely.js?v=20261104g" defer></script>
+<script src="assets/dzsami-hely.js?v=20261104h" defer></script>
 <script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"));</script><script>/* mobilon a nyelvválasztó a menüsávba kerül (a fejlécben nincs neki hely) */(function(){var pk=document.querySelector(".top .zi-pick");if(!pk)return;var home=pk.parentNode,nx=pk.nextSibling,mq=matchMedia("(max-width:820px)");function hely(){if(mq.matches){var t=document.getElementById("fomenu");if(t&&pk.parentNode!==t)t.appendChild(pk);}else if(pk.parentNode!==home){home.insertBefore(pk,nx&&nx.parentNode===home?nx:null);}}hely();mq.addEventListener?mq.addEventListener("change",hely):mq.addListener(hely);})();</script>
 <script>/* sárkánynyelv: a szájból indul, a feliratok alatti szabad sáv közepén kígyózva halad, a TOTÁL embléma végénél annak közepéig emelkedik, megrebben, majd lassan visszahúzódik */
 (function(){var top=document.querySelector('.top'),sv=top&&top.querySelector('.hnyelv');if(!sv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
