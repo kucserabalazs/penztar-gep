@@ -176,7 +176,7 @@ function card(array $p): string {
 <style>
 :root{--n0:#041a33;--n2:#082746;--n3:#123b61;--gold:#d6a64e;--gold-l:#f4d58d;--gold-d:#b7832e;--ink:#182e48;--muted:#5f6f80;--line:#e3dccd;--cream:#f7f3eb;--fd:"Montserrat","Arial Black",Arial,sans-serif;--fb:"Inter","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}html,body{margin:0}
-body{background:var(--cream) url("../assets/motivumok/gilos.svg") center/900px;color:var(--ink);font:17px/1.6 var(--fb);-webkit-font-smoothing:antialiased}
+body{background:var(--cream) url("../assets/motivumok/gilos-vilagos.svg") center/900px;color:var(--ink);font:17px/1.6 var(--fb);-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,4vw)}
 header{background:radial-gradient(ellipse 70% 140% at 25% 0%,#0b2a52,var(--n2) 55%,var(--n0));color:#fff;border-bottom:3px solid var(--gold)}

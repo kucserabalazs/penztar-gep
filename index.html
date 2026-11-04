@@ -954,6 +954,27 @@ html[dir=rtl] .top .hnyelv{display:none}
 @keyframes hmmUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.hmm,.hmm.sheet{animation:none}}
 </style>
+<style id="fooldal-osszhang">
+/* használt gépek: kártyák mellett tájékoztató panel */
+.hsz-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,380px);gap:28px;align-items:start}
+.hsz-row #usedlist{min-width:0;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))!important}
+.hsz-row:has(#usedlist>:only-child){grid-template-columns:minmax(260px,320px) minmax(0,1fr)}
+.hsz-row:has(#usedlist>:only-child) #usedlist{grid-template-columns:1fr!important}
+.hsz-row:has(#usedlist>:only-child) .hsz-info ul{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.hsz-info{background:linear-gradient(160deg,#fffdf8,#f6eedb);border:1px solid rgba(183,131,46,.35);border-left:5px solid #d6a64e;border-radius:20px;padding:22px 24px;box-shadow:0 18px 40px -26px rgba(12,26,51,.45)}
+.hsz-info h3{font:800 1.2rem/1.25 Montserrat,"Arial Black",Arial,sans-serif;color:#0c1a33;margin:0 0 12px}
+.hsz-info ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.hsz-info li{position:relative;padding-left:34px;display:grid;gap:2px}
+.hsz-info li::before{content:"";position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7b3,#d6a64e 60%,#a8762a) ;box-shadow:0 3px 8px -3px rgba(120,80,20,.6)}
+.hsz-info li::after{content:"";position:absolute;left:7px;top:6px;width:5px;height:9px;border:solid #1b1404;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.hsz-info li b{color:#0c1a33}.hsz-info li span{color:#4a5a6e;font-size:.93rem;line-height:1.45}
+.hsz-figy{margin:16px 0 0;padding:10px 14px;border-radius:12px;background:#fff7e6;border:1px solid #f0d9a6;font-size:.9rem;color:#5a4410}
+.hsz-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+@media (max-width:900px){.hsz-row{grid-template-columns:1fr}}
+/* térkép helye: díszesebb háttér */
+.map-ph{background:url("assets/illusztraciok/web/dzsami-szepia.svg?v=1101") right -40px bottom -60px/300px no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
+.map-ph b{font-size:1.1rem}
+</style>
 </head>
 <body>
 
@@ -1057,7 +1078,14 @@ html[dir=rtl] .top .hnyelv{display:none}
 <section class="sec white" id="hasznalt" hidden>
   <div class="wrap">
     <div class="shead rv"><div><span class="eye">Használt termékek</span><h2 class="sh2">Bevizsgált <em>használt gépek</em></h2><p class="slead">Szervizünkben bevizsgált és átszemélyesített készülékek garanciával, kedvezőbb áron. Az aktuális kínálatról telefonon is érdeklődhet.</p></div><div class="hsz-gomb"><img class="hsz-torony" src="assets/illusztraciok/web/tv-torony-szepia.svg?v=1101" alt="" aria-hidden="true" width="449" height="1469" loading="lazy" decoding="async"><a class="hb line" href="webaruhaz/#kat-hasznalt">Összes használt <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></div></div>
-    <div class="feat" id="usedlist"></div>
+    <div class="hsz-row"><div class="feat" id="usedlist"></div>
+    <aside class="hsz-info rv"><h3>Miért érdemes használt gépet választani?</h3>
+      <ul><li><b>Szervizünkben bevizsgálva</b><span>Minden készüléket átnézünk, mielőtt eladásra kerül.</span></li>
+      <li><b>Az Ön nevére átszemélyesítve</b><span>Az üzembe helyezést és a NAV-bejelentést mi intézzük.</span></li>
+      <li><b>Garanciával, kedvezőbb áron</b><span>A garancia idejét a terméknél tüntetjük fel.</span></li></ul>
+      <p class="hsz-figy">Jó tudni: az online pénztárgépek a NAV tájékoztatása szerint 2028. július 1-jéig használhatók.</p>
+      <div class="hsz-cta"><a class="hb gold" href="webaruhaz/#kat-hasznalt">Használt gépek <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a><a class="hb line" href="tel:+3672215652"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Érdeklődöm</a></div>
+    </aside></div>
   </div>
 </section>
 <div class="osztas" aria-hidden="true"><span></span></div>

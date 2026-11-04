@@ -1418,6 +1418,40 @@ html[dir=rtl] .top .hnyelv{display:none}
   #ddmenu a.mm-it{padding:10px!important}.mm-ic{flex-basis:38px;height:38px}
   .mm-tx small{font-size:.8rem}
 }
+
+/* ===== termékrészletező: fülek, fülpanel, bélyegképek ===== */
+.detail .dtabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;margin-top:18px!important;padding:6px;border-radius:14px;background:linear-gradient(180deg,#f3ede0,#ebe2cd);box-shadow:inset 0 1px 3px rgba(12,26,51,.12)}
+.detail .dtabs button{min-height:40px!important;border-radius:10px!important;font-size:.86rem!important;white-space:nowrap;gap:8px!important;justify-content:flex-start!important;padding:6px 12px!important}
+.detail .dtabs button svg{display:inline-block!important;width:17px!important;height:17px!important;color:var(--gold-d,#b7832e)}
+.detail .dtabs button.on svg{color:#f4d58d}
+.detail .tabbody{margin-top:8px!important;border:1px solid rgba(183,131,46,.28)!important;border-top:3px solid var(--gold,#d6a64e)!important;border-radius:12px!important;background:linear-gradient(180deg,#fff,#fdfaf2)!important;padding:16px 18px!important}
+.detail .thumbs button{border-radius:12px!important;box-shadow:0 4px 12px -6px rgba(12,26,51,.3);transition:transform .15s,box-shadow .15s}
+.detail .thumbs button:hover{transform:translateY(-2px);box-shadow:0 10px 18px -8px rgba(12,26,51,.35)}
+.detail .thumbs button.on{border:2px solid var(--gold,#d6a64e)!important;box-shadow:0 0 0 3px rgba(214,166,78,.25),0 8px 16px -8px rgba(12,26,51,.35)}
+.detail .pbox{position:relative}
+.detail .pbox::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(155deg,#fbf0d2,#d4b26a 40%,#fff7e2 60%,#b7832e);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.detail .checks li{padding:2px 0}
+
+/* ===== aloldalak: info-chipek, kapcsolat, szolgáltatások ===== */
+.phchips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;position:relative;z-index:2}
+.phchips>a,.phchips>.phc{display:inline-flex;align-items:center;gap:10px;padding:9px 16px 9px 10px;border-radius:999px;background:rgba(255,255,255,.85);border:1px solid rgba(183,131,46,.35);box-shadow:0 6px 16px -10px rgba(12,26,51,.35);text-decoration:none;color:var(--navy,#0c1a33);backdrop-filter:blur(4px)}
+.phchips>a:hover{background:#fff;box-shadow:0 10px 20px -10px rgba(12,26,51,.4)}
+.phchips svg{width:34px;height:34px;padding:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7b3,#d6a64e 60%,#a8762a);color:#1b1404;flex:0 0 34px}
+.phchips span>span,.phchips a>span{display:grid;line-height:1.15}
+.phchips small{font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.phchips b{font-size:.95rem}
+.phlink{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-weight:700;color:var(--navy,#0c1a33);text-decoration:underline;text-decoration-color:rgba(183,131,46,.6);text-underline-offset:4px;position:relative;z-index:2}
+.phlink svg{width:18px;height:18px;color:var(--gold-d,#b7832e)}
+.contact .cln{padding:6px 0;border-bottom:1px dashed rgba(183,131,46,.3)}
+.contact .clink{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--navy,#0c1a33);min-width:0}
+.contact .clink svg{width:40px;height:40px;padding:10px;border-radius:12px;background:linear-gradient(180deg,#fff,#f3ede0);border:1px solid rgba(183,131,46,.35);color:var(--gold-d,#b7832e);flex:0 0 40px}
+.contact .clink span{display:grid;line-height:1.2;min-width:0}.contact .clink small{font-size:.78rem;color:var(--muted)}.contact .clink b{font-size:1.08rem;overflow-wrap:anywhere}
+.contact .clink:hover b{text-decoration:underline;text-decoration-color:var(--gold,#d6a64e)}
+.copyb{all:unset;cursor:pointer;display:grid;place-items:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--muted)}
+.copyb svg{width:18px;height:18px}.copyb:hover{color:var(--navy,#0c1a33);box-shadow:0 4px 10px -4px rgba(12,26,51,.3)}.copyb:focus-visible{outline:3px solid var(--gold-d,#b7832e);outline-offset:2px}
+.svc>div{display:grid!important;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:start}
+.svic svg{width:44px;height:44px;padding:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7b3,#d6a64e 60%,#a8762a);color:#1b1404;box-shadow:0 4px 10px -4px rgba(120,80,20,.6)}
+@media (max-width:640px){.phchips{gap:8px}.phchips>a,.phchips>.phc{width:100%;border-radius:16px}.svc>div{grid-template-columns:38px minmax(0,1fr)}.svc>div .p{grid-column:2}.svic svg{width:38px;height:38px;padding:9px}}
 </style>
 </head>
 <body>
@@ -1756,6 +1790,8 @@ const ILL='../assets/illusztraciok/web/';
 const PH_IL=[[/^Szerviz/,'tv-torony'],[/e-pénztárgép/i,'zsolnay-kut-okorfej'],[/^Pécsen/,'szekesegyhaz'],[/^Keressen minket/,'dzsami'],[/^(Vásárlási|Megrendelés|Fizetés|Összehasonlítás)/,'szechenyi-ter'],[/./,'szekesegyhaz']];
 function pageHead(title, sub, crumbs, extra=''){ const il=(PH_IL.find(([re])=>re.test(title))||[])[1];
   return `<section class="pagehead${il?' ph-'+il:''}">${il?`<img class="ph-il" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1101" alt="" aria-hidden="true" decoding="async">`:''}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section><div class="osztas" aria-hidden="true"><span></span></div>`; }
+function phChips(){ const s=S(), tel=String(s.telefon||'').replace(/[^\d+]/g,'');
+  return `<div class="phchips"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener">${icon('pin')}<span><small>Üzletünk</small><b>Pécs, Hunyadi János u. 34.</b></span></a><span class="phc">${icon('clock')}<span><small>Nyitvatartás</small><b>${esc(s.nyitvatartas||'')}</b></span></span><a href="tel:${esc(tel)}">${icon('phone')}<span><small>Telefon</small><b class="num">${esc(s.telefon||'')}</b></span></a></div>`; }
 const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
 const SVG = n => `<img src="../assets/ikonok/${n}.svg" alt="" aria-hidden="true">`;
 function sortItems(items){
@@ -2208,7 +2244,8 @@ function checkAdatlap(f){
 function pageCart(){ setTimeout(openDrawer,80); return pageCategory('penztargep'); }
 
 /* további oldalak */
-function svcRow(s){ return `<div><span><b>${esc(s.nev)}</b><small>${esc(s.leiras)}</small></span><span class="p num">${s.ar?ft(s.ar)+' + ÁFA':'Ár kérésre'}</span></div>`; }
+const SVC_IC={uzembe:'register',felulvizsgalat:'checkc',javitas:'wrench',aee:'file',atallas:'clock','pc-javitas':'monitor',halozat:'pos'};
+function svcRow(s){ return `<div><span class="svic">${icon(SVC_IC[s.id]||'wrench')}</span><span><b>${esc(s.nev)}</b><small>${esc(s.leiras)}</small></span><span class="p num">${s.ar?ft(s.ar)+' + ÁFA':'Ár kérésre'}</span></div>`; }
 function orderForm(tipus,extra=[]){
   const ex=extra.map(f=>f.sel?`<label class="l">${esc(f.l)}<select class="i" name="${f.n}" id="f-${tipus}-${f.n}">${f.sel.map(o=>`<option>${esc(o)}</option>`).join('')}</select></label>`:`<label class="l">${esc(f.l)} ${f.o?'<span class="o">(nem kötelező)</span>':''}<input class="i" name="${f.n}" id="f-${tipus}-${f.n}" type="${f.type||'text'}" placeholder="${esc(f.ph||'')}"></label>`).join('');
   return `<form class="f" data-form="${tipus}" novalidate><div class="row2"><label class="l">Név<input class="i" name="nev" id="f-${tipus}-nev" required autocomplete="name"></label><label class="l">Cég <span class="o">(nem kötelező)</span><input class="i" name="ceg" id="f-${tipus}-ceg" autocomplete="organization"></label></div>
@@ -2217,7 +2254,7 @@ function orderForm(tipus,extra=[]){
     <button class="btn gold" type="submit">${{szerviz:'Bejelentés elküldése',atallas:'Visszahívást kérek',uzenet:'Üzenet küldése',ajanlat:'Ajánlatkérés elküldése'}[tipus]}</button><p class="muted" style="font-size:.8rem">A megadott személyes adatokat kizárólag a bejelentés kezeléséhez és az ügyintézéshez használjuk fel.</p></form>`;
 }
 function pageService(){
-  return pageHead('Szerviz és karbantartás','Pénztárgépek javítását, éves felülvizsgálatát és adómemória-kiolvasását vállaljuk, továbbá segítséget nyújtunk a kapcsolódó NAV-ügyintézésben. Számítógépek és hálózatok javításával is foglalkozunk.','<a href="../">Kezdőlap</a>›<span>Szerviz</span>') +
+  return pageHead('Szerviz és karbantartás','Pénztárgépek javítását, éves felülvizsgálatát és adómemória-kiolvasását vállaljuk, továbbá segítséget nyújtunk a kapcsolódó NAV-ügyintézésben. Számítógépek és hálózatok javításával is foglalkozunk.','<a href="../">Kezdőlap</a>›<span>Szerviz</span>', phChips()+`<a class="phlink" href="../szerviz/">${icon('wrench')}A javítás és az üzembe helyezés menete lépésről lépésre ${icon('chev','ic','width:14px;height:14px')}</a>`) +
   `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><h3>Szolgáltatások és díjak</h3><div class="svc">${DB.services.map(svcRow).join('')}</div><p class="muted" style="font-size:.86rem">A feltüntetett árak nettó árak. Az alkatrészek díját külön számítjuk fel.</p></div>
   <div class="panel"><h3>Szervizbejelentés</h3><p class="muted">Kérjük, röviden írja le, milyen segítségre van szüksége. Pénztárgép esetén adja meg a készülék típusát és – ha rendelkezésére áll – az AP-számot is.</p>${orderForm('szerviz',[{n:'szolg',l:'Mire van szükség?',sel:['Pénztárgép javítása','Éves felülvizsgálat','Adómemória- vagy AEE-kiolvasás','Átállás e-pénztárgépre','Számítógép- vagy laptopjavítás','Egyéb']},{n:'geptipus',l:'Gép típusa',o:true,ph:'pl. Sam4s NR-300'},{n:'ap',l:'AP szám',o:true,ph:'A pénztárgép azonosítója'},{n:'idopont',l:'Mikor hozná be a készüléket?',type:'date',o:true}])}</div></div>`;
 }
@@ -2227,7 +2264,7 @@ function pageEpenztar(){
   <div class="panel"><h3>E-pénztárgépes érdeklődés</h3><p class="muted">Adja meg elérhetőségét és röviden vállalkozása tevékenységét. Munkatársunk felveszi Önnel a kapcsolatot.</p>${orderForm('atallas',[{n:'geptipus',l:'Jelenlegi pénztárgép',o:true},{n:'tevekenyseg',l:'Tevékenység',o:true,ph:'pl. kisbolt, fodrász'}])}</div></div>`;
 }
 function pageAbout(){
-  return pageHead(`Pécsen, ${esc(S().alapitas||'1982')} óta`,'Pénztárgép-szaküzlet és -szerviz Pécsen, a Hunyadi János utcában.','<a href="../">Kezdőlap</a>›<span>Rólunk</span>') +
+  return pageHead(`Pécsen, ${esc(S().alapitas||'1982')} óta`,'Pénztárgép-szaküzlet és -szerviz Pécsen, a Hunyadi János utcában.','<a href="../">Kezdőlap</a>›<span>Rólunk</span>', phChips()) +
   `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><p>A Totál Pénztárgép és Számítástechnika Kkt. pécsi szaküzletként és szervizként szolgálja a helyi és baranyai vállalkozásokat. Pénztárgépekkel, POS-rendszerekkel, mérlegekkel és árazógépekkel foglalkozunk; a Sam4s pénztárgépek viszonteladójaként a készülékek kiválasztásában és szervizelésében is segítséget nyújtunk.</p><p>Számítógépek és irodatechnikai eszközök beszerzésével, javításával, valamint hálózatok kiépítésével is foglalkozunk. Célunk, hogy kérdéseivel és a mindennapi működéshez szükséges eszközökkel kapcsolatban egy helyen fordulhasson hozzánk – a termékválasztástól a beüzemelésen át a későbbi szervizelésig.</p><p>Üzletünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is várjuk; az üzlet előtt ingyenes parkolási lehetőség áll rendelkezésre.</p></div><div style="display:grid;place-items:center"><img src="../assets/jelveny.webp" alt="Pécs, 1982 óta" style="width:min(300px,70%);height:auto"></div></div>`;
 }
 function pageBuyInfo(){
@@ -2286,8 +2323,8 @@ function pageAdatkezeles(){ const s=S();
   </div></div>`; }
 function pageContact(){
   const s=S();
-  return pageHead('Keressen minket bizalommal','Kérdése van egy készülékkel, a szervizzel vagy a vásárlás menetével kapcsolatban? Hívjon minket nyitvatartási időben, írjon e-mailt, vagy látogasson el pécsi üzletünkbe. Az üzlet előtt ingyenesen parkolhat.','<a href="../">Kezdőlap</a>›<span>Kapcsolat</span>') +
-  `<div class="wrap split" style="padding-block:24px 60px"><div class="panel contact"><div class="ln"><span style="display:flex;gap:8px;align-items:center">${icon('pin')}${esc(s.cim)}</span></div>${[s.telefon,...(s.mobil||[]),s.email].map(v=>`<div class="ln"><span class="num">${esc(v)}</span><button class="btn line sm" type="button" data-copy="${esc(v)}">Másolás</button></div>`).join('')}<div class="ln"><span class="muted" style="display:flex;gap:8px;align-items:center;font-weight:500">${icon('clock')}${esc(s.nyitvatartas)}</span></div><a class="btn navy" href="https://www.google.com/maps/search/?api=1&query=P%C3%A9cs+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener" style="justify-self:start">${icon('pin')} Útvonaltervezés a térképen</a></div>
+  return pageHead('Keressen minket bizalommal','Kérdése van egy készülékkel, a szervizzel vagy a vásárlás menetével kapcsolatban? Hívjon minket nyitvatartási időben, írjon e-mailt, vagy látogasson el pécsi üzletünkbe. Az üzlet előtt ingyenesen parkolhat.','<a href="../">Kezdőlap</a>›<span>Kapcsolat</span>', phChips()) +
+  `<div class="wrap split" style="padding-block:24px 60px"><div class="panel contact"><div class="ln"><span style="display:flex;gap:8px;align-items:center">${icon('pin')}${esc(s.cim)}</span></div>${[[s.telefon,'Üzlet – vezetékes','phone','tel'],...(s.mobil||[]).map(m=>[m,'Mobil','phone','tel']),[s.email,'E-mail – ajánlatkérés, rendelés','mail','mailto']].map(([v,l,ic,k])=>`<div class="ln cln"><a class="clink" href="${k}:${esc(k==='tel'?String(v).replace(/[^\d+]/g,''):v)}">${icon(ic)}<span><small>${esc(l)}</small><b class="${k==='tel'?'num':''}">${esc(v)}</b></span></a><button class="copyb" type="button" data-copy="${esc(v)}" aria-label="Másolás" title="Másolás">${icon('file')}</button></div>`).join('')}<div class="ln"><span class="muted" style="display:flex;gap:8px;align-items:center;font-weight:500">${icon('clock')}${esc(s.nyitvatartas)}</span></div><a class="btn navy" href="https://www.google.com/maps/search/?api=1&query=P%C3%A9cs+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener" style="justify-self:start">${icon('pin')} Útvonaltervezés a térképen</a></div>
   <div class="panel"><h3>Üzenet küldése</h3>${orderForm('uzenet')}</div></div>`;
 }
 function bindForms(root=document){
