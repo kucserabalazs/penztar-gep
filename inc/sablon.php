@@ -27,7 +27,7 @@ function ptg_fej(string $title, string $desc, string $path, array $crumbs, array
 <meta property="og:type" content="article"><meta property="og:locale" content="hu_HU"><meta property="og:site_name" content="Totál Pénztárgép Pécs">
 <meta property="og:title" content="<?= e($title) ?>"><meta property="og:description" content="<?= e($desc) ?>"><meta property="og:url" content="<?= e($canon) ?>"><meta property="og:image" content="<?= PTG_SITE ?>/assets/og-kep.jpg">
 <link rel="stylesheet" href="/assets/fonts/betutipusok.css?v=20261104">
-<link rel="stylesheet" href="/assets/oldal.css?v=20261104">
+<link rel="stylesheet" href="/assets/oldal.css?v=20261104b">
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $ld], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>

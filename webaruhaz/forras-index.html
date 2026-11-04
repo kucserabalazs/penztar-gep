@@ -1569,6 +1569,15 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
 .nincskod{margin-top:4px;padding:14px 16px;border-radius:12px;background:#fffaf0;border:1px solid #ead7a6;font-size:.93rem;line-height:1.5}
 .nincskod ol{margin:6px 0 10px;padding-left:20px;display:grid;gap:4px}
 </style>
+<style id="ellenorzes-1104">
+/* asztali nézet: a Széchenyi téri és a dzsámis fejléc-jelenet teljes egészében látszik – a fejléc lefelé megnő, a kép nem vágódik */
+@media (min-width:761px){
+  .pagehead.ph-szechenyi-ter,.pagehead.ph-dzsami{min-height:300px}
+  /* dzsámi: a fejléc lefelé megnő, a teljes jelenet (felhő, angyal, nyíló kupola) a tartalom alatt, jobbra, teljes egészében */
+  .pagehead.ph-dzsami{min-height:0;padding-bottom:230px}
+  .ph-dzsami .ph-il.ph-angyal{left:auto!important;right:max(16px,5vw)!important;top:auto!important;bottom:6px!important;height:220px!important;width:min(58%,640px)!important;min-width:0!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:100% 100%!important}
+}
+</style>
 </head>
 <body>
 
