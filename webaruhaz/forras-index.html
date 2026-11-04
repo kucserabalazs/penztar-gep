@@ -2572,11 +2572,16 @@ function hoursText(h){ const parts=[]; let i=0; const ord=DAYS.map(d=>d[0]), nm=
   while(i<ord.length){ const v=h[ord[i]]; let j=i; while(j+1<ord.length && JSON.stringify(h[ord[j+1]])===JSON.stringify(v)) j++;
     const lbl=i===j?nm[ord[i]]:nm[ord[i]]+'–'+nm[ord[j]]; parts.push(lbl+' '+(v?v[0].replace(/^0/,'')+'–'+v[1].replace(/^0/,''):'zárva')); i=j+1; }
   const t=parts.join(', '); return t.charAt(0).toUpperCase()+t.slice(1); }
+const zvHU=d=>{ const m=String(d).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/); return m?`${m[1]}. ${['január','február','március','április','május','június','július','augusztus','szeptember','október','november','december'][+m[2]-1]} ${+m[3]}.`:String(d); };
+function zarvaListHTML(l){ l=l||[]; const ma=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+  if(!l.length) return '<p class="zv-none">Jelenleg nincs beállítva szabadság vagy rendkívüli zárva tartás.</p>';
+  return `<ul class="zv-list">${l.map((x,i)=>{ const p=String(x).split('..'), vege=(p[1]||p[0]).trim(), mult=vege<ma; return `<li class="${mult?'mult':''}">${icon('clock')}<span><b>${p.length>1?esc(zvHU(p[0]))+' – '+esc(zvHU(p[1])):esc(zvHU(p[0]))}</b><small>${mult?'Elmúlt – nyugodtan törölheti':p.length>1?'Ezekben a napokban zárva':'Ezen a napon zárva'}</small></span><button type="button" class="btn ghost sm" data-zvdel="${i}" aria-label="Törlés">${icon('x')} Törlés</button></li>`; }).join('')}</ul>`; }
 function admSettings(){ const s=S(); const h=s.nyitva||defHours();
   return `<form class="f" onsubmit="return false" style="max-width:720px">
   <div class="editor" style="margin-top:0"><h3>Nyitvatartás</h3><p class="muted">Ebből számolja a főoldal, hogy az üzlet éppen nyitva van-e, és mikor nyit. A magyar ünnepnapokon automatikusan zárva mutatja.</p>
     <div class="tablewrap"><table class="ptable"><tbody>${DAYS.map(([d,n])=>`<tr><td><b>${n}</b></td><td data-l="Nyitva"><label class="check" style="margin:0"><input type="checkbox" data-hopen="${d}" id="ho-${d}" ${h[d]?'checked':''}> nyitva</label></td><td data-l="Nyit"><input class="i num" type="time" data-hfrom="${d}" id="hf-${d}" value="${h[d]?h[d][0]:'09:00'}" ${h[d]?'':'disabled'} style="width:120px"></td><td data-l="Zár"><input class="i num" type="time" data-hto="${d}" id="ht-${d}" value="${h[d]?h[d][1]:'15:00'}" ${h[d]?'':'disabled'} style="width:120px"></td></tr>`).join('')}</tbody></table></div>
-    <label class="l">Rendkívüli zárva tartás <span class="o">soronként egy nap (2026-12-27) vagy időszak (2026-12-22..2027-01-02), pl. szabadság</span><textarea class="i num" id="set-zarva" style="min-height:70px">${esc((s.zarvaNapok||[]).join('\n'))}</textarea></label>
+    <div class="l" id="zarva-box"><span class="sg-lt">Szabadság, rendkívüli zárva tartás</span><div id="zarva-list">${zarvaListHTML(s.zarvaNapok)}</div>
+      <div class="zv-add"><label class="zv-f"><span>Első zárva nap</span><input class="i" type="date" id="zv-tol"></label><label class="zv-f"><span>Utolsó zárva nap <small>(egy napnál üresen hagyható)</small></span><input class="i" type="date" id="zv-ig"></label><button class="btn gold" type="button" id="zv-add">${icon('plus')} Hozzáadás</button></div><div class="zv-msg" id="zv-msg" aria-live="polite"></div></div>
     <p class="muted" id="htext" style="font-size:.9rem">A weboldalon így jelenik meg: <b>${esc(s.nyitvatartas)}</b></p></div>
   ${[['cegnev','Cégnév'],['cim','Cím'],['telefon','Telefon'],['email','E-mail (ide jönnek a megrendelések)'],['alapitas','Alapítás éve'],['mobildij','Mobil adatkapcsolat díja (szöveg)'],['adoszam','Adószám'],['bank','Bank neve (utaláshoz)'],['szamlaszam','Bankszámlaszám (utaláshoz)'],['cegjegyzekszam','Cégjegyzékszám (Impresszumhoz)'],['tarhely','Tárhelyszolgáltató neve, címe, elérhetősége (Impresszumhoz)']].map(([k,l])=>`<label class="l">${l}<input class="i" data-set="${k}" id="set-${k}" value="${esc(s[k])}"></label>`).join('')}
   <label class="l">Mobilszámok <span class="o">vesszővel elválasztva</span><input class="i" data-set="mobil" id="set-mobil" value="${esc((s.mobil||[]).join(', '))}"></label><label class="l">ÁFA kulcs (%)<input class="i num" data-set="afa" id="set-afa" inputmode="numeric" value="${esc(s.afa)}" style="max-width:120px"></label></form>
@@ -2585,7 +2590,14 @@ function bindHours(){
   const s=DB.settings; const upd=()=>{ const h={}; DAYS.forEach(([d])=>{ const on=$('#ho-'+d).checked; $('#hf-'+d).disabled=$('#ht-'+d).disabled=!on; h[d]=on?[$('#hf-'+d).value||'09:00',$('#ht-'+d).value||'15:00']:null; });
     s.nyitva=h; s.nyitvatartas=hoursText(h); $('#htext').innerHTML='A weboldalon így jelenik meg: <b>'+esc(s.nyitvatartas)+'</b>'; markDirty(); };
   $$('[data-hopen],[data-hfrom],[data-hto]').forEach(x=>x.addEventListener(x.type==='checkbox'?'change':'input',upd));
-  $('#set-zarva')?.addEventListener('input',e=>{ s.zarvaNapok=e.target.value.split('\n').map(x=>x.trim()).filter(Boolean); markDirty(); });
+  const zvRender=()=>{ $('#zarva-list').innerHTML=zarvaListHTML(s.zarvaNapok); $$('[data-zvdel]').forEach(b=>b.onclick=()=>{ s.zarvaNapok=(s.zarvaNapok||[]).filter((x,i)=>i!==+b.dataset.zvdel); zvRender(); markDirty(); }); };
+  zvRender();
+  $('#zv-tol')?.addEventListener('change',e=>{ const ig=$('#zv-ig'); ig.min=e.target.value; if(ig.value&&ig.value<e.target.value) ig.value=''; });
+  $('#zv-add')?.addEventListener('click',()=>{ const a=$('#zv-tol').value, b=$('#zv-ig').value, m=$('#zv-msg');
+    if(!a){ m.innerHTML='<div class="msg err">Válassza ki az első zárva napot.</div>'; $('#zv-tol').focus(); return; }
+    if(b&&b<a){ m.innerHTML='<div class="msg err">Az utolsó nap nem lehet korábban, mint az első.</div>'; return; }
+    s.zarvaNapok=[...(s.zarvaNapok||[]),(b&&b!==a)?a+'..'+b:a].sort(); $('#zv-tol').value=''; $('#zv-ig').value='';
+    m.innerHTML='<div class="msg ok">Hozzáadva. Ne felejtse el megnyomni alul a <b>Mentés</b> gombot!</div>'; zvRender(); markDirty(); });
 }
 /* ---- Biztonság fül: telefonos megerősítés, jelszó, belépési napló ---- */
 function loadQR(){ return window.QRCode?Promise.resolve():new Promise((ok,no)=>{ const sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; sc.onload=ok; sc.onerror=no; document.head.appendChild(sc); }); }
@@ -2979,6 +2991,17 @@ if('IntersectionObserver'in window)new IntersectionObserver(function(e){on=e[0].
 requestAnimationFrame(frame);})();</script>
 <style id="admin-sugo">
 /* ===== Admin: egyszerű kezelés, súgó és magyarázatok ===== */
+.adm2 #zarva-box{display:grid;gap:12px;margin-top:6px}
+.adm2 .zv-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.adm2 .zv-list li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #ead7a6}
+.adm2 .zv-list li>.ic{color:#b8862e}.adm2 .zv-list li span{flex:1;min-width:0}.adm2 .zv-list li b{display:block;font-size:1rem}.adm2 .zv-list li small{color:var(--muted)}
+.adm2 .zv-list li.mult{opacity:.6}
+.adm2 .zv-none{margin:0;padding:12px;border-radius:12px;background:#f4f7f4;color:#3d5a40}
+.adm2 .zv-add{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;padding:12px;border-radius:12px;background:#fffaf0;border:1px dashed #d9bf82}
+.adm2 .zv-f{display:grid;gap:5px;font-weight:600;font-size:.9rem}.adm2 .zv-f small{font-weight:400;color:var(--muted)}
+.adm2 .zv-add .btn{min-height:48px}
+@media (max-width:700px){.adm2 .savebar .sbtxt span small{display:none!important}.adm2 .zv-list li .btn{padding:0 10px;font-size:0}.adm2 .zv-list li .btn .ic{width:22px;height:22px}.adm2 .zv-list li b{font-size:.98rem}.adm2 .savebar .sbtxt span{font-size:.92rem;line-height:1.25}.adm2 .zv-add{grid-template-columns:1fr}.adm2 .zv-f input{min-height:50px;font-size:17px}}
+
 .adm2 .sg-card{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 18px;padding:16px 18px 16px 16px;border-radius:16px;background:linear-gradient(180deg,#fffaf0,#fbf1da);border:1px solid #ead7a6;box-shadow:inset 4px 0 0 #c99a3c,0 6px 16px rgba(120,86,20,.08)}
 .adm2 .sg-q-ic{grid-row:span 3;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font:800 1.35rem/1 var(--fd);color:#1a1200;background:linear-gradient(180deg,#ffe6a3,#f0c46e 50%,#c98e2b);box-shadow:0 3px 8px rgba(150,105,25,.35),inset 0 1px 0 rgba(255,255,255,.6)}
 .adm2 .sg-card h3{margin:0;font:800 1.02rem/1.3 var(--fd);color:var(--ink)}
@@ -3095,7 +3118,7 @@ requestAnimationFrame(frame);})();</script>
     ugyfelek:{t:'A cég ügyfélnyilvántartása',p:'Bizalmas adatok: csak munkához használja, és ne adja tovább.',l:['Keressen névre, településre, telefonszámra vagy AP-számra.','Az <b>Új ügyfél</b> gombbal vehet fel új ügyfelet. Egy ügyfélre koppintva módosíthatja az adatait.','Több ügyfelet kijelölve útvonalat tervezhet a Google Térképen.']},
     szolgaltatasok:{t:'A szerviz díjai',p:'Ezek az árak jelennek meg a Szerviz oldalon.',l:['Írja be a díjat nettó forintban, ÁFA nélkül.','Ha üresen hagyja, a vásárló „ár kérésre” szöveget lát.','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
     gyik:{t:'Gyakori kérdések',p:'Ezek a kérdések és válaszok a termékoldalak alján jelennek meg, kategóriánként.',l:['Minden sor egy kérdés és a rá adott válasz.','A kérdést és a választ függőleges vonal választja el. Például: <b>Mennyi a garancia? | 1 év.</b>','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
-    beallitasok:{t:'Nyitvatartás és cégadatok',p:'A főoldal ebből mutatja, hogy az üzlet éppen nyitva van-e.',l:['Pipálja be a nyitvatartási napokat, és írja be a nyitás és a zárás idejét.','Szabadsághoz írja be a napokat a <b>Rendkívüli zárva tartás</b> mezőbe, például: <b>2026-12-22..2027-01-02</b>','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
+    beallitasok:{t:'Nyitvatartás és cégadatok',p:'A főoldal ebből mutatja, hogy az üzlet éppen nyitva van-e.',l:['Pipálja be a nyitvatartási napokat, és írja be a nyitás és a zárás idejét.','Szabadsághoz lent válassza ki a naptárból az első és az utolsó zárva napot, és nyomja meg a <b>Hozzáadás</b> gombot.','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
     felhasznalok:{t:'Ki léphet be az adminba?',p:'Itt adhat hozzáférést egy munkatársnak, vagy állíthatja vissza valaki jelszavát.',l:['Új munkatárs: írja be a nevét, a telefonszámát és az e-mail címét, majd adja meg a hozzáférést.','A munkatárs e-mailben kap egy kódot, ezzel állít be magának jelszót.','Ha valaki elfelejtette a jelszavát, nyomja meg a <b>Jelszó visszaállítása</b> gombot.']},
     biztonsag:{t:'A belépés védelme',p:'A saját jelszavát és a belépés biztonságát kezelheti itt.',l:['Jelszót itt módosíthat. Legalább 10 karakter legyen.','Javasolt bekapcsolni a telefonos kódot is, tartaléknak.','Az utolsó belépések listájában ellenőrizheti, hogy csak Önök léptek-e be.']}
   };
@@ -3109,7 +3132,7 @@ requestAnimationFrame(frame);})();</script>
     {ic:'plus',q:'Új terméket szeretnék feltenni',tab:'termekek',sel:'#newp',l:['A <b>Termékek</b> oldalon nyomja meg a sárga <b>+</b> (Új termék) gombot.','Töltse ki a nevet, az árat és a leírást, és töltsön fel fotót.','Nyomja meg a <b>Módosítások átvétele</b>, majd alul a <b>Mentés</b> gombot.'],tip:'Elég a legfontosabbakat kitölteni. A ritkán kellő mezők a „További beállítások” alatt vannak.'},
     {ic:'photo',q:'Fotót szeretnék feltenni vagy cserélni',tab:'termekek',sel:'.pc2:not([hidden]) [data-edit]',l:['A terméknél nyomja meg a <b>Szerkesztés</b> gombot.','A <b>Fotók</b> résznél válassza ki a képeket a telefonról vagy a gépről.','Az első kép lesz a főkép. A nyilakkal változtathat a sorrenden.','Nyomja meg a <b>Módosítások átvétele</b>, majd a <b>Mentés</b> gombot.']},
     {ic:'bell',q:'Új rendelést szeretnék kezelni',tab:'rendelesek',sel:'.chips',l:['Nyissa meg a <b>Rendelések</b> oldalt. A piros szám mutatja az új rendeléseket.','Hívja fel vagy írjon a vásárlónak.','Nyomja meg a <b>Visszaigazolva</b> gombot. A vásárló ekkor automatikusan e-mailt kap.','Átadás után nyomja meg a <b>Kész</b> gombot.']},
-    {ic:'clock',q:'Szabadságot vagy ünnepi zárva tartást állítanék be',tab:'beallitasok',sel:'#set-zarva',l:['Nyissa meg a <b>Cégadatok, nyitvatartás</b> oldalt.','A <b>Rendkívüli zárva tartás</b> mezőbe írja be a napot (pl. <b>2026-12-24</b>) vagy az időszakot (pl. <b>2026-12-22..2027-01-02</b>). Minden sorba egyet írjon.','Nyomja meg a <b>Mentés</b> gombot.'],tip:'A magyar ünnepnapokon az oldal magától zárva mutatja az üzletet, ezeket nem kell beírni.'},
+    {ic:'clock',q:'Szabadságot vagy ünnepi zárva tartást állítanék be',tab:'beallitasok',sel:'.zv-add',l:['Nyissa meg a <b>Cégadatok, nyitvatartás</b> oldalt.','A <b>Szabadság, rendkívüli zárva tartás</b> résznél koppintson az <b>Első zárva nap</b> mezőre, és válassza ki a napot a naptárból.','Az <b>Utolsó zárva nap</b> mezőben válassza ki, meddig tart a szabadság. Ha csak egy napról van szó, hagyja üresen.','Nyomja meg a <b>Hozzáadás</b>, majd alul a sárga <b>Mentés</b> gombot.'],tip:'A magyar ünnepnapokon az oldal magától zárva mutatja az üzletet, ezeket nem kell beírni. Szabadság után a régi bejegyzést a Törlés gombbal eltávolíthatja.'},
     {ic:'clock',q:'Módosítanám a nyitvatartást',tab:'beallitasok',sel:'.ptable',l:['Nyissa meg a <b>Cégadatok, nyitvatartás</b> oldalt.','Pipálja be a nyitvatartási napokat, és írja be a nyitás és a zárás idejét.','Nyomja meg a <b>Mentés</b> gombot.']},
     {ic:'wrench',q:'Szervizdíjat szeretnék módosítani',tab:'szolgaltatasok',sel:'.ptable',l:['Nyissa meg a <b>Szerviz díjak</b> oldalt.','Írja át a díjat nettó forintban.','Nyomja meg a <b>Mentés</b> gombot.']},
     {ic:'users',q:'Munkatársnak adnék belépést',tab:'felhasznalok',own:1,sel:'#uadd',l:['Nyissa meg a <b>Felhasználók</b> oldalt.','Az <b>Új admin hozzáférés</b> résznél írja be a munkatárs nevét, telefonszámát és e-mail címét.','A munkatárs e-mailt kap, és az első belépéskor beállítja a jelszavát.']},
@@ -3140,7 +3163,7 @@ requestAnimationFrame(frame);})();</script>
     'Bemutató videó linkje':'Ha van YouTube-videó a termékről, ide másolja a linkjét.',
     '3D modell formája':'Ha még nincs valódi fotó, ez a forgatható ábra jelenik meg. Válassza a termékhez leginkább hasonlót.',
     'Fotók':'Az első kép lesz a főkép. A nyilakkal rendezheti, az X-szel törölheti a képeket.',
-    'Rendkívüli zárva tartás':'Minden sorba egy nap (<b>2026-12-24</b>) vagy időszak (<b>2026-12-22..2027-01-02</b>). Az ünnepnapokat nem kell beírni.',
+    'Szabadság, rendkívüli zárva tartás':'Ezeken a napokon a főoldal „Zárva” jelzést mutat, és kiírja, mikor nyit újra az üzlet. Az ünnepnapokat nem kell beírni.',
     'ÁFA kulcs (%)':'Általában <b>27</b>. Csak jogszabályváltozáskor kell módosítani.',
     'E-mail (ide jönnek a megrendelések)':'Erre a címre érkezik értesítés minden új rendelésről.',
     'Mobilszámok':'Több számot vesszővel válasszon el.',
