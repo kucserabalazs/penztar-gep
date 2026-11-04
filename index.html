@@ -686,7 +686,7 @@ ul.ticks svg{filter:drop-shadow(0 0 6px rgba(244,213,141,.45))}
 @media (min-width:761px){
   #kapcsolat .shead>div:first-child{flex:0 1 auto;max-width:max-content}
   #kapcsolat .szp{display:flex;flex:1 1 0;min-width:0;margin-left:-20px}
-  .szdisz.dz-angyal{flex:1 1 auto;width:100%;min-width:0;height:calc(clamp(150px,17vw,240px)*1.35556);margin-top:calc(-40px - clamp(150px,17vw,240px)*.35556);object-fit:cover;object-position:50% 100%;opacity:.9;
+  .szdisz.dz-angyal{flex:1 1 auto;width:100%;min-width:0;height:calc(clamp(150px,17vw,240px)*1.35556);margin-top:calc(-40px - clamp(150px,17vw,240px)*.35556);object-fit:cover;object-position:50% 100%;opacity:.9;transform:scale(.9);transform-origin:50% 100%;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 }
 .szdisz.lovas{height:clamp(200px,24vw,320px);margin:-70px -10px -22px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 96%,transparent)}
@@ -996,15 +996,15 @@ html[dir=rtl] .top .hnyelv{display:none}
 @media (max-width:900px){.hsz-row{grid-template-columns:1fr}}
 /* térkép helye: díszesebb háttér */
 /* térkép helye: balra a TV-torony, jobbra a székesegyház (mozgó vonalrajzok); a székesegyház legmagasabb pontja vízszintesen egy vonalban van a TV-torony csúcsával */
-.map-ph{background:radial-gradient(ellipse 40% 26% at calc(50% + var(--szoveg-x,0px)) calc(100% - 90px),rgba(251,246,234,.95),rgba(251,246,234,.7) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104") left var(--tv-bal,5%) bottom -6px/auto var(--tv-h,min(86%,440px)) no-repeat,url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101") right 3% bottom -4px/auto calc(min(86%,440px)*1.00192 - 2.01px) no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
+.map-ph{background:radial-gradient(ellipse 40% 26% at calc(50% + var(--szoveg-x,0px)) 96px,rgba(251,246,234,.95),rgba(251,246,234,.7) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104") left var(--tv-bal,5%) bottom -6px/auto var(--tv-h,min(86%,440px)) no-repeat,url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101") right 3% bottom -4px/auto calc(min(86%,440px)*1.00192 - 2.01px) no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
 .map-ph>*{position:relative;z-index:1;transform:translateX(var(--szoveg-x,0px))}
 /* kisördög–kisangyal jelenet: a torony ilyenkor a jelenet rajzában él (hajlik), a háttérben nem rajzolódik ki */
 .map-ph.tj-be{--tv-h:0px}
 .tj-svg{color:#2b3c53}.tj-svg .resz{transform-box:fill-box}.tj-svg .szikra{display:none}
 /* a középső írások együttese alul, kis esztétikus hézaggal */
-.map-ph{justify-content:flex-end!important;padding-bottom:28px!important}
-@media (max-width:760px){.map-ph{padding-bottom:20px!important}}
-@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 34% at calc(50% + var(--szoveg-x,0px)) calc(100% - 84px),rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto var(--tv-h,54%),auto calc(54%*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
+.map-ph{justify-content:flex-start!important;padding-top:26px!important;padding-bottom:24px!important}
+@media (max-width:760px){.map-ph{padding-top:18px!important}}
+@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 34% at calc(50% + var(--szoveg-x,0px)) 90px,rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto var(--tv-h,54%),auto calc(54%*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
 .map-ph b{font-size:1.1rem}
 </style>
 <style id="bankjegyek">
