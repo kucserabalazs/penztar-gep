@@ -29,26 +29,33 @@
     }
   }
 
-  /* Térkép helye (főoldal): a TV-torony a bal oldali üres rész pontos közepén – a doboz bal szélétől
-     a szövegblokk, illetve a székesegyház (amelyik közelebb van) bal széléig. A torony mérete nem változik:
-     ugyanazt számolja, mint a CSS (asztali: min(86%, 440px) magas, telefonon 54%). */
+  /* Térkép helye (főoldal)
+     1) A TV-torony rögzített helyen áll: a bal oldali üres rész közepén – a doboz bal szélétől a középre
+        igazított írások, illetve a székesegyház (amelyik közelebb van) bal széléig. A szöveg vízszintes
+        mozgatása ezt NEM befolyásolja (az írások eredeti, középre igazított helyéből számol).
+     2) Az írások együttese (változatlan formában és magasságban) vízszintesen pontosan a TV-torony jobb széle
+        és a székesegyház bal széle közé kerül, középre – ha nem fér el, a dobozon belül marad. */
   function tvTorony() {
     var b = document.querySelector(".map-ph"); if (!b) return;
     var r = b.getBoundingClientRect(), W = r.width, H = r.height; if (!W || !H) return;
     var mobil = window.matchMedia("(max-width:760px)").matches;
     var ht = mobil ? .54 * H : Math.min(.86 * H, 440), wt = ht * 448.667 / 1469.33;
     var hc = mobil ? .54 * H * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
-    var szekBal = (W - wc) * (mobil ? .98 : .97);
-    var szovegBal = W;
-    for (var i = 0; i < b.children.length; i++) {
-      var el = b.children[i], rg = document.createRange(); rg.selectNodeContents(el);
-      var rs = [].slice.call(rg.getClientRects()).concat([el.getBoundingClientRect()]);
-      for (var q = 0; q < rs.length; q++) if (rs[q].width && rs[q].height && (el.tagName !== "SMALL" || rs[q] !== rs[rs.length - 1])) szovegBal = Math.min(szovegBal, rs[q].left - r.left);
-    }
-    /* a torony az üres rész pontos közepén */
-    var lathato = wt * 216.6 / 448.667;   /* a torony látható szélessége (a rajz a kép szélességének kb. 48%-a) */
-    var hatar = Math.min(szekBal, szovegBal), v = (hatar / 2 - wt / 2).toFixed(1) + "px";
+    var szekKep = (W - wc) * (mobil ? .98 : .97);              /* a székesegyház képének bal széle */
+    var gw = 0;                                                 /* az írások együttesének szélessége (a legszélesebb sor) */
+    for (var i = 0; i < b.children.length; i++) gw = Math.max(gw, b.children[i].getBoundingClientRect().width);
+    var szovegBal0 = (W - gw) / 2;                              /* az eredeti, középre igazított helyzet bal széle */
+    var tvBal = Math.min(szekKep, szovegBal0) / 2 - wt / 2;     /* a toronykép bal széle (a rajz a kép közepén van) */
+    var tvJobb = tvBal + wt * .74138;                           /* a torony látható jobb széle */
+    var szekBal = szekKep + wc * .0224;                         /* a székesegyház látható bal széle (a rajz első vonala) */
+    var cel = (tvJobb + szekBal) / 2 - gw / 2;                  /* az írások bal széle: pontosan a kettő között középen */
+    /* ha a kettő között nem fér el (keskeny, magas doboz), a torony jobb széle és a doboz jobb széle között középen áll,
+       így a tornyot sosem takarja */
+    if (szekBal - tvJobb < gw + 24) cel = (tvJobb + W) / 2 - gw / 2;
+    cel = Math.max(tvJobb + 12, Math.min(W - 12 - gw, cel));
+    var v = tvBal.toFixed(1) + "px", dx = (cel - szovegBal0).toFixed(1) + "px";
     if (b.style.getPropertyValue("--tv-bal") !== v) b.style.setProperty("--tv-bal", v);
+    if (b.style.getPropertyValue("--szoveg-x") !== dx) b.style.setProperty("--szoveg-x", dx);
   }
   function kesobb() { if (!raf) raf = requestAnimationFrame(frissit); }
   window.addEventListener("resize", kesobb);
