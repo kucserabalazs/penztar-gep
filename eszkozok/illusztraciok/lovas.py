@@ -23,7 +23,7 @@ import os, re, math
 
 GYOKER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 WEB = os.path.join(GYOKER, "assets/illusztraciok/web")
-JEL = "<!--lovas-v5-->"
+JEL = "<!--lovas-v6-->"
 T = 24.0
 D = 305                         # a talapzat tetejétől a földig
 X1, XB, XR = -200, -350, 262    # földet érés; a megkerülés kezdete (balra, a talapzattól szabadon); jobb oldal (a talapzat mögött)
@@ -60,43 +60,169 @@ def erkezes(u, y0, rx, sk):
 def lepes(u, n):  # séta: billegés
     return 3.2 * abs(math.sin(math.pi * n * u))
 
-XKI, XBE, XU = -1860, 820, 330   # balra ki a képből; jobbról be; innen rugaszkodik fel
-PER = .46                          # egy vágtaütem (mp)
+XKI, XBE, XU = -1860, 822, 330   # balra ki a képből; jobbról be; innen rugaszkodik fel
+PER, DUTY = .46, .30               # egy vágtaütem (mp); a támaszfázis aránya lábanként
+VMAX = 1660 / 3.0                  # kifelé: .8 mp alatt gyorsul fel erre, aztán egyenletes
+V1, V2 = 520., 300.                # befelé: ezzel jön be, ennyire lassul az elrugaszkodásig
+REJT = (12.6, 14.8)                # ekkor a képen kívül van
+PIV = (1746, 357)                  # a test forgáspontja (hátsó paták)
 
-def vagta(t, a):
-    """vágta: (emelkedés, bólintás°, mellső láb°, hátsó láb°) az a időponttól"""
-    f = 2 * math.pi * (t - a) / PER
-    be = seg(t, a, a + .35)
-    emel = 9 * abs(math.sin(f / 2 + .4)) * be
-    bol = 4.5 * math.sin(f + .9) * be
-    return emel, bol, 30 * math.sin(f) * be, -26 * math.sin(f + 2.3) * be
+def xpoz(t):
+    if t < 9.2: return X1
+    if t < 12.6:
+        u = t - 9.2; return X1 - VMAX * (u * u / 1.6 if u < .8 else .4 + (u - .8))
+    if t < 14.8: return XKI
+    u = min(t, 16.0) - 14.8; return XBE - (V1 * u - (V1 - V2) * u * u / 2.4)
+
+def sebesseg(t): return abs(xpoz(t + .01) - xpoz(t - .01)) / .02
+
+def vagta_test(t, t0):
+    """vágta: (emelkedés, bólintás°); a lebegő fázisban a legmagasabb, a hátsó támasznál orral fel"""
+    f = ((t - t0) / PER) % 1
+    be = seg(t, t0, t0 + .35)
+    return be * (3.5 + 5 * math.cos(2 * math.pi * (f - .87))), be * 3.5 * math.cos(2 * math.pi * (f - .2))
 
 def test(t):
-    """(x, y, forgás°, skálaX, skálaY) – a szobor egésze a hátsó paták körül"""
+    """(x, y, forgás°, skálaX, skálaY) – a szobor egésze a hátsó paták körül (+ forgás = orral fel)"""
     if t < 5.0: return (0, 0, 0, 1, 1)
-    if t < 5.5: k = eio(seg(t, 5.0, 5.5)); return (0, 4 * k, 0, 1 + .03 * k, 1 - .06 * k)
+    if t < 5.5: k = eio(seg(t, 5.0, 5.5)); return (0, 5 * k, 0, 1 + .03 * k, 1 - .06 * k)
     if t < 7.0:
-        u = seg(t, 5.5, 7.0); x, y = ugras(u, (0, 4), (X1, D), 115)
-        st = cl(1 - u / .18); return (x, y, lerp(-7, 9, u), 1 - .03 * st, 1 + .05 * st)
-    if t < 7.6: y, sx, sy = erkezes(seg(t, 7.0, 7.6), D, 0, 1); return (X1, y, lerp(9, 0, cl(seg(t, 7.0, 7.15))), sx, sy)
+        u = seg(t, 5.5, 7.0); x, y = ugras(u, (0, 5), (X1, D), 115)
+        st = cl(1 - u / .18); return (x, y, lerp(7, -9, eio(u)), 1 - .03 * st, 1 + .05 * st)
+    if t < 7.6: y, sx, sy = erkezes(seg(t, 7.0, 7.6), D, 0, 1); return (X1, y, lerp(-9, 0, eio(seg(t, 7.0, 7.3))), sx, sy)
     if t < 8.0: return (X1, D, 0, 1, 1)
     if t < 9.2:                                                  # rövid ágaskodás, a kard a magasban
         if t < 8.5: r = 21 * eob(seg(t, 8.0, 8.5))
         elif t < 8.85: r = 19 + 2.5 * math.sin(2 * math.pi * (t - 8.5) / .7)
         else: r = 19 * (1 - ei(seg(t, 8.85, 9.2)))
         return (X1, D, r, 1, 1)
-    if t < 12.6:                                                 # elvágtat balra, gyorsulva, ki a képből
-        u = seg(t, 9.2, 12.6); e, b, _, _ = vagta(t, 9.2)
-        return (X1 + (XKI - X1) * u ** 1.55, D - e, b, 1, 1)
-    if t < 14.0: return (XKI, D, 0, 1, 1)
-    if t < 16.0:                                                 # jobbról bevágtat, lassul
-        u = seg(t, 14.0, 16.0); e, b, _, _ = vagta(t, 14.0 - .3)
-        return (XBE + (XU - XBE) * (1 - (1 - u) ** 1.35), D - e, b, 1, 1)
+    if REJT[0] <= t < REJT[1]: t = REJT[0] - .001 if t < 13.7 else REJT[1]
+    if t < 12.6: e, b = vagta_test(t, 9.2); return (xpoz(t), D - e, b, 1, 1)
+    if t < 16.0:
+        e, b = vagta_test(t, 14.8 - .35)
+        k = seg(t, 15.75, 16.0)                                  # elrugaszkodás előtt lekuporodik a hátsó lábakra
+        return (xpoz(t), D - e * (1 - k) + 3 * k, b * (1 - k) - 3 * k, 1, 1)
     if t < 17.3:                                                 # lendületből felugrik a talapzatra
-        u = seg(t, 16.0, 17.3); x, y = ugras(u, (XU, D), (0, 0), 205)
-        return (x, y, lerp(-11, 5, eio(u)), 1, 1)
-    if t < 17.9: y, sx, sy = erkezes(seg(t, 17.3, 17.9), 0, 0, 1); return (0, y, lerp(5, 0, cl(seg(t, 17.3, 17.45))), sx, sy)
+        u = seg(t, 16.0, 17.3); x, y = ugras(u, (XU, D + 3), (0, 0), 205)
+        return (x, y, lerp(13, -5, eio(u)), 1, 1)
+    if t < 17.9: y, sx, sy = erkezes(seg(t, 17.3, 17.9), 0, 0, 1); return (0, y, lerp(-5, 0, eio(seg(t, 17.3, 17.55))), sx, sy)
     return (0, 0, 0, 1, 1)
+
+# ---------------- a négy láb: külön-külön, ízületekkel (könyök/térd – csüd – pata), inverz kinematikával ----------------
+LP, PATAH, PST = 12, 10, 35         # csüd hossza, pata magassága, a csüd dőlése álló helyzetben (fok)
+LABAK = {   # név: (gyökér = könyök / térdkalács, felső hossz, alsó (szár) hossz, mellső?, távoli?, talppont x)
+    "FF": ((1520, 257), 47, 34.5, True, True, 1512),
+    "RF": ((1694, 264), 45, 32, False, True, 1700),
+    "FN": ((1549, 257), 47, 34.5, True, False, 1543),
+    "RN": ((1737, 264), 45, 32, False, False, 1745),
+}
+FAZIS = {"RF": 0.0, "RN": .10, "FF": .34, "FN": .44}   # a támasz kezdete az ütemen belül (bal vezetésű, keresztezett vágta)
+OFS = (math.sin(math.radians(PST)) * LP, -(math.cos(math.radians(PST)) * LP + PATAH))
+
+def talaj(t): return D if 5.5 <= t < 17.3 else 0
+
+def foldy(t, x):
+    """a föld magassága a test saját koordinátáiban az x helyen"""
+    _, y, r, _, _ = test(t); rr = math.radians(r)
+    return PIV[1] + (talaj(t) - y - math.sin(rr) * (x - PIV[0])) / math.cos(rr)
+
+def all_(t, n):
+    R, a, b, elol, tav, tx = LABAK[n]
+    return (tx + OFS[0], foldy(t, tx) + OFS[1], 0., 1.)
+
+def nyugvo(t, n):                  # a szobor eredeti tartása: a közeli mellső láb kissé felemelve, a pata hegye a talapzaton
+    if n == "FN": return (1557, 327, .55, 0.)
+    return all_(t, n)
+
+def jarat(t, n, t0):
+    R, a, b, elol, tav, tx = LABAK[n]
+    f = ((t - t0) / PER - FAZIS[n]) % 1
+    s = cl(sebesseg(t) * DUTY * PER, 24, 88 if elol else 66)
+    hat, elo = tx + s * .5, tx - s * .5 - (6 if elol else 0)
+    if f < DUTY:
+        cx = lerp(elo, hat, f / DUTY)
+        return (cx + OFS[0], foldy(t, cx) + OFS[1], 0., 1.)
+    u = (f - DUTY) / (1 - DUTY)
+    y0, y1 = foldy(t, hat) + OFS[1], foldy(t, elo) + OFS[1]
+    if elol:   # a mellső láb: gyorsan felhajlik (a térd előre, a szár hátra), majd előrenyúlik és leteszi
+        x = lerp(hat, elo, eio(cl(u * 1.08))) + OFS[0] - 10 * math.sin(math.pi * u) ** 2
+        y = lerp(y0, y1, u) - 48 * math.sin(math.pi * cl(u * 1.25)) ** .9
+        k = math.sin(math.pi * cl(u * 1.2)) ** .7
+    else:      # a hátsó láb: a csánk hajlik, a pata előrelendül a has alá
+        x = lerp(hat, elo, eio(u)) + OFS[0]
+        y = lerp(y0, y1, u) - 24 * math.sin(math.pi * u) ** .8
+        k = .8 * math.sin(math.pi * u) ** .8
+    return (x, y, k, 1 - math.sin(math.pi * u) ** .5)
+
+def relativ(R, dx, dy, k, fl=0.): return (R[0] + dx, R[1] + dy, k, fl)
+
+def ugro(u, n, kezd, veg):
+    """ugrás közbeni lábtartás: elrugaszkodás – behúzás – leérkezés előtti kinyúlás"""
+    R, a, b, elol, tav, tx = LABAK[n]
+    tv = LABAK[n][4]                     # a két láb ne fedje egymást: a távolabbi kicsit másképp hajlik
+    if elol:
+        beh, nyu = (relativ(R, -3, 45, .9), relativ(R, -16, 73, .1)) if tv else (relativ(R, -15, 36, 1.), relativ(R, -30, 68, .25))
+        if u < .14: return keve(kezd, beh, eio(u / .14))
+        if u < .58: return beh
+        if u < .9: return keve(beh, nyu, eio((u - .58) / .32))
+        return keve(nyu, veg, eio((u - .9) / .1))
+    tol, beh, nyu = ((relativ(R, 30, 62, .35), relativ(R, -10, 46, .75), relativ(R, 0, 62, .15)) if tv else
+                     (relativ(R, 22, 64, .25), relativ(R, -20, 40, .9), relativ(R, -9, 60, .25)))
+    if u < .15: return keve(kezd, tol, eio(u / .15))
+    if u < .45: return keve(tol, beh, eio((u - .15) / .3))
+    if u < .7: return beh
+    if u < .95: return keve(beh, nyu, eio((u - .7) / .25))
+    return keve(nyu, veg, eio((u - .95) / .05))
+
+def keve(A, B, w): return tuple(lerp(A[i], B[i], w) for i in range(4))
+
+def kapal(t, n):                    # ágaskodás: a mellső lábak felváltva kapálnak
+    R = LABAK[n][0]; p = 2 * math.pi * (t - 8.0) / .55 + (math.pi if n == "FN" else 0)
+    return relativ(R, -20 - 17 * math.sin(p), 47 + 14 * math.cos(p), .55 + .35 * math.sin(p))
+
+def poz(t, n):
+    """(csüdízület x, y a test koordinátáiban, csüdhajlítás 0..1, a pata a földön fekszik 0..1)"""
+    elol = LABAK[n][3]
+    if REJT[0] <= t < REJT[1]: t = REJT[0] - .001
+    if t < 5.0: return nyugvo(t, n)
+    if t < 5.5: return keve(nyugvo(t, n), all_(t, n), eio(seg(t, 5.0, 5.3)))
+    if t < 7.0: return ugro(seg(t, 5.5, 7.0), n, all_(5.499, n), all_(7.0, n))
+    if t < 8.0: return all_(t, n)
+    if t < 9.2:
+        if not elol: return all_(t, n)
+        return keve(all_(t, n), kapal(t, n), eio(seg(t, 8.0, 8.2)) * (1 - eio(seg(t, 8.9, 9.2))))
+    if t < 12.6: return keve(all_(t, n), jarat(t, n, 9.2), eio(seg(t, 9.2, 9.45)))
+    if t < 16.0:
+        p = jarat(t, n, 14.8 - .35)
+        if not elol: return keve(p, all_(t, n), eio(seg(t, 15.78, 16.0)))      # a hátsó lábak alá kerülnek: elrugaszkodás
+        return p
+    if t < 17.3: return ugro(seg(t, 16.0, 17.3), n, poz(15.999, n), all_(17.3, n))
+    if t < 17.9: return all_(t, n)
+    return keve(all_(t, n), nyugvo(t, n), eio(seg(t, 17.9, 18.6)))
+
+def ik(n, F):
+    R, a, b, elol, tav, tx = LABAK[n]
+    dx, dy = F[0] - R[0], F[1] - R[1]; d = math.hypot(dx, dy)
+    d2 = cl(d, abs(a - b) + 2, a + b - .4); alap = math.atan2(dy, dx)
+    al = math.acos(cl((a * a + d2 * d2 - b * b) / (2 * a * d2), -1, 1))
+    j = [(R[0] + a * math.cos(alap + sg * al), R[1] + a * math.sin(alap + sg * al)) for sg in (1, -1)]
+    J = min(j) if elol else max(j)                     # mellső: a térd előre (kisebb x), hátsó: a csánk hátra
+    Fv = (R[0] + dx / d * d2, R[1] + dy / d * d2) if d > 1e-6 else F
+    th1 = math.degrees(math.atan2(-(J[0] - R[0]), J[1] - R[1]))
+    lo, hi = (-38, 72) if elol else (-48, 30)          # a felső rész (alkar / lábszár) mozgástartománya: a comb, a váll izmai nem engednek többet
+    if not lo <= th1 <= hi:
+        th1 = cl(th1, lo, hi); rr = math.radians(th1); J = (R[0] - a * math.sin(rr), R[1] + a * math.cos(rr))
+    th2 = math.degrees(math.atan2(-(Fv[0] - J[0]), Fv[1] - J[1]))
+    return th1, th2
+
+def lab_szogek(t, n):
+    """(felső, alsó relatív, csüd relatív, pata relatív) fokban"""
+    fx, fy, k, fl = poz(t, n)
+    th1, th2 = ik(n, (fx, fy))
+    r = test(t if not (REJT[0] <= t < REJT[1]) else REJT[0] - .001)[2]
+    th3 = lerp(PST - r, th2 - 80, k)
+    th4 = lerp(th3 - 12 * k, -r, fl)
+    return th1, th2 - th1, th3 - th2, th4 - th3
 
 def fordul(t): return 1
 def maszk(t): return 0
@@ -200,6 +326,45 @@ KARD_RAJZ = (
     '<g id="lov-csillan" transform="translate(0 -116)"><path d="M0 -14 C1 -3 3 -1 14 0 C3 1 1 3 0 14 C-1 3 -3 1 -14 0 C-3 -1 -1 -3 0 -14 Z" fill="#fffbe6" stroke="#e9c76a" stroke-width=".8"/></g>'
 )
 
+VAGAS_E = "1486,263 1505,255 1569,255 1569,292 1612,392 1458,392"     # a rajzolt mellső lábak helye (kivágjuk)
+VAGAS_H = "1658,270 1676,262 1763,262 1763,322 1760,392 1640,392"     # a rajzolt hátsó lábak helye
+
+def lab_svg(n, vonal):
+    """egy láb: izmos felső rész – ízület – szár – csüdízület – csüd – pata; a körvonal csak az oldalakon fut,
+    az ízületeknél folytonosan, így nem darabos, hanem egybefüggő, élő lábnak hat"""
+    R, a, b, elol, tav, tx = LABAK[n]
+    g = f'fill="url(#{"lov-labt" if tav else "lov-lab"})"'
+    kv = f'fill="none" stroke="{vonal}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    fv = 'fill="none" stroke="#fff7e4" stroke-opacity=".5" stroke-width="1.8" stroke-linecap="round"'
+    av = f'fill="none" stroke="{vonal}" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"'
+    if elol:   # alkar: felül a mellkasba fut, elöl domború izom; alul a kéztőízület (a „térd”)
+        felso = (f'<path d="M-17 -22 C-19 -4 -13 20 -7.5 {a} L7.2 {a} C8.5 26 13.5 4 17 -22 Z" {g}/>'
+                 f'<path d="M-11.5 -2 C-12 12 -9 26 -5.5 {a - 6}" {fv}/><path d="M8.5 4 C7.5 18 6 28 5.2 {a - 6}" {av}/>'
+                 f'<path d="M-17.4 -1 C-16.4 14 -12 28 -7.5 {a}" {kv}/><path d="M15.8 -1 C13 10 9 26 7.2 {a}" {kv}/>'
+                 f'<ellipse cx="-.4" cy="{a}" rx="9" ry="7.6" {g}/>'
+                 f'<path d="M-7.6 {a - 6} C-10.6 {a - 2} -10.2 {a + 4} -6.8 {a + 7}" {kv}/><path d="M7.4 {a - 6} C9.6 {a - 2} 9.3 {a + 4} 6.4 {a + 7}" {kv}/>')
+    else:      # comb–lábszár: felül széles, hátul az Achilles-ín a csánkcsúcsig feszül; a csánk hátra mutat
+        felso = (f'<path d="M-21 -22 C-20.5 0 -12 22 -7.5 {a} L8 {a} C10 24 17 4 22 -22 Z" {g}/>'
+                 f'<path d="M-14 4 C-12 14 -8.5 26 -5.5 {a - 6}" {fv}/><path d="M13 6 C11 18 9.5 28 8.6 {a - 5}" {av}/>'
+                 f'<path d="M-21 -2 C-19 12 -11 26 -7.5 {a}" {kv}/><path d="M21 -2 C15.5 12 10.5 26 8 {a - 7}" {kv}/>'
+                 f'<path d="M-7.8 {a - 7} C-10 {a + 3} -6 {a + 9} 1 {a + 8.5} L11.5 {a + 2.5} C13 {a - 3} 10 {a - 9} 7.5 {a - 9} Z" {g}/>'
+                 f'<path d="M8 {a - 8} C11 {a - 7} 13.6 {a - 2} 11.5 {a + 2.5} L6.4 {a + 7}" {kv}/><path d="M-7.6 {a - 6} C-9.8 {a + 2} -7.6 {a + 7} -5.8 {a + 9}" {kv}/>')
+    szar = (f'<path d="M-6.4 -2 L-5.6 {b} L5.8 {b} L6.6 -2 Z" {g}/>'
+            f'<path d="M-3.4 4 L-3 {b - 5}" {fv}/><path d="M3.4 4 L3.3 {b - 5}" {av}/>'
+            f'<path d="M-6.3 5 L-5.6 {b - 4}" {kv}/><path d="M6.5 5 C6.9 {b * .4} 6.2 {b * .7} 5.9 {b - 4}" {kv}/>')
+    bok = (f'<ellipse cx="1" cy="{b}" rx="7.8" ry="6.8" {g}/>'
+           f'<path d="M5.6 {b - 6} C9.8 {b - 3} 9.8 {b + 4} 6 {b + 6.5}" {kv}/><path d="M-5.8 {b - 5} C-8 {b - 1} -7.6 {b + 3} -5.4 {b + 5.5}" {kv}/>')
+    csud = (f'<path d="M-5.4 -2 L-5 {LP + .5} L5.6 {LP + .5} L6.2 -2 Z" {g}/>'
+            f'<path d="M-5.3 3 L-5 {LP}" {kv}/><path d="M6.1 3 L5.6 {LP}" {kv}/>')
+    pata = (f'<path d="M-6.4 0 L6.2 0 L8.4 {PATAH} L-11.5 {PATAH} Z" fill="url(#lov-pata)" stroke="{vonal}" stroke-width="2" stroke-linejoin="round"/>'
+            f'<path d="M-6 1.9 L6 1.9" stroke="#fff3d6" stroke-opacity=".5" stroke-width="1.2"/>'
+            f'<path d="M-8.6 {PATAH - 2.4} L6.8 {PATAH - 2.4}" stroke="#000" stroke-opacity=".18" stroke-width="1"/>')
+    i = f"lov-l{n}"
+    return (f'<g transform="translate({R[0]} {R[1]})"><g id="{i}1">'
+            f'<g transform="translate(0 {a})"><g id="{i}2">{szar}'
+            f'<g transform="translate(0 {b})"><g id="{i}3">{csud}<g transform="translate(0 {LP})"><g id="{i}4">{pata}</g></g></g></g>'
+            f'{bok}</g></g>{felso}</g></g>')
+
 def feljavit(nev, arany=False):
     ut = os.path.join(WEB, nev)
     s = open(ut, encoding="utf-8").read()
@@ -218,7 +383,12 @@ def feljavit(nev, arany=False):
             dx, dy = x - cx, y - cy; h = math.hypot(dx, dy) or 1
             ki.append(f"{x - dx / h * d:.1f},{y - dy / h * d:.1f}")
         return " ".join(ki)
-    lyuk = " ".join("M" + szukit(p).replace(" ", " L") + " Z" for p in (ELSO_POLI, HATSO_POLI, KAR_POLI))
+    lyuk = " ".join("M" + q.replace(" ", " L") + " Z" for q in (szukit(KAR_POLI), VAGAS_E, VAGAS_H))
+    vonal_szin = "#7d5a1e" if arany else "currentColor"
+    if arany: lab_st = (("#fbeec4", "#e2c27a", "#c29a4e", "#8a6424"), ("#ead7a0", "#cfaa5e", "#a87f38", "#6f4e18"), ("#9c7432", "#5e4214"))
+    else: lab_st = (("#ecd2a3", "#c99e68", "#9c7247", "#69452a"), ("#d6b98c", "#ae8656", "#83603b", "#55381f"), ("#6a4628", "#3b2614"))
+    def lgr(azon, c): return (f'<linearGradient id="{azon}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{c[1]}"/><stop offset=".22" stop-color="{c[0]}"/>'
+                              f'<stop offset=".6" stop-color="{c[2]}"/><stop offset="1" stop-color="{c[3]}"/></linearGradient>')
     defs = (f'<defs>'
             f'<linearGradient id="lov-patina" gradientUnits="userSpaceOnUse" x1="1430" y1="30" x2="1790" y2="350">{st}</linearGradient>'
             f'<radialGradient id="lov-feny"><stop offset="0" stop-color="#fffaf0" stop-opacity=".7"/><stop offset=".5" stop-color="#fff3d6" stop-opacity=".3"/><stop offset="1" stop-color="#fff3d6" stop-opacity="0"/></radialGradient>'
@@ -229,10 +399,10 @@ def feljavit(nev, arany=False):
             f'<path id="lov-szil" d="{takaro}"/><path id="lov-vonal" d="{vonal}"/>'
             f'<clipPath id="lov-szilc"><use href="#lov-szil"/></clipPath>'
             f'<clipPath id="lov-testc"><path clip-rule="evenodd" d="M1300 -200 H2000 V900 H1300 Z {lyuk}"/></clipPath>'
-            f'<clipPath id="lov-elsoc"><polygon points="{ELSO_POLI}"/></clipPath>'
-            f'<clipPath id="lov-hatsoc"><polygon points="{HATSO_POLI}"/></clipPath>'
+            + lgr("lov-lab", lab_st[0]) + lgr("lov-labt", lab_st[1]) +
+            f'<linearGradient id="lov-pata" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{lab_st[2][0]}"/><stop offset="1" stop-color="{lab_st[2][1]}"/></linearGradient>'
             f'<clipPath id="lov-karc"><polygon points="{KAR_POLI}"/></clipPath>'
-            f'<g id="lov-reteg"><use href="#lov-szil" class="lov-p"/>'
+            f'<g id="lov-reteg"><g id="lov-reteg0"><use href="#lov-szil" class="lov-p"/>'
             f'<g clip-path="url(#lov-szilc)">'
             f'<ellipse cx="1612" cy="300" rx="150" ry="58" fill="url(#lov-arny)"/>'
             f'<ellipse cx="1528" cy="345" rx="40" ry="30" fill="url(#lov-arny)"/><ellipse cx="1712" cy="340" rx="50" ry="30" fill="url(#lov-arny)"/>'
@@ -246,12 +416,15 @@ def feljavit(nev, arany=False):
             f'<rect x="1400" y="0" width="430" height="370" fill="url(#lov-mely)"/>'
             f'<use href="#lov-szil" fill="none" stroke="#fff6df" stroke-width="5" stroke-opacity=".6" transform="translate(2.4 2)"/>'
             f'<use href="#lov-szil" fill="none" stroke="{sotet}" stroke-width="5" stroke-opacity=".35" transform="translate(-2.4 -2.2)"/>'
-            f'</g><use href="#lov-vonal"{' fill="#7d5a1e"' if arany else ''}/></g>'
+            f'</g></g><use href="#lov-vonal"{' fill="#7d5a1e"' if arany else ''}/></g>'
             f'</defs>')
     uj = (f'{JEL}{defs}<g id="lov-fordul">'
+          + "".join(lab_svg(n, vonal_szin) for n in ("FF", "RF", "FN", "RN")) +
+          # a mellkas alja: a két alkar ide fut be, így mozgás közben sem látszik a lábak felső széle
+          '<clipPath id="lov-mellc"><path d="M1500 248 L1501 262 C1505 270 1512 273 1520 273 C1527 273 1531 268 1534.5 265 C1538 268 1542 273 1549 273 C1557 273 1563 269 1567 262 L1570 248 Z"/></clipPath>'
+          '<g clip-path="url(#lov-mellc)"><use href="#lov-reteg0"/></g>'
+          f'<path d="M1501 262 C1505 270 1512 273 1520 273" fill="none" stroke="{vonal_szin}" stroke-width="2" stroke-linecap="round"/>' +
           f'<g clip-path="url(#lov-testc)"><use href="#lov-reteg"/></g>'
-          f'<g id="lov-hatso"><g clip-path="url(#lov-hatsoc)"><use href="#lov-reteg"/></g></g>'
-          f'<g id="lov-elso"><g clip-path="url(#lov-elsoc)"><use href="#lov-reteg"/></g></g>'
           f'<g id="lov-kar"><g clip-path="url(#lov-karc)"><use href="#lov-reteg"/></g></g>'
           f'<g id="lov-takar"><polygon points="{TAKAR_POLI}" fill="url(#lov-patina)" clip-path="url(#lov-szilc)"/></g>'
           f'<g id="lov-kard">{KARD_RAJZ}</g></g>')
@@ -277,19 +450,23 @@ def feljavit(nev, arany=False):
     s = s[:zar] + utana + s[zar:]
     # animációk
     anim = {"szobor": "lov-test"}
-    for n in ("elso", "hatso", "kar", "kard", "takar", "csillan", "arnyek", "por1", "por2", "por3", "fordul", "maszk-p"): anim["lov-" + n] = "lov-" + n
+    for n in ("kar", "kard", "takar", "csillan", "arnyek", "por1", "por2", "por3", "fordul", "maszk-p"): anim["lov-" + n] = "lov-" + n
     regi = "#szobor{animation:szobor 12s cubic-bezier(.3,.7,.4,1) infinite}"
     assert regi in s
+    for n in LABAK:
+        for q in "1234": anim[f"lov-l{n}{q}"] = f"lov-l{n}{q}"
     s = s.replace(regi, "".join(f"#{a}{{animation:{k} {T:g}s linear infinite}}" for a, k in anim.items()))
+    s = re.sub(r'<g id="szobor"[^>]*>', '<g id="szobor" style="transform-box:view-box;transform-origin:1746px 357px">', s, 1)
     css = ("\n.lov-p{fill:url(#lov-patina)}"
-           f"#lov-elso{{transform-origin:{ELSO_F[0]}px {ELSO_F[1]}px}}#lov-hatso{{transform-origin:{HATSO_F[0]}px {HATSO_F[1]}px}}#lov-kar{{transform-origin:{KAR_F[0]}px {KAR_F[1]}px}}"
+           f"#lov-kar{{transform-origin:{KAR_F[0]}px {KAR_F[1]}px}}"
            f"#lov-kard{{transform-box:view-box;transform-origin:0 0;opacity:0;transform:translate({HUVELY[0]}px,{HUVELY[1]}px) rotate({HUV_SZOG}deg)}}#lov-takar{{opacity:0}}"
            "#lov-csillan{opacity:0;transform-box:fill-box;transform-origin:50% 50%}"
            f"#lov-fordul{{transform-box:view-box;transform-origin:{KOZEP}px 357px}}#lov-maszk-p{{opacity:0}}"
            "#lov-arnyek{opacity:0;transform-box:fill-box;transform-origin:50% 50%}.lov-por{opacity:0;transform-box:fill-box;transform-origin:50% 100%}\n")
     css += kockak("lov-test", lambda t: test(t) + (0 if 12.6 <= t <= 14.0 else 1,), lepes=.04, css=lambda v: f"opacity:{v[5]};transform:translate({r1(v[0])}px,{r1(v[1])}px) rotate({r1(v[2])}deg) scale({r3(v[3])},{r3(v[4])})")
-    css += kockak("lov-elso", elso, lepes=.04, css= lambda v: f"transform:rotate({r1(v)}deg)")
-    css += kockak("lov-hatso", hatso, lepes=.04, css= lambda v: f"transform:rotate({r1(v)}deg)")
+    for n in LABAK:
+        for q in range(4):
+            css += kockak(f"lov-l{n}{q + 1}", lambda t, n=n, q=q: lab_szogek(t, n)[q], lepes=.04, css=lambda v: f"transform:rotate({r1(v)}deg)")
     css += kockak("lov-kar", kar, lambda v: f"transform:rotate({r1(v)}deg)")
     css += kockak("lov-kard", kard, lambda v: f"opacity:{v[3]};transform:translate({r1(v[0])}px,{r1(v[1])}px) rotate({r1(v[2])}deg)", .05)
     css += kockak("lov-takar", takar, lambda v: f"opacity:{v}", .05)
