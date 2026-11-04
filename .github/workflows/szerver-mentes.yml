@@ -31,7 +31,7 @@ jobs:
           U="$RUNNER_TEMP/u"; mkdir -p "$U"; kapcs "mirror --no-perms $CEL/webaruhaz/uploads $U" >/dev/null 2>&1 || true
           N=$(ls -1 "$D" | wc -l)
           if [ "$N" -eq 0 ]; then echo "::error::Nem sikerült letölteni az adatfájlokat."; exit 1; fi
-          kapcs "cd $CEL/webaruhaz/data; mkdir -p mentesek; mkdir -p mentesek/$M; cd mentesek/$M; lcd $D; mput *" >/dev/null
+          kapcs "cd $CEL/webaruhaz/data; mkdir -f -p mentesek; mkdir -f -p mentesek/$M; cd mentesek/$M; lcd $D; mput *" >/dev/null
           if [ -n "$(ls -A "$U" 2>/dev/null)" ]; then kapcs "mirror --reverse --no-perms $U $CEL/webaruhaz/data/mentesek/$M/uploads" >/dev/null; echo "Feltöltött képek is mentve: $(find "$U" -type f | wc -l) fájl"; fi
           echo "Mentve: webaruhaz/data/mentesek/$M ($N adatfájl)"
           rm -rf "$D" "$U"
