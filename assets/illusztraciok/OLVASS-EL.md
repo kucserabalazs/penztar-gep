@@ -12,6 +12,15 @@ bármekkora méretben éles, és a **színe CSS-ből állítható** (a vonal sz�
 | `png/<név>.png` | 1600 px széles, átlátszó PNG (dokumentumokhoz, közösségi médiához) |
 | `lista.json` | gépi lista: név, cím, mozgatható részek |
 
+## Tartalék rajzok – még nincsenek felhasználva (`eredeti/kesobbre/`)
+A kapott eredeti PNG-k változatlanul, későbbi felhasználásra (a tárhelyre nem kerülnek fel, csak a GitHubon és a mentésekben vannak):
+- `01-keresztes-oszlop-templom.png` – feszület a domboldalon, mellette kis harangtornyos kápolna, fák
+- `02-dombtetoi-templom.png` – dombtetői templom kilátással a városra, virágzó fák, lépcső, kőkerítés
+- `03-zsolnay-vaza.png` – díszes, virágmintás Zsolnay-váza két füllel
+- `04-bronzjelveny.png` – kerek bronzjelvény Krisztus-monogrammal (XP), alfával és ómegával
+
+Ha valamelyikre szükség lesz, ugyanúgy vektorizáljuk és mozgatható részekre bontjuk, mint a többit.
+
 ## A képek és a mozgó részeik
 - **TV-torony (Misina)** – `tv-torony`: a csúcs három szakaszban, egymásra épülve elhajlik a szélben, majd visszaleng (csucs-also, csucs-kozep, csucs-felso).
 - **Zsolnay-kút – ökörfej** – `zsolnay-kut-okorfej`: a sárkányfej kiölti hosszú, villás kígyónyelvét (nyelv) és kacsint: a szemgolyót körülvevő ovális szemrés lecsukódik (hej, pillak); a szarvak nem mozognak.

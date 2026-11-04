@@ -90,6 +90,7 @@ jobs:
             --exclude-glob referencia/ \
             --exclude-glob eszkozok/ \
             --exclude-glob assets/kategoria-ermek/eredeti/ \
+            --exclude-glob assets/illusztraciok/eredeti/kesobbre/ \
             --exclude-glob *.md \
             --exclude-glob webaruhaz/config.local.php \
             --exclude-glob webaruhaz/data/admin.* \
