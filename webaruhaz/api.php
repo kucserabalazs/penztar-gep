@@ -19,6 +19,8 @@ $MASTER   = DATA . '/admin.mester.php';   // mesterkód ujjlenyomata (tulajdonos
 $TASKS    = DATA . '/feladatok.php';      // a weboldallal kapcsolatos feladatok, észrevételek (csak adminoknak)
 $CLIENTS  = DATA . '/clients.php';        // ügyféllista – titkosítva (AES-256-GCM)
 $CLOG     = DATA . '/clients.log.php';    // ki mit csinált az ügyféllistával
+$NOTIFY   = DATA . '/ertesites.php';      // titkos értesítési e-mail cím (csak tulajdonos állíthatja; a weboldalon sehol nem jelenik meg)
+$KIP      = DATA . '/kapcsolat.ip.php';   // E-mail küldése űrlap: IP-korlát (csak az IP ujjlenyomata és az időpontok)
 
 /* ===== Tulajdonosok =====
    Csak ők léphetnek be alapból, és csak ők adhatnak (vagy vonhatnak vissza) további admin hozzáférést.
@@ -121,6 +123,30 @@ function order_text(array $o): string {
   $t .= "\nÁtvétel: " . ($o['atvetel'] ?? '') . (!empty($o['szallcim']) ? ' – ' . $o['szallcim'] : '') . "\nFizetés: " . ($o['fizmod'] ?? '') . "\n";
   return $t;
 }
+/* ---- titkos értesítési cím ----
+   Ide érkeznek a megrendelések, ajánlatkérések és az „E-mail küldése” üzenetek.
+   A data/ertesites.php fájlban van (nincs a GitHubon, böngészőből nem olvasható); ha még nincs beállítva,
+   a Cégadatoknál megadott e-mail cím a tartalék. */
+function notify_email(): string {
+  global $NOTIFY; $e = (string)(read_json($NOTIFY, [])['email'] ?? '');
+  if (filter_var($e, FILTER_VALIDATE_EMAIL)) return $e;
+  $se = (string)((read_json(DATA . '/products.json', [])['settings'] ?? [])['email'] ?? '');
+  return filter_var($se, FILTER_VALIDATE_EMAIL) ? $se : '';
+}
+// aláírt űrlapjegy: igazolja, hogy az űrlapot legalább néhány másodperce nyitották meg (a robotok azonnal küldenek)
+function form_secret(): string {
+  global $LOCAL; if (!empty($LOCAL['kulcs'])) return hash('sha256', 'kapcsolat|' . $LOCAL['kulcs']);
+  $f = DATA . '/kapcsolat.titok.php'; $t = (string)(read_json($f, [])['t'] ?? '');
+  if (strlen($t) < 32) { $t = bin2hex(random_bytes(32)); write_json($f, ['t' => $t]); }
+  return $t;
+}
+function form_ticket(): string { $t = (string)time(); return $t . '.' . substr(hash_hmac('sha256', $t, form_secret()), 0, 32); }
+function form_ticket_age(string $j): ?int {
+  if (!preg_match('/^(\d{10})\.([a-f0-9]{32})$/', $j, $m)) return null;
+  if (!hash_equals(substr(hash_hmac('sha256', $m[1], form_secret()), 0, 32), $m[2])) return null;
+  return time() - (int)$m[1];
+}
+function client_ip(): string { return (string)($_SERVER['REMOTE_ADDR'] ?? ''); }
 // visszaigazolás a vevőnek
 function mail_customer(array $o, string $subj, string $intro): void {
   if (empty($o['email'])) return;
@@ -128,17 +154,17 @@ function mail_customer(array $o, string $subj, string $intro): void {
   $txt = "Kedves {$o['nev']}!\n\n$intro\n\nRendelésszám: {$o['id']}\n\n" . order_text($o);
   if (($o['fizetes']['mod'] ?? '') === 'atutalas' && !empty($set['szamlaszam']))
     $txt .= "\nUtalási adatok (a díjbekérő megérkezése után):\nKedvezményezett: " . ($set['cegnevRovid'] ?? $set['cegnev'] ?? '') . "\nBank: " . ($set['bank'] ?? '') . "\nSzámlaszám: {$set['szamlaszam']}\nKözlemény: {$o['id']}\n";
-  $txt .= "\nKérdése van? Válaszoljon erre a levélre, vagy írjon: " . ($set['email'] ?? '') . "\n\n" . ($set['cegnev'] ?? 'Totál Pénztárgép és Számítástechnika') . "\n" . ($set['cim'] ?? '');
-  send_mail($o['email'], $subj, $txt, (string)($set['email'] ?? ''));
+  $txt .= "\nKérdése van? Egyszerűen válaszoljon erre a levélre, vagy hívjon minket: " . ($set['telefon'] ?? '+36 72 215 652') . "\n\n" . ($set['cegnev'] ?? 'Totál Pénztárgép és Számítástechnika') . "\n" . ($set['cim'] ?? '') . "\nhttps://penztar-gep.hu";
+  send_mail($o['email'], $subj, $txt, notify_email());
 }
 function mail_shop(array $o, string $subj, string $extra = ''): void {
   $set = read_json(DATA . '/products.json', [])['settings'] ?? [];
-  if (empty($set['email'])) return;
+  $to = notify_email(); if ($to === '') return;
   $txt = "$subj ({$o['id']})\n\nNév: {$o['nev']}\nCég: {$o['ceg']}\nTelefon: {$o['telefon']}\nE-mail: {$o['email']}\nIdőpont: {$o['idopont']}\n\n";
   $txt .= ($o['tetelek'] || !empty($o['osszeg'])) ? order_text($o) : '';
   $txt .= "\n" . $o['uzenet'] . $extra;
   if (!empty($o['adatlap'])) $txt .= "\n\nPénztárgép élesítése: " . ($o['adatlap']['Élesítés módja'] ?? '') . (count($o['adatlap']) > 1 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '');
-  send_mail($set['email'], $subj . ': ' . $o['nev'], $txt);
+  send_mail($to, $subj . ': ' . $o['nev'], $txt, filter_var($o['email'] ?? '', FILTER_VALIDATE_EMAIL) ? $o['email'] : '');
 }
 // fizetés indítása a Barionnál; visszaadja a fizetési oldal címét, vagy null-t
 function barion_start(array &$o): ?string {
@@ -201,7 +227,7 @@ function send_mail(string $to, string $subj, string $text, string $reply = ''): 
   return @mail($to, '=?UTF-8?B?' . base64_encode($subj) . '?=', $text, $h, '-f' . MAIL_FROM);
 }
 function send_code(array $u, string $cel, string $hova = ''): void {
-  if ($hova === 'uzlet') { $se = (string)((read_json(DATA . '/products.json', [])['settings'] ?? [])['email'] ?? ''); if (!filter_var($se, FILTER_VALIDATE_EMAIL)) out(['error' => 'Nincs beállítva az üzlet e-mail címe.'], 400); $u['email'] = $se; }
+  if ($hova === 'uzlet') { $se = notify_email(); if ($se === '') out(['error' => 'Nincs beállítva az üzlet értesítési e-mail címe.'], 400); $u['email'] = $se; }
   if (empty($u['email'])) out(['error' => 'Ehhez a személyhez még nincs e-mail cím beállítva a tárhelyen (config.local.php), ezért nem tudunk kódot küldeni.'], 400);
   $prev = $_SESSION['code'] ?? null;
   if ($prev && $prev['uid'] === $u['id'] && time() - $prev['sent'] < 45) out(['error' => 'Az előző kódot most küldtük el. Várjon egy percet az újabb kéréssel.'], 429);
@@ -623,6 +649,88 @@ switch ($a) {
     out(['id' => $o['id'], 'allapot' => $o['fizetes']['allapot'], 'osszeg' => $o['osszeg'] ?? null, 'adatlap' => !empty($o['adatlap']), 'atvetel' => $o['atvetel'] ?? '']);
 
   /* ---- feladatok, észrevételek a weboldallal kapcsolatban ---- */
+  /* ---- „E-mail küldése” űrlap (nyilvános) ----
+     A weboldalon sehol nincs kiírva e-mail cím: a látogató ezen az űrlapon ír, a levél a titkos értesítési címre megy,
+     a válaszcím a látogató saját címe. Védelem: rejtett csapdamező, aláírt jegy (legalább 4 mp az űrlap megnyitása után,
+     legfeljebb 2 óra), legfeljebb 2 internetes hivatkozás, IP-korlát (10 percenként 3, naponta 10 üzenet).
+     A látogatónak NEM küldünk automatikus levelet – így az űrlappal nem lehet idegen címekre levelet küldetni. */
+  case 'kapcsolat-jegy':
+    out(['jegy' => form_ticket()]);
+
+  case 'kapcsolat':
+    if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
+    $b = body();
+    if (!empty($b['web'])) out(['ok' => true, 'id' => '']);                    // csapda a robotoknak (rejtett mező)
+    $kor = form_ticket_age((string)($b['jegy'] ?? ''));
+    if ($kor === null || $kor > 7200) out(['error' => 'Az űrlap lejárt. Kérjük, nyissa meg újra, és küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
+    if ($kor < 4) out(['error' => 'Kérjük, várjon néhány másodpercet, mielőtt elküldi az üzenetet.'], 400);
+    $nev = trim(preg_replace('/\s+/u', ' ', (string)($b['nev'] ?? '')));
+    $email = trim((string)($b['email'] ?? '')); $tel = trim((string)($b['telefon'] ?? ''));
+    $targy = trim(preg_replace('/\s+/u', ' ', (string)($b['targy'] ?? ''))); $uz = trim(str_replace("\r", '', (string)($b['uzenet'] ?? '')));
+    $termek = trim(preg_replace('/\s+/u', ' ', (string)($b['termek'] ?? ''))); $oldal = trim((string)($b['oldal'] ?? ''));
+    if (mb_strlen($nev) < 2) out(['error' => 'Kérjük, adja meg a nevét.', 'mezo' => 'nev'], 400);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email)) out(['error' => 'Kérjük, adjon meg érvényes e-mail címet – erre válaszolunk.', 'mezo' => 'email'], 400);
+    if ($tel !== '' && !preg_match('/^[\d\s+()\/-]{6,25}$/', $tel)) out(['error' => 'A telefonszám formátuma nem megfelelő.', 'mezo' => 'telefon'], 400);
+    if (mb_strlen($uz) < 10) out(['error' => 'Kérjük, írja le röviden, miben segíthetünk.', 'mezo' => 'uzenet'], 400);
+    if (mb_strlen($uz) > 3000) out(['error' => 'Az üzenet legfeljebb 3000 karakter lehet.', 'mezo' => 'uzenet'], 400);
+    if (preg_match_all('~(https?://|www\.|\[url|<a\s)~i', $nev . ' ' . $targy . ' ' . $uz) > 2) out(['error' => 'Az üzenetben legfeljebb 2 internetes hivatkozás lehet.', 'mezo' => 'uzenet'], 400);
+    if (preg_match('~https?://|www\.~i', $nev)) out(['error' => 'Kérjük, adja meg a nevét.', 'mezo' => 'nev'], 400);
+    // IP-korlát (az IP-címet nem tároljuk, csak egy ujjlenyomatát)
+    $ip = hash('sha256', client_ip() . '|' . form_secret());
+    $tilt = locked(function () use ($KIP, $ip) {
+      $l = read_json($KIP, []); $most = time();
+      foreach ($l as $k => $ts) { $l[$k] = array_values(array_filter((array)$ts, fn($t) => $most - (int)$t < 86400)); if (!$l[$k]) unset($l[$k]); }
+      $sajat = $l[$ip] ?? [];
+      $tiz = count(array_filter($sajat, fn($t) => $most - (int)$t < 600));
+      if ($tiz >= 3 || count($sajat) >= 10) { write_json($KIP, $l); return true; }
+      $sajat[] = $most; $l[$ip] = $sajat; write_json($KIP, $l); return false;
+    });
+    if ($tilt) out(['error' => 'Rövid időn belül több üzenet érkezett erről a hálózatról. Kérjük, próbálja újra később, vagy hívjon minket telefonon.'], 429);
+    $targy = mb_substr($targy !== '' ? $targy : 'Egyéb kérdés', 0, 80);
+    $rec = [
+      'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3))),
+      'ido' => date('c'), 'tipus' => 'uzenet', 'targy' => $targy,
+      'nev' => mb_substr($nev, 0, 120), 'ceg' => '', 'telefon' => mb_substr($tel, 0, 40), 'email' => mb_substr($email, 0, 120),
+      'tetelek' => [], 'idopont' => '',
+      'uzenet' => 'Tárgy: ' . $targy . ($termek !== '' ? "\nTermék: " . mb_substr($termek, 0, 160) : '') . "\n\n" . $uz,
+      'adatlap' => null, 'allapot' => 'uj',
+      'oldal' => mb_substr(preg_replace('/[^\x21-\x7e]/', '', $oldal), 0, 200), 'nyelv' => preg_match('/^[a-z]{2}$/', (string)($b['nyelv'] ?? '')) ? $b['nyelv'] : 'hu'
+    ];
+    locked(function () use ($rec, $ORDERS) { $orders = read_json($ORDERS, []); array_unshift($orders, $rec); write_json($ORDERS, $orders); });
+    $to = notify_email();
+    if ($to !== '') {
+      $nyelvek = ['hu' => 'magyar', 'en' => 'angol', 'de' => 'német', 'it' => 'olasz', 'hr' => 'horvát', 'sk' => 'szlovák', 'pl' => 'lengyel', 'zh' => 'kínai'];
+      $txt = "Új üzenet a penztar-gep.hu „E-mail küldése” űrlapjáról\n\n"
+        . "Név: {$rec['nev']}\nE-mail: {$rec['email']}\n" . ($rec['telefon'] !== '' ? "Telefon: {$rec['telefon']}\n" : '')
+        . "Tárgy: $targy\n" . ($termek !== '' ? 'Termék: ' . mb_substr($termek, 0, 160) . "\n" : '')
+        . ($rec['nyelv'] !== 'hu' ? 'A látogató nyelve: ' . ($nyelvek[$rec['nyelv']] ?? $rec['nyelv']) . "\n" : '')
+        . ($rec['oldal'] !== '' ? "Oldal: {$rec['oldal']}\n" : '')
+        . "Azonosító: #{$rec['id']} · " . date('Y.m.d. H:i') . "\n\n" . str_repeat('-', 40) . "\n$uz\n" . str_repeat('-', 40)
+        . "\n\nVálaszhoz egyszerűen nyomja meg a Válasz gombot – a levél a látogató címére megy.\nAz üzenet az admin felületen, a Rendelések között is megtalálható („Üzenet”).";
+      send_mail($to, 'Üzenet a weboldalról: ' . $targy . ' – ' . $rec['nev'], $txt, $rec['email']);
+    }
+    out(['ok' => true, 'id' => $rec['id']]);
+
+  /* ---- titkos értesítési cím (admin › Cégadatok) ---- */
+  case 'ertesites':
+    need_auth(); $d = read_json($NOTIFY, []); $own = (me()['szerep'] ?? '') === 'tulajdonos'; $e = (string)($d['email'] ?? '');
+    out(['beallitva' => filter_var($e, FILTER_VALIDATE_EMAIL) ? true : false, 'email' => $own ? $e : '', 'maszk' => mask_mail($e), 'tulajdonos' => $own,
+         'modositva' => $d['ido'] ?? null, 'nev' => $d['nev'] ?? null, 'proba' => $d['proba'] ?? null]);
+  case 'ertesites-mentes':
+    need_owner(); check_csrf(); $e = trim((string)(body()['email'] ?? ''));
+    if ($e !== '' && (!filter_var($e, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n,;]/', $e))) out(['error' => 'Ez nem érvényes e-mail cím.'], 400);
+    $u = me(); locked(function () use ($NOTIFY, $e, $u) { write_json($NOTIFY, ['email' => $e, 'ido' => date('c'), 'nev' => $u['nev']]); });
+    out(['ok' => true, 'maszk' => mask_mail($e)]);
+  case 'ertesites-proba':
+    need_owner(); check_csrf(); $d = read_json($NOTIFY, []); $e = (string)($d['email'] ?? '');
+    if (!filter_var($e, FILTER_VALIDATE_EMAIL)) out(['error' => 'Előbb adja meg és mentse el az értesítési címet.'], 400);
+    if (!empty($d['proba']) && time() - strtotime((string)$d['proba']) < 60) out(['error' => 'Az előző próbalevél egy percen belül ment el. Várjon egy kicsit.'], 429);
+    $u = me();
+    $ok = send_mail($e, 'Próbalevél – penztar-gep.hu értesítések', "Ez egy próbalevél a penztar-gep.hu weboldalról.\n\nHa megkapta, a beállítás jó: ide érkeznek majd a megrendelések, ajánlatkérések és az „E-mail küldése” gombbal írt üzenetek.\n\nKérte: {$u['nev']}\nIdőpont: " . date('Y.m.d. H:i') . "\n\nHa a levél a Spam / Levélszemét mappába került, jelölje meg „Nem spam”-ként, és vegye fel a noreply@penztar-gep.hu címet a névjegyek közé.");
+    if (!$ok) out(['error' => 'A próbalevelet nem sikerült elküldeni (a tárhely levelezője hibát jelzett).'], 500);
+    locked(function () use ($NOTIFY, $d) { $d['proba'] = date('c'); write_json($NOTIFY, $d); });
+    out(['ok' => true]);
+
   case 'tasks':
     need_auth(); out(['tasks' => read_json($TASKS, [])]);
   case 'task-add':

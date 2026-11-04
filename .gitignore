@@ -6,3 +6,5 @@ webaruhaz/data/.lock
 webaruhaz/uploads/*
 !webaruhaz/uploads/.htaccess
 webaruhaz/data/clients*
+webaruhaz/data/ertesites.php
+webaruhaz/data/kapcsolat.*

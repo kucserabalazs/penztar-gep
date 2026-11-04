@@ -85,3 +85,11 @@
 1. A felhasználó jelzett további átrendezési kéréseket a főoldalon – ezeket kell előbb átvezetni.
 2. Termékfotók feltöltése (élő tárhelyen, adminból).
 3. Éles tárhely: a penztar-gep.hu SSL-tanúsítványa lejárt, a tárhelyszolgáltatónál meg kell újítani.
+
+## E-mail küldése gomb, titkos értesítési cím (2026-11-04)
+- A weboldalon (főoldal, webáruház, termékkatalógus, szerviz / tudnivalók / gépválasztás) **sehol nincs kiírva e-mail cím**: minden e-mail hivatkozás az „E-mail küldése” ablakot nyitja (`assets/kapcsolat.js`, 8 nyelv a `nyelv/*.json` szótárakból). Kivétel: Impresszum, vásárlási feltételek, Adatkezelési tájékoztató – ott marad a nyilvános cím (Cégadatok › Nyilvános e-mail cím, jelenleg info@penztar-gep.hu). A schema.org adatokból az e-mail kikerült.
+- Használat bármely elemen: `data-kapcsolat` (+ `data-kapcsolat-targy`, `data-kapcsolat-termek`), szkriptből `PTGKapcsolat.open({...})`, közvetlen link: `…#uzenet`.
+- Szerver: `webaruhaz/api.php?a=kapcsolat-jegy` (aláírt jegy) és `?a=kapcsolat`. Védelem: rejtett csapdamező, legalább 4 mp a megnyitás után (legfeljebb 2 óra), max. 2 hivatkozás, IP-korlát 10 percenként 3 / naponta 10 (`data/kapcsolat.ip.php`, csak IP-ujjlenyomat). A látogatónak nem megy automatikus levél (így idegen címekre sem lehet vele levelet küldetni).
+- Az üzenet a Rendelések közé is bekerül „Üzenet” típussal (tárgy, termék, oldal, nyelv); a levél válaszcíme a látogató címe.
+- **Titkos értesítési cím**: Admin › Cégadatok, nyitvatartás › „Értesítési e-mail cím” (csak tulajdonos; Mentés, Próbalevél). Fájl: `data/ertesites.php` (nincs a GitHubon). Ide mennek: E-mail küldése üzenetek, megrendelések, ajánlatkérések, szervizbejelentések, és a „kód az üzlet címére” belépési kód. Ha nincs beállítva, a nyilvános cím a tartalék. A vevőknek küldött visszaigazolások válaszcíme is ez.
+- Teendő az élesítés után: értesítési cím = penztargepbolt@gmail.com, Próbalevél; a noreply@penztar-gep.hu postafiók létrehozása az ELIN-en ajánlott (feladócím).

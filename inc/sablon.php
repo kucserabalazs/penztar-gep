@@ -40,11 +40,12 @@ function ptg_lab(): void { ?>
 </main>
 <footer><div class="wrap">
 <div><b>Totál Pénztárgép és Számítástechnika Kkt.</b><br>7625 Pécs, Hunyadi János utca 34.<br>Pénztárgép-szaküzlet és szerviz 1982 óta</div>
-<div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br>E-mail: <a href="mailto:info@penztar-gep.hu">info@penztar-gep.hu</a><br>Nyitvatartás: hétfőtől péntekig 9:00–15:00</div>
+<div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br><a href="#uzenet" data-kapcsolat role="button">E-mail küldése</a><br>Nyitvatartás: hétfőtől péntekig 9:00–15:00</div>
 <div><b>Hasznos oldalak</b><br><a href="/szerviz/">Szerviz és támogatás</a><br><a href="/tudnivalok/">Pénztárgép és e-pénztárgép tudnivalók</a><br><a href="/penztargep-valasztas/">Pénztárgép-választási segítség</a><br><a href="/webaruhaz/#aszf">Vásárlási feltételek</a></div>
 </div></footer>
 <script>window.ZEPHYR_I18N_BASE="/nyelv/";</script>
 <script src="/assets/nyelv.js?v=20261104"></script>
+<script src="/assets/kapcsolat.js?v=20261104" defer></script>
 <script>if (window.ZI18N) ZI18N.mountPicker(document.querySelector("header nav"));</script>
 </body>
 </html>

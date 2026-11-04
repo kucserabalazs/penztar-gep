@@ -53,7 +53,6 @@ $STORE = [
   'logo' => SITE . '/assets/logo/total-logo-512.png',
   'image' => SITE . '/assets/uzlet-homlokzat.webp',
   'telephone' => '+36 72 215 652',
-  'email' => $S['email'] ?? 'info@penztar-gep.hu',
   'priceRange' => '$$',
   'currenciesAccepted' => 'HUF',
   'paymentAccepted' => 'Készpénz, banki átutalás',
@@ -238,7 +237,7 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
     <p class="lead"><?= h($P['alcim'] ?? '') ?></p>
     <div class="ar"><?php if ($pr): ?><?php if (!empty($P['akciosAr'])): ?><s><?= h(ft($P['ar'])) ?></s><?php endif; ?><b><?= h(ft($pr)) ?><?= $P['arTol'] ? '-tól' : '' ?></b> <span>+ ÁFA</span><small>bruttó <?= h(ft(gross($pr))) ?> (<?= h((string)$AFA) ?>% ÁFA-val)</small><?php else: ?><b>Ár kérésre</b><small>Kérjen ajánlatot telefonon vagy e-mailben.</small><?php endif; ?>
       <span class="kesz<?= ($P['keszlet'] ?? '') === 'raktaron' ? '' : ' r' ?>"><?= ($P['keszlet'] ?? '') === 'raktaron' ? 'Raktáron – átvehető Pécsen' : (($P['keszlet'] ?? '') === 'elfogyott' ? 'Jelenleg elfogyott – érdeklődjön' : 'Rendelésre – kérjen időpontot') ?></span></div>
-    <a class="gomb" href="<?= h(shoplink($P)) ?>">Megrendelem a webáruházban ›</a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a>
+    <a class="gomb" href="<?= h(shoplink($P)) ?>">Megrendelem a webáruházban ›</a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a><a class="gomb k" href="#uzenet" data-kapcsolat role="button" data-kapcsolat-targy="Ajánlatkérés" data-kapcsolat-termek="<?= h(fullname($P)) ?>">Kérdés e-mailben</a>
     <?php if (!empty($P['engedely'])): ?><p><b>NAV forgalmazási engedély:</b> <?= h($P['engedely']) ?></p><?php endif; ?>
     <?php if (!empty($P['garancia'])): ?><p><b>Garancia:</b> <?= h($P['garancia']) ?></p><?php endif; ?>
     <?php if (!empty($P['jellemzok'])): ?><h2>Főbb jellemzők</h2><ul class="jel"><?php foreach ($P['jellemzok'] as $j): ?><li><?= h($j) ?></li><?php endforeach; ?></ul><?php endif; ?>
@@ -270,8 +269,9 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
 </main>
 <footer><div class="wrap">
 <div><b>Totál Pénztárgép és Számítástechnika Kkt.</b><br>7625 Pécs, Hunyadi János utca 34.<br>Pénztárgép szaküzlet és szerviz 1982 óta</div>
-<div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br>E-mail: <a href="mailto:info@penztar-gep.hu">info@penztar-gep.hu</a><br>Nyitvatartás: hétfő–péntek 9:00–15:00</div>
+<div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br><a href="#uzenet" data-kapcsolat role="button">E-mail küldése</a><br>Nyitvatartás: hétfő–péntek 9:00–15:00</div>
 <div><b>Kínálat</b><br><?php foreach ($CATS as $k => $c) { if (!array_filter($PRODS, fn($p) => $p['kategoria'] === $k)) continue; echo '<a href="' . h(klink($k)) . '">' . h($c['nev']) . '</a><br>'; } ?></div>
 </div></footer>
+<script src="/assets/kapcsolat.js?v=20261104" defer></script>
 </body>
 </html>
