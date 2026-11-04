@@ -996,12 +996,12 @@ html[dir=rtl] .top .hnyelv{display:none}
 @media (max-width:900px){.hsz-row{grid-template-columns:1fr}}
 /* térkép helye: díszesebb háttér */
 /* térkép helye: balra a TV-torony, jobbra a székesegyház (mozgó vonalrajzok); a székesegyház legmagasabb pontja vízszintesen egy vonalban van a TV-torony csúcsával */
-.map-ph{background:radial-gradient(ellipse 44% 30% at 50% calc(100% - 118px),rgba(251,246,234,.95),rgba(251,246,234,.7) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101") left var(--tv-bal,5%) bottom -6px/auto min(86%,440px) no-repeat,url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101") right 3% bottom -4px/auto calc(min(86%,440px)*1.00192 - 2.01px) no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
+.map-ph{background:radial-gradient(ellipse 40% 26% at 50% calc(100% - 90px),rgba(251,246,234,.95),rgba(251,246,234,.7) 55%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101") left var(--tv-bal,5%) bottom -6px/auto min(86%,440px) no-repeat,url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101") right 3% bottom -4px/auto calc(min(86%,440px)*1.00192 - 2.01px) no-repeat,url("assets/motivumok/gilos-vilagos.svg") center/700px,radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important}
 .map-ph>*{position:relative;z-index:1}
 /* a középső írások együttese alul, kis esztétikus hézaggal */
 .map-ph{justify-content:flex-end!important;padding-bottom:28px!important}
 @media (max-width:760px){.map-ph{padding-bottom:20px!important}}
-@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 40% at 50% calc(100% - 122px),rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto 54%,auto calc(54%*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
+@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 34% at 50% calc(100% - 84px),rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia.svg?v=1101"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto 54%,auto calc(54%*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
 .map-ph b{font-size:1.1rem}
 </style>
 <style id="bankjegyek">
@@ -1326,7 +1326,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
       </div>
       <div class="mapcol rv">
         <figure class="photo" style="margin:0"><img src="assets/uzlet-homlokzat.webp" alt="Üzletünk homlokzata és az előtte található parkolóhelyek" width="1190" height="880" loading="lazy" style="object-position:50% 62%"><figcaption><span>Bejáratunk a sárga cégtáblánál található.</span></figcaption></figure>
-        <div class="map" id="terkep"><div class="map-ph"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><b>7625 Pécs, Hunyadi János utca 34.</b><button type="button" class="map-btn" id="terkep-be">Térkép megjelenítése</button><small>A térképet a Google Térkép jeleníti meg. Megnyitásakor a Google sütiket helyezhet el és adatokat kaphat a böngészőjéről.</small></div></div>
+        <div class="map" id="terkep"><div class="map-ph"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><b>7625 Pécs, Hunyadi János utca 34.</b><button type="button" class="map-btn" id="terkep-be" title="A térképet a Google Térkép jeleníti meg. Megnyitásakor a Google sütiket helyezhet el és adatokat kaphat a böngészőjéről.">Térkép megjelenítése</button></div></div>
       </div>
     </div>
   </div>
