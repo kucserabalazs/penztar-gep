@@ -3,10 +3,10 @@
       a címsor mellett. A jobb keze pengeti a húrokat (a húrok rezegnek), a bal keze akkordot fog és időnként
       lejjebb-feljebb csúszik a nyakon, a feje a ritmusra biccent, a lábát lógázza, a szárnya meg-megrebben,
       a gitárból hangjegyek szállnak fel.
-   2) A „helyben vásárlás, üzembe helyezés és szerviz” keret tetején a kisördög ülve alszik: a lába lelóg
-      a keret elé, a keze az ölében, a feje oldalra billen és lassan előrebólint, majd egy kis rándulással
-      visszakapja; a teste a lélegzéssel emelkedik-süllyed, a szája szuszogáskor kinyílik, a farka lelóg és
-      néha megrándul, a feje fölött „Z”-k szállnak.
+   2) A „helyben vásárlás, üzembe helyezés és szerviz” keret tetején a kisördög táncol és énekel, az angyal
+      gitárjával azonos ütemre: váltott lábbal lép, ütésre rogyaszt, ringatja a csípőjét, négyütemenként új
+      mozdulatot tesz a karjával (integet, csípőre tett kézzel riszál, „disco”-mutogat, tapsol), a feje ütemre
+      biccen, a szája a dallamra nyílik-csukódik, a szájából piros hangjegyek szállnak.
    Csak akkor futnak, amikor látszanak; a „kevesebb mozgás” beállításnál nyugodt állókép marad. */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
@@ -187,52 +187,63 @@
     lathatoFut(oszlop, rajz);
   }
 
-  /* ======================= 2) alvó kisördög a keret tetején ======================= */
+  /* ======================= 2) táncoló, éneklő kisördög a keret tetején ======================= */
+  var MOZDULAT = ["integet", "csipoben", "disco", "taps"];             /* négyütemenként új mozdulat a karokkal */
   function ordogJelenet() {
     var stats = document.querySelectorAll("#rolunk .stat");
     var keret = stats[1]; if (!keret) return;
     var szulo = keret.parentNode; if (szulo.__ordog) return; szulo.__ordog = true;
     if (getComputedStyle(szulo).position === "static") szulo.style.position = "relative";
     var P = "rjo-";
-    var svg = el("svg", { "class": "rolunk-ordog", viewBox: "-60 -88 120 120", "aria-hidden": "true", focusable: "false" });
+    var svg = el("svg", { "class": "rolunk-ordog", viewBox: "-60 -100 120 130", "aria-hidden": "true", focusable: "false" });
     svg.style.cssText = "position:absolute;pointer-events:none;overflow:visible;z-index:3";
     szulo.appendChild(svg);
-    var zz = el("g", {}, svg);
-    var fekvo = el("g", {}, svg);
-    var o = TJSzereplok.ordog(fekvo, P);
-    var Z = [];
-    for (var i = 0; i < 3; i++) Z.push(el("text", { "font-family": "Georgia,'Times New Roman',serif", "font-style": "italic", "font-weight": 700, "font-size": 13, fill: TUS, stroke: "#fffaf0", "stroke-width": 2.4, "paint-order": "stroke", opacity: 0 }, zz));
-    Z.forEach(function (z) { z.textContent = "Z"; });
-    var k = 1;
+    var jegyRet = el("g", {}, svg);
+    var tancol = el("g", {}, svg);
+    var o = TJSzereplok.ordog(tancol, P);
+    var k = 1, jegyek = [], kov = 0;
     function elhelyez() {
       var r = keret.getBoundingClientRect(), d = szulo.getBoundingClientRect();
-      k = Math.max(.5, Math.min(.64, r.width / 330));
-      svg.style.width = (120 * k) + "px"; svg.style.height = (120 * k) + "px";
-      svg.style.left = (r.right - d.left - 96 * k) + "px";
-      svg.style.top = (r.top - d.top - 95 * k + 3) + "px";                    /* a csípő 7 egységgel a keret teteje fölött: ott ül */
+      k = Math.max(.46, Math.min(.56, r.width / 360));
+      svg.style.width = (120 * k) + "px"; svg.style.height = (130 * k) + "px";
+      svg.style.left = (r.right - d.left - 100 * k) + "px";
+      svg.style.top = (r.top - d.top - 129.4 * k + 2) + "px";                 /* a patája a keret tetején */
     }
     function rajz(t, all) {
-      var leg = all ? 0 : Math.sin(2 * Math.PI * t / 3.6);                  /* lassú lélegzés */
-      var be = .5 + .5 * leg;
-      fekvo.setAttribute("transform", "translate(0 " + f1(-.8 * be) + ")");
-      /* bólintás: lassan előrebillen a feje, aztán egy kis rándulással visszakapja (kb. 9 mp-enként) */
-      var c = all ? 0 : (t % 9) / 9, bolint = c < .85 ? 14 * c / .85 : 14 * (1 - (c - .85) / .15) * (1 - (c - .85) / .15);
-      var rand = all ? 0 : Math.max(0, Math.sin(t * .7) - .96) * 25;          /* néha megrándul a farka */
+      var BPM = 2.2;                                                        /* ugyanarra az ütemre, amire az angyal pengeti a gitárt */
+      var ut = all ? 0 : t * BPM, f = Math.PI * ut;                          /* f: fél lépés ütésenként */
+      var lep = Math.sin(f);                                                /* + : a jobb lába emelkedik, − : a bal */
+      var rug = all ? 0 : 1 - Math.abs(Math.cos(f));                         /* ütésre lerogyasztja a térdét */
+      var csip = all ? 0 : 5 * Math.sin(f);                                 /* csípőringatás */
+      tancol.setAttribute("transform", "translate(" + f1(csip) + " " + f1(rug * 2.6) + ") rotate(" + f1(all ? 0 : 3 * Math.sin(f)) + " 0 26)");
+      var mozd = all ? "csipoben" : MOZDULAT[Math.floor(ut / 4) % 4], b = Math.sin(2 * f), kE, kH, kE2 = 1, kH2 = -1;
+      if (mozd === "integet") { kE = { x: 20 + 6 * b, y: -50 }; kH = { x: -20 + 6 * b, y: -50 }; }
+      else if (mozd === "csipoben") { kE = { x: 13, y: -6 }; kH = { x: -13, y: -6 }; kE2 = -1; kH2 = 1; }
+      else if (mozd === "disco") { var fel = Math.floor(ut) % 2 === 0; kE = fel ? { x: 25, y: -52 } : { x: 2, y: -8 }; kH = fel ? { x: -2, y: -8 } : { x: -25, y: -52 }; }
+      else { var tp = Math.abs(Math.sin(f)); kE = { x: 3 + 10 * tp, y: -20 }; kH = { x: -3 - 10 * tp, y: -20 }; }
+      var szaj = all ? .4 : .35 + .65 * Math.abs(Math.sin(f * 2 + .4)) * (.6 + .4 * Math.sin(t * 1.3));
       o.rajzol({
-        torzsSzog: 5 + bolint * .25,
-        fejSzog: 22 + bolint + 1.5 * leg,
-        kezE: { x: 4, y: 3 + .6 * be }, kezH: { x: -4, y: 4 + .6 * be }, konyokE: 1, konyokH: -1,   /* keze az ölében */
-        labE: { x: 6, y: 25 }, terdE: 1, labH: { x: -6, y: 25 }, terdH: -1,
-        farokFazis: 2.2 + .25 * Math.sin(t * .8) + rand,
-        kifejezes: "alszik", szajNyit: all ? .3 : .3 + .9 * be,
+        torzsSzog: all ? 0 : -6 * Math.sin(f),
+        fejSzog: all ? 0 : 9 * Math.sin(f + .8) - 4,
+        kezE: kE, kezH: kH, konyokE: kE2, konyokH: kH2,
+        labE: { x: 8 + 2 * lep, y: 26 - 8 * Math.max(0, lep) - rug * 2.6 }, terdE: 1,
+        labH: { x: -8 + 2 * lep, y: 26 - 8 * Math.max(0, -lep) - rug * 2.6 }, terdH: -1,
+        farokFazis: all ? 1 : f * 1.5,
+        kifejezes: "énekel", szajNyit: szaj,
+        nez: { x: all ? .3 : .8 * Math.sin(f * .5), y: -.4 },
         tegez: false, kotelTekercs: false
       });
-      for (var i = 0; i < 3; i++) {
-        var u = all ? -1 : ((t / 3.6 + i / 3) % 1);
-        if (u < 0) { Z[i].setAttribute("opacity", 0); continue; }
-        var zx = 14 + 26 * u + 5 * Math.sin(u * 6), zy = -44 - 40 * u, sk = .6 + .9 * u;
-        Z[i].setAttribute("transform", "translate(" + f1(zx) + " " + f1(zy) + ") rotate(" + f1(-12 + 18 * u) + ") scale(" + sk.toFixed(2) + ")");
-        Z[i].setAttribute("opacity", (Math.min(1, u * 5) * (1 - u)).toFixed(2));
+      /* a dalt hangjegyek kísérik: a szájából szállnak fel */
+      if (!all && t > kov) {
+        kov = t + .55 + Math.random() * .35;
+        var hg = el("path", { d: HANG[Math.random() < .55 ? 0 : 1], fill: "#9b1c22", stroke: "#9b1c22", "stroke-width": 1.2, "stroke-linecap": "round" }, jegyRet);
+        jegyek.push({ e: hg, t0: t, x: csip + 4, y: -34 + rug * 2.6, ir: Math.random() < .5 ? -1 : 1, sk: .8 + Math.random() * .35 });
+      }
+      for (var j = jegyek.length - 1; j >= 0; j--) {
+        var q = jegyek[j], u = (t - q.t0) / 2.6;
+        if (u > 1 || all) { q.e.remove(); jegyek.splice(j, 1); continue; }
+        q.e.setAttribute("transform", "translate(" + f1(q.x + q.ir * (16 * u + 5 * Math.sin(u * 8))) + " " + f1(q.y - 62 * u) + ") rotate(" + f1(q.ir * 14 * Math.sin(u * 6)) + ") scale(" + (q.sk * (.55 + .5 * u)).toFixed(2) + ")");
+        q.e.setAttribute("opacity", (Math.min(1, u * 6) * (1 - u) * .9).toFixed(2));
       }
     }
     elhelyez();
