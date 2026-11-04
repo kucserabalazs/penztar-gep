@@ -1003,8 +1003,8 @@ html[dir=rtl] .top .hnyelv{display:none}
 .tj-svg{color:#2b3c53}.tj-svg .resz{transform-box:fill-box}.tj-svg .szikra{display:none}
 /* a középső írások együttese alul, kis esztétikus hézaggal */
 .map-ph{justify-content:flex-start!important;padding-top:26px!important;padding-bottom:24px!important}@media (min-width:761px){.map{min-height:740px!important}}
-@media (max-width:760px){.map-ph{padding-top:18px!important}}
-@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 34% at calc(50% + var(--szoveg-x,0px)) 90px,rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto var(--tv-h,54%),auto calc(54%*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
+@media (max-width:760px){.map-ph{padding-top:18px!important}.map{min-height:calc(178px + 58vw)!important}}
+@media (max-width:760px){.map-ph{background-image:radial-gradient(ellipse 62% 34% at calc(50% + var(--szoveg-x,0px)) 90px,rgba(251,246,234,.95),rgba(251,246,234,.75) 60%,rgba(251,246,234,0) 100%),url("assets/illusztraciok/web/tv-torony-szepia-allo.svg?v=1104"),url("assets/illusztraciok/web/szekesegyhaz-szepia.svg?v=1101"),url("assets/motivumok/gilos-vilagos.svg"),radial-gradient(circle at 50% 40%,#fbf6ea,#ece4d1)!important;background-size:auto,auto var(--tv-h,var(--mh,54%)),auto calc(var(--mh,54%)*1.00192 - .01px),700px,auto!important;background-position:center 0,left var(--tv-bal,3%) bottom -4px,right 2% bottom -3px,center,center!important}}
 .map-ph b{font-size:1.1rem}
 </style>
 <style id="bankjegyek">
@@ -1231,6 +1231,16 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 /* telefonon/táblagépen a lebegő kosár gomb ne takarja a lábléc „Megjelenítés” gombjait */
 @media (max-width:820px){.nezetval{margin-bottom:86px!important}}
 </style>
+<style id="mobil-jelenetek">
+/* telefonon is minden mozgó jelenet teljes egészében, élénken látszik: a szöveg felül, a jelenet alatta, saját helyen */
+@media (max-width:760px){
+  .cream{display:flex;flex-direction:column}
+  .cream .wrap{order:1;padding-bottom:4px}
+  .cream .dz.dzs-jelenet{order:2;position:static!important;display:block;width:100%!important;height:auto!important;max-height:240px;min-width:0;object-fit:contain;margin:0 auto 6px;opacity:.95;-webkit-mask-image:none;mask-image:none}
+  #kapcsolat .shead .szdisz.dz-angyal{position:static!important;flex:1 1 100%;width:100%!important;height:auto!important;max-height:240px;object-fit:contain;margin:10px 0 -4px!important;top:auto!important;right:auto!important;opacity:.95!important;transform:none;-webkit-mask-image:none;mask-image:none}
+  #gyik .shead .szdisz.lovas{opacity:.95!important}
+}
+</style>
 </head>
 <body>
 
@@ -1296,7 +1306,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 </nav>
 <svg class="goldwave" viewBox="0 0 1536 42" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="gw2" x1="0" x2="1"><stop offset="0" stop-color="#c98e2b"/><stop offset=".35" stop-color="#ffd98a"/><stop offset=".7" stop-color="#e9b957"/><stop offset="1" stop-color="#ffd98a"/></linearGradient></defs><path d="M0 8 C 300 30, 700 34, 1000 24 S 1400 10, 1536 18 V42 H0z" fill="#f1e9dc"/><path d="M0 8 C 300 30, 700 34, 1000 24 S 1400 10, 1536 18" stroke="url(#gw2)" stroke-width="5" fill="none"/></svg>
 <section class="cream" data-dzs-tartalom=".cb > *">
-  <picture class="szp"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal.svg?v=1104e" width="4432" height="1525"><img class="dz dzs-jelenet" src="assets/dzsami.webp" alt="" aria-hidden="true" decoding="async"></picture>
+  <picture class="szp"><source media="(max-width:760px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal-kicsi.svg?v=1104e" width="2432" height="1525"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal.svg?v=1104e" width="4432" height="1525"><img class="dz dzs-jelenet" src="assets/dzsami.webp" alt="" aria-hidden="true" decoding="async"></picture>
   <div class="wrap cb"><p><b>Pécs, Hunyadi János utca 34.</b> · Hétfő–péntek 9:00–15:00 · Ingyenes parkolás az üzlet előtt</p><a class="openchip" href="#kapcsolat" data-open><i></i><span>Nyitvatartás</span></a></div>
 </section>
 <section class="lcdband" aria-label="Kijelző">
@@ -1347,7 +1357,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 <div class="osztas" aria-hidden="true"><span></span></div>
 <section class="sec white vizjel-reg jobb" id="kapcsolat">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Szaküzletünk és szervizünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is érdeklődhet, az üzlet előtt pedig ingyenesen parkolhat.</p></div><picture class="szp"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal.svg?v=1104e" width="4432" height="1525"><img class="szdisz dz-angyal" src="assets/illusztraciok/web/dzsami-szepia.svg?v=1101" alt="" aria-hidden="true" width="1032" height="1125" loading="lazy" decoding="async"></picture></div>
+    <div class="shead rv"><div><span class="eye">Kapcsolat</span><h2 class="sh2">Látogasson el <em>hozzánk</em></h2><p class="slead">Szaküzletünk és szervizünk Pécsen, a Hunyadi János utca 34. szám alatt található. Nyitvatartási időben személyesen is érdeklődhet, az üzlet előtt pedig ingyenesen parkolhat.</p></div><picture class="szp"><source media="(max-width:760px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal-kicsi.svg?v=1104e" width="2432" height="1525"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/dzsami-szepia-angyal.svg?v=1104e" width="4432" height="1525"><img class="szdisz dz-angyal" src="assets/illusztraciok/web/dzsami-szepia.svg?v=1101" alt="" aria-hidden="true" width="1032" height="1125" loading="lazy" decoding="async"></picture></div>
     <div class="contactg">
       <div class="cc rv">
         <div class="status" id="status" aria-live="polite"><i></i><div><b id="st-t">Nyitvatartás</b><span id="st-s">Hétfő–péntek 9:00–15:00</span></div></div>
@@ -1399,7 +1409,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 <div class="osztas" aria-hidden="true"><span></span></div>
 <section class="sec vizjel-roz bal" id="gyik">
   <div class="wrap">
-    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div><picture class="szp"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/szechenyi-ter-szepia-angyal.svg?v=1104n" width="2182" height="946"><img class="szdisz lovas sz-angyal" src="assets/illusztraciok/web/lovasszobor-szepia.svg?v=1104n" alt="" aria-hidden="true" width="1516" height="780" loading="lazy" decoding="async"></picture></div>
+    <div class="shead rv"><div><span class="eye">Gyakori kérdések</span><h2 class="sh2">Amit sokan <em>kérdeznek</em></h2></div><picture class="szp"><source srcset="assets/illusztraciok/web/szechenyi-ter-szepia-angyal.svg?v=1104n" width="2182" height="946"><img class="szdisz lovas sz-angyal" src="assets/illusztraciok/web/lovasszobor-szepia.svg?v=1104n" alt="" aria-hidden="true" width="1516" height="780" loading="lazy" decoding="async"></picture></div>
     <div class="faqg rv">
       <details><summary>Mi szükséges egy új pénztárgép üzembe helyezéséhez?</summary><p>A készülék típusától és a vállalkozás adataitól függően üzembe helyezési kódra, valamint a vállalkozás képviseletére jogosító dokumentumokra is szükség lehet. A pontos dokumentumlistát kérjük, vásárlás előtt egyeztesse velünk vagy könyvelőjével.</p></details>
       <details><summary>Mennyibe kerül a pénztárgép mobil adatkapcsolata?</summary><p>A mobil adatkapcsolat díja gépenként havonta 1 500 Ft + ÁFA. A szerződés és az aktuális díj részleteiről vásárlás előtt kérjen tájékoztatást.</p></details>
@@ -1432,7 +1442,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 <div class="osztas" aria-hidden="true"><span></span></div>
 
 <footer class="ffoot">
-  <div class="f-pano" aria-hidden="true"><picture class="szp"><source media="(min-width:761px)" srcset="assets/illusztraciok/web/szechenyi-ter-arany-angyal.svg?v=1104n" width="2182" height="946"><img class="sz-angyal" src="assets/illusztraciok/web/szechenyi-ter-arany.svg?v=1104n" alt="" loading="lazy" decoding="async"></picture></div>
+  <div class="f-pano" aria-hidden="true"><picture class="szp"><source srcset="assets/illusztraciok/web/szechenyi-ter-arany-angyal.svg?v=1104n" width="2182" height="946"><img class="sz-angyal" src="assets/illusztraciok/web/szechenyi-ter-arany.svg?v=1104n" alt="" loading="lazy" decoding="async"></picture></div>
   <div class="wrap fcols">
     <div class="fbrand">
       <img src="assets/logo/total-logo-fejlec.svg" alt="TOTÁL – Pénztárgép-Számítástechnika" width="345" height="146" loading="lazy">
@@ -1548,11 +1558,11 @@ function autoDrift(el,speed){
 
 <script src="assets/nyelv.js?v=20261104"></script>
 <script src="assets/kapcsolat.js?v=20261104" defer></script>
-<script src="assets/dzsami-hely.js?v=20261104q" defer></script>
+<script src="assets/dzsami-hely.js?v=20261104s" defer></script>
 <script src="assets/terkep-szereplok.js?v=20261104e" defer></script>
-<script src="assets/terkep-jelenet.js?v=20261104c" defer></script>
+<script src="assets/terkep-jelenet.js?v=20261104e" defer></script>
 <script src="assets/hintazo-ordog.js?v=20261104c" defer></script>
-<script src="assets/rolunk-jelenetek.js?v=20261104b" defer></script>
+<script src="assets/rolunk-jelenetek.js?v=20261104d" defer></script>
 <script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"));</script><script>/* mobilon a nyelvválasztó a menüsávba kerül (a fejlécben nincs neki hely) */(function(){var pk=document.querySelector(".top .zi-pick");if(!pk)return;var home=pk.parentNode,nx=pk.nextSibling,mq=matchMedia("(max-width:820px)");function hely(){if(mq.matches){var t=document.getElementById("fomenu");if(t&&pk.parentNode!==t)t.appendChild(pk);}else if(pk.parentNode!==home){home.insertBefore(pk,nx&&nx.parentNode===home?nx:null);}}hely();mq.addEventListener?mq.addEventListener("change",hely):mq.addListener(hely);})();</script>
 <script>/* sárkánynyelv: a szájból indul, a feliratok alatti szabad sáv közepén kígyózva halad, a TOTÁL embléma végénél annak közepéig emelkedik, megrebben, majd lassan visszahúzódik */
 (function(){var top=document.querySelector('.top'),sv=top&&top.querySelector('.hnyelv');if(!sv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;

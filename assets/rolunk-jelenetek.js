@@ -122,6 +122,16 @@
       var felso = sk.top - o.top + 84;                                      /* a szakaszelválasztó érme alatt */
       var MAG = 263, ALJ = 96;                                              /* az angyal teteje a felhő közepe fölött / a felhő alja alatta (egység) */
       s = o.width < 560 ? .24 : .4;
+      var keskeny = !dupla && o.width < 560;
+      /* telefonon a cím mellett nincs hely: a felhő a cím fölött, saját sávban vonul át a teljes szélességen */
+      var sav = keskeny ? Math.round(8 + (MAG + ALJ) * .3 + 8) + "px" : "";
+      if (oszlop.style.paddingTop !== sav) { oszlop.style.paddingTop = sav; o = oszlop.getBoundingClientRect(); r = h2.getBoundingClientRect(); }
+      if (keskeny) {
+        s = .3; yAlap = 8 + MAG * s;
+        var f0 = 440 * s; xMin = f0 * .55 + 2; xMax = Math.max(xMin, o.width - f0 * .55 - 2);
+        svg.setAttribute("width", o.width); svg.setAttribute("height", Math.max(10, r.bottom - o.top));
+        return;
+      }
       if (dupla) {
         var also = fr.top - o.top - 10;
         s = Math.min(s, (also - felso) / (MAG + ALJ));

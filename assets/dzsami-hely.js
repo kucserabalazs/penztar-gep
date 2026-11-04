@@ -39,13 +39,15 @@
     var b = document.querySelector(".map-ph"); if (!b) return;
     var r = b.getBoundingClientRect(), W = r.width, H = r.height; if (!W || !H) return;
     var mobil = window.matchMedia("(max-width:760px)").matches;
-    var ht = mobil ? .54 * H : Math.min(.86 * H, 440), wt = ht * 448.667 / 1469.33;
-    var hc = mobil ? .54 * H * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
+    var hm = Math.min(.54 * H, .58 * W);   /* mobilon: legfeljebb akkora, hogy a torony és a székesegyház kényelmesen elférjen */
+    var ht = mobil ? hm : Math.min(.86 * H, 440), wt = ht * 448.667 / 1469.33;
+    var hc = mobil ? hm * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
     var szekKep = (W - wc) * (mobil ? .98 : .97);              /* a székesegyház képének bal széle */
     var gw = 0;                                                 /* az írások együttesének szélessége (a legszélesebb sor) */
     for (var i = 0; i < b.children.length; i++) if (!b.children[i].classList.contains("tj-svg")) gw = Math.max(gw, b.children[i].getBoundingClientRect().width);
     var szovegBal0 = (W - gw) / 2;                              /* az eredeti, középre igazított helyzet bal széle */
-    var tvBal = Math.min(szekKep, szovegBal0) / 2 - wt / 2;     /* a toronykép bal széle (a rajz a kép közepén van) */
+    /* mobilon az írások a doboz tetején vannak: a torony a székesegyház bal oldalán lévő üres rész közepén áll */
+    var tvBal = (mobil ? szekKep : Math.min(szekKep, szovegBal0)) / 2 - wt / 2;     /* a toronykép bal széle (a rajz a kép közepén van) */
     var tvJobb = tvBal + wt * .74138;                           /* a torony látható jobb széle */
     var szekBal = szekKep + wc * .0224;                         /* a székesegyház látható bal széle (a rajz első vonala) */
     var cel = (tvJobb + szekBal) / 2 - gw / 2;                  /* az írások bal széle: pontosan a kettő között középen */
@@ -55,6 +57,7 @@
     cel = Math.max(tvJobb + 12, Math.min(W - 12 - gw, cel));
     var v = tvBal.toFixed(1) + "px", dx = "0px";   /* az írások a doboz tetején, vízszintesen középen állnak (a jelenet fölött) */
     if (b.style.getPropertyValue("--tv-bal") !== v) b.style.setProperty("--tv-bal", v);
+    var mh = mobil ? hm.toFixed(1) + "px" : ""; if (b.style.getPropertyValue("--mh") !== mh) { if (mh) b.style.setProperty("--mh", mh); else b.style.removeProperty("--mh"); }
     if (b.style.getPropertyValue("--szoveg-x") !== dx) b.style.setProperty("--szoveg-x", dx);
   }
   function kesobb() { if (!raf) raf = requestAnimationFrame(frissit); }

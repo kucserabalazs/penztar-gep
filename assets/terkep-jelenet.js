@@ -39,8 +39,9 @@
   function geo() {
     var r = box.getBoundingClientRect(), W = r.width, H = r.height;
     var mobil = matchMedia("(max-width:760px)").matches;
-    var ht = mobil ? .54 * H : Math.min(.86 * H, 440), wt = ht * 448.667 / 1469.33;
-    var hc = mobil ? .54 * H * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
+    var hm = Math.min(.54 * H, .58 * W);   /* mobilon: legfeljebb akkora, hogy a torony és a székesegyház kényelmesen elférjen */
+    var ht = mobil ? hm : Math.min(.86 * H, 440), wt = ht * 448.667 / 1469.33;
+    var hc = mobil ? hm * 1.00192 - .01 : Math.min(.86 * H, 440) * 1.00192 - 2.01, wc = hc * 1139 / 995.333;
     var szx = (W - wc) * (mobil ? .98 : .97), szy = H + (mobil ? 3 : 4) - hc;
     var tvx = parseFloat(box.style.getPropertyValue("--tv-bal")) || 0, tvy = H + (mobil ? 4 : 6) - ht;
     var s = clamp(ht * .17, 26, 78);

@@ -1578,6 +1578,15 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
   .ph-dzsami .ph-il.ph-angyal{left:auto!important;right:max(16px,5vw)!important;top:auto!important;bottom:6px!important;height:220px!important;width:min(58%,640px)!important;min-width:0!important;max-width:none!important;max-height:none!important;object-fit:contain!important;object-position:100% 100%!important}
 }
 </style>
+<style id="mobil-jelenetek">
+/* telefonon a fejlécek mozgó jelenetei teljes egészében, élénken, a szöveg alatt látszanak */
+@media (max-width:760px){
+  .pagehead{display:flex;flex-direction:column;padding-bottom:18px}
+  .pagehead>.wrap{order:1}
+  .pagehead .ph-il{order:2;position:static!important;display:block;inset:auto!important;width:auto!important;height:auto!important;max-width:min(92%,440px)!important;max-height:220px!important;margin:10px auto 22px!important;opacity:.92!important;object-fit:contain;transform:none!important;-webkit-mask-image:none!important;mask-image:none!important}
+  .pagehead.ph-dzsami .ph-il,.pagehead.ph-szechenyi-ter .ph-il{width:100%!important;max-width:100%!important}
+}
+</style>
 </head>
 <body>
 
@@ -1632,7 +1641,7 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
   </div>
 </section>
 <div class="osztas" aria-hidden="true"><span></span></div>
-<footer class="slim"><div class="f-pano" aria-hidden="true"><picture class="szp"><source media="(min-width:761px)" srcset="../assets/illusztraciok/web/szechenyi-ter-szepia-angyal.svg?v=1104n" width="2182" height="946"><img class="sz-angyal" src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1104n" alt="" loading="lazy" decoding="async"></picture></div><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="termek.php">Termékkatalógus</a> · <a href="../szerviz/">Szerviz és támogatás</a> · <a href="../tudnivalok/">E-pénztárgép tudnivalók</a> · <a href="../penztargep-valasztas/">Gépválasztás</a> · <a href="#aszf">Vásárlási feltételek</a> · <a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
+<footer class="slim"><div class="f-pano" aria-hidden="true"><picture class="szp"><source srcset="../assets/illusztraciok/web/szechenyi-ter-szepia-angyal.svg?v=1104n" width="2182" height="946"><img class="sz-angyal" src="../assets/illusztraciok/web/szechenyi-ter-szepia.svg?v=1104n" alt="" loading="lazy" decoding="async"></picture></div><div class="wrap"><span>© <span id="year"></span> <span id="f-ceg"></span> · <span id="f-addr"></span> · <span class="num" id="f-tel"></span></span><span id="f-hours"></span><span class="flinks"><a href="termek.php">Termékkatalógus</a> · <a href="../szerviz/">Szerviz és támogatás</a> · <a href="../tudnivalok/">E-pénztárgép tudnivalók</a> · <a href="../penztargep-valasztas/">Gépválasztás</a> · <a href="#aszf">Vásárlási feltételek</a> · <a href="#adatkezeles">Adatkezelés</a> · <a href="#impresszum">Impresszum</a> · <a href="#admin">Admin</a></span></div><ul id="f-cats" hidden></ul></footer>
 
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Kosár" aria-hidden="true"></aside>
@@ -1916,7 +1925,7 @@ const PH_IL=[[/^Szerviz/,'tv-torony'],[/e-pénztárgép/i,'zsolnay-kut-okorfej']
 function pageHead(title, sub, crumbs, extra=''){ const il=(PH_IL.find(([re])=>re.test(title))||[])[1];
   const ang=il==='dzsami'?'dzsami-szepia-angyal.svg?v=1104e':il==='szechenyi-ter'?'szechenyi-ter-szepia-angyal.svg?v=1104n':'';
   const ilImg=il?`<img class="ph-il${ang?' ph-angyal':''}" src="${ILL}${il}-${il==='zsolnay-kut-okorfej'?'zold':'szepia'}.svg?v=1101" alt="" aria-hidden="true" decoding="async">`:'';
-  return `<section class="pagehead${il?' ph-'+il:''}"${il==='dzsami'?' data-dzs-tartalom=".crumbs,h1,.pagehead .wrap>p,.phchips>*"':''}>${ang?`<picture class="szp"><source media="(min-width:761px)" srcset="${ILL}${ang}">${ilImg}</picture>`:ilImg}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section><div class="osztas" aria-hidden="true"><span></span></div>`; }
+  return `<section class="pagehead${il?' ph-'+il:''}"${il==='dzsami'?' data-dzs-tartalom=".crumbs,h1,.pagehead .wrap>p,.phchips>*"':''}>${ang?`<picture class="szp">${il==='dzsami'?`<source media="(max-width:760px)" srcset="${ILL}dzsami-szepia-angyal-kicsi.svg?v=1104e">`:''}<source${il==='dzsami'?' media="(min-width:761px)"':''} srcset="${ILL}${ang}">${ilImg}</picture>`:ilImg}<div class="wrap"><nav class="crumbs" aria-label="Útvonal">${crumbs}</nav><h1 class="it-title">${title}</h1>${sub?`<p>${sub}</p>`:''}${extra}</div></section><div class="osztas" aria-hidden="true"><span></span></div>`; }
 function phChips(){ const s=S(), tel=String(s.telefon||'').replace(/[^\d+]/g,'');
   return `<div class="phchips"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34" target="_blank" rel="noopener">${icon('pin')}<span><small>Üzletünk</small><b>Pécs, Hunyadi János u. 34.</b></span></a><span class="phc">${icon('clock')}<span><small>Nyitvatartás</small><b>${esc(s.nyitvatartas||'')}</b></span></span><a href="tel:${esc(tel)}">${icon('phone')}<span><small>Telefon</small><b class="num">${esc(s.telefon||'')}</b></span></a></div>`; }
 const GEAR = `<svg viewBox="0 0 24 24" fill="none" stroke="#e2b862" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>`;
@@ -3166,7 +3175,7 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
 <script>window.ZEPHYR_I18N_BASE="../nyelv/";</script>
 <script src="../assets/nyelv.js?v=20261104"></script>
 <script src="../assets/kapcsolat.js?v=20261104" defer></script>
-<script src="../assets/dzsami-hely.js?v=20261104q" defer></script>
+<script src="../assets/dzsami-hely.js?v=20261104s" defer></script>
 <script>/* zászlós nyelvválasztó a fejlécben */ if (window.ZI18N) ZI18N.mountPicker(document.querySelector(".top .wrap"), { before: document.querySelector(".top .mtools") });</script><script>/* mobilon a nyelvválasztó a menüsávba kerül (a fejlécben nincs neki hely) */(function(){var pk=document.querySelector(".top .zi-pick");if(!pk)return;var home=pk.parentNode,nx=pk.nextSibling,mq=matchMedia("(max-width:900px)");function hely(){if(mq.matches){var t=document.querySelector(".navbar .tools");if(t&&pk.parentNode!==t)t.insertBefore(pk,t.firstChild);}else if(pk.parentNode!==home){home.insertBefore(pk,nx&&nx.parentNode===home?nx:null);}}hely();mq.addEventListener?mq.addEventListener("change",hely):mq.addListener(hely);})();</script>
 <script>/* sárkánynyelv: a szájból indul, a feliratok alatti szabad sáv közepén kígyózva halad, a TOTÁL embléma végénél annak közepéig emelkedik, megrebben, majd lassan visszahúzódik */
 (function(){var top=document.querySelector('.top'),sv=top&&top.querySelector('.hnyelv');if(!sv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
