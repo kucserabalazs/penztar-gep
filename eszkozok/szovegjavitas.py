@@ -26,6 +26,11 @@ if isinstance(uj, dict):
     for p in potlas:
         if not str(s.get(p["beallitas"]) or "").strip():
             s[p["beallitas"]] = p["ertek"]; db += 1
+# Beállítás-listából elem törlése: {"lista_torol": kulcs, "elem": érték} (pl. mobilszám)
+    for p in [p for p in lst if "lista_torol" in p]:
+        l = s.get(p["lista_torol"])
+        if isinstance(l, list) and p["elem"] in l:
+            s[p["lista_torol"]] = [x for x in l if x != p["elem"]]; db += 1
 print(f"Lektorált termékszövegek cseréje: {db} db")
 if not db:
     sys.exit(1)

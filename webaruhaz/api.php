@@ -15,6 +15,7 @@ $PRODUCTS = DATA . '/products.json';
 $ORDERS   = DATA . '/orders.php';         // védett: közvetlenül nem tölthető le
 $USERS    = DATA . '/admin.users.php';    // admin felhasználók: jelszó-ujjlenyomat, telefonos app, zárolás
 $LOG      = DATA . '/admin.log.php';      // utolsó belépések
+$TASKS    = DATA . '/feladatok.php';      // a weboldallal kapcsolatos feladatok, észrevételek (csak adminoknak)
 $CLIENTS  = DATA . '/clients.php';        // ügyféllista – titkosítva (AES-256-GCM)
 $CLOG     = DATA . '/clients.log.php';    // ki mit csinált az ügyféllistával
 
@@ -608,6 +609,24 @@ switch ($a) {
     $o = $id !== '' ? pay_refresh($id) : null;
     if (!$o || ($o['fizetes']['mod'] ?? '') !== 'online') out(['error' => 'Nincs ilyen online fizetés.'], 404);
     out(['id' => $o['id'], 'allapot' => $o['fizetes']['allapot'], 'osszeg' => $o['osszeg'] ?? null, 'adatlap' => !empty($o['adatlap']), 'atvetel' => $o['atvetel'] ?? '']);
+
+  /* ---- feladatok, észrevételek a weboldallal kapcsolatban ---- */
+  case 'tasks':
+    need_auth(); out(['tasks' => read_json($TASKS, [])]);
+  case 'task-add':
+    need_auth(); check_csrf(); $u = me(); $sz = trim((string)(body()['szoveg'] ?? ''));
+    if ($sz === '') out(['error' => 'Írja be a feladatot vagy az észrevételt.'], 400);
+    $sz = mb_substr($sz, 0, 4000);
+    $r = locked(function () use ($TASKS, $u, $sz) { $l = read_json($TASKS, []); $x = ['id' => bin2hex(random_bytes(6)), 'szoveg' => $sz, 'ido' => date('c'), 'uid' => $u['id'], 'nev' => $u['nev'], 'kesz' => false];
+      array_unshift($l, $x); write_json($TASKS, array_slice($l, 0, 2000)); return $x; });
+    out(['ok' => true, 'task' => $r]);
+  case 'task-done':
+    need_auth(); check_csrf(); $u = me(); $b = body(); $id = (string)($b['id'] ?? ''); $vissza = !empty($b['vissza']);
+    $ok = locked(function () use ($TASKS, $u, $id, $vissza) { $l = read_json($TASKS, []); $f = false;
+      foreach ($l as &$x) if (($x['id'] ?? '') === $id) { $f = true; if ($vissza) { $x['kesz'] = false; unset($x['keszIdo'], $x['keszNev']); } else { $x['kesz'] = true; $x['keszIdo'] = date('c'); $x['keszNev'] = $u['nev']; } }
+      unset($x); if ($f) write_json($TASKS, $l); return $f; });
+    if (!$ok) out(['error' => 'Ilyen bejegyzés nincs.'], 404);
+    out(['ok' => true]);
 
   case 'orders':
     need_auth(); out(read_json($ORDERS, []));

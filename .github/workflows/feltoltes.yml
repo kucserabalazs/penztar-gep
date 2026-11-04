@@ -95,6 +95,7 @@ jobs:
             --exclude-glob webaruhaz/data/admin.* \
             --exclude-glob webaruhaz/data/orders.* \
             --exclude-glob webaruhaz/data/clients* \
+            --exclude-glob webaruhaz/data/feladatok.* \
             --exclude-glob webaruhaz/data/products.backup-* \
             --exclude-glob webaruhaz/data/.lock \
             $KIZAR_TERMEK \

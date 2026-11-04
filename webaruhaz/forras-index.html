@@ -1527,6 +1527,28 @@ h2.dcim .num{font:700 italic .95rem/1 "Playfair Display",Georgia,serif;color:#9c
 @media (prefers-reduced-motion:reduce){.parade .kocsi{display:none}}
 </style>
 <style id="kocsi-gorbe">.parade .kocsi .rak{display:none}.parade .kocsi.teli .rak{display:inline}.parade .kocsi svg{overflow:visible}.parade{overflow:visible!important;-webkit-mask:none!important;mask:none!important}.parade .kocsi.ivenmegy{animation:none!important;top:0;bottom:auto;transform-origin:50% 100%;will-change:transform,opacity}.parade .pult{display:none!important}</style>
+<style id="feladatok-css">
+.fk{display:grid;gap:18px;max-width:900px}
+.fk-uj{display:grid;gap:8px;padding:18px;border-radius:16px;background:linear-gradient(180deg,#fffaf0,#fbf1da);border:1px solid #ead7a6}
+.fk-uj textarea{min-height:96px;font-size:1rem;line-height:1.5}
+.fk-ujl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.fk-l{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fk-it{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center;padding:16px 18px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 16px -10px rgba(12,26,51,.25)}
+.fk-tx{grid-column:1;font-size:1.02rem;line-height:1.55;color:var(--ink);white-space:normal;word-break:break-word}
+.fk-meta{grid-column:1;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.86rem;color:var(--muted)}
+.fk-meta span{display:inline-flex;align-items:center;gap:5px}.fk-meta .ic{width:15px;height:15px}
+.fk-it>.btn{grid-column:2;grid-row:1 / span 2;white-space:nowrap}
+.fk-done{min-height:46px}
+.fk-it.kesz{background:#f6faf6;border-color:#cfe5d3}.fk-it.kesz .fk-tx{color:#4a5a4e}
+.fk-ok{color:var(--ok);font-weight:600}
+.fk-ures{margin:0;padding:18px;border-radius:14px;background:#f4f7f4;color:#3d5a40;text-align:center}
+@media (max-width:700px){.fk-it{grid-template-columns:1fr}.fk-it>.btn{grid-column:1;grid-row:auto;width:100%;justify-content:center}}
+.fk-gombok{grid-column:2;grid-row:1 / span 2;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.fk-gombok .btn{white-space:nowrap;justify-content:center}
+.fk-it.kijelolt{outline:3px solid #f0c46e;outline-offset:2px}
+.fk-tx::selection,.fk-tx *::selection{background:#ffe49a;color:#1a1200}
+@media (max-width:700px){.fk-gombok{grid-column:1;grid-row:auto;flex-direction:row}.fk-gombok .btn{flex:1 1 0;min-height:46px}}
+</style>
 </head>
 <body>
 
@@ -2463,7 +2485,7 @@ async function totpAt(secret,step){ const key=await crypto.subtle.importKey('raw
 async function totpCheck(secret,code,last=0){ code=String(code).replace(/\D/g,''); if(code.length!==6) return null; const t=Math.floor(Date.now()/30000); for(const d of [0,-1,1]){ const st=t+d; if(st>last && await totpAt(secret,st)===code) return st; } return null; }
 
 /* ---- előnézet: a szerver belépés-kezelésének másolata a böngészőben (élesben az api.php dolgozik) ---- */
-const AUTH_ACTIONS=new Set(['clients','client-save','client-del','clients-import','clients-meta','geocode','clients-export','clients-log','status','admins','code-start','set-password','login','login-resend','login2','logout','password','totp-setup','totp-enable','totp-disable','security','users','user-add','user-reset','user-del']);
+const AUTH_ACTIONS=new Set(['tasks','task-add','task-done','clients','client-save','client-del','clients-import','clients-meta','geocode','clients-export','clients-log','status','admins','code-start','set-password','login','login-resend','login2','logout','password','totp-setup','totp-enable','totp-disable','security','users','user-add','user-reset','user-del']);
 const P_OWNERS=[{id:'kucsera-istvan',nev:'Kucsera István',tel:'+36209804748'},{id:'ifj-kucsera-istvan',nev:'Ifj. Kucsera István',tel:'+36203222669'},{id:'kucsera-balazs',nev:'Kucsera Balázs',tel:'+36205363120'}];
 const PV={ sess:{} };
 const maskTel=t=>{ const d=String(t).replace(/\D/g,''); return d.length>=11?`+${d.slice(0,2)} ${d.slice(2,4)} *** ${d.slice(-4)}`:'***'; };
@@ -2482,6 +2504,9 @@ async function fakeApi(a,b){
   const by=pUsers(), me=pMe(), owner=()=>{ if(!me) pErr('Be kell jelentkezni.'); if(me.szerep!=='tulajdonos') pErr('Ezt csak a tulajdonosok végezhetik el.'); };
   switch(a){
   case 'clients': case 'client-save': case 'client-del': case 'clients-import': case 'clients-meta': case 'geocode': case 'clients-export': case 'clients-log': if(!me) pErr('Be kell jelentkezni.'); return fakeClients(a,b,me);
+  case 'tasks': if(!me) pErr('Be kell jelentkezni.'); return {tasks:LS.get('ptg-feladatok',[])};
+  case 'task-add': { if(!me) pErr('Be kell jelentkezni.'); const sz=String(b.szoveg||'').trim(); if(!sz) pErr('Írja be a feladatot vagy az észrevételt.'); const l=LS.get('ptg-feladatok',[]); const x={id:Math.random().toString(16).slice(2,14),szoveg:sz.slice(0,4000),ido:new Date().toISOString(),uid:me.id,nev:me.nev,kesz:false}; l.unshift(x); LS.set('ptg-feladatok',l); return {ok:true,task:x}; }
+  case 'task-done': { if(!me) pErr('Be kell jelentkezni.'); const l=LS.get('ptg-feladatok',[]), x=l.find(y=>y.id===b.id); if(!x) pErr('Ilyen bejegyzés nincs.'); if(b.vissza){ x.kesz=false; delete x.keszIdo; delete x.keszNev; } else { x.kesz=true; x.keszIdo=new Date().toISOString(); x.keszNev=me.nev; } LS.set('ptg-feladatok',l); return {ok:true}; }
   case 'status': return {admin:!!me,csrf:me?'elonezet':null,me:me?pPub(me):null};
   case 'admins': return Object.values(by).map(pPub);
   case 'code-start': { const u=by[b.id]; if(!u) pErr('Ismeretlen felhasználó.'); const cel=u.hash?'visszaallitas':'aktivalas'; return {ok:true,cel,devCode:pSend(u,cel)}; }
@@ -2557,7 +2582,7 @@ function bindLogin(){
     bt.disabled=true; try{ ok(await api('set-password',{body:{id:L.uid,kod:$('#scode').value,jelszo:$('#spw').value}})); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; bt.disabled=false; } }; }
 }
 const MODELS=[['kompakt','Pénztárgép'],['nagy','Pénztárgép kasszafiókkal'],['kezi','Hordozható pénztárgép'],['pos','POS terminál'],['merleg','Mérleg'],['arazo','Árazógép'],['scanner','Vonalkódolvasó'],['fiok','Kasszafiók'],['nyomtato','Blokknyomtató'],['printer2','Irodai nyomtató'],['papir','Papírtekercs'],['pc','Számítógép'],['egyeb','Egyéb']];
-const ADM_TABS=()=>[['attekintes','Áttekintés','home'],['termekek','Termékek','box'],['rendelesek','Rendelések','bell'],['ugyfelek','Ügyfelek','users'],['szolgaltatasok','Szerviz díjak','wrench'],['gyik','Gyakori kérdések','list'],['beallitasok','Cégadatok, nyitvatartás','gear'],...(ADMIN.me?.szerep==='tulajdonos'?[['felhasznalok','Felhasználók','lock']]:[]),['biztonsag','Biztonság','shield']];
+const ADM_TABS=()=>[['attekintes','Áttekintés','home'],['termekek','Termékek','box'],['rendelesek','Rendelések','bell'],['ugyfelek','Ügyfelek','users'],['szolgaltatasok','Szerviz díjak','wrench'],['feladatok','Feladatok, észrevételek','edit'],['gyik','Gyakori kérdések','list'],['beallitasok','Cégadatok, nyitvatartás','gear'],...(ADMIN.me?.szerep==='tulajdonos'?[['felhasznalok','Felhasználók','lock']]:[]),['biztonsag','Biztonság','shield']];
 const ADM_MAIN=['attekintes','termekek','rendelesek','ugyfelek'];
 function adminHTML(){ const t=ADMIN.tab, tabs=ADM_TABS(), cur=tabs.find(x=>x[0]===t)||tabs[0], ini=(ADMIN.me?.nev||'?').replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2);
   const badge=k=>k==='rendelesek'&&ADMIN.newOrders?`<em class="abadge">${ADMIN.newOrders}</em>`:'';
@@ -2723,6 +2748,34 @@ async function admUsers(){
   $$('[data-ureset]').forEach(x=>x.onclick=()=>confirmBtn(x.dataset.ureset,'Igen, visszaállítom',async()=>{ try{ await api('user-reset',{body:{id:x.dataset.ureset}}); toast('Visszaállítva: következő belépéskor e-mailes kóddal állít be új jelszót'); admUsers(); }catch(err){ toast(err.message); } }));
   $$('[data-udel]').forEach(x=>x.onclick=()=>confirmBtn(x.dataset.udel,'Igen, törlöm',async()=>{ try{ await api('user-del',{body:{id:x.dataset.udel}}); toast('Hozzáférés törölve'); admUsers(); }catch(err){ toast(err.message); } }));
 }
+
+/* ---- Feladatok, észrevételek a weboldallal kapcsolatban ---- */
+async function admTasks(){
+  const b=$('#admbody'); if(!b) return; let l=[];
+  try{ l=(await api('tasks')).tasks||[]; }catch(e){ b.innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  const nyitott=l.filter(x=>!x.kesz), kesz=l.filter(x=>x.kesz).sort((a,c)=>String(c.keszIdo||'').localeCompare(String(a.keszIdo||'')));
+  const dt=s=>{ try{ return new Date(s).toLocaleString('hu-HU',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return s; } };
+  const item=(x,k)=>`<li class="fk-it${k?' kesz':''}"><div class="fk-tx">${esc(x.szoveg).replace(/\n/g,'<br>')}</div><div class="fk-meta"><span>${icon('clock')} ${esc(dt(x.ido))}</span><span>${icon('users')} ${esc(x.nev||'')}</span>${k?`<span class="fk-ok">${icon('check')} Teljesítette: ${esc(x.keszNev||'')} · ${esc(dt(x.keszIdo))}</span>`:''}</div>
+    <div class="fk-gombok"><button type="button" class="btn line sm fk-copy" data-fkcopy="${esc(x.id)}" aria-label="Bejegyzés másolása">${icon('file')} Másolás</button>${k?`<button type="button" class="btn ghost sm" data-fkvissza="${esc(x.id)}">Vissza a nyitottak közé</button>`:`<button type="button" class="btn gold fk-done" data-fkdone="${esc(x.id)}">${icon('check')} Teljesítve</button>`}</div></li>`;
+  const ADMIN_FK=ADMIN.fk||'nyitott';
+  b.innerHTML=`<div class="fk">
+    <form class="fk-uj" id="fk-uj"><label class="l" for="fk-sz">Új feladat vagy észrevétel</label><textarea class="i" id="fk-sz" rows="3" maxlength="4000" placeholder="Például: a Szerviz oldalon frissíteni kell az árakat."></textarea>
+      <div class="fk-ujl"><small class="muted">A dátum és az Ön neve (${esc(ADMIN.me?.nev||'')}) automatikusan hozzákerül.</small><button class="btn gold" type="submit">${icon('plus')} Elküldés</button></div><div class="out" aria-live="polite"></div></form>
+    <div class="chips" role="tablist"><button type="button" class="chip ${ADMIN_FK==='nyitott'?'on':''}" data-fk="nyitott">Elvégzendő <b>${nyitott.length}</b></button><button type="button" class="chip ${ADMIN_FK==='kesz'?'on':''}" data-fk="kesz">Teljesített kérések <b>${kesz.length}</b></button></div>
+    ${ADMIN_FK==='nyitott'?(nyitott.length?`<ul class="fk-l">${nyitott.map(x=>item(x,false)).join('')}</ul>`:'<p class="fk-ures">Nincs elvégzendő feladat. 🙂</p>'):(kesz.length?`<ul class="fk-l">${kesz.map(x=>item(x,true)).join('')}</ul>`:'<p class="fk-ures">Még nincs teljesített kérés.</p>')}
+  </div>`;
+  $('#fk-uj').onsubmit=async e=>{ e.preventDefault(); const sz=$('#fk-sz').value.trim(), out=$('#fk-uj .out'); if(!sz){ out.innerHTML='<div class="msg err">Írja be a feladatot vagy az észrevételt.</div>'; $('#fk-sz').focus(); return; }
+    const btn=$('#fk-uj button[type=submit]'); btn.disabled=true; try{ await api('task-add',{body:{szoveg:sz}}); ADMIN.fk='nyitott'; toast('Elküldve'); admTasks(); }catch(err){ out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; btn.disabled=false; } };
+  $$('[data-fk]',b).forEach(x=>x.onclick=()=>{ ADMIN.fk=x.dataset.fk; admTasks(); });
+  $$('[data-fkcopy]',b).forEach(x=>x.onclick=async()=>{ const li=x.closest('.fk-it'), tx=li.querySelector('.fk-tx'), meta=li.querySelector('.fk-meta');
+    const szoveg=tx.innerText.trim()+'\n— '+meta.innerText.replace(/\s+/g,' ').trim();
+    const sel=getSelection(), r=document.createRange(); r.selectNodeContents(tx); sel.removeAllRanges(); sel.addRange(r);
+    $$('.fk-it.kijelolt',b).forEach(y=>y.classList.remove('kijelolt')); li.classList.add('kijelolt');
+    let ok=false; try{ await navigator.clipboard.writeText(szoveg); ok=true; }catch(e){ try{ ok=document.execCommand('copy'); }catch(_){} }
+    toast(ok?'Kimásolva – beillesztheti bárhová':'Kijelölve – másolja ki (Cmd+C / hosszan nyomva Másolás)'); });
+  $$('[data-fkdone]',b).forEach(x=>x.onclick=async()=>{ x.disabled=true; try{ await api('task-done',{body:{id:x.dataset.fkdone}}); toast('Áthelyezve a teljesített kérések közé'); admTasks(); }catch(err){ toast(err.message); x.disabled=false; } });
+  $$('[data-fkvissza]',b).forEach(x=>x.onclick=async()=>{ try{ await api('task-done',{body:{id:x.dataset.fkvissza,vissza:true}}); toast('Visszakerült az elvégzendők közé'); admTasks(); }catch(err){ toast(err.message); } });
+}
 async function admOrders(){
   let list=[]; try{ list=MODE==='live'?await api('orders'):LS.get('ptg-orders3',[]); }catch(e){ $('#admbody').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
   ADMIN.newOrders=list.filter(o=>o.allapot==='uj').length; updBadges();
@@ -2762,7 +2815,7 @@ function bindAdmin(){
   $('#pq')?.addEventListener('input',e=>{ ADMIN.pq=e.target.value; filterProducts(); });
   $$('[data-step]').forEach(x=>x.onclick=()=>{ const inp=$('#kd-'+CSS.escape(x.dataset.sid)); const v=numOrNull(inp.value); inp.value=Math.max(0,(v??0)+(+x.dataset.step)); inp.dispatchEvent(new Event('input')); });
   $$('.pc2 [data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>setTimeout(()=>{ const p=prod(inp.dataset.id), el=inp.closest('.pc2'); el.classList.toggle('off',!!p.rejtett); el.querySelector('.pst').innerHTML=stockBadge(p)+(p.kiemelt?'<em class="bdg feat">Kiemelt</em>':'')+(p.rejtett?'<em class="bdg hid">Rejtett</em>':'')+(p.kategoria==='hasznalt'?'<em class="bdg used">Használt</em>':''); el.classList.add('chg'); })));
-  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers(); if(ADMIN.tab==='ugyfelek') admClients();
+  if(ADMIN.tab==='rendelesek') admOrders(); if(ADMIN.tab==='biztonsag') admSecurity(); if(ADMIN.tab==='felhasznalok') admUsers(); if(ADMIN.tab==='ugyfelek') admClients(); if(ADMIN.tab==='feladatok') admTasks();
   $$('[data-f]').forEach(inp=>inp.addEventListener(inp.type==='checkbox'?'change':'input',()=>{ const p=prod(inp.dataset.id), f=inp.dataset.f;
     if(f==='hasznalt'){ if(inp.checked){ if(p.kategoria!=='hasznalt') p.eredetiKat=p.kategoria; p.kategoria='hasznalt'; p.hasznalt=true; } else { p.kategoria=(p.eredetiKat&&p.eredetiKat!=='hasznalt')?p.eredetiKat:'penztargep'; p.hasznalt=false; } const el=inp.closest('.pc2'); if(el){ el.dataset.cat=p.kategoria; const sm=el.querySelector('.pnm small'); if(sm) sm.firstChild.textContent=(cat(p.kategoria)?.nev||'')+' · '; } }
     else if(f==='kiemelt') p.kiemelt=inp.checked; else if(f==='lathato') p.rejtett=!inp.checked; else if(f==='keszletDb'){ p.keszletDb=numOrNull(inp.value); p.keszlet=p.keszletDb==null?'rendelesre':(p.keszletDb>0?'raktaron':'elfogyott'); } else p[f]=numOrNull(inp.value); markDirty(); }));
@@ -3189,7 +3242,7 @@ requestAnimationFrame(frame);})();</script>
   function h(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
   /* --- menüpontok rövid leírása --- */
-  var DESC={attekintes:'Mi a teendő ma?',termekek:'Ár, készlet, fotó',rendelesek:'Vásárlók üzenetei',ugyfelek:'Ügyfélnyilvántartás',szolgaltatasok:'Szerviz árai',gyik:'Kérdések a termékoldalon',beallitasok:'Nyitvatartás, szabadság',felhasznalok:'Ki léphet be?',biztonsag:'Jelszó, belépések'};
+  var DESC={attekintes:'Mi a teendő ma?',termekek:'Ár, készlet, fotó',rendelesek:'Vásárlók üzenetei',ugyfelek:'Ügyfélnyilvántartás',szolgaltatasok:'Szerviz árai',gyik:'Kérdések a termékoldalon',feladatok:'Teendők a weboldallal',beallitasok:'Nyitvatartás, szabadság',felhasznalok:'Ki léphet be?',biztonsag:'Jelszó, belépések'};
 
   /* --- oldalankénti segítség --- */
   var TAB={
@@ -3198,6 +3251,7 @@ requestAnimationFrame(frame);})();</script>
     rendelesek:{t:'Ide érkeznek a vásárlók üzenetei',p:'Megrendelések, ajánlatkérések, szervizbejelentések és üzenetek a webáruházból.',l:['Az <b>Új</b> fülön azok vannak, amelyekkel még senki nem foglalkozott.','Hívja fel vagy írjon a vásárlónak a <b>Hívás</b> vagy az <b>E-mail</b> gombbal.','Állítsa át az állapotot: <b>Visszaigazolva</b> (a vásárló ekkor automatikusan e-mailt kap), majd <b>Kész</b>, ha átadta.']},
     ugyfelek:{t:'A cég ügyfélnyilvántartása',p:'Bizalmas adatok: csak munkához használja, és ne adja tovább.',l:['Keressen névre, településre, telefonszámra vagy AP-számra.','Az <b>Új ügyfél</b> gombbal vehet fel új ügyfelet. Egy ügyfélre koppintva módosíthatja az adatait.','Több ügyfelet kijelölve útvonalat tervezhet a Google Térképen.']},
     szolgaltatasok:{t:'A szerviz díjai',p:'Ezek az árak jelennek meg a Szerviz oldalon.',l:['Írja be a díjat nettó forintban, ÁFA nélkül.','Ha üresen hagyja, a vásárló „ár kérésre” szöveget lát.','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
+    feladatok:{t:'Feladatok és észrevételek',p:'Ide írhatja, mit kell javítani vagy módosítani a weboldalon. Mindenki látja, aki belép.',l:['Írja be röviden a feladatot, és nyomja meg az <b>Elküldés</b> gombot. A dátum és a neve magától hozzákerül.','Ha egy feladat elkészült, nyomja meg mellette a <b>Teljesítve</b> gombot.','A kész feladatokat a <b>Teljesített kérések</b> fülön találja.']},
     gyik:{t:'Gyakori kérdések',p:'Ezek a kérdések és válaszok a termékoldalak alján jelennek meg, kategóriánként.',l:['Minden sor egy kérdés és a rá adott válasz.','A kérdést és a választ függőleges vonal választja el. Például: <b>Mennyi a garancia? | 1 év.</b>','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
     beallitasok:{t:'Nyitvatartás és cégadatok',p:'A főoldal ebből mutatja, hogy az üzlet éppen nyitva van-e.',l:['Pipálja be a nyitvatartási napokat, és írja be a nyitás és a zárás idejét.','Szabadsághoz lent válassza ki a naptárból az első és az utolsó zárva napot, és nyomja meg a <b>Hozzáadás</b> gombot.','Végül nyomja meg alul a <b>Mentés</b> gombot.']},
     felhasznalok:{t:'Ki léphet be az adminba?',p:'Itt adhat hozzáférést egy munkatársnak, vagy állíthatja vissza valaki jelszavát.',l:['Új munkatárs: írja be a nevét, a telefonszámát és az e-mail címét, majd adja meg a hozzáférést.','A munkatárs e-mailben kap egy kódot, ezzel állít be magának jelszót.','Ha valaki elfelejtette a jelszavát, nyomja meg a <b>Jelszó visszaállítása</b> gombot.']},
