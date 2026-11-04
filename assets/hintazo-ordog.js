@@ -1,5 +1,5 @@
-/* „Bevizsgált használt gépek” fejléce: a kisördög a TV-torony csúcsán ül, és a torony teteje vele együtt
-   gumiként leng jobbra-balra.
+/* „Bevizsgált használt gépek” fejléce: a kisördög a TV-torony csúcsán ül, és a súlyát jobbra-balra dobva
+   gumiként lengeti a torony tetejét.
    - A torony ugyanaz a rajz, mint a képen; a felső része három, egymásba ágyazott szakaszból áll
      (alsó – középső – felső), mindegyik a saját tövénél hajlik. A felsőbb szakaszok kicsit késve követik
      az alsóbbat, ezért a hajlás hullámként fut fel a csúcsig, mint egy gumirúdnál; a holtpontokon
@@ -61,30 +61,31 @@
     function hajlas(t) {
       var w = 2 * Math.PI / PER;
       function h(kes) { var f = w * t - kes; return Math.sin(f) + .18 * Math.sin(2 * f - .6); }
-      return [4.5 * h(0), 7.5 * h(.32), 11 * h(.7)];
+      return [6.5 * h(0), 10.5 * h(.32), 15.5 * h(.7)];
     }
     function rajzol(t, all) {
       var a = all ? [0, 0, 0] : hajlas(t);
       for (var i = 0; i < 3; i++) if (G[i]) G[i].style.transform = "rotate(" + a[i].toFixed(2) + "deg)";
       var p1 = pont(jel1), p2 = pont(jel2);
       var dol = Math.atan2(p1.x - p2.x, p2.y - p1.y) * 180 / Math.PI;      /* a csúcs dőlése (fok, + = jobbra) */
-      var w = 2 * Math.PI / PER, f = w * t - 1.05;                          /* az ördög kicsit lemaradva követi a csúcsot */
-      var lemar = all ? 0 : -6 * Math.sin(f + .9);                          /* a teste a lendülettel szemben visszadől */
+      var w = 2 * Math.PI / PER, f = w * t - .45;                           /* a csúcs fázisa */
+      var lemar = all ? 0 : 15 * Math.sin(f + 1.0);                         /* ő hajtja: a súlyát a lengés előtt járva dobja ide-oda */
       svg.style.left = (p1.x - 60 * k) + "px"; svg.style.top = (p1.y - 112 * k) + "px";
       forgo.setAttribute("transform", "rotate(" + (dol + lemar).toFixed(2) + ")");
       var sz = Math.sin(f), cs = Math.cos(f);
       var lendit = all ? .3 : .5 + .5 * Math.sin(f + 1.4);
       function lab(o2) { return { x: o2 * (8.5 + 3 * lendit) - dol * .25, y: 22 - 9 * lendit }; }
-      var ravasz = !all && (t % 7.8) > 6.4;
+      var szel = !all && Math.abs(Math.sin(f + 1.0)) > .9;
+      var ravasz = !all && !szel && (t % 7.8) > 6.4;
       o.rajzol({
-        torzsSzog: all ? 0 : -dol * .25,
+        torzsSzog: all ? 0 : 8 * Math.sin(f + 1.3),
         fejSzog: all ? 0 : -dol * .3 + 3 * Math.sin(f * 2),
         labE: lab(1), labH: lab(-1), terdE: 1, terdH: -1,
         kezE: { x: 25 + 2 * cs, y: -20 - dol * .5 + 3 * Math.sin(f * 2) },
         kezH: { x: -25 + 2 * cs, y: -20 + dol * .5 + 3 * Math.sin(f * 2 + 1) },
         konyokE: 1, konyokH: -1,
         farokFazis: t * 2.6,
-        kifejezes: ravasz ? "ravasz" : "elégedett",
+        kifejezes: szel ? "erőlködik" : ravasz ? "ravasz" : "elégedett",
         nez: { x: all ? .3 : -sz * .9, y: -.15 },
         kotelTekercs: false
       });
