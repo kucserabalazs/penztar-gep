@@ -45,7 +45,9 @@
       var rs = [].slice.call(rg.getClientRects()).concat([el.getBoundingClientRect()]);
       for (var q = 0; q < rs.length; q++) if (rs[q].width && rs[q].height && (el.tagName !== "SMALL" || rs[q] !== rs[rs.length - 1])) szovegBal = Math.min(szovegBal, rs[q].left - r.left);
     }
-    var hatar = Math.min(szekBal, szovegBal), v = (hatar / 2 - wt / 2).toFixed(1) + "px";
+    /* az üres rész közepétől két toronyszélességnyivel a felirat felé (jobbra) */
+    var lathato = wt * 216.6 / 448.667;   /* a torony látható szélessége (a rajz a kép szélességének kb. 48%-a) */
+    var hatar = Math.min(szekBal, szovegBal), v = (hatar / 2 - wt / 2 + 2 * lathato).toFixed(1) + "px";
     if (b.style.getPropertyValue("--tv-bal") !== v) b.style.setProperty("--tv-bal", v);
   }
   function kesobb() { if (!raf) raf = requestAnimationFrame(frissit); }
