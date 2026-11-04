@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm i --no-save --no-audit --no-fund @fontsource/montserrat@5 @fontsource/inter@5 @fontsource/vt323@5 @fontsource/courier-prime@5
+      - run: npm i --no-save --no-audit --no-fund @fontsource/montserrat@5 @fontsource/inter@5 @fontsource/vt323@5 @fontsource/courier-prime@5 @fontsource/playfair-display@5
       - run: node eszkozok/betutipusok.mjs
       - run: |
           git config user.name "github-actions[bot]"
