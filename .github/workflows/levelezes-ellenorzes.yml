@@ -1,0 +1,33 @@
+# Csak olvasó ellenőrzés: miért nem érkezik meg a belépési kód?
+# Megnézi a domain levelezési DNS-beállításait, és hogy a tárhelyen lévő config.local.php-ban
+# ki van-e töltve a tulajdonosok e-mail címe. Címeket, jelszavakat NEM ír ki, csak igen/nem-et.
+name: Levelezés ellenőrzése
+on:
+  workflow_dispatch:
+jobs:
+  ell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp dnsutils php-cli >/dev/null
+      - name: DNS (SPF, DMARC, MX, DKIM)
+        run: |
+          echo "SPF/TXT:"; dig +short TXT penztar-gep.hu
+          echo "MX:"; dig +short MX penztar-gep.hu
+          echo "DMARC:"; dig +short TXT _dmarc.penztar-gep.hu
+          echo "DKIM default:"; dig +short TXT default._domainkey.penztar-gep.hu
+          echo "A:"; dig +short A penztar-gep.hu
+          for m in $(dig +short MX penztar-gep.hu | awk '{print $2}'); do echo "MX A $m:"; dig +short A $m; done
+      - name: config.local.php a tárhelyen
+        env:
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          kapcs() { lftp -u "web5109,$SFTP_PASSWORD" -p 2253 "sftp://fw.elin.hu" -e "set sftp:auto-confirm yes; set net:max-retries 2; set net:timeout 20; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          D="$RUNNER_TEMP/c"; mkdir -p "$D"
+          if kapcs "get $CEL/webaruhaz/config.local.php -o $D/c.php" >/dev/null 2>&1; then
+            php -r '$c=include $argv[1]; foreach(($c["emails"]??[]) as $k=>$v){ echo $k.": ".(filter_var($v,FILTER_VALIDATE_EMAIL)?"van érvényes cím (".substr(strrchr($v,"@"),1).")":"NINCS cím")."\n"; } echo "kulcs: ".(empty($c["kulcs"])?"nincs":"van")."\n";' "$D/c.php"
+          else echo "config.local.php NINCS a tárhelyen"; fi
+          rm -rf "$D"
+          echo "data mappa fájljai (csak nevek):"; kapcs "cls -1 $CEL/webaruhaz/data/" | grep -E "admin|log" || true
