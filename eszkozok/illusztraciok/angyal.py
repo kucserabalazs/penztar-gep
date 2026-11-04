@@ -18,7 +18,9 @@ az üres részt tölti ki (object-fit: cover), így a dzsámi mérete ugyanaz ma
 lágyan elhalványul. Mozgáscsökkentést kérő gépen semmi nem mozog, angyal és felhő nem látszik.
 Futtatás a repó gyökeréből:  python3 eszkozok/illusztraciok/angyal.py
 """
-import os, re
+import os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import angyal_rajz as AR
 
 GYOKER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 WEB = os.path.join(GYOKER, "assets/illusztraciok/web")
@@ -75,14 +77,12 @@ def burok(p):
     return lo[:-1] + hi[:-1]
 
 # ---- 3) stílus és forgatókönyv ----
-ST = """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
+ST = AR.CSS + """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
 .perem{opacity:0}
-#repulo,#ulo,#feny,#sugarak,.kup-hej,#felho{opacity:0}
+#repulo,#ulo,#ulo-arnyek,#feny,#sugarak,.kup-hej,#felho{opacity:0}
 .kup-hej{fill:var(--ill-hatter,#fff)}
 #repulo,#felho{transform-box:view-box;transform-origin:0 0}
 .vb{transform-box:view-box}
-#szb{transform-origin:-12px -66px}#szj{transform-origin:12px -66px}
-#lab{transform-origin:40px -6px}#ulo-szarny{transform-origin:-8px -92px}#fej{transform-origin:6px -104px}
 #feny,#sugarak{transform-box:fill-box;transform-origin:50% 100%}
 .a-vonal{fill:var(--ill-hatter,#fff);stroke:currentColor;stroke-width:3.4;stroke-linejoin:round;stroke-linecap:round}
 .a-reszlet{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -102,9 +102,9 @@ ST = """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
 #repulo{animation:aj-repul C linear infinite}
 #repulo .test{animation:aj-bob .9s ease-in-out infinite alternate}
 #szb{animation:aj-csapb .5s ease-in-out infinite alternate}
-#szj{animation:aj-csapj .5s ease-in-out infinite alternate}
-#ulo{animation:aj-ul C linear infinite}
-#lab{animation:aj-lograz 1.3s ease-in-out infinite alternate}
+#szj{animation:aj-csapb .5s ease-in-out infinite alternate}
+#ulo,#ulo-arnyek{animation:aj-ul C linear infinite}
+#labb{animation:aj-lograz 1.3s ease-in-out infinite alternate}#labj{animation:aj-lograz 1.3s ease-in-out -.65s infinite alternate}
 #ulo-szarny{animation:aj-szarnyring 3.2s ease-in-out infinite alternate}
 #fej{animation:aj-dallam 1.3s ease-in-out infinite alternate}
 .kota{animation:aj-kota 2.6s ease-out infinite}
@@ -128,18 +128,20 @@ ST = """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
 @keyframes aj-feny{0%,21%{opacity:0;transform:scale(.6,.2)}26%{opacity:.95;transform:scale(1,1)}36%{opacity:.85;transform:scale(1.05,1.1)}42%{opacity:.55;transform:scale(1,1)}45.5%,100%{opacity:0;transform:scale(.7,.25)}}
 @keyframes aj-sugar{0%,22%{opacity:0;transform:scaleY(.1)}28%{opacity:.85;transform:scaleY(1)}37%{opacity:.6;transform:scaleY(1.06)}43%{opacity:.3;transform:scaleY(.95)}45.5%,100%{opacity:0;transform:scaleY(.2)}}
 /* repülő angyal: kiemelkedik a tetőn, ívben átrepül a felhőre */
-@keyframes aj-repul{0%,30%{opacity:0;transform:translate(718px,430px) scale(.6) rotate(0)}
- 30.6%{opacity:1;transform:translate(718px,410px) scale(.62) rotate(0)}
- 33%{opacity:1;transform:translate(716px,200px) scale(.8) rotate(-3deg)}
- 35%{opacity:1;transform:translate(660px,40px) scale(.84) rotate(-10deg)}
- 37%{opacity:1;transform:translate(470px,-110px) scale(.84) rotate(-16deg)}
- 38.6%{opacity:1;transform:translate(248px,-210px) scale(.82) rotate(-6deg)}
- 39.4%,100%{opacity:0;transform:translate(242px,-214px) scale(.8) rotate(0)}}
+@keyframes aj-repul{0%,30%{opacity:0;transform:translate(718px,430px) scale(.86) rotate(0)}
+ 30.6%{opacity:1;transform:translate(718px,410px) scale(.9) rotate(0)}
+ 33%{opacity:1;transform:translate(716px,200px) scale(1.08) rotate(-3deg)}
+ 35%{opacity:1;transform:translate(660px,40px) scale(1.22) rotate(-10deg)}
+ 37%{opacity:1;transform:translate(470px,-120px) scale(1.3) rotate(-14deg)}
+ 38.6%{opacity:1;transform:translate(236px,-191px) scale(1.36) rotate(-3deg)}
+ 38.95%{opacity:1;transform:translate(232px,-191px) scale(1.36) rotate(0)}
+ 39.15%,100%{opacity:0;transform:translate(232px,-191px) scale(1.36) rotate(0)}}
 @keyframes aj-bob{from{transform:translateY(-3px)}to{transform:translateY(4px)}}
 @keyframes aj-csapb{from{transform:rotate(14deg)}to{transform:rotate(-22deg)}}
 @keyframes aj-csapj{from{transform:rotate(-14deg)}to{transform:rotate(22deg)}}
 /* ülő angyal (a felhőn): leszállás után jelenik meg, a felhővel együtt halad */
-@keyframes aj-ul{0%,38.8%{opacity:0}39.6%,100%{opacity:1}}
+@keyframes aj-ul{0%,38.85%{opacity:0}39.1%,100%{opacity:1}}
+#ulo-arnyek{opacity:0}
 @keyframes aj-lograz{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}
 @keyframes aj-szarnyring{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
 @keyframes aj-dallam{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
@@ -148,7 +150,7 @@ ST = """svg{--ill-hatter:HATTER}.resz{transform-box:fill-box}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}"""
 
 # ---- 4) fény a nyílásban (a kupola mögött) ----
-FENY = """<defs>
+FENY = """<defs>""" + AR.DEFS + """
 <radialGradient id="g-feny" cx="50%" cy="100%" r="75%"><stop offset="0" stop-color="#fff6d8"/><stop offset=".45" stop-color="#f3d58a" stop-opacity=".75"/><stop offset="1" stop-color="#e9b957" stop-opacity="0"/></radialGradient>
 <linearGradient id="g-sugar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f5d98f" stop-opacity=".85"/><stop offset="1" stop-color="#f5d98f" stop-opacity="0"/></linearGradient>
 <clipPath id="ki-nyilas"><rect x="-2000" y="-800" width="5000" height="1106"/></clipPath>
@@ -160,17 +162,7 @@ FENY = """<defs>
 # ---- 5) repülő angyal (a kupola előtt) ----
 SZARNY = """<path class="a-vonal" d="M-12 -66 C-40 -96 -86 -128 -150 -150 C-178 -158 -196 -152 -186 -136 C-196 -128 -194 -116 -180 -112 C-192 -102 -188 -90 -172 -88 C-182 -76 -176 -64 -158 -64 C-164 -52 -156 -42 -138 -44 C-140 -32 -128 -26 -112 -30 C-110 -18 -96 -14 -82 -22 C-72 -10 -54 -14 -44 -26 C-30 -36 -18 -50 -12 -66 Z"/>
 <path class="a-reszlet" d="M-30 -60 C-70 -86 -110 -110 -160 -136 M-36 -48 C-80 -70 -124 -88 -164 -98 M-40 -38 C-84 -50 -120 -60 -150 -70 M-44 -32 C-76 -38 -104 -42 -128 -46 M-48 -28 C-66 -30 -84 -30 -100 -30"/>"""
-REPULO = f"""<g clip-path="url(#ki-nyilas)"><g id="repulo"><g class="test">
-<g id="szb" class="vb">{SZARNY}</g>
-<g id="szj" class="vb"><g transform="scale(-1,1)">{SZARNY}</g></g>
-<path class="a-vonal" d="M-22 -70 C-30 -40 -44 10 -60 60 C-70 92 -74 112 -64 126 C-44 118 -30 132 -12 122 C4 134 22 120 38 128 C54 120 70 124 76 110 C70 80 56 30 40 -20 C34 -44 28 -60 22 -70 C8 -78 -8 -78 -22 -70 Z"/>
-<path class="a-reszlet" d="M-8 -40 C-14 0 -22 50 -30 112 M8 -40 C10 0 14 50 22 116 M-36 30 C-40 60 -46 88 -50 110 M40 26 C46 56 54 84 60 106 M-26 -58 C-10 -50 10 -50 26 -58"/>
-<path class="a-vonal" d="M-20 -64 C-38 -50 -52 -40 -62 -30 C-66 -24 -60 -18 -54 -22 C-44 -30 -32 -40 -18 -46 Z"/>
-<path class="a-vonal" d="M20 -64 C38 -50 52 -40 62 -30 C66 -24 60 -18 54 -22 C44 -30 32 -40 18 -46 Z"/>
-<circle class="a-vonal" cx="0" cy="-98" r="19"/>
-<path class="a-reszlet" d="M-17 -104 C-12 -120 12 -122 18 -104 M-18 -100 C-24 -88 -22 -78 -16 -72 M18 -100 C24 -88 22 -78 16 -72 M-6 -96 L-5 -95 M6 -96 L7 -95 M-4 -88 C-1 -86 2 -86 5 -88"/>
-<ellipse class="a-arany" cx="0" cy="-128" rx="24" ry="7"/>
-</g></g></g>
+REPULO = f"""<g clip-path="url(#ki-nyilas)"><g id="repulo"><g class="test"><g transform="scale(2.2)">{AR.REPULO_ANGYAL}</g></g></g></g>
 """
 
 # ---- 6) felhő ülő, fütyülő angyallal (oldalnézet, a haladás iránya, jobbra néz) ----
@@ -195,11 +187,7 @@ ULO = f"""<g id="ulo" transform="translate(-8 -66) scale(.92)">
 <g transform="translate(30 -112)"><g class="kota" style="animation-delay:1.73s">{KOTA}</g></g>
 </g>
 </g>"""
-FELHO = f"""<g id="felho"><g class="lebeg"><g transform="scale(1.3)">
-<g>{KULSO}{BELSO}</g>
-<path class="a-reszlet" d="M-146 18 C-140 2 -124 -6 -108 -2 M96 8 C104 -6 122 -10 136 0 M-8 -6 C2 -18 20 -20 32 -12"/>
-{ULO}
-</g></g></g>
+FELHO = f"""<g id="felho"><g class="lebeg"><g transform="scale(1.3)">{AR.felho_rajz("aj-felho-klip")}<ellipse id="ulo-arnyek" cx="-14" cy="-68" rx="36" ry="7" fill="currentColor" opacity=".13"/><g id="ulo" transform="translate(-14 -95) scale(2.3)">{AR.ULO_ANGYAL}</g></g></g></g>
 """
 
 def befejez(s, TR, VB, hatter, felho_emel, szobor_mogott, cel):
