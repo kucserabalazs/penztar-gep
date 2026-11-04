@@ -15,6 +15,7 @@ $PRODUCTS = DATA . '/products.json';
 $ORDERS   = DATA . '/orders.php';         // védett: közvetlenül nem tölthető le
 $USERS    = DATA . '/admin.users.php';    // admin felhasználók: jelszó-ujjlenyomat, telefonos app, zárolás
 $LOG      = DATA . '/admin.log.php';      // utolsó belépések
+$MASTER   = DATA . '/admin.mester.php';   // mesterkód ujjlenyomata (tulajdonosoknak, a jelszó mellé, ha nem jön az e-mail)
 $TASKS    = DATA . '/feladatok.php';      // a weboldallal kapcsolatos feladatok, észrevételek (csak adminoknak)
 $CLIENTS  = DATA . '/clients.php';        // ügyféllista – titkosítva (AES-256-GCM)
 $CLOG     = DATA . '/clients.log.php';    // ki mit csinált az ügyféllistával
@@ -346,7 +347,17 @@ switch ($a) {
         update_user($u['id'], function ($x) use ($k) { unset($x['totp']['recovery'][$k]); $x['totp']['recovery'] = array_values($x['totp']['recovery']); return $x; });
         grant($u, 'jelszó + tartalékkód'); }
     }
+    $mk = read_json($MASTER, []); $mn = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $kod));
+    if (($u['szerep'] ?? '') === 'tulajdonos' && !empty($mk['hash']) && strlen($mn) === 16 && password_verify($mn, (string)$mk['hash'])) grant($u, 'jelszó + mesterkód');
     fail_user($u['id'], 'Hibás vagy lejárt kód. Nézze meg a legfrissebb e-mailt, vagy kérjen újat.');
+
+  case 'master-new':   // új mesterkód: csak tulajdonos, csak egyszer látható, a régi azonnal érvénytelen
+    need_owner(); check_csrf(); $me = me();
+    $abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; $c = ''; for ($i = 0; $i < 16; $i++) $c .= $abc[random_int(0, 31)];
+    locked(function () use ($MASTER, $c, $me) { write_json($MASTER, ['hash' => password_hash($c, PASSWORD_DEFAULT), 'ido' => date('c'), 'nev' => $me['nev']]); });
+    out(['ok' => true, 'kod' => implode('-', str_split($c, 4))]);
+  case 'master-info':
+    need_auth(); $mk = read_json($MASTER, []); out(['van' => !empty($mk['hash']), 'ido' => $mk['ido'] ?? null, 'nev' => $mk['nev'] ?? null]);
 
   case 'logout':
     $_SESSION = []; session_destroy(); out(['ok' => true]);
