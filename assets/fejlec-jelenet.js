@@ -21,11 +21,14 @@
 (function () {
   "use strict";
   if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var par = document.querySelector(".hero .parade");
-  if (!par || !window.TJSzereplok) return;
-  var NS = "http://www.w3.org/2000/svg";
   var src = (document.currentScript && document.currentScript.src) || "";
   var LOVAS = (src ? src.replace(/fejlec-jelenet\.js.*$/, "") : "assets/") + "illusztraciok/web/lovas-fejlec.svg?v=1105a";
+  /* A jelenet bármelyik fejléc-ívre (.parade) ráindítható: a főoldalon a hős-kép íve, a webáruházban a
+     vásárlási fejléc (banner) aljának íve. kulsoGorbe: függvény, amely a pillanatnyi ív y(x) függvényét adja. */
+  function JELENET(par, kulsoGorbe) {
+  if (!par || !window.TJSzereplok || par.__fj) return;
+  par.__fj = true;
+  var NS = "http://www.w3.org/2000/svg";
 
   function el(n, a, p) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
   function f(x) { return (Math.round(x * 100) / 100).toString(); }
@@ -171,7 +174,7 @@
   /* telefonon a hullámvonal a kép alján nem látszik: ott kicsit feljebb, saját arany vonalon járnak */
   var sajatVonal = el("path", { fill: "none", stroke: "url(#fj-vonal)", "stroke-width": "1.6", "stroke-linecap": "round", opacity: 0 }, gArny);
   function vonalIgazit() {
-    var hero = par.closest(".hero"), pr = par.getBoundingClientRect(), hb = hero.getBoundingClientRect().bottom, W = par.clientWidth, mx = -1e9;
+    var hero = par.closest(".hero,.banner") || par.parentElement, pr = par.getBoundingClientRect(), hb = hero.getBoundingClientRect().bottom, W = par.clientWidth, mx = -1e9;
     emelV = 0;
     for (var x = 0; x <= W; x += 10) mx = Math.max(mx, gyf(x));
     if (W <= 700 && hb - (pr.top + mx) < 16) {
@@ -610,7 +613,7 @@
   /* a ciklus csak akkor fut, ha a jelenet látszik, a fül előtérben van és az animációk nincsenek szüneteltetve;
      megállításkor az idő is megáll, folytatáskor onnan megy tovább */
   var t0 = performance.now() - 0, latszik = true, rogzitett = null, raf = 0, allt = 0, kesz = false;
-  function mehet() { return kesz && latszik && !document.hidden && !(window.PTG_ANIM && window.PTG_ANIM.szunet); }
+  function mehet() { return kesz && par.isConnected && latszik && !document.hidden && !(window.PTG_ANIM && window.PTG_ANIM.szunet); }
   function all() { if (raf) cancelAnimationFrame(raf); raf = 0; if (!allt) allt = performance.now(); }
   function indit() { if (raf) return; if (!mehet()) { if (!allt) allt = performance.now(); return; } if (allt) { t0 += performance.now() - allt; allt = 0; } raf = requestAnimationFrame(lep); }
   function lep(now) {
@@ -623,14 +626,19 @@
     if (!fn) { if (regi) regi.style.display = ""; svg.remove(); return; }
     var frissit = function () { gyf = fn(); vonalIgazit(); epit(); };
     frissit();
-    addEventListener("resize", function () { clearTimeout(frissit.t); frissit.t = setTimeout(frissit, 150); });
+    addEventListener("resize", function () { if (!par.isConnected) return; clearTimeout(frissit.t); frissit.t = setTimeout(frissit, 150); });
+    /* a webáruházban a fejléc oldalváltáskor újraépül: a kiesett jelenet leáll; méretváltozáskor újraszámol */
+    if (window.ResizeObserver) new ResizeObserver(function (e, o) { if (!par.isConnected) { o.disconnect(); return; } clearTimeout(frissit.t); frissit.t = setTimeout(frissit, 150); }).observe(par);
     kesz = true;
     if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { latszik = e[0].isIntersecting; latszik ? indit() : all(); }, { rootMargin: "80px" }).observe(par);
     document.addEventListener("visibilitychange", function () { document.hidden ? all() : indit(); });
     addEventListener("ptg-anim", function () { window.PTG_ANIM && window.PTG_ANIM.szunet ? all() : indit(); });
     indit();
   }
-  if (sepGorbe()) inditas(sepGorbe); else kepGorbe(inditas);
+  if (kulsoGorbe) inditas(kulsoGorbe); else if (sepGorbe()) inditas(sepGorbe); else kepGorbe(inditas);
   /* teszteléshez: PTG_JELENET.ido(mp) egy pillanatra rögzít, PTG_JELENET.ido(null) folytatja */
   window.PTG_JELENET = { gy: function (x) { return gy(x); }, ido: function (s) { rogzitett = s; if (s !== null) rajzol(s); }, adat: function () { return G; }, hol: function () { var r = par.getBoundingClientRect(); return { mely: hol.mely, lab: hol.lab, x: hol.ox !== null && hol.ox !== undefined ? hol.ox : hol.c, y: r.top + scrollY + (hol.oy || 0), px: r.left, gy: r.top + scrollY + gy(hol.ox || hol.c || 0) }; } };
+  }
+  window.FJJelenet = JELENET;
+  JELENET(document.querySelector(".hero .parade"));
 })();

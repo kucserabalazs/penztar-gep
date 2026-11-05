@@ -3078,6 +3078,8 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
 <script>window.ZEPHYR_I18N_BASE="../nyelv/";</script>
 <script src="../assets/nyelv.js?v=20261105c"></script>
 <script src="../assets/kassza.js?v=20261105c" defer></script>
+<script src="../assets/terkep-szereplok.js?v=20261104e" defer></script>
+<script src="../assets/fejlec-jelenet.js?v=20261105r" defer></script>
 <script src="../assets/kapcsolat.js?v=20261105c" defer></script>
 <script src="../assets/keszito.js?v=20261105n" defer></script>
 <script src="../assets/dzsami-hely.js?v=20261104s" defer></script>
@@ -3161,6 +3163,8 @@ window.ragadtFrissit=fx;fx();addEventListener('resize',fx);addEventListener('loa
     }; img.onerror=function(){cb(null);}; img.src=(getComputedStyle(hero).backgroundImage.match(/url\("?([^")]+)"?\)/)||[])[1]||'';
   }
   function indit(par){
+    /* a vásárlási fejlécben (banner) ugyanaz a kisördögös jelenet fut, mint a főoldalon (assets/fejlec-jelenet.js) */
+    if(par.closest('.banner')){ if(window.FJJelenet&&window.TJSzereplok) window.FJJelenet(par,function(){ return gorbe(par); }); return; }
     var k=par.querySelector('.kocsi'); if(!k||k.dataset.gorbe) return; k.dataset.gorbe='1';
     var mk=function(f){ if(!f) return; k.classList.add('ivenmegy'); var gy=null, t0=performance.now()+KESL-CIKLUS;
       var frissit=function(){ gy=f(); }; frissit();
@@ -3182,6 +3186,7 @@ window.ragadtFrissit=fx;fx();addEventListener('resize',fx);addEventListener('loa
   }
   function keres(){ document.querySelectorAll('.parade').forEach(indit); }
   keres(); var app=document.getElementById('app'); if(app) new MutationObserver(keres).observe(app,{childList:true,subtree:true});
+  addEventListener('DOMContentLoaded',keres); addEventListener('load',keres);   /* a jelenet-szkriptek (defer) betöltése után */
 })();
 </script>
 
