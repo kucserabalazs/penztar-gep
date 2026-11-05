@@ -6,7 +6,7 @@ import json, sys
 cel, lista = sys.argv[1], sys.argv[2]
 adat = json.load(open(cel, encoding="utf-8"))
 lst = json.load(open(lista, encoding="utf-8"))
-parok = {p["regi"]: p["uj"] for p in lst if "regi" in p and "termek" not in p}
+parok = {p["regi"]: p["uj"] for p in lst if "regi" in p and "termek" not in p and "mezo" not in p}
 # Hiányzó beállítások pótlása (csak ha még üres): {"beallitas": kulcs, "ertek": érték}
 potlas = [p for p in lst if "beallitas" in p]
 db = 0
@@ -23,7 +23,7 @@ def jar(x):
 uj = jar(adat)
 # Egy adott termék egy mezőjének célzott cseréje: {"termek": id, "regi": ..., "uj": ...}
 # (a termék teljes adatán belül csak a pontosan egyező szöveget cseréli – pl. engedélyszám)
-for p in [p for p in lst if "termek" in p]:
+for p in [p for p in lst if "termek" in p and "mezo" not in p]:
     for i, t in enumerate(uj.get("products", []) if isinstance(uj, dict) else []):
         if t.get("id") == p["termek"]:
             parok_t = {p["regi"]: p["uj"]}
@@ -35,6 +35,15 @@ for p in [p for p in lst if "termek" in p]:
                     db += 1; return parok_t[x]
                 return x
             uj["products"][i] = jar_t(t)
+
+# Egy termék egy mezőjének célzott beállítása, csak ha a jelenlegi érték pontosan a régi:
+# {"termek": id, "mezo": kulcs, "regi": régi érték, "uj": új érték (null = üres; "__torol__" = a mező törlése)}
+for p in [p for p in lst if "termek" in p and "mezo" in p]:
+    for t in (uj.get("products", []) if isinstance(uj, dict) else []):
+        if t.get("id") == p["termek"] and t.get(p["mezo"], "__nincs__") == p["regi"]:
+            if p["uj"] == "__torol__": t.pop(p["mezo"], None)
+            else: t[p["mezo"]] = p["uj"]
+            db += 1
 if isinstance(uj, dict):
     s = uj.setdefault("settings", {})
     for p in potlas:

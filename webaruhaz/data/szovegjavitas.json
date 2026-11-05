@@ -637,5 +637,52 @@
  {
   "gyoker": "keszletKovetes",
   "ertek": false
+ },
+ {
+  "termek": "micra-jota-e",
+  "mezo": "modell",
+  "regi": "kompakt",
+  "uj": "kezi"
+ },
+ {
+  "termek": "montel-jota-h",
+  "mezo": "modell",
+  "regi": "kompakt",
+  "uj": "kezi"
+ },
+ {
+  "termek": "blokknyomtato",
+  "mezo": "keszletDb",
+  "regi": 2,
+  "uj": null
+ },
+ {
+  "termek": "rongta-rls1000",
+  "mezo": "keszletDb",
+  "regi": 1,
+  "uj": null
+ },
+ {
+  "termek": "hopapir",
+  "mezo": "garancia",
+  "regi": "1 év",
+  "uj": "__torol__"
+ },
+ {
+  "termek": "arazocimke",
+  "mezo": "garancia",
+  "regi": "1 év",
+  "uj": "__torol__"
+ },
+ {
+  "termek": "belovoszal-5000",
+  "mezo": "garancia",
+  "regi": "1 év",
+  "uj": "__torol__"
+ },
+ {
+  "termek": "acs-a-an",
+  "regi": "Hitelesítve",
+  "uj": "Hitelesíthető"
  }
 ]

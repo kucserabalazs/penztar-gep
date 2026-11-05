@@ -1,0 +1,27 @@
+# Egyszeri takarítás a tárhelyen: a fejlesztői, élesben nem használt fájlok törlése.
+# Csak kézzel indítható (workflow_dispatch). Az adatokhoz (webaruhaz/data, uploads) NEM nyúl.
+name: Szerver takarítás (fejlesztői fájlok)
+on:
+  workflow_dispatch:
+jobs:
+  takaritas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp >/dev/null
+      - env:
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          set -uo pipefail
+          L="set sftp:auto-confirm yes; set net:max-retries 2; set net:timeout 30"
+          kapcs() { lftp -u "web5109,$SFTP_PASSWORD" -p 2253 "sftp://fw.elin.hu" -e "$L; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          for p in assets/illusztraciok/eredeti minta assets/illusztraciok/bemutato.html assets/illusztraciok/lista.json \
+                   webaruhaz/forras-index.html webaruhaz/build.py webaruhaz/OLVASS-EL.txt webaruhaz/config.local.minta.php; do
+            if kapcs "cls -d $CEL/$p" >/dev/null 2>&1; then
+              kapcs "rm -rf $CEL/$p" >/dev/null 2>&1 && echo "Törölve: $p" || echo "::warning::Nem sikerült törölni: $p"
+            else
+              echo "Nincs a szerveren: $p"
+            fi
+          done
+          echo "A főoldal válaszkódja: $(curl -s -o /dev/null -w '%{http_code}' https://penztar-gep.hu/)"
