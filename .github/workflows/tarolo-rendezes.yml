@@ -3,6 +3,11 @@
 name: Tároló rendezése (régi mentés-ágak, Etalon címke)
 on:
   workflow_dispatch:
+    inputs:
+      cimke:
+        description: "Az Etalon címke neve (az „etalon” ág mostani állapotára kerül)"
+        required: false
+        default: "etalon-2026-11-05"
 permissions:
   contents: write
 jobs:
@@ -17,9 +22,10 @@ jobs:
           for b in $(git ls-remote --heads origin 'mentes-20*' | awk '{print $2}' | sed 's|refs/heads/||'); do
             git push -q origin --delete "$b" && echo "Törölve: $b"
           done
-          if ! git ls-remote --exit-code --tags origin etalon-2026-11-05 >/dev/null; then
+          C="${{ github.event.inputs.cimke }}"; C=$(printf '%s' "${C:-etalon-2026-11-05}" | tr -cd 'A-Za-z0-9._-')
+          if ! git ls-remote --exit-code --tags origin "$C" >/dev/null; then
             git fetch -q origin etalon
-            git tag -a etalon-2026-11-05 -m "ETALON ÁLLAPOT – 2026. november 5." FETCH_HEAD
-            git push -q origin etalon-2026-11-05 && echo "Címke: etalon-2026-11-05"
-          fi
+            git tag -a "$C" -m "ETALON ÁLLAPOT – $C" FETCH_HEAD
+            git push -q origin "$C" && echo "Címke: $C"
+          else echo "A(z) $C címke már létezik."; fi
           echo "Ágak:"; git ls-remote --heads origin | awk '{print $2}' | sed 's|refs/heads/||'
