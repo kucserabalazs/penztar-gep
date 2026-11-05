@@ -64,6 +64,7 @@ function ptg_szkriptek(string $root = '/'): string {
   return '<script>window.ZEPHYR_I18N_BASE=' . json_encode($root . 'nyelv/') . ';</script>' . "\n"
     . '<script src="' . e($root) . 'assets/nyelv.js?v=20261105c"></script>' . "\n"
     . '<script src="' . e($root) . 'assets/kapcsolat.js?v=20261105c" defer></script>' . "\n"
+    . '<script src="' . e($root) . 'assets/keszito.js?v=20261105n" defer></script>' . "\n"
     . '<script>if (window.ZI18N) ZI18N.mountPicker(document.querySelector("header nav"));</script>' . "\n";
 }
 

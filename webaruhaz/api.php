@@ -937,6 +937,34 @@ switch ($a) {
   case 'kapcsolat-jegy':
     out(['jegy' => form_ticket()]);
 
+  case 'keszito':   // a lábléc „A weboldal készítője” űrlapja: a készítő címe sehol nem jelenik meg, csak ide továbbítunk
+    if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
+    $b = body();
+    if (!empty($b['web'])) out(['ok' => true]);
+    $kor = form_ticket_age((string)($b['jegy'] ?? ''));
+    if ($kor === null || $kor > 7200) out(['error' => 'Az űrlap lejárt. Kérjük, nyissa meg újra, és küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
+    if (jegy_hasznalt((string)$b['jegy'])) out(['error' => 'Ezt az üzenetet már elküldte.', 'ujjegy' => form_ticket()], 400);
+    if ($kor < 4) out(['error' => 'Kérjük, várjon néhány másodpercet, mielőtt elküldi az üzenetet.'], 400);
+    $nev = trim(preg_replace('/\s+/u', ' ', (string)($b['nev'] ?? '')));
+    $email = trim((string)($b['email'] ?? '')); $tel = trim((string)($b['telefon'] ?? ''));
+    $ceg = trim(preg_replace('/\s+/u', ' ', (string)($b['ceg'] ?? ''))); $uz = trim(str_replace("\r", '', (string)($b['uzenet'] ?? '')));
+    if (mb_strlen($nev) < 2 || preg_match('~https?://|www\.~i', $nev)) out(['error' => 'Kérjük, adja meg a nevét.', 'mezo' => 'nev'], 400);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email)) out(['error' => 'Kérjük, adjon meg érvényes e-mail-címet – erre válaszolok.', 'mezo' => 'email'], 400);
+    if ($tel !== '' && !preg_match('/^[\d\s+()\/-]{6,25}$/', $tel)) out(['error' => 'A telefonszám formátuma nem megfelelő.', 'mezo' => 'telefon'], 400);
+    if (mb_strlen($ceg) < 3) out(['error' => 'Kérjük, írja le, milyen tevékenységű cég számára készülne a weboldal.', 'mezo' => 'ceg'], 400);
+    if (mb_strlen($uz) < 20) out(['error' => 'Kérjük, írja le néhány mondatban az elképzelését a weboldallal kapcsolatban.', 'mezo' => 'uzenet'], 400);
+    if (mb_strlen($uz) > 4000) out(['error' => 'Az üzenet legfeljebb 4000 karakter lehet.', 'mezo' => 'uzenet'], 400);
+    if (preg_match_all('~(https?://|www\.|\[url|<a\s)~i', $ceg . ' ' . $uz) > 3) out(['error' => 'Az üzenetben legfeljebb 3 internetes hivatkozás lehet.', 'mezo' => 'uzenet'], 400);
+    if (rate_hit(DATA . '/keszito.ip.php', ip_key('keszito'), [600 => 2, 86400 => 5])) out(['error' => 'Rövid időn belül több üzenet érkezett erről a hálózatról. Kérjük, próbálja újra később.'], 429);
+    $cim = base64_decode('a3Vjc2VyYWJhbGF6czc5QGdtYWlsLmNvbQ==');   // a készítő címe (kódolva, hogy a forrásban se legyen olvasható)
+    $txt = "WEBOLDAL GYÁRTÁSI FELKÉRÉS\n(a penztar-gep.hu lábléc „A weboldal készítője” űrlapjáról)\n\n"
+      . 'Név: ' . mb_substr($nev, 0, 120) . "\nE-mail: " . mb_substr($email, 0, 120) . "\n" . ($tel !== '' ? 'Telefon: ' . mb_substr($tel, 0, 40) . "\n" : '')
+      . 'Cég / tevékenység: ' . mb_substr($ceg, 0, 200) . "\n" . date('Y.m.d. H:i') . "\n\n" . str_repeat('-', 40) . "\n" . $uz . "\n" . str_repeat('-', 40)
+      . "\n\nVálaszhoz nyomja meg a Válasz gombot – a levél a megkereső címére megy.";
+    $ok = send_mail($cim, 'WEBOLDAL GYÁRTÁSI FELKÉRÉS', $txt, $email);
+    if (!$ok) out(['error' => 'Az üzenetet most nem sikerült elküldeni. Kérjük, próbálja újra később.'], 500);
+    jegy_felhasznal((string)$b['jegy']); out(['ok' => true]);
+
   case 'kapcsolat':
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
     $b = body();
