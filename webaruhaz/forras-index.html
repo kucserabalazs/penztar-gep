@@ -2394,7 +2394,11 @@ const PD_KELL={
 };
 const PD_SZOLG={penztargep:['uzembe','felulvizsgalat','javitas'],hasznalt:['uzembe','felulvizsgalat','javitas'],pos:['halozat'],irodatechnika:['pc-javitas','halozat']};
 function pdTel(v){ return `<a class="num" href="tel:${esc(String(v).replace(/[^+\d]/g,''))}">${esc(v)}</a>`; }
-function pdSvcPrice(s){ return s&&s.ar?`${ft(s.ar)} + ÁFA`:'egyeztetés szerint'; }
+/* szolgáltatás díja: a javítások (pénztárgép, számítógép) óradíjasak – az admin szolgáltatásonként állíthatja („egyseg”: 'ora' | 'alkalom') */
+const SVC_ORAS=new Set(['javitas','pc-javitas']);
+const svcOras=s=>!!s&&(s.egyseg?s.egyseg==='ora':SVC_ORAS.has(s.id));
+const svcAr=(s,ker)=>s&&s.ar?`${ft(s.ar)} + ÁFA${svcOras(s)?' / óra':''}`:(svcOras(s)?'Óradíj, egyeztetés szerint':ker);
+function pdSvcPrice(s){ return svcAr(s,'egyeztetés szerint'); }
 function pdExtra(p){
   const aj=p.ajanlott||(PD_AJANL[p.kategoria]||{})[p.modell]||(PD_AJANL[p.kategoria]||{})._||'';
   const kell=PD_KELL[p.kategoria]||[];
@@ -2732,7 +2736,7 @@ function pageCart(){ setTimeout(openDrawer,80); return pageCategory('penztargep'
 
 /* további oldalak */
 const SVC_IC={uzembe:'register',felulvizsgalat:'checkc',javitas:'wrench',aee:'file',atallas:'clock','pc-javitas':'monitor',halozat:'pos'};
-function svcRow(s){ return `<div><span class="svic">${icon(SVC_IC[s.id]||'wrench')}</span><span><b>${esc(s.nev)}</b><small>${esc(s.leiras)}</small></span><span class="p num">${s.ar?ft(s.ar)+' + ÁFA':'Ár kérésre'}</span></div>`; }
+function svcRow(s){ return `<div><span class="svic">${icon(SVC_IC[s.id]||'wrench')}</span><span><b>${esc(s.nev)}</b><small>${esc(s.leiras)}</small></span><span class="p num">${svcAr(s,'Ár kérésre')}</span></div>`; }
 function orderForm(tipus,extra=[]){
   const ex=extra.map(f=>f.sel?`<label class="l">${esc(f.l)}<select class="i" name="${f.n}" id="f-${tipus}-${f.n}">${f.sel.map(o=>`<option>${esc(o)}</option>`).join('')}</select></label>`:`<label class="l">${esc(f.l)} ${f.o?'<span class="o">(nem kötelező)</span>':''}<input class="i" name="${f.n}" id="f-${tipus}-${f.n}" type="${f.type||'text'}" placeholder="${esc(f.ph||'')}"></label>`).join('');
   return `<form class="f" data-form="${tipus}" novalidate><div class="row2"><label class="l">Név<input class="i" name="nev" id="f-${tipus}-nev" required autocomplete="name"></label><label class="l">Cég <span class="o">(nem kötelező)</span><input class="i" name="ceg" id="f-${tipus}-ceg" autocomplete="organization"></label></div>
@@ -2742,7 +2746,7 @@ function orderForm(tipus,extra=[]){
 }
 function pageService(){
   return pageHead('Szerviz és karbantartás','Pénztárgépek javítását, éves felülvizsgálatát és adómemória-kiolvasását vállaljuk, továbbá segítséget nyújtunk a kapcsolódó NAV-ügyintézésben. Számítógépek és hálózatok javításával is foglalkozunk.','<a href="../">Kezdőlap</a>›<span>Szerviz</span>', phChips()+`<a class="phlink" href="../szerviz/">${icon('wrench')}A javítás és az üzembe helyezés menete lépésről lépésre ${icon('chev','ic','width:14px;height:14px')}</a>`) +
-  `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><h3>Szolgáltatások és díjak</h3><div class="svc">${DB.services.map(svcRow).join('')}</div><p class="muted" style="font-size:.86rem">A feltüntetett árak nettó árak. Az alkatrészek díját külön számítjuk fel.</p></div>
+  `<div class="wrap split" style="padding-block:24px 60px"><div class="panel"><h3>Szolgáltatások és díjak</h3><div class="svc">${DB.services.map(svcRow).join('')}</div><p class="muted" style="font-size:.86rem">A feltüntetett árak nettó árak. A pénztárgépek és a számítógépek javítását óradíjjal, a ráfordított munkaidő alapján számoljuk el. Az alkatrészek díját külön számítjuk fel.</p></div>
   <div class="panel"><h3>Szervizbejelentés</h3><p class="muted">Kérjük, röviden írja le, milyen segítségre van szüksége. Pénztárgép esetén adja meg a készülék típusát és – ha rendelkezésére áll – az AP-számot is.</p>${orderForm('szerviz',[{n:'szolg',l:'Mire van szükség?',sel:['Pénztárgép javítása','Éves felülvizsgálat','Adómemória- vagy AEE-kiolvasás','Átállás e-pénztárgépre','Számítógép- vagy laptopjavítás','Egyéb']},{n:'geptipus',l:'Gép típusa',o:true,ph:'pl. Sam4s NR-300'},{n:'ap',l:'AP-szám',o:true,ph:'A pénztárgép azonosítója'},{n:'idopont',l:'Mikor hozná be a készüléket?',type:'date',o:true}])}</div></div>`;
 }
 function pageEpenztar(){
@@ -3183,7 +3187,7 @@ function editorHTML(p){ if(!p) return ''; const opt=(v,l,c)=>`<option value="${v
     <div class="l">Külön 360°-os fotósorozat <span class="o">nem kötelező; ha van, ez lesz a forgatás (24–36 kép, egyenletes lépésekben)</span>${imgsHTML(p,'spin')}<input type="file" id="up-spin" accept="image/jpeg,image/png,image/webp" multiple></div>
     <div class="out" aria-live="polite"></div>
     <div class="edfoot"><button class="btn navy" type="button" id="applyed">${icon('check')} Módosítások átvétele</button><a class="btn line" href="#t-${esc(p.id)}">${icon('eye')} Termékoldal</a><button class="btn ghost" type="button" id="delp" style="color:var(--bad)">Termék törlése</button><span id="delconfirm"></span></div></form></div>`; }
-function admServices(){ return `<p class="muted" style="margin-bottom:14px">A szervizoldalon megjelenő díjak, nettó forintban. Üresen: „Ár kérésre”.</p><div class="tablewrap"><table class="ptable"><thead><tr><th>Szolgáltatás</th><th>Leírás</th><th>Díj (nettó)</th></tr></thead><tbody>${DB.services.map(s=>`<tr><td data-l="Név"><input class="i" data-s="nev" data-id="${s.id}" id="sn-${s.id}" value="${esc(s.nev)}"></td><td data-l="Leírás"><input class="i" data-s="leiras" data-id="${s.id}" id="sl-${s.id}" value="${esc(s.leiras)}"></td><td data-l="Díj"><input class="i pi num" data-s="ar" data-id="${s.id}" id="sa-${s.id}" inputmode="numeric" value="${s.ar??''}" placeholder="kérésre"></td></tr>`).join('')}</tbody></table></div>`; }
+function admServices(){ return `<p class="muted" style="margin-bottom:14px">A szervizoldalon megjelenő díjak, nettó forintban. Üresen: „Ár kérésre” (óradíjas szolgáltatásnál: „Óradíj, egyeztetés szerint”). Az Elszámolás oszlopban állítható, hogy a díj alkalmanként vagy óránként értendő; a javítások alapból óradíjasak.</p><div class="tablewrap"><table class="ptable"><thead><tr><th>Szolgáltatás</th><th>Leírás</th><th>Díj (nettó)</th><th>Elszámolás</th></tr></thead><tbody>${DB.services.map(s=>`<tr><td data-l="Név"><input class="i" data-s="nev" data-id="${s.id}" id="sn-${s.id}" value="${esc(s.nev)}"></td><td data-l="Leírás"><input class="i" data-s="leiras" data-id="${s.id}" id="sl-${s.id}" value="${esc(s.leiras)}"></td><td data-l="Díj"><input class="i pi num" data-s="ar" data-id="${s.id}" id="sa-${s.id}" inputmode="numeric" value="${s.ar??''}" placeholder="kérésre"></td><td data-l="Elszámolás"><select class="i" data-s="egyseg" data-id="${s.id}" id="se-${s.id}"><option value="alkalom" ${svcOras(s)?'':'selected'}>alkalmanként</option><option value="ora" ${svcOras(s)?'selected':''}>óradíj (/ óra)</option></select></td></tr>`).join('')}</tbody></table></div>`; }
 function admFaq(){ return `<p class="muted" style="margin-bottom:14px">A kategóriánkénti gyakori kérdések minden termékoldalon megjelennek. Soronként: Kérdés | Válasz</p>${DB.categories.map(c=>`<label class="l" style="margin-bottom:14px">${esc(c.nev)}<textarea class="i" data-faq="${c.id}" id="fq-${c.id}" style="min-height:90px">${esc((c.gyik||[]).map(g=>g[0]+' | '+g[1]).join('\n'))}</textarea></label>`).join('')}`; }
 const DAYS=[[1,'Hétfő'],[2,'Kedd'],[3,'Szerda'],[4,'Csütörtök'],[5,'Péntek'],[6,'Szombat'],[0,'Vasárnap']];
 const defHours=()=>({1:['09:00','15:00'],2:['09:00','15:00'],3:['09:00','15:00'],4:['09:00','15:00'],5:['09:00','15:00'],6:null,0:null});

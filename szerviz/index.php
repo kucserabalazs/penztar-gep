@@ -1,7 +1,9 @@
 <?php
 require __DIR__ . '/../inc/sablon.php';
 $D = ptg_data(); $SVC = $D['services'] ?? [];
-$ar = fn($s) => !empty($s['ar']) ? number_format((float)$s['ar'], 0, ',', "\u{00A0}") . "\u{00A0}Ft + ÁFA" : 'egyeztetés szerint';
+/* a javítások (pénztárgép, számítógép) óradíjasak – az admin szolgáltatásonként állíthatja („egyseg”: 'ora' | 'alkalom') */
+$oras = fn($s) => isset($s['egyseg']) ? $s['egyseg'] === 'ora' : in_array($s['id'] ?? '', ['javitas', 'pc-javitas'], true);
+$ar = fn($s) => !empty($s['ar']) ? number_format((float)$s['ar'], 0, ',', "\u{00A0}") . "\u{00A0}Ft + ÁFA" . ($oras($s) ? ' / óra' : '') : ($oras($s) ? 'Óradíj, egyeztetés szerint' : 'egyeztetés szerint');
 $ld = [['@type' => 'Service', 'name' => 'Pénztárgép-szerviz és támogatás Pécsen', 'areaServed' => ['Pécs', 'Baranya megye'],
   'serviceType' => 'Pénztárgép-javítás, -felülvizsgálat és -üzembe helyezés', 'url' => PTG_SITE . '/szerviz/',
   'provider' => ['@id' => PTG_SITE . '/#uzlet'],
@@ -17,7 +19,7 @@ ptg_fej('Pénztárgép-szerviz Pécsen · javítás, felülvizsgálat · Totál'
 <ol class="lepesek">
   <li><b>Hibabejelentés</b>Jelentse be a hibát telefonon, e-mailben vagy a szervizűrlapon. Pénztárgép esetén adja meg a készülék típusát és – ha rendelkezésére áll – az AP-számot is.</li>
   <li><b>Bevizsgálás</b>A készüléket hozza be üzletünkbe. Feltárjuk a hibát, és a javítás előtt tájékoztatjuk a várható költségről.</li>
-  <li><b>Javítás</b>Az Ön jóváhagyása után elvégezzük a javítást. Az alkatrészek díját külön számítjuk fel.</li>
+  <li><b>Javítás</b>Az Ön jóváhagyása után elvégezzük a javítást. A munkadíjat óradíjjal, a ráfordított idő alapján számoljuk el; az alkatrészek díját külön számítjuk fel.</li>
   <li><b>Átadás</b>Amikor a készülék elkészült, értesítjük, és üzletünkben átveheti.</li>
 </ol>
 
@@ -30,7 +32,7 @@ ptg_fej('Pénztárgép-szerviz Pécsen · javítás, felülvizsgálat · Totál'
 
 <h2>Szolgáltatások és díjak</h2>
 <table class="svc"><tbody><?php foreach ($SVC as $s): ?><tr><th scope="row"><?= e($s['nev'] ?? '') ?><?php if (!empty($s['leiras'])): ?><small><?= e($s['leiras']) ?></small><?php endif; ?></th><td class="ar"><?= e($ar($s)) ?></td></tr><?php endforeach; ?></tbody></table>
-<p class="lead" style="font-size:.95rem">A feltüntetett árak nettó árak, ÁFA nélkül. Az alkatrészek díját külön számítjuk fel.</p>
+<p class="lead" style="font-size:.95rem">A feltüntetett árak nettó árak, ÁFA nélkül. A pénztárgépek és a számítógépek javítását óradíjjal, a ráfordított munkaidő alapján számoljuk el. Az alkatrészek díját külön számítjuk fel.</p>
 
 <h2>Elérhetőség</h2>
 <div class="kartyak">
