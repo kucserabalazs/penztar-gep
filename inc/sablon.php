@@ -93,9 +93,9 @@ function ptg_fej(string $title, string $desc, string $path, array $crumbs, array
 <meta name="description" content="<?= e($desc) ?>">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="<?= e($canon) ?>">
-<link rel="icon" href="/favicon.ico?v=20261105ik" sizes="any">
-<link rel="icon" type="image/png" href="/assets/favicon-64.png?v=20261105ik">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261105ik">
+<link rel="icon" href="/favicon.ico?v=20261105il" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-64.png?v=20261105il">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261105il">
 <meta name="theme-color" content="#082746">
 <?= ptg_kozossegi($title, $desc, $canon) ?>
 <link rel="stylesheet" href="/assets/fonts/betutipusok.css?v=20261105">
