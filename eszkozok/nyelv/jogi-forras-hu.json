@@ -1,0 +1,426 @@
+{
+ "ASZF-001": {
+  "tipus": "cim",
+  "hu": "Vásárlási feltételek"
+ },
+ "ASZF-002": {
+  "tipus": "bev",
+  "hu": "Rendelés, átvétel, fizetés, szavatosság és elállás – minden, amit vásárlás előtt érdemes tudni."
+ },
+ "ASZF-003": {
+  "tipus": "toc",
+  "hu": "Átvétel"
+ },
+ "ASZF-004": {
+  "tipus": "toc",
+  "hu": "Fizetés"
+ },
+ "ASZF-005": {
+  "tipus": "toc",
+  "hu": "Előjegyzés"
+ },
+ "ASZF-006": {
+  "tipus": "toc",
+  "hu": "A rendelés"
+ },
+ "ASZF-007": {
+  "tipus": "toc",
+  "hu": "Árak"
+ },
+ "ASZF-008": {
+  "tipus": "toc",
+  "hu": "Szerződéskötés"
+ },
+ "ASZF-009": {
+  "tipus": "toc",
+  "hu": "Teljesítés"
+ },
+ "ASZF-010": {
+  "tipus": "toc",
+  "hu": "Panaszkezelés"
+ },
+ "ASZF-011": {
+  "tipus": "toc",
+  "hu": "Szavatosság és jótállás"
+ },
+ "ASZF-012": {
+  "tipus": "toc",
+  "hu": "Békéltető testület"
+ },
+ "ASZF-013": {
+  "tipus": "toc",
+  "hu": "Elállás"
+ },
+ "ASZF-014": {
+  "tipus": "p",
+  "hu": "A vásárlási feltételek irányadó szövege a magyar nyelvű változat."
+ },
+ "ASZF-015": {
+  "tipus": "h3",
+  "hu": "Személyes átvétel"
+ },
+ "ASZF-016": {
+  "tipus": "p",
+  "hu": "A honlapon megrendelt termékeket <b>kizárólag személyesen, üzletünkben</b> lehet átvenni: <b>{CIM}</b> ({NYITVATARTAS}). Kiszállítást jelenleg nem vállalunk. Amikor a rendelt termék átvehető, e-mailben értesítjük."
+ },
+ "ASZF-017": {
+  "tipus": "p",
+  "hu": "A pénztárgép élesítése visszavonhatatlan, ezért kizárólag a teljes vételár kifizetése után élesítjük a készüléket. A vevő nevére beprogramozott pénztárgép már nem küldhető vissza. Előre fizetés és az adatlap online kitöltése esetén a készülék átvételkor azonnal elvihető. Helyszíni fizetés esetén a programozást követően 1–2 munkanap múlva vehető át. Az adatlapot előre is kitöltheti: a letölthető PDF számítógépen vagy telefonon kitölthető és kinyomtatható."
+ },
+ "ASZF-018": {
+  "tipus": "h3",
+  "hu": "Fizetés"
+ },
+ "ASZF-019": {
+  "tipus": "p",
+  "hu": "<b>Átvételkor</b> az üzletben is fizethet, készpénzzel."
+ },
+ "ASZF-020": {
+  "tipus": "p",
+  "hu": "<b>Előre utalással:</b> a megrendelt termékről díjbekérőt vagy számlát állítunk ki, amelyet elküldünk a megrendelésben megadott e-mail-címre. Amint az összeg megérkezik a bankszámlánkra, e-mailben értesítjük, és a terméket átveheti üzletünkben."
+ },
+ "ASZF-021": {
+  "tipus": "h4",
+  "hu": "Adatok az utaláshoz"
+ },
+ "ASZF-022": {
+  "tipus": "p",
+  "hu": "A fizetési módot a megrendelőlapon választhatja ki; a fizetendő összeget a rendelés elküldése előtt láthatja."
+ },
+ "ASZF-023": {
+  "tipus": "h3",
+  "hu": "Ha a termék nincs raktáron"
+ },
+ "ASZF-024": {
+  "tipus": "p",
+  "hu": "Előjegyezzük a terméket, és a megrendeléskor érvényes áron adjuk át, amint beérkezik. A várható érkezésről e-mailben tájékoztatjuk."
+ },
+ "ASZF-025": {
+  "tipus": "h3",
+  "hu": "A rendelés feltételei"
+ },
+ "ASZF-026": {
+  "tipus": "p",
+  "hu": "Az online vásárlás feltétele az adatok pontos megadása és a vásárlási feltételek elfogadása. Fenntartjuk a jogot, hogy a megadott adatok valódiságáról meggyőződjünk; kétséges vagy értelmezhetetlen adatok esetén a megrendelést töröljük."
+ },
+ "ASZF-027": {
+  "tipus": "p",
+  "hu": "Rendelést csak 18 éven felüli, saját címmel és telefonszámmal rendelkező személytől fogadunk el. Más nevére vagy címére szóló rendelést nem tudunk elfogadni."
+ },
+ "ASZF-028": {
+  "tipus": "p",
+  "hu": "A megrendelés időpontja az, amikor a rendelése beérkezik hozzánk. A beérkezésről automatikus e-mailt küldünk; ez még nem jelenti a megrendelés elfogadását. A megrendelést munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza; a szerződés ezzel jön létre."
+ },
+ "ASZF-029": {
+  "tipus": "h3",
+  "hu": "Árak"
+ },
+ "ASZF-030": {
+  "tipus": "p",
+  "hu": "A termékeknél a nettó és a bruttó (ÁFA-t tartalmazó) ár is szerepel."
+ },
+ "ASZF-031": {
+  "tipus": "p",
+  "hu": "Az árváltoztatás jogát fenntartjuk, kínálatunk pedig folyamatosan változhat és bővülhet. A termékfotók kisebb mértékben eltérhetnek a valóságtól. Az akciók a készlet erejéig érvényesek. Ha készlethiány miatt egy akciós áron megrendelt terméket nem tudunk biztosítani, erről e-mailben értesítjük."
+ },
+ "ASZF-032": {
+  "tipus": "h3",
+  "hu": "A szerződéskötés lépései és az elektronikus szerződés létrejötte"
+ },
+ "ASZF-033": {
+  "tipus": "li",
+  "hu": "A Vevő a weboldalon kiválasztja a terméket vagy szolgáltatást, megadja a megrendeléshez szükséges adatokat, kiválasztja az elérhető fizetési módot, majd ellenőrzi a megrendelés összesítését. A termékek átvétele jelenleg kizárólag az Eladó üzletében lehetséges: {CIM}"
+ },
+ "ASZF-034": {
+  "tipus": "li",
+  "hu": "A megrendelés elküldése előtt a Vevő a megadott adatok javításával vagy módosításával helyesbítheti az esetleges hibákat. A megrendelés elküldésére szolgáló gomb felirata fizetési módtól függően „Megrendelés elküldése”, illetve online fizetés választásakor „Tovább a fizetéshez”. A megrendelés elküldése fizetési kötelezettséget keletkeztethet."
+ },
+ "ASZF-035": {
+  "tipus": "li",
+  "hu": "A megrendelés beérkezéséről az Eladó automatikus e-mailt küld „Megrendelését megkaptuk – [rendelésszám]” tárggyal, a megrendelt tételek és a végösszeg feltüntetésével. Ez a visszaigazolás kizárólag a megrendelés beérkezését igazolja, és kifejezetten jelzi, hogy még nem jelenti a megrendelés elfogadását. Az Eladó a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza a megrendelést."
+ },
+ "ASZF-036": {
+  "tipus": "li",
+  "hu": "Az Eladó a készlet és az ár ellenőrzését követően „Megrendelés visszaigazolása – [rendelésszám]” tárgyú e-mailt küld a Vevőnek. A szerződés e visszaigazoló e-mail Vevőhöz való megérkezésével jön létre. Ha az Eladó a megrendelést nem tudja elfogadni (például a termék nem elérhető vagy az ár hibásan került feltüntetésre), erről a Vevőt tájékoztatja; ilyen esetben a szerződés nem jön létre, a már megfizetett összeget pedig visszatéríti."
+ },
+ "ASZF-037": {
+  "tipus": "li",
+  "hu": "A szerződés nyelve magyar. Az Eladó a szerződést külön szerződésarchívumban nem őrzi meg. A megrendelés adminisztrációs rendszerben tárolt adataira, a számlákra és a felek e-mail-váltására vonatkozó megőrzési szabályokat az Eladó adatkezelési és számviteli tájékoztatója tartalmazza."
+ },
+ "ASZF-038": {
+  "tipus": "h3",
+  "hu": "Teljesítési határidő és bolti átvétel"
+ },
+ "ASZF-039": {
+  "tipus": "p",
+  "hu": "Az Eladó jelenleg nem vállal házhoz szállítást. A megrendelt termék kizárólag személyesen vehető át az Eladó üzletében: <b>{CIM}</b> Az Eladó a megrendelés elfogadó visszaigazolásában tájékoztatja a Vevőt a várható átvételi időpontról, és e-mailben értesíti, amikor a termék átvehető."
+ },
+ "ASZF-040": {
+  "tipus": "p",
+  "hu": "Az Eladó a termék adatlapján vagy a megrendelés során feltüntetett teljesítési időn belül teszi átvehetővé a terméket. Ha külön határidő nincs feltüntetve, az Eladó indokolatlan késedelem nélkül, de legkésőbb a szerződés létrejöttétől számított 30 napon belül teljesít, kivéve, ha a felek ettől kifejezetten eltérően állapodnak meg."
+ },
+ "ASZF-041": {
+  "tipus": "p",
+  "hu": "Átutalásos fizetésnél a díjbekérőt az Eladó a megrendelés visszaigazolása után külön e-mailben küldi meg. A termék átvételéről az Eladó külön értesítést küld, miután a termék átvehető."
+ },
+ "ASZF-042": {
+  "tipus": "p",
+  "hu": "Ha az Eladó előreláthatóan nem tud határidőben teljesíteni, erről tájékoztatja a Vevőt, és egyeztet a póthatáridőről. A fogyasztó a jogszabályban meghatározott esetekben jogosult a szerződéstől elállni, illetve a szerződést megszüntetni és a megfizetett összeget visszakérni."
+ },
+ "ASZF-043": {
+  "tipus": "h3",
+  "hu": "Fogyasztói panaszok kezelése"
+ },
+ "ASZF-044": {
+  "tipus": "p",
+  "hu": "A fogyasztó a termék értékesítésével, az Eladó magatartásával vagy a szolgáltatással kapcsolatos panaszát az alábbi módokon teheti meg:"
+ },
+ "ASZF-045": {
+  "tipus": "li",
+  "hu": "személyesen: {CIM};"
+ },
+ "ASZF-046": {
+  "tipus": "li",
+  "hu": "postai úton: {ELADO}, {CIM};"
+ },
+ "ASZF-047": {
+  "tipus": "li",
+  "hu": "e-mailben: <b>{EMAIL}</b> vagy <b>{EMAIL2}</b>;"
+ },
+ "ASZF-048": {
+  "tipus": "li",
+  "hu": "telefonon: {TELEFON}."
+ },
+ "ASZF-049": {
+  "tipus": "p",
+  "hu": "A szóbeli panaszt az Eladó lehetőség szerint azonnal megvizsgálja és orvosolja. Ha a fogyasztó a panasz kezelésével nem ért egyet, vagy az azonnali kivizsgálás nem lehetséges, az Eladó jegyzőkönyvet vesz fel. A telefonon vagy elektronikus hírközlési szolgáltatás útján közölt szóbeli panaszt egyedi azonosítószámmal látja el."
+ },
+ "ASZF-050": {
+  "tipus": "p",
+  "hu": "Az írásbeli panaszt az Eladó a beérkezését követő 30 napon belül írásban, érdemben megválaszolja. A panasz elutasítását indokolja, és válaszában tájékoztatja a fogyasztót az igénybe vehető hatósági és békéltető testületi eljárásról. A panaszról felvett jegyzőkönyvet és a válasz másolatát az Eladó a jogszabály szerinti ideig, legalább öt évig megőrzi."
+ },
+ "ASZF-051": {
+  "tipus": "p",
+  "hu": "A fogyasztóvédelmi szabályok megsértése esetén a fogyasztó a lakóhelye szerint illetékes kormányhivatal fogyasztóvédelmi hatóságához fordulhat. A fogyasztói jogvita egyedi rendezését a fogyasztó lakóhelye vagy tartózkodási helye szerint illetékes békéltető testület is elősegítheti."
+ },
+ "ASZF-052": {
+  "tipus": "h3",
+  "hu": "Kellékszavatosság, termékszavatosság és jótállás"
+ },
+ "ASZF-053": {
+  "tipus": "h4",
+  "hu": "Kellékszavatosság"
+ },
+ "ASZF-054": {
+  "tipus": "p",
+  "hu": "Hibás teljesítés esetén a fogyasztó a Polgári Törvénykönyv és a vonatkozó fogyasztóvédelmi jogszabályok szerint kellékszavatossági igényt érvényesíthet. Választása szerint – a jogszabályi feltételek szerint – kérheti a termék kijavítását vagy kicserélését, illetve árleszállítást kérhet, a hibát az Eladó költségére kijavíttathatja, vagy a szerződéstől elállhat. Jelentéktelen hiba miatt elállásnak nincs helye. A fogyasztó a hibát annak felfedezése után késedelem nélkül köteles közölni. Fogyasztói szerződés esetén a kellékszavatossági igény főszabály szerint a teljesítéstől számított két év alatt évül el; használt terméknél a felek rövidebb, de legalább egyéves elévülési időben állapodhatnak meg."
+ },
+ "ASZF-055": {
+  "tipus": "p",
+  "hu": "Fogyasztói adásvételnél az átadástól számított egy éven belül felismert hibáról vélelmezni kell, hogy már a teljesítéskor fennállt, kivéve, ha ez a termék természetével vagy a hiba jellegével összeegyeztethetetlen. A kellékszavatossági igény bejelentéséről az Eladó jegyzőkönyvet vesz fel a jogszabályi előírások szerint."
+ },
+ "ASZF-056": {
+  "tipus": "h4",
+  "hu": "Termékszavatosság"
+ },
+ "ASZF-057": {
+  "tipus": "p",
+  "hu": "Ingó dolog hibája esetén a fogyasztó a jogszabályi feltételek szerint a gyártótól vagy forgalmazótól kérheti a hiba kijavítását vagy a termék kicserélését. A termékszavatossági igény a termék gyártó általi forgalomba hozatalától számított két év alatt érvényesíthető. A gyártó akkor mentesülhet, ha a törvényben meghatározott valamely feltételt bizonyítja."
+ },
+ "ASZF-058": {
+  "tipus": "h4",
+  "hu": "Kötelező jótállás"
+ },
+ "ASZF-059": {
+  "tipus": "p",
+  "hu": "Az Eladó az egyes tartós fogyasztási cikkekre a mindenkor hatályos jogszabályok szerinti kötelező jótállást biztosítja, amennyiben az adott termék és vételár a jogszabály hatálya alá tartozik. A jótállás időtartama és részletes feltételei a termékhez adott jótállási jegyen, illetve a jogszabályban találhatók. A kötelező jótállás jelenlegi időtartama a jogszabály hatálya alá tartozó termékeknél a vételártól függően: 10 000 Ft-tól 100 000 Ft-ig egy év; 100 000 Ft felett 250 000 Ft-ig két év; 250 000 Ft felett három év. A fogyasztó jótállási jogait a jótállási jegy hiánya önmagában nem érinti; a vásárlást igazoló bizonylatot őrizze meg."
+ },
+ "ASZF-060": {
+  "tipus": "p",
+  "hu": "A kellékszavatosság, termékszavatosság és jótállás egymás mellett is megilletheti a fogyasztót; ugyanazon hiba miatt azonban a fogyasztó nem érvényesíthet egymással párhuzamosan, kétszeres teljesítéshez vezető igényt. A jogok részletes feltételeit a 2013. évi V. törvény, a 373/2021. (VI. 30.) Korm. rendelet, a 151/2003. (IX. 22.) Korm. rendelet és a 19/2014. (IV. 29.) NGM rendelet határozza meg."
+ },
+ "ASZF-061": {
+  "tipus": "p",
+  "hu": "<b>Fontos alkalmazási korlát:</b> a fogyasztói jogok a fogyasztóként eljáró természetes személyt illetik meg. Vállalkozásként vásárló ügyfelekre a jogszabály eltérő rendelkezései irányadók. Az Eladó pénztárgépet nem gyárt. A pénztárgép vevő részére történő felélesztése/üzembe helyezése során a Vevő által hibásan vagy hiányosan megadott adatokból eredő hibák következményeiért a Vevő felel, amennyiben az okozati kapcsolat igazolható. Ez nem korlátozza az Eladó felelősségét a saját hibás teljesítéséért, és nem zárja ki a fogyasztót jogszabály alapján megillető jogokat. Pénztárgépek és kapcsolódó szolgáltatások esetén az adott szerződés és a hiba oka alapján kell megállapítani az alkalmazandó szabályt."
+ },
+ "ASZF-062": {
+  "tipus": "h3",
+  "hu": "Békéltető testület"
+ },
+ "ASZF-063": {
+  "tipus": "p",
+  "hu": "A fogyasztó a fogyasztói jogvita bírósági eljáráson kívüli, békés rendezése érdekében békéltető testülethez fordulhat. A fogyasztó lakóhelye vagy tartózkodási helye szerint illetékes testület eljárása vehető igénybe. A Baranya vármegyei fogyasztókat az alábbi testület segíti:"
+ },
+ "ASZF-064": {
+  "tipus": "div",
+  "hu": "<b>Baranya Vármegyei Békéltető Testület</b><br>Székhely: 7625 Pécs, Majorossy Imre utca 36.<br>Telefon: +36 72 507 154, +36 20 283 3422<br>E-mail: info@baranyabekeltetes.hu<br>Honlap: <a href=\"https://baranyabekeltetes.hu\" target=\"_blank\" rel=\"noopener\">baranyabekeltetes.hu</a>"
+ },
+ "ASZF-065": {
+  "tipus": "p",
+  "hu": "A fogyasztó a kérelmét a saját lakóhelye vagy tartózkodási helye szerint illetékes testülethez nyújthatja be. A békéltető testületi eljárás megindításának feltétele, hogy a fogyasztó előzőleg közvetlenül megkísérelje a vitás ügy rendezését a vállalkozással."
+ },
+ "ASZF-066": {
+  "tipus": "p",
+  "hu": "<b>Eladói nyilatkozat:</b> A vállalkozás a békéltető testület ajánlását iránymutatásként veszi figyelembe. A testület döntésének kötelező erejét általánosságban nem vállalja; a jogvita végső rendezésére a bíróság jogerős határozata irányadó. A jogszabály szerinti együttműködési kötelezettségeket az Eladó teljesíti."
+ },
+ "ASZF-067": {
+  "tipus": "h3",
+  "hu": "Elállási jog és elállási nyilatkozat-minta"
+ },
+ "ASZF-068": {
+  "tipus": "p",
+  "hu": "Fogyasztóként, távollévők között kötött szerződés esetén a Vevőt főszabály szerint indokolás nélküli elállási jog illeti meg. Termék adásvétele esetén az elállási határidő a termék Vevő vagy az általa megjelölt, a fuvarozótól eltérő harmadik személy általi átvételének napjától számított 14 nap. Több termék különböző időpontú átadásánál, illetve több tételből vagy darabból álló terméknél a határidő a legutolsó termék vagy tétel átvételétől kezdődik. A fogyasztó az elállási jogát a határidő lejárta előtt elküldött egyértelmű nyilatkozattal gyakorolhatja. A nyilatkozat az alábbi elérhetőségek valamelyikére küldhető: <b>{EMAIL}</b>; {ELADO}, {CIM}"
+ },
+ "ASZF-069": {
+  "tipus": "p",
+  "hu": "Elállás esetén a Vevő a terméket indokolatlan késedelem nélkül, legkésőbb az elállás közlésétől számított 14 napon belül visszaküldi vagy átadja az Eladónak. A visszaküldés közvetlen költségét a Vevő viseli, kivéve, ha az Eladó ezt átvállalta, vagy a jogszabály szerint másként kell eljárni. Az Eladó az elállásról való tudomásszerzéstől számított 14 napon belül visszatéríti a Vevő által megfizetett összeget, ideértve a legolcsóbb szokásos szállítási mód díját is; a visszatérítést mindaddig visszatarthatja, amíg a terméket vissza nem kapta, vagy a Vevő hitelt érdemlően nem igazolta annak visszaküldését. A visszatérítés az eredeti fizetési móddal egyező módon történik, eltérő megállapodás hiányában."
+ },
+ "ASZF-070": {
+  "tipus": "p",
+  "hu": "A fogyasztó felel a termék jellegének, tulajdonságainak és működésének megállapításához szükséges használatot meghaladó használatból eredő értékcsökkenésért. Az elállási jog alóli törvényi kivételek – például a fogyasztó kifejezett kérésére megkezdett szolgáltatás teljesítése, illetve a fogyasztó utasítása alapján vagy kifejezett kérésére előállított, egyértelműen személyre szabott termék – a 45/2014. (II. 26.) Korm. rendelet szerint alkalmazandók. A kivételek fennállását minden terméknél és szolgáltatásnál egyedileg kell megítélni."
+ },
+ "ASZF-071": {
+  "tipus": "h4",
+  "hu": "Elállási nyilatkozat-minta"
+ },
+ "ASZF-072": {
+  "tipus": "p",
+  "hu": "Címzett: {ELADO}<br>Postacím: {CIM}<br>E-mail: {EMAIL}"
+ },
+ "ASZF-073": {
+  "tipus": "p",
+  "hu": "Alulírott/ak kijelentem/kijelentjük, hogy gyakorlom/gyakoroljuk elállási jogomat/jogunkat az alábbi termék/termékek adásvételére vagy szolgáltatás nyújtására irányuló szerződés tekintetében:"
+ },
+ "ASZF-074": {
+  "tipus": "p",
+  "hu": "Megrendelt termék/szolgáltatás: ______"
+ },
+ "ASZF-075": {
+  "tipus": "p",
+  "hu": "Megrendelés dátuma: ______ Átvétel dátuma: ______"
+ },
+ "ASZF-076": {
+  "tipus": "p",
+  "hu": "Fogyasztó neve: ______"
+ },
+ "ASZF-077": {
+  "tipus": "p",
+  "hu": "Fogyasztó címe: ______"
+ },
+ "ASZF-078": {
+  "tipus": "p",
+  "hu": "Visszatérítéshez használt bankszámlaszám (ha az eredeti fizetési mód nem használható): ______"
+ },
+ "ASZF-079": {
+  "tipus": "p",
+  "hu": "Kelt: ______"
+ },
+ "ASZF-080": {
+  "tipus": "p",
+  "hu": "Fogyasztó aláírása (csak papíron tett nyilatkozat esetén): ______"
+ },
+ "IMP-001": {
+  "tipus": "cim",
+  "hu": "Impresszum"
+ },
+ "IMP-002": {
+  "tipus": "cimke",
+  "hu": "Cégnév"
+ },
+ "IMP-003": {
+  "tipus": "cimke",
+  "hu": "Székhely és üzlet"
+ },
+ "IMP-004": {
+  "tipus": "cimke",
+  "hu": "Cégjegyzékszám"
+ },
+ "IMP-005": {
+  "tipus": "cimke",
+  "hu": "Nyilvántartó cégbíróság"
+ },
+ "IMP-006": {
+  "tipus": "cimke",
+  "hu": "Adószám"
+ },
+ "IMP-007": {
+  "tipus": "cimke",
+  "hu": "Telefon"
+ },
+ "IMP-008": {
+  "tipus": "cimke",
+  "hu": "E-mail"
+ },
+ "IMP-009": {
+  "tipus": "cimke",
+  "hu": "Nyitvatartás"
+ },
+ "IMP-010": {
+  "tipus": "cimke",
+  "hu": "Tárhelyszolgáltató"
+ },
+ "IMP-011": {
+  "tipus": "p",
+  "hu": "Az árakat forintban tüntetjük fel; az áfa összegét külön jelezzük. Az árváltoztatás jogát fenntartjuk. Az ajánlat a készlet erejéig érvényes."
+ },
+ "ADAT-001": {
+  "tipus": "cim",
+  "hu": "Adatkezelési tájékoztató"
+ },
+ "ADAT-002": {
+  "tipus": "bev",
+  "hu": "Röviden és közérthetően bemutatjuk, milyen személyes adatokat kezelünk, és milyen célból."
+ },
+ "ADAT-003": {
+  "tipus": "h3",
+  "hu": "Adatkezelő"
+ },
+ "ADAT-004": {
+  "tipus": "p",
+  "hu": "{CEGNEV} · {CIM} · {EMAIL} · {TELEFON}"
+ },
+ "ADAT-005": {
+  "tipus": "h3",
+  "hu": "Milyen adatot kezelünk?"
+ },
+ "ADAT-006": {
+  "tipus": "p",
+  "hu": "Megrendelés, ajánlatkérés, szervizbejelentés vagy üzenetküldés esetén az Ön által megadott nevet, cégnevet, telefonszámot, e-mail-címet, számlázási címet, adószámot és az üzenet tartalmát kezeljük. Pénztárgép-szerviz esetén a készülék típusát és AP-számát is kérhetjük."
+ },
+ "ADAT-007": {
+  "tipus": "p",
+  "hu": "<b>Pénztárgép vásárlásakor</b> a gép beprogramozásához és jogszabály szerinti nyilvántartásba vételéhez a megrendelő adatlapon a képviselő nevét és minőségét, a személyigazolvány számát, a vállalkozás nevét, székhelyét, telephelyét, adószámát, a NAV regisztrációs (üzembe helyezési) kódot, valamint a kapcsolattartási adatokat kezeljük. Ezeket az adatokat csak a pénztárgép élesítéséhez és a kötelező bejelentésekhez használjuk; a webáruház védett tárhelyen őrzi őket, e-mailben nem továbbítja."
+ },
+ "ADAT-008": {
+  "tipus": "h3",
+  "hu": "Mire használjuk?"
+ },
+ "ADAT-009": {
+  "tipus": "p",
+  "hu": "A személyes adatokat a megrendelés, az ajánlatkérés vagy a szervizmunka teljesítéséhez, a kapcsolattartáshoz, valamint a jogszabályban előírt dokumentáció elkészítéséhez használjuk fel. Hírlevelet nem küldünk, és személyes adatokat nem értékesítünk. Adatot harmadik félnek csak a teljesítéshez szükséges esetben és mértékben adunk át, például NAV-bejelentés vagy kézbesítés céljából."
+ },
+ "ADAT-010": {
+  "tipus": "h3",
+  "hu": "Meddig őrizzük?"
+ },
+ "ADAT-011": {
+  "tipus": "p",
+  "hu": "A személyes adatokat a megrendelés teljesítéséhez szükséges ideig, illetve a vonatkozó jogszabályokban előírt megőrzési idő végéig kezeljük. A számviteli bizonylatokat és a hozzájuk kapcsolódó adatokat a számviteli szabályok szerint 8 évig kell megőrizni."
+ },
+ "ADAT-012": {
+  "tipus": "h3",
+  "hu": "Sütik és helyi tárolás"
+ },
+ "ADAT-013": {
+  "tipus": "p",
+  "hu": "A webáruház nem használ követő vagy reklámcélú sütit. A kosár tartalmát, a választott nyelvet és megjelenítési módot az Ön böngészője tárolja helyben. Az admin belépéshez technikailag szükséges munkamenet-süti tartozik. A betűtípusokat saját tárhelyünkről szolgáljuk ki. A főoldali Google Térkép csak akkor töltődik be, ha a „Térkép megjelenítése” gombra kattint; ekkor a Google a saját adatkezelési szabályai szerint sütiket helyezhet el."
+ },
+ "ADAT-014": {
+  "tipus": "h3",
+  "hu": "Az Ön jogai"
+ },
+ "ADAT-015": {
+  "tipus": "p",
+  "hu": "Ön tájékoztatást kérhet az általunk kezelt személyes adatairól, kérheti azok helyesbítését vagy törlését, valamint az adatkezelés korlátozását, és tiltakozhat az adatkezelés ellen. Kérelmét a <b>{EMAIL}</b> e-mail-címre küldheti. Panaszával a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH; 1055 Budapest, Falk Miksa utca 9–11.; naih.hu) fordulhat."
+ }
+}
