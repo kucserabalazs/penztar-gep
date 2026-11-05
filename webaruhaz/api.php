@@ -219,13 +219,16 @@ function dec_adatlap($a) {
   if ($p === false) return ['Figyelem' => 'Az adatlap nem fejthető vissza (a config.local.php kulcsa nem egyezik).'];
   $j = json_decode($p, true); return is_array($j) ? $j : [];
 }
-function order_plain(array $o): array { if (array_key_exists('adatlap', $o)) $o['adatlap'] = dec_adatlap($o['adatlap']); return $o; }
+function order_plain(array $o): array { foreach (['adatlap', 'adatlapok'] as $k) if (array_key_exists($k, $o)) $o[$k] = dec_adatlap($o[$k]); return $o; }
+/* pénztárgépnek számít (üzembe helyezés és adatlap gépenként): ugyanaz a szabály, mint a pénztár oldalon */
+function is_penztargep(array $p): bool { return ($p['kategoria'] ?? '') === 'penztargep' || (($p['kategoria'] ?? '') === 'hasznalt' && preg_match('/pénztárgép/iu', ($p['marka'] ?? '') . ' ' . ($p['nev'] ?? ''))); }
 /* új rekord a rendelések elejére. Az orders.php legfeljebb ORDERS_MAX (+100) rekordot tart: a régebbieket
    havonta új archívfájlba (data/orders.archiv-ÉÉÉÉ-HH.php) teszi át, 100-asával, hogy ne minden kérésnél írjon két fájlt. */
 const ORDERS_MAX = 2000;
 function orders_add(array $rec): void {
   global $ORDERS;
   $rec['adatlap'] = enc_adatlap($rec['adatlap'] ?? null);
+  if (array_key_exists('adatlapok', $rec)) $rec['adatlapok'] = enc_adatlap($rec['adatlapok']);   // gépenkénti adatlapok, egyben titkosítva
   locked(function () use ($rec, $ORDERS) {
     $orders = read_json($ORDERS, []); array_unshift($orders, $rec);
     if (count($orders) > ORDERS_MAX + 100) {
@@ -252,7 +255,9 @@ function mail_shop(array $o, string $subj, string $extra = ''): void {
   $txt = "$subj ({$o['id']})\n\nNév: {$o['nev']}\nCég: {$o['ceg']}\nTelefon: {$o['telefon']}\nE-mail: {$o['email']}\nIdőpont: {$o['idopont']}\n\n";
   $txt .= ($o['tetelek'] || !empty($o['osszeg'])) ? order_text($o) : '';
   $txt .= "\n" . $o['uzenet'] . $extra;
-  if (!empty($o['adatlap'])) $txt .= "\n\nPénztárgép élesítése: " . ($o['adatlap']['Élesítés módja'] ?? '') . (count($o['adatlap']) > 1 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '');
+  if (!empty($o['adatlap'])) { $nA = is_array($o['adatlapok'] ?? null) && empty($o['adatlapok']['_titkos']) ? count($o['adatlapok']) : 0;
+    $txt .= "\n\nPénztárgép élesítése: " . ($o['adatlap']['Élesítés módja'] ?? '') . (!empty($o['adatlap']['Pénztárgépek száma']) ? "\nPénztárgépek száma: " . $o['adatlap']['Pénztárgépek száma'] . " (gépenként külön adatlap és üzembe helyezés)" : '')
+      . ($nA ? "\nA kitöltött adatlapok ($nA db, személyes adatokkal) az admin felületen, a megrendelésnél láthatók." : (count($o['adatlap']) > 2 ? "\nA kitöltött adatlap (személyes adatokkal) az admin felületen, a megrendelésnél látható." : '')); }
   send_mail($to, $subj . ': ' . $o['nev'], $txt, filter_var($o['email'] ?? '', FILTER_VALIDATE_EMAIL) ? $o['email'] : '');
 }
 // fizetés indítása a Barionnál; visszaadja a fizetési oldal címét, vagy null-t
@@ -817,19 +822,31 @@ switch ($a) {
       if (!preg_match('/^\d{4}$/', $irsz) || $varos === '' || $utca === '') out(['error' => 'Adja meg a szállítási címet (irányítószám, település, utca, házszám).'], 400);
       $szallcim = mb_substr("$irsz $varos, $utca", 0, 200);
     }
-    // pénztárgép-adatlap (előre fizetésnél kötelező): külön mezőben, titkosítva tároljuk, e-mailben NEM küldjük ki
-    $adatlap = null;
-    if ($kosar && is_array($b['adatlap'] ?? null)) {
-      $adatlap = [];
-      foreach (array_slice($b['adatlap'], 0, 25, true) as $k => $v) {
+    // pénztárgép-adatlapok (előre fizetésnél kötelező): GÉPENKÉNT egy, mert minden gépet külön programozunk és jelentünk be a NAV-nál.
+    // Külön mezőben, titkosítva tároljuk, e-mailben NEM küldjük ki. Az 'adatlap' a rendelés szintű összegzés (élesítés módja, gépek száma).
+    $tisztit = function ($a) { $o = [];
+      foreach (array_slice(is_array($a) ? $a : [], 0, 25, true) as $k => $v) {
         $k = mb_substr(trim((string)$k), 0, 60); if ($k === '' || $k === '_titkos' || is_array($v)) continue;
-        $adatlap[$k] = mb_substr(trim((string)$v), 0, 200);
+        $o[$k] = mb_substr(trim((string)$v), 0, 200);
+      } return $o; };
+    $adatlap = null; $adatlapok = [];
+    if ($kosar && is_array($b['adatlap'] ?? null)) {
+      $adatlap = $tisztit($b['adatlap']);
+      if (is_array($b['adatlapok'] ?? null)) foreach (array_slice(array_values($b['adatlapok']), 0, 99) as $x) { $x = $tisztit($x); if ($x) $adatlapok[] = $x; }
+      elseif (isset($adatlap['NAV regisztrációs kód'])) {   // régi (egy adatlapos) űrlap: az adatokat az 1. gép adatlapjának vesszük
+        $adatlapok[] = array_diff_key($adatlap, ['Élesítés módja' => 1]); $adatlap = ['Élesítés módja' => $adatlap['Élesítés módja'] ?? ''];
       }
-      if (str_starts_with($adatlap['Élesítés módja'] ?? '', 'Előre')) {
-        foreach (['Képviselő neve', 'Cégnév', 'Személyigazolvány száma', 'Székhely', 'Telephely', 'Adószám', 'Mobiltelefon', 'E-mail', 'NAV regisztrációs kód', 'Gép típusa'] as $req)
-          if (($adatlap[$req] ?? '') === '') out(['error' => 'Előre fizetésnél a pénztárgép-adatlapot teljesen ki kell tölteni (hiányzik: ' . $req . ').'], 400);
-        if (!preg_match('/^\d{8}-\d-\d{2}$/', $adatlap['Adószám'])) out(['error' => 'Az adatlapon az adószám formátuma hibás.'], 400);
-        if (strlen(preg_replace('/[^A-Za-z0-9]/', '', $adatlap['NAV regisztrációs kód'])) !== 16) out(['error' => 'A NAV regisztrációs kód 16 karakterből áll.'], 400);
+      $navok = [];
+      foreach ($adatlapok as $n => $x) {
+        $hol = count($adatlapok) > 1 ? ($n + 1) . '. pénztárgép: ' : '';
+        if (str_starts_with($adatlap['Élesítés módja'] ?? '', 'Előre')) {
+          foreach (['Képviselő neve', 'Cégnév', 'Személyigazolvány száma', 'Székhely', 'Telephely', 'Adószám', 'Mobiltelefon', 'E-mail', 'NAV regisztrációs kód', 'Gép típusa'] as $req)
+            if (($x[$req] ?? '') === '') out(['error' => $hol . 'Előre fizetésnél a pénztárgép-adatlapot teljesen ki kell tölteni (hiányzik: ' . $req . ').'], 400);
+        }
+        if (($x['Adószám'] ?? '') !== '' && !preg_match('/^\d{8}-\d-\d{2}$/', $x['Adószám'])) out(['error' => $hol . 'Az adatlapon az adószám formátuma hibás.'], 400);
+        $nk = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $x['NAV regisztrációs kód'] ?? ''));
+        if ($nk !== '' && strlen($nk) !== 16) out(['error' => $hol . 'A NAV regisztrációs kód 16 karakterből áll.'], 400);
+        if ($nk !== '') { if (isset($navok[$nk])) out(['error' => 'A(z) ' . $navok[$nk] . '. és a(z) ' . ($n + 1) . '. pénztárgépnél ugyanaz a NAV regisztrációs kód. Minden géphez saját kód tartozik.'], 400); $navok[$nk] = $n + 1; }
       }
       if (!$adatlap) $adatlap = null;
     }
@@ -838,12 +855,16 @@ switch ($a) {
     $kerTetelek = $kosar ? array_slice(is_array($b['tetelek'] ?? null) ? $b['tetelek'] : [], 0, 30) : [];
     if ($kosar) {   // előzetes ellenőrzés zárolás nélkül, hogy a hibás kosár ne számítson bele az IP-korlátba
       $cat0 = read_json($PRODUCTS, []); $by0 = []; foreach (($cat0['products'] ?? []) as $p) if (isset($p['id'])) $by0[(string)$p['id']] = $p;
-      $joDb = 0;
+      $joDb = 0; $gepDb0 = 0;
       foreach ($kerTetelek as $t) { $id = (string)(is_array($t) ? ($t['id'] ?? '') : ''); if (!isset($by0[$id])) continue;
+        if (is_penztargep($by0[$id])) $gepDb0 += max(1, min(99, (int)($t['db'] ?? 1)));
         if (!empty($by0[$id]['rejtett'])) out(['error' => trim(($by0[$id]['marka'] ?? '') . ' ' . ($by0[$id]['nev'] ?? '')) . ': ez a termék már nem rendelhető. Kérjük, vegye ki a kosárból.', 'kosar' => true], 400);
         $m0 = kezi_allapot($by0[$id]); if ($m0 && !$m0['rend']) out(['error' => nem_rendelheto_uzenet($by0[$id], $m0), 'kosar' => true], 409);
         $joDb++; }
       if (!$joDb) out(['error' => 'A kosárban nincs rendelhető termék. Kérjük, válassza ki újra a termékeket.', 'kosar' => true], 400);
+      // minden pénztárgéphez külön adatlap: előre fizetésnél kötelező, online kitöltésnél a darabszámnak egyeznie kell
+      if ($gepDb0 && (str_starts_with($adatlap['Élesítés módja'] ?? '', 'Előre') || $adatlapok) && count($adatlapok) !== $gepDb0)
+        out(['error' => "A kosárban $gepDb0 pénztárgép van, de " . count($adatlapok) . " adatlap érkezett. Minden pénztárgéphez külön adatlapot kell kitölteni – kérjük, frissítse az oldalt, és ellenőrizze az adatlapokat."], 400);
     }
     // IP-korlát (az IP-címet nem tároljuk, csak egy ujjlenyomatát): 10 percenként 3, naponta 10 beküldés
     if (rate_hit($OIP, ip_key('order'), [600 => 3, 86400 => 10])) out(['error' => 'Rövid időn belül több űrlap érkezett erről a hálózatról. Kérjük, próbálja újra később, vagy hívjon minket: +36 72 215 652.'], 429);
@@ -852,7 +873,7 @@ switch ($a) {
     $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
     $cat = read_json($PRODUCTS, []);
     $byId = []; foreach (($cat['products'] ?? []) as $i => $p) if (isset($p['id'])) $byId[(string)$p['id']] = $i;
-    $vanGep = false; $kovet = keszlet_kovet($cat); $levonva = false;
+    $vanGep = false; $gepDb = 0; $kovet = keszlet_kovet($cat); $levonva = false;
     foreach ($kerTetelek as $t) {
       if (!is_array($t)) continue;
       $id = (string)($t['id'] ?? ''); $db = max(1, min(99, (int)($t['db'] ?? 1)));
@@ -872,7 +893,7 @@ switch ($a) {
         $lev = $levonva = true;
       }
       // üzembe helyezés csak pénztárgéphez (ugyanaz a szabály, mint a pénztár oldalon: pénztárgép kategória, vagy használt pénztárgép)
-      if (($p['kategoria'] ?? '') === 'penztargep' || (($p['kategoria'] ?? '') === 'hasznalt' && preg_match('/pénztárgép/iu', ($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')))) $vanGep = true;
+      if (is_penztargep($p)) { $vanGep = true; $gepDb += $db; }
       $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $net, 'brutto' => $net === null ? null : brutto($net, $cat['settings']['afa'] ?? 27), 'levonva' => $lev]
         + ($mk ? ['allapot' => $mk['txt']] : []);
       unset($p);
@@ -883,7 +904,9 @@ switch ($a) {
     // díjak: üzembe helyezés (csak ha pénztárgép van a kosárban), szállítás
     $set = $cat['settings'] ?? []; $extrak = []; $osszeg = 0;
     foreach ($tetelek as $t) $osszeg += (int)($t['brutto'] ?? 0) * $t['db'];
-    if ($kosar && $vanGep && !empty($b['uzembe'])) foreach (($cat['services'] ?? []) as $sv) if (($sv['id'] ?? '') === 'uzembe' && !empty($sv['ar'])) $extrak[] = ['id' => 'uzembe', 'nev' => 'Üzembe helyezés, betanítás, ügyintézés', 'brutto' => brutto($sv['ar'], $set['afa'] ?? 27)];
+    // üzembe helyezés GÉPENKÉNT: minden pénztárgépet külön kell beprogramozni és bejelenteni (1 gép = 1 díj, 12 gép = 12 díj)
+    if ($kosar && $vanGep && !empty($b['uzembe'])) foreach (($cat['services'] ?? []) as $sv) if (($sv['id'] ?? '') === 'uzembe' && !empty($sv['ar'])) { $egy = brutto($sv['ar'], $set['afa'] ?? 27); $n = max(1, $gepDb);
+      $extrak[] = ['id' => 'uzembe', 'nev' => 'Üzembe helyezés, betanítás, ügyintézés' . ($n > 1 ? " ($n pénztárgép × " . ft($egy) . ')' : ''), 'db' => $n, 'egysegar' => $egy, 'brutto' => $egy * $n]; }
     foreach ($extrak as $x) $osszeg += $x['brutto'];
     if ($kosar && $kiszall) { $dij = (int)($set['szallitasDij'] ?? 0); $hat = (int)($set['ingyenesSzallitasFelett'] ?? 0); if ($hat && $osszeg >= $hat) $dij = 0;
       if ($dij) { $extrak[] = ['id' => 'szallitas', 'nev' => 'Szállítás (' . ($set['futar'] ?? 'futárszolgálat') . ')', 'brutto' => $dij]; $osszeg += $dij; } }
@@ -900,6 +923,7 @@ switch ($a) {
       'adatlap' => $adatlap,
       'allapot' => 'uj'
     ];
+    if ($kosar && $adatlapok) $rec['adatlapok'] = $adatlapok;
     if ($kosar) $rec['keszletLevonva'] = $levonva;   // lemondáskor / sikertelen fizetéskor csak ilyenkor töltünk vissza
     if ($kosar) $rec += ['extrak' => $extrak, 'osszeg' => $osszeg, 'atvetel' => $kiszall ? 'Kiszállítással' : 'Személyesen az üzletben', 'szallcim' => $szallcim, 'fizmod' => $fizszoveg,
       'adoszam' => $adoszam, 'szamlacim' => $szamlacim,
