@@ -216,6 +216,12 @@ if __name__ == "__main__":
     # önálló dzsámi: széles (üres részek kitöltése, object-fit: cover) és keskenyebb (háttérképnek)
     keszit("dzsami-szepia.svg", "dzsami-szepia-angyal.svg", fent=400, oldal=1700, cimke=CIM_D)
     keszit("dzsami-szepia.svg", "dzsami-szepia-angyal-kicsi.svg", fent=400, oldal=700, cimke=CIM_D)
+    # mobilon a dzsámi a „Jelenleg zárva” dobozon áll: a falai ne legyenek átlátszók (a kártya keretvonalai ne látsszanak át)
+    _p = os.path.join(WEB, "dzsami-szepia-angyal-kicsi.svg"); _s = open(_p, encoding="utf-8").read()
+    if "dz-fal" not in _s:
+        _i = _s.index("</style>") + 8
+        _s = _s[:_i] + '<g id="dz-fal" fill="#fcfaf5"><rect x="223" y="487" width="999" height="562"/><rect x="316" y="410" width="813" height="80"/></g>' + _s[_i:]
+        open(_p, "w", encoding="utf-8").write(_s)
     # Széchenyi tér (dzsámi + lovasszobor): a felhő a szobor mögött, az égen úszik
     keszit("szechenyi-ter-szepia.svg", "szechenyi-ter-szepia-angyal.svg", fent=170, hatter="#fbf7ee", szobor_mogott=True, felho_emel=-40, cimke=CIM_SZ)
     keszit("szechenyi-ter-arany.svg", "szechenyi-ter-arany-angyal.svg", fent=170, hatter="#fbf7ee", szobor_mogott=True, felho_emel=-40, cimke=CIM_SZ)
