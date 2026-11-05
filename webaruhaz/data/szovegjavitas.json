@@ -633,5 +633,9 @@
  {
   "beallitas": "email2",
   "ertek": "totalkkt@totalkkt.t-online.hu"
+ },
+ {
+  "gyoker": "keszletKovetes",
+  "ertek": false
  }
 ]

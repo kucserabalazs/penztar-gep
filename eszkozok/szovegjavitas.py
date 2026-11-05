@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A szerveren lévő termékadatokban (products.json) kicseréli a lektorált szövegeket.
 Csak olyan szöveget cserél, amely PONTOSAN megegyezik a régi változattal; árakhoz,
-készlethez és más adatokhoz nem nyúl. Kilépési kód: 0 = volt csere, 1 = nem volt mit cserélni."""
+készlethez és más adatokhoz nem nyúl (kivéve a hiányzó gyökérkulcsok pótlását, lásd „gyoker”). Kilépési kód: 0 = volt csere, 1 = nem volt mit cserélni."""
 import json, sys
 cel, lista = sys.argv[1], sys.argv[2]
 adat = json.load(open(cel, encoding="utf-8"))
@@ -45,6 +45,12 @@ if isinstance(uj, dict):
         l = s.get(p["lista_torol"])
         if isinstance(l, list) and p["elem"] in l:
             s[p["lista_torol"]] = [x for x in l if x != p["elem"]]; db += 1
+# Hiányzó gyökérkulcs pótlása (csak ha még nincs meg, így egy későbbi admin-beállítást soha nem ír felül):
+# {"gyoker": kulcs, "ertek": érték} – pl. {"gyoker": "keszletKovetes", "ertek": false}
+if isinstance(uj, dict):
+    for p in [p for p in lst if "gyoker" in p]:
+        if p["gyoker"] not in uj:
+            uj[p["gyoker"]] = p["ertek"]; db += 1
 print(f"Lektorált termékszövegek cseréje: {db} db")
 if not db:
     sys.exit(1)

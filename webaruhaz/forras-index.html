@@ -934,15 +934,12 @@ footer.slim{position:relative;overflow:hidden;isolation:isolate;background:linea
 .kkv.off .kkv-st{background:#eef1f5;color:#4a5b6e;border-color:#d5dce4}
 .kkv-tx p{margin:0;font-size:.86rem;line-height:1.45;color:var(--muted)}.kkv-kz{color:#1b558e;font-weight:700}
 .kkv-sw{min-height:44px}.kkv-sw span{min-width:20px;font-family:var(--fd)}
-.kkv-ki{display:flex;gap:8px;align-items:flex-start;margin:-4px 0 14px;padding:9px 12px;border-radius:12px;background:#f4f6f8;border:1px solid #dde3ea;color:#4a5b6e;font-size:.84rem;line-height:1.45}.kkv-ki .ic{width:17px;height:17px;flex:none;margin-top:1px;color:#8a5200}
-.editor .kkv-ki{margin:0}
-.fld.kki .step,.l.kki input{opacity:.55}.fld.kki>span:first-child{text-decoration:line-through;text-decoration-color:rgba(95,107,120,.5)}
-.bdg.kki{background:#f4f6f8;color:#8592a0;border-color:#e3e8ee;font-weight:700}
 .bdg.kz{display:inline-flex;align-items:center;gap:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bdg.kz .ic{width:12px;height:12px;flex:none;stroke-width:2.6}
 .bdg.kz-szallitas{background:#e5effa;color:#1b558e;border-color:#c6daf1}.bdg.kz-egyedi{background:#fff2dc;color:#82500a;border-color:#f0d6a4}
 .bdg.kz-o{background:#e5effa;color:#1b558e;border-color:#c6daf1;vertical-align:1px}
 .bdg.kz-elfogyott,.bdg.kz.nr{background:#fde9e7;color:#b02a20;border-color:#f3c5bf}
 .pc2k select{min-height:44px;font-weight:700}
+.pc2f.nokv{grid-template-columns:1fr 1fr}.pc2f.nokv .fld:last-child{grid-column:auto}
 .fixrow .fx-kz{display:flex;min-width:0;margin-top:2px}
 .kpi.kezi .ki{background:linear-gradient(180deg,#3d7cc0,#1b558e);color:#fff}
 .dash>.kkv{margin-bottom:16px}
@@ -2739,7 +2736,7 @@ function pagePayTest(id){ const o=previewOrder(id);
     <div class="pt-sum"><span>Kedvezményezett</span><b>${esc(S().cegnevRovid||S().cegnev)}</b><span>Rendelés</span><b class="num">${esc(o.id)}</b><span>Fizetendő</span><b class="num big">${ft(o.osszeg||0)}</b></div>
     <div class="pt-btns"><button class="btn gold" type="button" data-pt="fizetve">${icon('check')} Sikeres fizetés (teszt)</button><button class="btn line" type="button" data-pt="sikertelen">${icon('x')} Fizetés megszakítása</button></div></div></div>`; }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-pt]'); if(!b) return; const id=location.hash.slice(15), l=LS.get('ptg-orders3',[]), o=l.find(x=>x.id===id); if(!o) return;
-  o.fizetes={...(o.fizetes||{}),allapot:b.dataset.pt,ido:new Date().toISOString()}; LS.set('ptg-orders3',l); if(b.dataset.pt==='sikertelen'&&keszletLevonva(o)&&!o.keszletVissza){ o.keszletVissza=new Date().toISOString(); LS.set('ptg-orders3',l); (o.tetelek||[]).forEach(t=>{ const p=prod(t.id); if(p&&p.keszletDb!=null&&t.levonva!==false){ p.keszletDb+=t.db; if(p.keszletDb>0&&p.keszlet==='elfogyott') p.keszlet='raktaron'; } }); LS.set('ptg-data3',DB); } location.hash='fizetes-'+id; });
+  o.fizetes={...(o.fizetes||{}),allapot:b.dataset.pt,ido:new Date().toISOString()}; LS.set('ptg-orders3',l); if(b.dataset.pt==='sikertelen'&&KOVET()&&keszletLevonva(o)&&!o.keszletVissza){ o.keszletVissza=new Date().toISOString(); LS.set('ptg-orders3',l); (o.tetelek||[]).forEach(t=>{ const p=prod(t.id); if(p&&p.keszletDb!=null&&t.levonva!==false){ p.keszletDb+=t.db; if(p.keszletDb>0&&p.keszlet==='elfogyott') p.keszlet='raktaron'; } }); LS.set('ptg-data3',DB); } location.hash='fizetes-'+id; });
 function pagePayResult(id){ return pageHead('Fizetés','A fizetés eredményét ellenőrizzük.','<a href="../">Kezdőlap</a>›<span>Fizetés</span>')+`<div class="wrap" style="padding-block:24px 60px;max-width:760px"><div class="panel payres" id="payres" aria-live="polite"><div class="pr-wait"><span class="spin"></span><b>A fizetés eredményét ellenőrizzük…</b><p class="muted">Rendelésszám: <span class="num">${esc(id)}</span></p></div></div></div>`; }
 async function bindPayResult(id){ const box=$('#payres'); let tries=0;
   const show=st=>{ const pend=LS.get('ptg-cart-fiz',null);
@@ -3031,9 +3028,8 @@ function kkvHTML(){ const on=KOVET(), kz=DB.products.filter(p=>kezi(p)).length;
   return `<section class="kkv ${on?'on':'off'}" aria-label="Készletnyilvántartás">
     <span class="kkv-ic">${icon('box')}</span>
     <div class="kkv-tx"><div class="kkv-h"><b id="kkv-cim">Készletnyilvántartás</b><span class="kkv-st">${on?'Bekapcsolva':'Kikapcsolva'}</span></div>
-      <p>${on?'A weboldal mutatja a készletet (raktáron, darabszám, elfogyott), és rendeléskor csökkenti a darabszámot.':'A weboldal nem mutat készletinformációt, és rendeléskor nem csökkenti a darabszámot.'}${kz?` <span class="kkv-kz">${kz} terméknél kézi állapot van beállítva – ez mindig látszik.</span>`:''}</p></div>
+      <p>${on?'A weboldal mutatja a készletet (raktáron, darabszám, elfogyott), és rendeléskor csökkenti a darabszámot.':'A készletnyilvántartás áll: a weboldal nem mutat készletet, a darabszám nem korlátozza a rendelést, és nem is csökken. Terméket a kézi állapottal (Elfogyott, Szállítás alatt, Egyedi ok) jelölhet.'}${kz?` <span class="kkv-kz">${kz} terméknél kézi állapot van beállítva – ez mindig látszik.</span>`:''}</p></div>
     <label class="sw kkv-sw"><input type="checkbox" data-kkv ${on?'checked':''} aria-labelledby="kkv-cim"><i></i><span>${on?'Be':'Ki'}</span></label></section>`; }
-const KKV_KI_TXT='A készletnyilvántartás ki van kapcsolva: a darabszám nem jelenik meg a weboldalon és rendeléskor nem csökken.';
 /* kézi állapot jelvénye az admin listákban */
 const keziBdg = p => { const m=kezi(p); return m?`<em class="bdg kz kz-${m.k}${m.rend?'':' nr'}" title="Kézi állapot${m.rend?'':' – nem rendelhető'}">${icon(KEZI_IC[m.k],'ic')}${esc(m.txt)}</em>`:''; };
 function admDash(){
@@ -3046,7 +3042,7 @@ function admDash(){
    ${kkvHTML()}
    <div class="dgrid">
     <section class="dcard"><h3>${icon('plus')} Mit szeretne csinálni?</h3><div class="qa">
-      <button type="button" class="qbtn" data-tab="termekek">${icon('tag')}<span>Árat, készletet módosítok</span></button>
+      <button type="button" class="qbtn" data-tab="termekek">${icon('tag')}<span>${KV?'Árat, készletet módosítok':'Árat, állapotot módosítok'}</span></button>
       <button type="button" class="qbtn" id="qa-new">${icon('plus')}<span>Új terméket teszek fel</span></button>
       <button type="button" class="qbtn" data-tab="rendelesek">${icon('bell')}<span>Megnézem a rendeléseket</span></button>
       <button type="button" class="qbtn" data-tab="beallitasok">${icon('clock')}<span>Nyitvatartás, szabadság</span></button>
@@ -3057,8 +3053,9 @@ function admDash(){
       <div class="catbars">${DB.categories.map(c=>{ const n=P.filter(p=>p.kategoria===c.id).length; return `<div><span>${esc(c.nev)}</span><i style="--w:${Math.round(n/Math.max(1,...DB.categories.map(cc=>P.filter(p=>p.kategoria===cc.id).length))*100)}%"></i><b class="num">${n}</b></div>`; }).join('')}</div></section>
    </div></div>`; }
 function admProducts(){
+  if(ADMIN.pf==='low'&&!KOVET()) ADMIN.pf='all';
   const PF=ADMIN.pf||'all', q=(ADMIN.pq||'').toLowerCase(), pc=ADMIN.pc||'';
-  const flt=[['all','Mind'],['low','Kevés készlet'],['kezi','Kézi állapot'],['feat','Kiemelt'],['hid','Rejtett'],['ask','Ár kérésre'],['noimg','Fotó nélkül']], KV=KOVET();
+  const KV=KOVET(), flt=[['all','Mind'],...(KV?[['low','Kevés készlet']]:[]),['kezi','Kézi állapot'],['feat','Kiemelt'],['hid','Rejtett'],['ask','Ár kérésre'],['noimg','Fotó nélkül']];
   const cnt=k=>DB.products.filter(p=>pmatch(p,k)).length;
   return `${kkvHTML()}<div class="ptools">
     <label class="psearch">${icon('search')}<input class="i" id="pq" type="search" placeholder="Keresés a termékek között" value="${esc(ADMIN.pq||'')}" autocomplete="off"></label>
@@ -3066,14 +3063,14 @@ function admProducts(){
   <div class="chips" role="tablist" aria-label="Kategória"><button type="button" class="chip ${!pc?'on':''}" data-pc="">Minden kategória <b>${DB.products.length}</b></button>${DB.categories.map(c=>`<button type="button" class="chip ${pc===c.id?'on':''}" data-pc="${c.id}">${esc(c.nev)} <b>${DB.products.filter(p=>p.kategoria===c.id).length}</b></button>`).join('')}</div>
   <div class="chips sm" aria-label="Szűrő">${flt.map(([k,l])=>`<button type="button" class="chip ${PF===k?'on':''}" data-pf="${k}">${l} <b>${cnt(k)}</b></button>`).join('')}</div>
   <p class="hint2">${icon('tag')}<span>Az árak <b>nettó</b> forintban értendők; üresen hagyva „ár kérésre”. ${KV?'Üres készlet = rendelésre. ':''}A változások a lenti <b>Mentés</b> gombbal kerülnek ki az oldalra.</span></p>
-  ${KV?'':`<p class="kkv-ki">${icon('alert')}<span>${KKV_KI_TXT}</span></p>`}
+
   <div class="pgrid" id="pgrid">${DB.products.map(p=>{ const vis=(!pc||p.kategoria===pc)&&pmatch(p,PF)&&(!q||(fullName(p)+' '+(p.alcim||'')).toLowerCase().includes(q)); const img=(p.kepek||[])[0];
     return `<article class="pc2 ${p.rejtett?'off':''}" data-cat="${esc(p.kategoria)}" data-id="${esc(p.id)}" ${vis?'':'hidden'}>
       <div class="pc2h"><span class="pth">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:icon('photo')}</span><div class="pnm"><b>${esc(fullName(p))}</b><small>${esc(cat(p.kategoria)?.nev||'')} · ${p.illusztracio?'illusztráció':(p.kepek||[]).length+' fotó'}${framesOf(p).length?' · 360°':''}</small><span class="pst">${pstHTML(p)}</span></div></div>
-      <div class="pc2f">
+      <div class="pc2f${KV?'':' nokv'}">
         <label class="fld"><span>Ár (nettó)</span><span class="inw"><input class="i num" data-f="ar" data-id="${esc(p.id)}" id="ar-${esc(p.id)}" inputmode="numeric" value="${p.ar??''}" placeholder="kérésre"><i>Ft</i></span></label>
         <label class="fld"><span>Akciós ár</span><span class="inw"><input class="i num" data-f="akciosAr" data-id="${esc(p.id)}" id="ak-${esc(p.id)}" inputmode="numeric" value="${p.akciosAr??''}" placeholder="nincs"><i>Ft</i></span></label>
-        <div class="fld${KV?'':' kki'}"${KV?'':` title="${KKV_KI_TXT}"`}><span>Készlet</span><span class="step"><button type="button" data-step="-1" data-sid="${esc(p.id)}" aria-label="Kevesebb">${icon('minus')}</button><input class="i num" data-f="keszletDb" data-id="${esc(p.id)}" id="kd-${esc(p.id)}" inputmode="numeric" value="${p.keszletDb??''}" placeholder="rend." aria-label="Készlet darab"><button type="button" data-step="1" data-sid="${esc(p.id)}" aria-label="Több">${icon('plus')}</button></span></div>
+        ${KV?`<div class="fld"><span>Készlet</span><span class="step"><button type="button" data-step="-1" data-sid="${esc(p.id)}" aria-label="Kevesebb">${icon('minus')}</button><input class="i num" data-f="keszletDb" data-id="${esc(p.id)}" id="kd-${esc(p.id)}" inputmode="numeric" value="${p.keszletDb??''}" placeholder="rend." aria-label="Készlet darab"><button type="button" data-step="1" data-sid="${esc(p.id)}" aria-label="Több">${icon('plus')}</button></span></div>`:''}
       </div>
       <label class="fld pc2k"><span>Állapot a weboldalon</span><select class="i" data-f="allapotKezi" data-id="${esc(p.id)}" id="ak2-${esc(p.id)}">${kziOpts(p.allapotKezi)}</select></label>
       <div class="pc2s"><label class="sw"><input type="checkbox" data-f="kiemelt" data-id="${esc(p.id)}" id="km-${esc(p.id)}" ${p.kiemelt?'checked':''}><i></i><span>Kiemelt</span></label><label class="sw"><input type="checkbox" data-f="lathato" data-id="${esc(p.id)}" id="lt-${esc(p.id)}" ${p.rejtett?'':'checked'}><i></i><span>Látható</span></label><label class="sw"><input type="checkbox" data-f="hasznalt" data-id="${esc(p.id)}" id="hu-${esc(p.id)}" ${p.kategoria==='hasznalt'?'checked':''}><i></i><span>Használt</span></label>
@@ -3081,11 +3078,11 @@ function admProducts(){
   <p class="muted pempty" id="pempty" hidden>Nincs a szűrésnek megfelelő termék.</p>
   <div id="editorwrap">${ADMIN.edit?editorHTML(prod(ADMIN.edit)):''}</div>`; }
 function pmatch(p,k){ switch(k){ case 'low': return p.keszletDb!=null&&p.keszletDb<=1; case 'kezi': return !!kezi(p); case 'feat': return !!p.kiemelt; case 'hid': return !!p.rejtett; case 'ask': return !p.ar; case 'noimg': return !(p.kepek||[]).length||!!p.illusztracio; default: return true; } }
-const KZI_OPT=[['','Automatikus'],['elfogyott','Elfogyott'],['szallitas','Szállítás alatt'],['egyedi','Egyedi ok…']];
-const kziOpts = v => KZI_OPT.map(([k,l])=>`<option value="${k}" ${(KEZI_ALL.includes(v)?v:'')===k?'selected':''}>${k===''?(KOVET()?'Automatikus (készlet alapján)':'Automatikus (nincs jelzés)'):l}</option>`).join('');
+const KZI_OPT=[['',''],['elfogyott','Elfogyott'],['szallitas','Szállítás alatt'],['egyedi','Egyedi ok…']];
+const kziOpts = v => KZI_OPT.map(([k,l])=>`<option value="${k}" ${(KEZI_ALL.includes(v)?v:'')===k?'selected':''}>${k===''?(KOVET()?'Automatikus – a készlet alapján':'Nincs jelzés'):l}</option>`).join('');
 /* a terméksor jelvényei: kézi állapot, készlet (kikapcsolt nyilvántartásnál halványan), kiemelt, rejtett, használt */
 const pstHTML = p => keziBdg(p)+stockBadge(p)+(p.kiemelt?'<em class="bdg feat">Kiemelt</em>':'')+(p.rejtett?'<em class="bdg hid">Rejtett</em>':'')+(p.kategoria==='hasznalt'?'<em class="bdg used">Használt</em>':'');
-function stockBadge(p){ if(!KOVET()) return `<em class="bdg kki" title="${KKV_KI_TXT}">${p.keszletDb==null?'Készlet: –':`Készlet: ${+p.keszletDb||0} db`}</em>`; const k=p.keszletDb; return k==null?'<em class="bdg ord">Rendelésre</em>':k===0?'<em class="bdg out">Elfogyott</em>':k===1?'<em class="bdg last">1 db</em>':k<=3?`<em class="bdg low">${k} db</em>`:`<em class="bdg ok">${k} db</em>`; }
+function stockBadge(p){ if(!KOVET()) return ''; const k=p.keszletDb; return k==null?'<em class="bdg ord">Rendelésre</em>':k===0?'<em class="bdg out">Elfogyott</em>':k===1?'<em class="bdg last">1 db</em>':k<=3?`<em class="bdg low">${k} db</em>`:`<em class="bdg ok">${k} db</em>`; }
 function filterProducts(){ const PF=ADMIN.pf||'all', q=(ADMIN.pq||'').toLowerCase(), pc=ADMIN.pc||''; let n=0;
   $$('.pc2').forEach(el=>{ const p=prod(el.dataset.id); const v=!!p&&(!pc||p.kategoria===pc)&&pmatch(p,PF)&&(!q||(fullName(p)+' '+(p.alcim||'')).toLowerCase().includes(q)); el.hidden=!v; if(v) n++; });
   const e=$('#pempty'); if(e) e.hidden=n>0; }
@@ -3099,8 +3096,7 @@ function editorHTML(p){ if(!p) return ''; const opt=(v,l,c)=>`<option value="${v
     <label class="l">Rövid alcím<input class="i" id="e-alcim" value="${esc(p.alcim)}"></label>
     <h4 class="edsec">Ár és készlet</h4>
     <div class="row2"><label class="l">Nettó ár (Ft)<input class="i num" id="e-ar" inputmode="numeric" value="${p.ar??''}" placeholder="üres = ár kérésre"></label><label class="l">Akciós nettó ár (Ft)<input class="i num" id="e-ak" inputmode="numeric" value="${p.akciosAr??''}"></label></div>
-    <div class="row2"><label class="l${KOVET()?'':' kki'}">Készlet (db) <span class="o">üres = rendelésre</span><input class="i num" id="e-kd" inputmode="numeric" value="${p.keszletDb??''}"></label><label class="l">Garancia<input class="i" id="e-gar" value="${esc(p.garancia||'')}"></label></div>
-    ${KOVET()?'':`<p class="kkv-ki">${icon('alert')}<span>${KKV_KI_TXT}</span></p>`}
+    <div class="row2">${KOVET()?`<label class="l">Készlet (db) <span class="o">üres = rendelésre</span><input class="i num" id="e-kd" inputmode="numeric" value="${p.keszletDb??''}"></label>`:''}<label class="l">Garancia<input class="i" id="e-gar" value="${esc(p.garancia||'')}"></label></div>
     <div class="kzbox" id="e-kzbox">
       <label class="l">Termék állapota a weboldalon<select class="i" id="e-akezi">${kziOpts(p.allapotKezi)}</select></label>
       <div class="kz-egy" id="e-aegy" ${p.allapotKezi==='egyedi'?'':'hidden'}>
@@ -3271,12 +3267,12 @@ async function admOrders(){
       ${o.adatlap?`<details class="oadl" ${o.allapot==='uj'?'open':''}><summary>${icon('register','ic','width:18px;height:18px')} Pénztárgép-adatlap</summary><dl>${Object.entries(o.adatlap).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl></details>`:''}
       ${o.uzenet?`<p class="omsg">${esc(o.uzenet)}</p>`:''}${o.idopont?`<p class="muted">${icon('clock','ic','width:16px;height:16px;vertical-align:-3px')} Időpont: ${esc(o.idopont)}</p>`:''}
       <div class="oact">${tel?`<a class="btn line sm" href="tel:${esc(tel)}">${icon('phone')} Hívás</a>`:''}${o.email?`<a class="btn line sm" href="mailto:${esc(o.email)}?subject=${encodeURIComponent(o.tipus==='uzenet'?'Válasz: '+(o.targy||'üzenetére')+' – Totál Pénztárgép':'Megrendelése: #'+o.id)}">${icon('mail')} E-mail</a>`:''}</div>
-      <div class="oseg" role="group" aria-label="Állapot">${[['uj','Új'],['folyamatban','Visszaigazolva'],['kesz','Kész'],['lemondva','Lemondva']].map(([k,l])=>`<button type="button" class="${o.allapot===k?'on':''}" data-ost="${esc(o.id)}" data-v="${k}" aria-pressed="${o.allapot===k}" ${k==='folyamatban'&&o.tetelek?.length&&!o.visszaigazolva?'title="A vevő visszaigazoló e-mailt kap"':k==='lemondva'&&keszletLevonva(o)&&!o.keszletVissza?'title="A lefoglalt darabok visszakerülnek a készletbe"':''}>${l}</button>`).join('')}${o.keszletVissza?`<small class="muted">Készlet visszatöltve: ${esc(String(o.keszletVissza).slice(0,16).replace('T',' '))}</small>`:''}${o.visszaigazolva?`<small class="muted">Visszaigazolás elküldve: ${esc(String(o.visszaigazolva).slice(0,16).replace('T',' '))}</small>`:''}</div></article>`; }).join('')}</div>`:`<div class="empty2">${icon('bell')}<b>${of==='uj'?'Nincs új rendelés':'Nincs itt semmi'}</b><span>A webáruházból érkező megrendelések, ajánlatkérések, szervizbejelentések és üzenetek itt jelennek meg.</span></div>`}`;
+      <div class="oseg" role="group" aria-label="Állapot">${[['uj','Új'],['folyamatban','Visszaigazolva'],['kesz','Kész'],['lemondva','Lemondva']].map(([k,l])=>`<button type="button" class="${o.allapot===k?'on':''}" data-ost="${esc(o.id)}" data-v="${k}" aria-pressed="${o.allapot===k}" ${k==='folyamatban'&&o.tetelek?.length&&!o.visszaigazolva?'title="A vevő visszaigazoló e-mailt kap"':k==='lemondva'&&KOVET()&&keszletLevonva(o)&&!o.keszletVissza?'title="A lefoglalt darabok visszakerülnek a készletbe"':''}>${l}</button>`).join('')}${o.keszletVissza?`<small class="muted">Készlet visszatöltve: ${esc(String(o.keszletVissza).slice(0,16).replace('T',' '))}</small>`:''}${o.visszaigazolva?`<small class="muted">Visszaigazolás elküldve: ${esc(String(o.visszaigazolva).slice(0,16).replace('T',' '))}</small>`:''}</div></article>`; }).join('')}</div>`:`<div class="empty2">${icon('bell')}<b>${of==='uj'?'Nincs új rendelés':'Nincs itt semmi'}</b><span>A webáruházból érkező megrendelések, ajánlatkérések, szervizbejelentések és üzenetek itt jelennek meg.</span></div>`}`;
   $$('[data-of]').forEach(x=>x.onclick=()=>{ ADMIN.of=x.dataset.of; admOrders(); });
   $$('[data-ost]').forEach(x=>x.onclick=async()=>{ const id=x.dataset.ost, v=x.dataset.v, oo=list.find(y=>y.id===id);
-    if(v==='lemondva'&&oo&&oo.allapot!=='lemondva'&&!confirm(keszletLevonva(oo)&&!oo.keszletVissza?'Biztosan lemondottnak jelöli ezt a rendelést? A lefoglalt darabok visszakerülnek a készletbe.':'Biztosan lemondottnak jelöli ezt a bejegyzést?')) return;
+    if(v==='lemondva'&&oo&&oo.allapot!=='lemondva'&&!confirm(KOVET()&&keszletLevonva(oo)&&!oo.keszletVissza?'Biztosan lemondottnak jelöli ezt a rendelést? A lefoglalt darabok visszakerülnek a készletbe.':'Biztosan lemondottnak jelöli ezt a bejegyzést?')) return;
     try{ let r=null; if(MODE==='live') r=await api('order-status',{body:{id,allapot:v}}); else { const l=LS.get('ptg-orders3',[]), o=l.find(y=>y.id===id); if(o){ if(v==='folyamatban'&&o.allapot==='uj'&&o.tetelek?.length&&!o.visszaigazolva) o.visszaigazolva=new Date().toISOString();
-        if(v==='lemondva'&&o.allapot!=='lemondva'&&keszletLevonva(o)&&!o.keszletVissza){ o.keszletVissza=new Date().toISOString(); (o.tetelek||[]).forEach(t=>{ const p=prod(t.id); if(p&&p.keszletDb!=null&&t.levonva!==false){ p.keszletDb+=t.db; if(p.keszletDb>0&&p.keszlet==='elfogyott') p.keszlet='raktaron'; } }); LS.set('ptg-data3',DB); r={keszletVissza:true}; }
+        if(v==='lemondva'&&o.allapot!=='lemondva'&&KOVET()&&keszletLevonva(o)&&!o.keszletVissza){ o.keszletVissza=new Date().toISOString(); (o.tetelek||[]).forEach(t=>{ const p=prod(t.id); if(p&&p.keszletDb!=null&&t.levonva!==false){ p.keszletDb+=t.db; if(p.keszletDb>0&&p.keszlet==='elfogyott') p.keszlet='raktaron'; } }); LS.set('ptg-data3',DB); r={keszletVissza:true}; }
         o.allapot=v; LS.set('ptg-orders3',l); } }
       if(r&&r.keszletVissza&&MODE==='live'){ try{ const j=await api('data'); if(j&&Array.isArray(j.products)&&!ADMIN.dirty){ DB=j; ALAPK=alapKeszletOf(DB); } }catch(_){} }
       toast(r&&r.visszaigazolva?'Visszaigazoló e-mail elküldve a vevőnek':r&&r.keszletVissza?'Lemondva – a lefoglalt darabok visszakerültek a készletbe':'Állapot mentve'); admOrders(); }catch(e){ toast(e.message); } });
@@ -3338,17 +3334,17 @@ function bindEditor(){
   /* kézi állapot: választó, egyedi szöveg (élő előnézettel), „Megrendelhető marad” */
   const kzAll=()=>{ const k=$('#e-akezi').value; return {allapotKezi:KEZI_ALL.includes(k)?k:'', allapotSzoveg:k==='egyedi'?$('#e-aszov').value.replace(/\s+/g,' ').trim().slice(0,80):'', allapotRendelheto:k==='egyedi'?$('#e-arend').checked:true}; };
   const kzUpd=()=>{ const v=kzAll(), egy=v.allapotKezi==='egyedi', t=$('#e-aszov').value; $('#e-aegy').hidden=!egy; $('#e-aszcnt').textContent=`${t.length} / 80`;
-    const m=kezi({...p,...v}), kd=numOrNull($('#e-kd').value);
+    const m=kezi({...p,...v}), kd=$('#e-kd')?numOrNull($('#e-kd').value):p.keszletDb;
     $('#e-kzelo').innerHTML = m ? keziHTML(m) : (KOVET() ? stockHTML({...p,allapotKezi:'',keszletDb:kd}) : '<span class="kz-nincs">nincs jelzés</span>') || '<span class="kz-nincs">nincs jelzés</span>';
     $('#e-kzmag').textContent = v.allapotKezi==='elfogyott' ? 'A termék „Elfogyott” jelzést kap, és nem rendelhető (a kosár gomb le van tiltva).'
       : v.allapotKezi==='szallitas' ? 'A termék „Szállítás alatt” jelzést kap, és előre megrendelhető; a termékoldalon rövid tájékoztatás jelenik meg.'
       : egy ? (v.allapotSzoveg ? (v.allapotRendelheto ? 'Az Ön szövege jelenik meg a terméknél, és a termék megrendelhető marad.' : 'Az Ön szövege jelenik meg a terméknél, és a termék nem rendelhető.') : 'Írja be az okot, amelyet a vásárlók a terméknél látnak.')
-      : KOVET() ? 'A weboldal a készlet alapján jelez: raktáron, darabszám, elfogyott vagy rendelésre.' : 'A készletnyilvántartás ki van kapcsolva, ezért a terméknél nem jelenik meg állapot.';
+      : KOVET() ? 'A weboldal a készlet alapján jelez: raktáron, darabszám, elfogyott vagy rendelésre.' : 'A terméknél nem jelenik meg állapot, és korlátozás nélkül rendelhető.';
     if(egy&&v.allapotSzoveg) $('#e-kzhiba').hidden=true; };
-  $('#e-akezi').onchange=kzUpd; $('#e-aszov').oninput=kzUpd; $('#e-arend').onchange=kzUpd; $('#e-kd').addEventListener('input',kzUpd); kzUpd();
-  $('#applyed').onclick=()=>{ const g=id=>$('#'+id).value; const kd=numOrNull(g('e-kd')); const kz=kzAll();
+  $('#e-akezi').onchange=kzUpd; $('#e-aszov').oninput=kzUpd; $('#e-arend').onchange=kzUpd; $('#e-kd')?.addEventListener('input',kzUpd); kzUpd();
+  $('#applyed').onclick=()=>{ const g=id=>$('#'+id).value; const kd=$('#e-kd')?numOrNull(g('e-kd')):(p.keszletDb??null); const kz=kzAll();
     if(kz.allapotKezi==='egyedi'&&!kz.allapotSzoveg){ const h=$('#e-kzhiba'); h.textContent='Az „Egyedi ok” választásakor írja be az okot (legfeljebb 80 karakter).'; h.hidden=false; $('#e-aszov').focus(); $('#e-kzbox').scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); return; }
-    Object.assign(p,{marka:g('e-marka'),nev:g('e-nev'),kategoria:g('e-kat'),modell:g('e-modell'),alcim:g('e-alcim'),ar:numOrNull(g('e-ar')),akciosAr:numOrNull(g('e-ak')),keszletDb:kd,keszlet:kd==null?'rendelesre':(kd>0?'raktaron':'elfogyott'),garancia:g('e-gar'),...kz,arTol:$('#e-tol').checked,illusztracio:$('#e-illu').checked,engedely:g('e-eng'),leiras:g('e-leiras'),
+    Object.assign(p,{marka:g('e-marka'),nev:g('e-nev'),kategoria:g('e-kat'),modell:g('e-modell'),alcim:g('e-alcim'),ar:numOrNull(g('e-ar')),akciosAr:numOrNull(g('e-ak')),keszletDb:kd,keszlet:$('#e-kd')?(kd==null?'rendelesre':(kd>0?'raktaron':'elfogyott')):p.keszlet,garancia:g('e-gar'),...kz,arTol:$('#e-tol').checked,illusztracio:$('#e-illu').checked,engedely:g('e-eng'),leiras:g('e-leiras'),
       jellemzok:g('e-jell').split('\n').map(x=>x.trim()).filter(Boolean), specs:g('e-specs').split('\n').map(l=>{ const i=l.indexOf(':'); return i>0?[l.slice(0,i).trim(),l.slice(i+1).trim()]:null; }).filter(Boolean),
       letoltesek:g('e-dl').split('\n').map(l=>l.split('|')).filter(x=>x[0].trim()&&x[1]&&x[1].trim()).map(x=>({nev:x[0].trim(),url:x.slice(1).join('|').trim()})), video:g('e-video').trim()});
     markDirty(); ADMIN.edit=null; document.documentElement.classList.remove('edopen'); renderAdmin(); toast('Átvéve. A végleges mentéshez nyomja meg a Mentés gombot.'); };

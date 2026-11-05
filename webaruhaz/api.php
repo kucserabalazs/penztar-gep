@@ -313,11 +313,11 @@ function pay_refresh(string $orderId): ?array {
   $uj = $st === 'Succeeded' ? 'fizetve' : (in_array($st, ['Canceled', 'Expired', 'Failed'], true) ? 'sikertelen' : null);
   if (!$uj) return $o;
   $changed = locked(function () use ($orderId, $uj, $st) {
-    global $ORDERS; $orders = read_json($ORDERS, []); $hit = null;
+    global $ORDERS, $PRODUCTS; $orders = read_json($ORDERS, []); $hit = null; $kovet = keszlet_kovet(read_json($PRODUCTS, []));
     foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') {
       $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c');
       // sikertelen fizetés: a készlet visszakerül – de csak egyszer (ha közben az admin már lemondta, akkor nem)
-      if ($uj === 'sikertelen') { $x['visszatolt'] = empty($x['keszletVissza']) && !empty($x['tetelek']) && ($x['keszletLevonva'] ?? true) !== false; if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
+      if ($uj === 'sikertelen') { $x['visszatolt'] = $kovet && empty($x['keszletVissza']) && !empty($x['tetelek']) && ($x['keszletLevonva'] ?? true) !== false; if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
       $hit = $x; unset($x['visszatolt']); }
     unset($x); if ($hit) write_json($ORDERS, $orders); return $hit;
   });
@@ -1018,8 +1018,9 @@ switch ($a) {
     need_auth(); check_csrf();
     $b = body(); $oid = (string)($b['id'] ?? ''); $kert = (string)($b['allapot'] ?? '');
     // „lemondva”: a rendelés lemondva / törölve – ilyenkor a lefoglalt készlet visszakerül (rendelésenként csak egyszer, keszletVissza jelzi)
-    $r = locked(function () use ($ORDERS, $oid, $kert) {
+    $r = locked(function () use ($ORDERS, $PRODUCTS, $oid, $kert) {
       $orders = read_json($ORDERS, []); $vissza = null; $restock = null; $talalt = false;
+      $kovet = keszlet_kovet(read_json($PRODUCTS, []));   // kikapcsolt készletnyilvántartásnál semmilyen visszatöltés nincs
       foreach ($orders as &$o) if (($o['id'] ?? '') === $oid) {
         $talalt = true;
         $uj = in_array($kert, ['uj', 'folyamatban', 'kesz', 'lemondva'], true) ? $kert : $o['allapot'];
@@ -1028,7 +1029,7 @@ switch ($a) {
         if ($uj === 'lemondva' && ($o['allapot'] ?? '') !== 'lemondva') {
           $o['lemondva'] = date('c');
           // csak ha a rendeléskor csökkent a készlet (kikapcsolt készletnyilvántartásnál leadott rendelésnél nem); régi rendelés jelző nélkül: igen
-          if (!empty($o['tetelek']) && empty($o['keszletVissza']) && ($o['keszletLevonva'] ?? true) !== false) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
+          if ($kovet && !empty($o['tetelek']) && empty($o['keszletVissza']) && ($o['keszletLevonva'] ?? true) !== false) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
         }
         $o['allapot'] = $uj;
       }
