@@ -152,6 +152,13 @@ function form_secret(): string {
   return $t;
 }
 function form_ticket(): string { $t = (string)time(); return $t . '.' . substr(hash_hmac('sha256', $t, form_secret()), 0, 32); }
+function jegy_kulcs(string $j): string { return substr(hash('sha256', $j), 0, 24); }
+function jegy_hasznalt(string $j): bool { $l = read_json(DATA . '/jegyek.php', []); return isset($l[jegy_kulcs($j)]); }
+function jegy_felhasznal(string $j): void {
+  locked(function () use ($j) { $f = DATA . '/jegyek.php'; $now = time();
+    $l = array_filter(read_json($f, []), fn($t) => is_int($t) && $t > $now - 7300);   // a 2 óránál régebbi jegyek amúgy is lejártak
+    $l[jegy_kulcs($j)] = $now; write_json($f, $l); });
+}
 function form_ticket_age(string $j): ?int {
   if (!preg_match('/^(\d{10})\.([a-f0-9]{32})$/', $j, $m)) return null;
   if (!hash_equals(substr(hash_hmac('sha256', $m[1], form_secret()), 0, 32), $m[2])) return null;
@@ -317,7 +324,7 @@ function pay_refresh(string $orderId): ?array {
     foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') {
       $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c');
       // sikertelen fizetés: a készlet visszakerül – de csak egyszer (ha közben az admin már lemondta, akkor nem)
-      if ($uj === 'sikertelen') { $x['visszatolt'] = $kovet && empty($x['keszletVissza']) && !empty($x['tetelek']) && ($x['keszletLevonva'] ?? true) !== false; if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
+      if ($uj === 'sikertelen') { $x['visszatolt'] = empty($x['keszletVissza']) && !empty($x['tetelek']) && ($x['keszletLevonva'] ?? true) !== false; if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
       $hit = $x; unset($x['visszatolt']); }
     unset($x); if ($hit) write_json($ORDERS, $orders); return $hit;
   });
@@ -768,6 +775,7 @@ switch ($a) {
     $kor = form_ticket_age((string)($b['jegy'] ?? ''));
     if ($kor === null || $kor > 7200) out(['error' => 'Az űrlap lejárt. Kérjük, küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
     if ($kor < 4) out(['error' => 'Kérjük, várjon néhány másodpercet, mielőtt elküldi az űrlapot.'], 400);
+    if (jegy_hasznalt((string)$b['jegy'])) out(['error' => 'Ezt az űrlapot már elküldte. Ha újabb üzenetet szeretne küldeni, kérjük, küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
     $tipus = (string)($b['tipus'] ?? '');
     if (!in_array($tipus, ['megrendeles', 'szerviz', 'uzenet', 'atallas', 'ajanlat'], true)) out(['error' => 'Ismeretlen űrlap.'], 400);
     $kosar = $tipus === 'megrendeles';
@@ -903,6 +911,7 @@ switch ($a) {
       if (!$gw) { restock($tetelek); out(['error' => 'Az online fizetést most nem sikerült elindítani. Kérjük, próbálja újra néhány perc múlva, vagy válasszon átutalást.'], 502); }
     }
     orders_add($rec);   // az adatlapot titkosítva írja ki; a $rec itt olvasható marad a levelekhez
+    jegy_felhasznal((string)$b['jegy']);   // egy űrlapjegy csak egy sikeres beküldésre jó
     if ($gw) out(['ok' => true, 'id' => $rec['id'], 'fizetes' => $gw]);   // az értesítők a sikeres fizetés után mennek ki
     mail_shop($rec, $kosar ? 'Új megrendelés a weboldalról' : 'Új ' . $rec['tipus'] . ' a weboldalról');
     if ($kosar && $tetelek && email_ok($rec['email'])) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolás után külön e-mailben küldjük.' : ''));
@@ -934,6 +943,7 @@ switch ($a) {
     if (!empty($b['web'])) out(['ok' => true, 'id' => '']);                    // csapda a robotoknak (rejtett mező)
     $kor = form_ticket_age((string)($b['jegy'] ?? ''));
     if ($kor === null || $kor > 7200) out(['error' => 'Az űrlap lejárt. Kérjük, nyissa meg újra, és küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
+    if (jegy_hasznalt((string)$b['jegy'])) out(['error' => 'Ezt az űrlapot már elküldte. Ha újabb üzenetet szeretne küldeni, kérjük, küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
     if ($kor < 4) out(['error' => 'Kérjük, várjon néhány másodpercet, mielőtt elküldi az üzenetet.'], 400);
     $nev = trim(preg_replace('/\s+/u', ' ', (string)($b['nev'] ?? '')));
     $email = trim((string)($b['email'] ?? '')); $tel = trim((string)($b['telefon'] ?? ''));
@@ -972,7 +982,7 @@ switch ($a) {
         . "\n\nVálaszhoz egyszerűen nyomja meg a Válasz gombot – a levél a látogató címére megy.\nAz üzenet az admin felületen, a Rendelések között is megtalálható („Üzenet”).";
       send_mail($to, 'Üzenet a weboldalról: ' . $targy . ' – ' . $rec['nev'], $txt, $rec['email']);
     }
-    out(['ok' => true, 'id' => $rec['id']]);
+    jegy_felhasznal((string)$b['jegy']); out(['ok' => true, 'id' => $rec['id']]);
 
   /* ---- titkos értesítési cím (admin › Cégadatok) ---- */
   case 'ertesites':
@@ -1020,7 +1030,7 @@ switch ($a) {
     // „lemondva”: a rendelés lemondva / törölve – ilyenkor a lefoglalt készlet visszakerül (rendelésenként csak egyszer, keszletVissza jelzi)
     $r = locked(function () use ($ORDERS, $PRODUCTS, $oid, $kert) {
       $orders = read_json($ORDERS, []); $vissza = null; $restock = null; $talalt = false;
-      $kovet = keszlet_kovet(read_json($PRODUCTS, []));   // kikapcsolt készletnyilvántartásnál semmilyen visszatöltés nincs
+      $kovet = keszlet_kovet(read_json($PRODUCTS, []));   // a ténylegesen levont készlet akkor is visszatöltődik, ha azóta kikapcsolták a nyilvántartást (visszakapcsoláskor így pontos marad)
       foreach ($orders as &$o) if (($o['id'] ?? '') === $oid) {
         $talalt = true;
         $uj = in_array($kert, ['uj', 'folyamatban', 'kesz', 'lemondva'], true) ? $kert : $o['allapot'];
@@ -1029,7 +1039,7 @@ switch ($a) {
         if ($uj === 'lemondva' && ($o['allapot'] ?? '') !== 'lemondva') {
           $o['lemondva'] = date('c');
           // csak ha a rendeléskor csökkent a készlet (kikapcsolt készletnyilvántartásnál leadott rendelésnél nem); régi rendelés jelző nélkül: igen
-          if ($kovet && !empty($o['tetelek']) && empty($o['keszletVissza']) && ($o['keszletLevonva'] ?? true) !== false) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
+          if (!empty($o['tetelek']) && empty($o['keszletVissza']) && ($o['keszletLevonva'] ?? true) !== false) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
         }
         $o['allapot'] = $uj;
       }
