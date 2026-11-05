@@ -233,7 +233,7 @@
  },
  {
   "regi": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, kialakítása pedig kis helyigényű. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról kérjük, vásárlás előtt érdeklődjön. Engedélyszám: A315.",
-  "uj": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A315."
+  "uj": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A312."
  },
  {
   "regi": "Köthető hozzá vonalkódolvasó és nyomtató?",
@@ -598,5 +598,20 @@
  {
   "regi": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
   "uj": "Online pénztárgépe 2028. július 1-jéig használható. Kérjen átállási tanácsot az e-pénztárgépre!"
+ },
+ {
+  "termek": "sam4s-nr-300",
+  "regi": "A315",
+  "uj": "A312"
+ },
+ {
+  "termek": "sam4s-nr-300",
+  "regi": "NAV-engedélyszám: A315",
+  "uj": "NAV-engedélyszám: A312"
+ },
+ {
+  "termek": "sam4s-nr-300",
+  "regi": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A315.",
+  "uj": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A312."
  }
 ]

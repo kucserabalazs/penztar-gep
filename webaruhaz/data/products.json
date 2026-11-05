@@ -300,11 +300,11 @@
    "akciosAr": null,
    "keszlet": "raktaron",
    "kiemelt": true,
-   "engedely": "A315",
+   "engedely": "A312",
    "modell": "kompakt",
-   "leiras": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A315.",
+   "leiras": "Kompakt online pénztárgép jól olvasható, kétsoros kijelzőkkel és nagy sebességű hőnyomtatóval. A papírtekercs cseréje egyszerű, a készülék kis helyet foglal. Kasszafiók csatlakoztatható hozzá; a kompatibilis fiókok típusáról vásárlás előtt kérjük, érdeklődjön. Engedélyszám: A312.",
    "jellemzok": [
-    "NAV-engedélyszám: A315",
+    "NAV-engedélyszám: A312",
     "Nagy sebességű hőnyomtató",
     "Kétsoros kijelző elöl és hátul",
     "Kasszafiók csatlakoztatható"
@@ -317,7 +317,7 @@
    "specs": [
     [
      "NAV-engedélyszám",
-     "A315"
+     "A312"
     ],
     [
      "Tápellátás",
