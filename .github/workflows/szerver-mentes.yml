@@ -7,6 +7,15 @@ name: Tárhely adatmentése
 
 on:
   workflow_dispatch:
+    inputs:
+      nev:
+        description: "A mentés mappájának neve (üresen: dátum-idő, pl. 20261105-1500; Etalon: ETALON-2026-11-05)"
+        required: false
+        default: ""
+      letoltes:
+        description: "Titkosított másolat letöltéshez is (csak az eszkozok/mentes-kulcs.pub.pem párjával nyitható ki, 1 napig érhető el)"
+        type: boolean
+        default: false
 
 jobs:
   mentes:
@@ -15,6 +24,8 @@ jobs:
     steps:
       - name: lftp telepítése
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: eszkozok }
       - name: Mentés
         env:
           SFTP_HOST: fw.elin.hu
@@ -25,13 +36,31 @@ jobs:
           set -euo pipefail
           kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; $1; bye"; }
           CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
-          M=$(TZ=Europe/Budapest date +%Y%m%d-%H%M)
+          M="${{ github.event.inputs.nev }}"; M=$(printf '%s' "$M" | tr -cd 'A-Za-z0-9._-'); [ -n "$M" ] || M=$(TZ=Europe/Budapest date +%Y%m%d-%H%M)
           D="$RUNNER_TEMP/m"; mkdir -p "$D"; chmod 700 "$D"
           kapcs "lcd $D; cd $CEL/webaruhaz/data; mget -c *" >/dev/null 2>&1 || true
+          kapcs "lcd $D; cd $CEL/webaruhaz; get -c config.local.php -o config.local.php" >/dev/null 2>&1 || true   # titkosítási kulcsok – nélkülük a titkosított adatok nem nyithatók ki
           U="$RUNNER_TEMP/u"; mkdir -p "$U"; kapcs "mirror --no-perms $CEL/webaruhaz/uploads $U" >/dev/null 2>&1 || true
           N=$(ls -1 "$D" | wc -l)
           if [ "$N" -eq 0 ]; then echo "::error::Nem sikerült letölteni az adatfájlokat."; exit 1; fi
           kapcs "cd $CEL/webaruhaz/data; mkdir -f -p mentesek; mkdir -f -p mentesek/$M; cd mentesek/$M; lcd $D; mput *" >/dev/null
           if [ -n "$(ls -A "$U" 2>/dev/null)" ]; then kapcs "mirror --reverse --no-perms $U $CEL/webaruhaz/data/mentesek/$M/uploads" >/dev/null; echo "Feltöltött képek is mentve: $(find "$U" -type f | wc -l) fájl"; fi
           echo "Mentve: webaruhaz/data/mentesek/$M ($N adatfájl)"
+          if [ "${{ github.event.inputs.letoltes }}" = "true" ]; then
+            A="$RUNNER_TEMP/a"; mkdir -p "$A"; chmod 700 "$A"
+            tar -C "$RUNNER_TEMP" -czf "$A/adat.tgz" m u
+            openssl rand -hex 32 > "$A/k.bin"
+            openssl enc -aes-256-cbc -pbkdf2 -salt -in "$A/adat.tgz" -out "$RUNNER_TEMP/adat.tgz.enc" -pass file:"$A/k.bin"
+            openssl pkeyutl -encrypt -pubin -inkey eszkozok/mentes-kulcs.pub.pem -pkeyopt rsa_padding_mode:oaep -in "$A/k.bin" -out "$RUNNER_TEMP/kulcs.enc"
+            rm -rf "$A"
+          fi
           rm -rf "$D" "$U"
+      - name: Titkosított másolat feltöltése (letöltéshez)
+        if: ${{ github.event.inputs.letoltes == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarhely-mentes-titkositott
+          path: |
+            ${{ runner.temp }}/adat.tgz.enc
+            ${{ runner.temp }}/kulcs.enc
+          retention-days: 1

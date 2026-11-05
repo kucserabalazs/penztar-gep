@@ -1,0 +1,47 @@
+# A tárhely adatainak visszaállítása egy korábbi, a tárhelyen tárolt mentésből
+# (webaruhaz/data/mentesek/<NÉV>/ → webaruhaz/data/, a feltöltött képek → webaruhaz/uploads/,
+#  a config.local.php → webaruhaz/). Visszaállítás előtt a mostani állapotról is mentés készül.
+# A program (kód) visszaállítása külön: a main ágat az „etalon-…” címkére kell állítani (lásd ETALON.md).
+name: Tárhely adatainak visszaállítása
+on:
+  workflow_dispatch:
+    inputs:
+      mentes:
+        description: "A visszaállítandó mentés neve (pl. ETALON-2026-11-05)"
+        required: true
+        default: "ETALON-2026-11-05"
+      megerosites:
+        description: "Írja be: VISSZAALLITAS"
+        required: true
+jobs:
+  visszaallitas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp >/dev/null
+      - env:
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          MENTES: ${{ github.event.inputs.mentes }}
+          MEG: ${{ github.event.inputs.megerosites }}
+        run: |
+          set -euo pipefail
+          [ "$MEG" = "VISSZAALLITAS" ] || { echo "::error::A megerősítés hiányzik (VISSZAALLITAS)."; exit 1; }
+          M=$(printf '%s' "$MENTES" | tr -cd 'A-Za-z0-9._-'); [ -n "$M" ] || exit 1
+          kapcs() { lftp -u "web5109,$SFTP_PASSWORD" -p 2253 "sftp://fw.elin.hu" -e "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          kapcs "cls -d $CEL/webaruhaz/data/mentesek/$M" >/dev/null 2>&1 || { echo "::error::Nincs ilyen mentés a tárhelyen: $M"; exit 1; }
+          # 1) biztonsági mentés a mostani állapotról
+          E="ELOTTE-$(TZ=Europe/Budapest date +%Y%m%d-%H%M)"; D="$RUNNER_TEMP/most"; mkdir -p "$D"; chmod 700 "$D"
+          kapcs "lcd $D; cd $CEL/webaruhaz/data; mget -c *" >/dev/null 2>&1 || true
+          kapcs "cd $CEL/webaruhaz/data/mentesek; mkdir -f -p $E; cd $E; lcd $D; mput *" >/dev/null
+          echo "A mostani állapot elmentve: webaruhaz/data/mentesek/$E"
+          # 2) a kért mentés letöltése és visszaírása
+          R="$RUNNER_TEMP/r"; mkdir -p "$R"; chmod 700 "$R"
+          kapcs "mirror --no-perms $CEL/webaruhaz/data/mentesek/$M $R" >/dev/null
+          [ -f "$R/config.local.php" ] && { kapcs "cd $CEL/webaruhaz; lcd $R; put config.local.php" >/dev/null; rm -f "$R/config.local.php"; echo "config.local.php visszaállítva"; }
+          [ -d "$R/uploads" ] && { kapcs "mirror --reverse --no-perms $R/uploads $CEL/webaruhaz/uploads" >/dev/null; rm -rf "$R/uploads"; echo "Feltöltött képek visszaállítva"; }
+          N=$(find "$R" -maxdepth 1 -type f | wc -l)
+          kapcs "cd $CEL/webaruhaz/data; lcd $R; mput *" >/dev/null
+          echo "Visszaállítva: $N adatfájl a(z) $M mentésből."
+          rm -rf "$D" "$R"
+          echo "A főoldal válaszkódja: $(curl -s -o /dev/null -w '%{http_code}' https://penztar-gep.hu/)"
