@@ -1,5 +1,5 @@
 /* Antik pénztárgép a fejlécben (a sárkányfej helyén) – arany és ezüst.
- * Jelenet (14 mp-enként): az oldalsó hajtókar körbetekeredik → csilingel a gép, kiugrik a pénzfiók →
+ * Jelenet (21 mp-enként): az oldalsó hajtókar körbetekeredik → csilingel a gép, kiugrik a pénzfiók →
  * a fejléc alsó szabad sávjában a TOTÁL embléma végétől forgó arany- és ezüstérmék, lebegő bankjegyek
  * repülnek, egy kis ívvel beugranak a fiókba (csillanás) → a fiók becsukódik, a gép megbillen.
  * Rétegek: assets/illusztraciok/web/kassza-*.webp  (készítő: eszkozok/illusztraciok/kassza.py)
@@ -72,7 +72,7 @@
   var kar = k.querySelector(".k-kar"), fiokImg = k.querySelector(".k-fiok img"), cseng = k.querySelector(".k-cseng");
 
   /* ---- idővonal (mp) ---- */
-  var T = 14, KAR0 = .8, KAR1 = 2.3, NYIT0 = 2.22, NYIT1 = 2.78, P0 = 2.9, LEP = .55, REP = 2.45, CSUK0 = 8.85, CSUK1 = 9.4;
+  var T = 21, KAR0 = .8, KAR1 = 2.6, NYIT0 = 2.52, NYIT1 = 3.1, P0 = 3.2, LEP = .85, REP = 4.2, CSUK0 = 12.7, CSUK1 = 13.3;
   function cl(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
   function seg(t, a, b) { return cl((t - a) / (b - a)); }
   function eio(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
@@ -88,14 +88,15 @@
     var H = R.height, tb = 0;
     [".slogan", ".contacts", ".zi-pick", ".mtools", ".vbar", ".mburger"].forEach(function (q) { var r = vis(top.querySelector(q)); if (r && r.bottom - R.top < H - 6) tb = Math.max(tb, r.bottom - R.top); });
     tb = Math.max(tb, l.bottom - R.top);
-    var by = Math.min(H - 9, Math.max((tb + H) / 2, tb + 7));
+    var s = Math.max(11, Math.min(21, H * .18, H - tb - 12));
+    /* a sáv közepén: a pénz alja se érjen az arany vonalhoz */
+    var lo = tb + s * .5 + 2, hi = H - s * .5 - 10, by = hi >= lo ? (lo + hi) / 2 : hi;
     var kx = kr.left - R.left, ky = kr.top - R.top;
     var ex = kx + K.talca[0] / 100 * kr.width, ey = ky + K.talca[1] / 100 * kr.height;
     var jobbra = kr.left + kr.width / 2 > l.left + l.width / 2;
     var sx = jobbra ? l.right - R.left + 4 : l.left - R.left - 4;
     var dir = jobbra ? 1 : -1;
     var xa = ex - dir * Math.max(26, kr.width * .42);
-    var s = Math.max(13, Math.min(21, H * .18));
     G = { sx: sx, by: by, ex: ex, ey: ey, xa: xa, dir: dir, s: s, hop: Math.max(14, Math.min(26, kr.height * .26)), W: kr.width };
     for (var i = 0; i < N; i++) {
       var j = FAJTA[i] === "j";
@@ -112,7 +113,7 @@
     if (p <= pa) {
       var u = p / pa;
       x = g.sx + (g.xa - g.sx) * u;
-      y = g.by + Math.sin(u * Math.PI * (3 + i % 3) + i) * 3.2 * Math.sin(u * Math.PI) - (1 - Math.pow(1 - Math.min(1, u * 8), 2)) * 0 ;
+      y = g.by + Math.sin(u * Math.PI * (3 + i % 3) + i) * 2.4 * Math.sin(u * Math.PI) - (1 - Math.pow(1 - Math.min(1, u * 8), 2)) * 0 ;
     } else {
       var v = (p - pa) / (1 - pa), cx = (g.xa + g.ex) / 2, cy = Math.min(g.by, g.ey) - g.hop;
       var w1 = 1 - v;
@@ -148,21 +149,21 @@
         el.style.opacity = 0;
         for (n = 0; n < NYOM; n++) ny[i * NYOM + n].style.opacity = 0;
       } else {
-        var p = ti, q = poz(i, p), be = cl(p / .07), ki = cl((p - .9) / .1);
+        var p = ti, q = poz(i, p), be = cl(p / .07), ki = cl((p - .93) / .07);
         var sc = (.35 + .65 * (1 - Math.pow(1 - be, 3))) * (1 - .45 * ki);
         var tr;
         if (j) {
-          var fl = (now / 1000) * 9 + i;
+          var fl = (now / 1000) * 6 + i;
           tr = "rotate(" + (Math.sin(fl * 1.3) * 16 - 8 * G.dir).toFixed(1) + "deg) skewY(" + (Math.sin(fl) * 12).toFixed(1) + "deg) scale(" + sc.toFixed(3) + "," + (sc * (.8 + .2 * Math.abs(Math.sin(fl * .8)))).toFixed(3) + ")";
         } else {
-          var ph = ti * REP * 2.6 * Math.PI * 2 + i, cx = Math.cos(ph);
+          var ph = ti * REP * 1.5 * Math.PI * 2 + i, cx = Math.cos(ph);
           tr = "rotate(" + (Math.sin(ph * .5) * 18).toFixed(1) + "deg) scale(" + (sc * Math.max(.13, Math.abs(cx))).toFixed(3) + "," + sc.toFixed(3) + ")";
           el.style.filter = "brightness(" + (1 + .35 * Math.max(0, cx) * Math.max(0, cx)).toFixed(2) + ")";
         }
         el.style.transform = "translate(" + q[0].toFixed(1) + "px," + q[1].toFixed(1) + "px) " + tr;
         el.style.opacity = (1 - ki).toFixed(3);
         for (n = 0; n < NYOM; n++) {
-          var pp = p - (n + 1) * .02, nd = ny[i * NYOM + n];
+          var pp = p - (n + 1) * .012, nd = ny[i * NYOM + n];
           if (pp <= 0) { nd.style.opacity = 0; continue; }
           var qq = poz(i, pp);
           nd.style.transform = "translate(" + qq[0].toFixed(1) + "px," + qq[1].toFixed(1) + "px) scale(" + (1.3 - n * .22).toFixed(2) + ")";
