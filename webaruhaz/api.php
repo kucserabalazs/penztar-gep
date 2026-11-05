@@ -75,7 +75,8 @@ function users(): array {
   global $USERS; $d = read_json($USERS, ['users' => []]); $list = $d['users'] ?? []; $by = [];
   foreach ($list as $u) $by[$u['id']] = $u;
   foreach (OWNERS as $o) { $u = $by[$o['id']] ?? ['hash' => null, 'totp' => null, 'ido' => date('c')];
-    $by[$o['id']] = array_merge($u, ['id' => $o['id'], 'nev' => $o['nev'], 'tel' => $o['tel'], 'email' => owner_email($o['id']), 'szerep' => 'tulajdonos']); }
+    /* a tulajdonos e-mail címe: a config.local.php-ból, ha ott nincs, az admin felületen (tulajdonos által) megadott címből */
+    $by[$o['id']] = array_merge($u, ['id' => $o['id'], 'nev' => $o['nev'], 'tel' => $o['tel'], 'email' => owner_email($o['id']) ?: (string)($u['emailBeallitva'] ?? ''), 'szerep' => 'tulajdonos']); }
   foreach ($by as $id => $u) if (($u['szerep'] ?? '') === 'tulajdonos' && !in_array($id, array_column(OWNERS, 'id'), true)) unset($by[$id]);
   return $by;
 }
@@ -354,7 +355,7 @@ function send_mail(string $to, string $subj, string $text, string $reply = ''): 
 }
 function send_code(array $u, string $cel, string $hova = ''): void {
   if ($hova === 'uzlet') { $se = notify_email(); if ($se === '') out(['error' => 'Nincs beállítva az üzlet értesítési e-mail címe.'], 400); $u['email'] = $se; }
-  if (empty($u['email'])) out(['error' => 'Ehhez a személyhez még nincs e-mail cím beállítva a tárhelyen (config.local.php), ezért nem tudunk kódot küldeni.'], 400);
+  if (empty($u['email'])) out(['error' => 'Ehhez a személyhez még nincs belépési e-mail cím megadva, ezért nem tudunk kódot küldeni. Egy tulajdonos az admin felület Felhasználók fülén adhatja meg.'], 400);
   $prev = $_SESSION['code'] ?? null;
   if ($prev && $prev['uid'] === $u['id'] && time() - $prev['sent'] < 45) out(['error' => 'Az előző kódot most küldtük el. Várjon egy percet az újabb kéréssel.'], 429);
   $sent = array_filter($_SESSION['sends'] ?? [], fn($t) => time() - $t < 900);
@@ -509,7 +510,7 @@ switch ($a) {
     $app = !empty($u['totp']['enabled']);
     if (!empty($u['email'])) { send_code($u, 'belepes'); out(['need2fa' => true, 'via' => 'email', 'app' => $app]); }
     if ($app) out(['need2fa' => true, 'via' => 'app', 'app' => true]);
-    out(['error' => 'Ehhez a személyhez nincs e-mail cím megadva, ezért nem tudjuk visszaigazolni a belépést.'], 400);
+    out(['error' => 'Ehhez a személyhez nincs belépési e-mail cím megadva, ezért nem tudjuk visszaigazolni a belépést. Egy tulajdonos az admin felület Felhasználók fülén adhatja meg.'], 400);
 
   case 'login-resend': // új e-mail kód a 2. lépésben
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
@@ -649,7 +650,7 @@ switch ($a) {
   /* ---- felhasználók kezelése: csak tulajdonos ---- */
   case 'users':
     need_owner();
-    out(array_values(array_map(fn($u) => pub_user($u) + ['telTeljes' => $u['tel'], 'emailCim' => $u['email'] ?? '', 'utolso' => $u['utolso'] ?? null, 'app' => !empty($u['totp']['enabled']), 'felvette' => $u['felvette'] ?? null, 'zarolva' => user_locked($u['id'])], users())));
+    out(array_values(array_map(fn($u) => pub_user($u) + ['telTeljes' => $u['tel'], 'emailCim' => $u['email'] ?? '', 'emailRogzitett' => ($u['szerep'] ?? '') === 'tulajdonos' && owner_email($u['id']) !== '', 'utolso' => $u['utolso'] ?? null, 'app' => !empty($u['totp']['enabled']), 'felvette' => $u['felvette'] ?? null, 'zarolva' => user_locked($u['id'])], users())));
 
   case 'user-add':
     need_owner(); check_csrf();
@@ -666,6 +667,17 @@ switch ($a) {
       save_users($by); return $id; });
     send_mail($email, 'Admin hozzáférést kapott – penztar-gep.hu', "Kedves $nev!\n\n{$me['nev']} admin hozzáférést adott Önnek a penztar-gep.hu webáruházához.\n\nAz első belépéshez nyissa meg a weboldalon az Admin gombot, válassza ki a nevét, és kattintson az „Első belépés” gombra. A jelszó beállításához erre az e-mail címre küldünk kódot.\n\nTotál Pénztárgép és Számítástechnika");
     out(['ok' => true, 'id' => $id]);
+
+  case 'user-email':   // belépési e-mail cím megadása / módosítása (csak tulajdonos; a config.local.php-ban rögzített cím elsőbbséget élvez)
+    need_owner(); check_csrf();
+    $b = body(); $id = (string)($b['id'] ?? ''); $email = trim((string)($b['email'] ?? ''));
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail címet: erre megy a belépési kód.'], 400);
+    $cel = user($id); if (!$cel) out(['error' => 'Ismeretlen felhasználó.'], 404);
+    if (($cel['szerep'] ?? '') === 'tulajdonos' && owner_email($id) !== '') out(['error' => 'Ennek a tulajdonosnak az e-mail címe a tárhely titkos beállításaiban van rögzítve, ott módosítható.'], 400);
+    $me = me();
+    update_user($id, function ($x) use ($email) { if (($x['szerep'] ?? '') === 'tulajdonos') $x['emailBeallitva'] = $email; else $x['email'] = $email; return $x; });
+    send_mail($email, 'Belépési e-mail cím beállítva – penztar-gep.hu', "Kedves {$cel['nev']}!\n\n{$me['nev']} ezt az e-mail címet állította be az Ön penztar-gep.hu admin hozzáféréséhez. A belépési kódokat ezentúl ide küldjük.\n\n" . (empty($cel['hash']) ? "Az első belépéshez nyissa meg a weboldalon az Admin gombot, válassza ki a nevét, és kattintson az „Első belépés” gombra. A kóddal saját jelszót állíthat be (legalább 10 karakter).\n\n" : '') . "Totál Pénztárgép és Számítástechnika");
+    out(['ok' => true]);
 
   case 'user-reset':   // jelszó és app törlése: a személy újra az e-mailes kóddal állít be jelszót
     need_owner(); check_csrf();
