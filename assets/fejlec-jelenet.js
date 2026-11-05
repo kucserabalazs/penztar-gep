@@ -607,10 +607,16 @@
   }
 
   /* ---------------- indítás ---------------- */
-  var t0 = performance.now() - 0, latszik = true, rogzitett = null;
+  /* a ciklus csak akkor fut, ha a jelenet látszik, a fül előtérben van és az animációk nincsenek szüneteltetve;
+     megállításkor az idő is megáll, folytatáskor onnan megy tovább */
+  var t0 = performance.now() - 0, latszik = true, rogzitett = null, raf = 0, allt = 0, kesz = false;
+  function mehet() { return kesz && latszik && !document.hidden && !(window.PTG_ANIM && window.PTG_ANIM.szunet); }
+  function all() { if (raf) cancelAnimationFrame(raf); raf = 0; if (!allt) allt = performance.now(); }
+  function indit() { if (raf) return; if (!mehet()) { if (!allt) allt = performance.now(); return; } if (allt) { t0 += performance.now() - allt; allt = 0; } raf = requestAnimationFrame(lep); }
   function lep(now) {
-    requestAnimationFrame(lep);
-    if (!latszik || document.hidden) return;
+    raf = 0;
+    if (!mehet()) { all(); return; }
+    raf = requestAnimationFrame(lep);
     rajzol(rogzitett !== null ? rogzitett : (now - t0) / 1000);
   }
   function inditas(fn) {
@@ -618,8 +624,11 @@
     var frissit = function () { gyf = fn(); vonalIgazit(); epit(); };
     frissit();
     addEventListener("resize", function () { clearTimeout(frissit.t); frissit.t = setTimeout(frissit, 150); });
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { latszik = e[0].isIntersecting; }, { rootMargin: "80px" }).observe(par);
-    requestAnimationFrame(lep);
+    kesz = true;
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { latszik = e[0].isIntersecting; latszik ? indit() : all(); }, { rootMargin: "80px" }).observe(par);
+    document.addEventListener("visibilitychange", function () { document.hidden ? all() : indit(); });
+    addEventListener("ptg-anim", function () { window.PTG_ANIM && window.PTG_ANIM.szunet ? all() : indit(); });
+    indit();
   }
   if (sepGorbe()) inditas(sepGorbe); else kepGorbe(inditas);
   /* teszteléshez: PTG_JELENET.ido(mp) egy pillanatra rögzít, PTG_JELENET.ido(null) folytatja */

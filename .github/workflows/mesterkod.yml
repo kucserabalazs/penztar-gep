@@ -21,5 +21,10 @@ jobs:
           printf '{"hash":"%s","ido":"%s","nev":"első beállítás"}' "$MESTER_HASH" "$(TZ=Europe/Budapest date -Iseconds)" >> "$F"
           kapcs() { lftp -u "web5109,$SFTP_PASSWORD" -p 2253 "sftp://fw.elin.hu" -e "set sftp:auto-confirm yes; set net:max-retries 2; set net:timeout 20; set cmd:fail-exit yes; $1; bye"; }
           CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          # Csak az ELSŐ beállításkor ír: ha a tárhelyen már van mesterkód (pl. a tulajdonos az admin
+          # Biztonság oldalán újat készített), nem írja felül a régi, itt tárolt ujjlenyomattal.
+          if kapcs "cls $CEL/webaruhaz/data/admin.mester.php" >/dev/null 2>&1; then
+            rm -f "$F"; echo "::notice::A tárhelyen már van mesterkód – nem írtam felül. Új kódot az admin Biztonság oldalán lehet készíteni."; exit 0
+          fi
           kapcs "put $F -o $CEL/webaruhaz/data/admin.mester.php" >/dev/null
           rm -f "$F"; echo "Mesterkód beállítva."

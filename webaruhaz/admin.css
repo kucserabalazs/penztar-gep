@@ -1,0 +1,110 @@
+/* GENERÁLT FÁJL – ne szerkessze! Forrás: forras-index.html (admin-sugo); készíti: build.py */
+
+/* ===== Admin: egyszerű kezelés, súgó és magyarázatok ===== */
+.adm2 #zarva-box{display:grid;gap:12px;margin-top:6px}
+.adm2 .zv-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.adm2 .zv-list li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #ead7a6}
+.adm2 .zv-list li>.ic{color:#b8862e}.adm2 .zv-list li span{flex:1;min-width:0}.adm2 .zv-list li b{display:block;font-size:1rem}.adm2 .zv-list li small{color:var(--muted)}
+.adm2 .zv-list li.mult{opacity:.6}
+.adm2 .zv-none{margin:0;padding:12px;border-radius:12px;background:#f4f7f4;color:#3d5a40}
+.adm2 .zv-add{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;padding:12px;border-radius:12px;background:#fffaf0;border:1px dashed #d9bf82}
+.adm2 .zv-f{display:grid;gap:5px;font-weight:600;font-size:.9rem}.adm2 .zv-f small{font-weight:400;color:var(--muted)}
+.adm2 .zv-add .btn{min-height:48px}
+@media (max-width:700px){.adm2 .savebar .sbtxt span small{display:none!important}.adm2 .zv-list li .btn{padding:0 10px;font-size:0}.adm2 .zv-list li .btn .ic{width:22px;height:22px}.adm2 .zv-list li b{font-size:.98rem}.adm2 .savebar .sbtxt span{font-size:.92rem;line-height:1.25}.adm2 .zv-add{grid-template-columns:1fr}.adm2 .zv-f input{min-height:50px;font-size:17px}}
+
+.adm2 .sg-card{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 18px;padding:16px 18px 16px 16px;border-radius:16px;background:linear-gradient(180deg,#fffaf0,#fbf1da);border:1px solid #ead7a6;box-shadow:inset 4px 0 0 #c99a3c,0 6px 16px rgba(120,86,20,.08)}
+.adm2 .sg-q-ic{grid-row:span 3;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font:800 1.35rem/1 var(--fd);color:#1a1200;background:linear-gradient(180deg,#ffe6a3,#f0c46e 50%,#c98e2b);box-shadow:0 3px 8px rgba(150,105,25,.35),inset 0 1px 0 rgba(255,255,255,.6)}
+.adm2 .sg-card h3{margin:0;font:800 1.02rem/1.3 var(--fd);color:var(--ink)}
+.adm2 .sg-card p{margin:0;color:#4a4130;font-size:.97rem;line-height:1.5}
+.adm2 .sg-lt{display:inline-flex;align-items:center;flex-wrap:wrap}
+.adm2 .sg-card h3,.adm2 .sg-card p,.adm2 .sg-card ol{grid-column:2}
+.adm2 .sg-card ol{margin:6px 0 0;padding:0;list-style:none;counter-reset:sg;display:grid;gap:7px}
+.adm2 .sg-card ol li{counter-increment:sg;position:relative;padding-left:34px;font-size:.97rem;line-height:1.45;color:#2b2416}
+.adm2 .sg-card ol li::before{content:counter(sg);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#0b2a49;color:#f4d58d;font:800 .8rem/1 var(--fd)}
+.adm2 .sg-card .sg-act{grid-column:2;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.adm2 .sg-btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #d9bf82;background:#fff;color:#0b2a49;font:700 .88rem/1 var(--fd);cursor:pointer}
+.adm2 .sg-btn.g{background:linear-gradient(180deg,#ffe6a3,#f0c46e 50%,#c98e2b);border-color:#b8862e;color:#1a1200}
+.adm2 .sg-btn:focus-visible,.adm2 .sg-i:focus-visible{outline:3px solid #2a7de1;outline-offset:2px}
+.adm2 .atitle{flex-wrap:wrap}
+.adm2 .sg-mini{margin-left:auto;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 14px 0 6px;border-radius:999px;border:1px solid #e1c98d;background:#fffaf0;color:#0b2a49;font:700 .88rem/1 var(--fd);cursor:pointer}
+.adm2 .sg-mini b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#ffe6a3,#c98e2b);color:#1a1200;font-size:.95rem}
+/* mezők melletti kis kérdőjel */
+.adm2 .sg-i{display:inline-grid;place-items:center;width:22px;height:22px;margin:0 0 0 6px;padding:0;border-radius:50%;border:1.5px solid #c99a3c;background:#fff8e6;color:#8a5f12;font:800 .78rem/1 var(--fd);vertical-align:1px;cursor:pointer;flex:none;text-transform:none;letter-spacing:0}
+.adm2 .sg-i[aria-expanded="true"]{background:#0b2a49;border-color:#0b2a49;color:#f4d58d}
+.sg-pop{position:fixed;z-index:3000;max-width:min(320px,calc(100vw - 24px));padding:12px 14px 12px 14px;border-radius:14px;background:#0b2a49;color:#fff;font:500 .95rem/1.5 var(--fb,system-ui);box-shadow:0 14px 34px rgba(0,0,0,.32),0 0 0 1px rgba(244,213,141,.35)}
+.sg-pop b{color:#f4d58d}
+.sg-pop::before{content:"";position:absolute;top:-7px;left:var(--ax,20px);width:14px;height:14px;background:#0b2a49;transform:rotate(45deg);box-shadow:-1px -1px 0 rgba(244,213,141,.35)}
+.sg-pop.up::before{top:auto;bottom:-7px;box-shadow:1px 1px 0 rgba(244,213,141,.35)}
+/* menü: rövid magyarázat a menüpontok alatt */
+.adm2 .aside button .sg-d,.adm2 .asheet button .sg-d{display:block;margin-top:2px;font:500 .74rem/1.25 var(--fb,system-ui);color:var(--muted);letter-spacing:0}
+.adm2 .aside button.on .sg-d{color:rgba(255,255,255,.72)}
+.adm2 .aside button{min-height:54px;padding-top:6px;padding-bottom:6px}
+.adm2 .aside button>span:not(.sg-d){display:block}
+/* fejléc súgó gomb */
+.adm2 .ahead .sg-help{background:linear-gradient(180deg,#ffe6a3,#f0c46e 50%,#c98e2b)!important;color:#1a1200!important;border-color:#b8862e!important}
+.adm2 .ahead .sg-help b{font:800 1.1rem/1 var(--fd)}
+/* súgó panel */
+.sg-panel{position:fixed;inset:0;z-index:2900;display:flex;justify-content:flex-end}
+.sg-panel[hidden]{display:none}
+.sg-panel .bg{position:absolute;inset:0;background:rgba(4,16,30,.55);backdrop-filter:blur(2px)}
+.sg-panel .box{position:relative;width:min(460px,100%);height:100%;overflow:auto;background:#fffdf8;box-shadow:-10px 0 40px rgba(0,0,0,.3);padding:0 0 30px;animation:sgIn .22s ease}
+@keyframes sgIn{from{transform:translateX(30px);opacity:0}}
+.sg-panel .top{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(180deg,#123b61,#082746);color:#fff;box-shadow:0 2px 0 #c99a3c}
+.sg-panel .top h2{margin:0;flex:1;font:800 1.2rem/1.2 var(--fd);color:#fff}
+.sg-panel .top small{display:block;font:500 .8rem/1.3 var(--fb,system-ui);color:#f4d58d;margin-top:3px}
+.sg-panel .x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(244,213,141,.5);background:transparent;color:#fff;font-size:1.5rem;cursor:pointer}
+.sg-panel .in{padding:16px 16px 0;display:grid;gap:10px}
+.sg-panel .alap{padding:14px 16px;border-radius:14px;background:#eef5ee;border:1px solid #c7dfc9;color:#1f3d24;font-size:.96rem;line-height:1.5}
+.sg-panel .alap b{color:#0f5a25}
+.sg-panel details{border:1px solid #ead7a6;border-radius:14px;background:#fff;overflow:hidden}
+.sg-panel summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 14px;cursor:pointer;font:700 1rem/1.3 var(--fd);color:#0b2a49}
+.sg-panel summary::-webkit-details-marker{display:none}
+.sg-panel summary .e{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:#fbf1da;color:#8a5f12;flex:none}
+.sg-panel summary .e svg{width:20px;height:20px}
+.sg-panel summary::after{content:"";margin-left:auto;width:10px;height:10px;border-right:2.5px solid #c99a3c;border-bottom:2.5px solid #c99a3c;transform:rotate(45deg);transition:transform .2s;flex:none}
+.sg-panel details[open] summary::after{transform:rotate(-135deg)}
+.sg-panel details[open] summary{background:#fffaf0;border-bottom:1px solid #f0e2bd}
+.sg-panel .lp{padding:12px 16px 16px}
+.sg-panel ol{margin:0 0 12px;padding:0;list-style:none;counter-reset:sg;display:grid;gap:8px}
+.sg-panel ol li{counter-increment:sg;position:relative;padding-left:34px;font-size:.97rem;line-height:1.45;color:#2b2416}
+.sg-panel ol li::before{content:counter(sg);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#0b2a49;color:#f4d58d;font:800 .8rem/1 var(--fd)}
+.sg-panel .tip{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#fff6dd;color:#5b4310;font-size:.92rem;line-height:1.45}
+.sg-panel .go{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #b8862e;background:linear-gradient(180deg,#ffe6a3,#f0c46e 50%,#c98e2b);color:#1a1200;font:800 .95rem/1 var(--fd);cursor:pointer}
+.sg-panel .end{margin:6px 0 0;padding:14px 16px;border-radius:14px;background:#0b2a49;color:#fff;font-size:.95rem;line-height:1.5}
+.sg-panel .end a{color:#f4d58d;font-weight:700}
+/* kiemelés, amikor a súgó megmutat valamit */
+.sg-glow{position:relative;z-index:5;animation:sgGlow 1.1s ease-in-out 3;border-radius:12px}
+@keyframes sgGlow{0%,100%{box-shadow:0 0 0 0 rgba(240,180,60,0)}50%{box-shadow:0 0 0 6px rgba(240,180,60,.75),0 0 26px rgba(240,180,60,.6)}}
+/* üdvözlés az áttekintésen */
+.adm2 .sg-hello{margin:0 0 16px;padding:16px 18px;border-radius:16px;background:linear-gradient(135deg,#0b2a49,#123b61);color:#fff;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 8px 20px rgba(8,39,70,.25),inset 0 -3px 0 #c99a3c}
+.adm2 .sg-hello b{font:800 1.15rem/1.2 var(--fd);color:#f4d58d;display:block}
+.adm2 .sg-hello span{font-size:.95rem;line-height:1.45;color:rgba(255,255,255,.88)}
+.adm2 .sg-hello .sg-btn{margin-left:auto}
+/* termékszerkesztő: ritkán kellő mezők összecsukva */
+.adm2 .sg-adv{margin:14px 0;border:1px dashed #d9bf82;border-radius:14px;background:#fffcf3}
+.adm2 .sg-adv>summary{cursor:pointer;min-height:50px;display:flex;align-items:center;gap:10px;padding:8px 14px;font:700 .95rem/1.3 var(--fd);color:#0b2a49;list-style:none}
+.adm2 .sg-adv>summary::-webkit-details-marker{display:none}
+.adm2 .sg-adv>summary small{font:500 .8rem/1.3 var(--fb,system-ui);color:var(--muted)}
+.adm2 .sg-adv>summary::before{content:"+";width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#0b2a49;color:#f4d58d;font-weight:800;flex:none}
+.adm2 .sg-adv[open]>summary::before{content:"–"}
+.adm2 .sg-adv>.sg-advin{padding:4px 14px 14px;display:grid;gap:12px}
+/* mentési sáv: egyértelmű felszólítás */
+.adm2 .savebar .sbtxt span small{display:block;font:500 .8rem/1.3 var(--fb,system-ui);opacity:.85}
+.adm2 .savebar #save{min-height:48px;padding:0 24px;font-size:1rem}
+/* telefonon nagyobb, jobban olvasható betűk és nagyobb érintési felületek */
+@media (max-width:700px){
+  .adm2 .muted,.adm2 .hint2,.adm2 small{font-size:max(.9em,14px)}
+  .adm2 .sg-card{grid-template-columns:auto 1fr;padding:16px;gap:8px 12px}
+  .adm2 .sg-q-ic{grid-row:auto;width:36px;height:36px;font-size:1.15rem}
+  .adm2 .sg-card h3{grid-column:2;align-self:center}
+  .adm2 .sg-card p,.adm2 .sg-card ol,.adm2 .sg-card .sg-act{grid-column:1/-1}
+  .adm2 .ahead .who2{min-width:0;flex:1}.adm2 .ahead .who2 b,.adm2 .ahead .who2 small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .adm2 .ahead .sg-help{padding:0 12px!important;gap:5px}
+  .adm2 .sg-card p,.adm2 .sg-card ol li{font-size:1rem}
+  .adm2 .sg-i{width:28px;height:28px;font-size:.9rem}
+  .adm2 .sg-mini{min-height:42px}
+  .adm2 .ahead .sg-help span{display:inline!important}
+  .adm2 .asheet button .sg-d{font-size:.82rem}
+  .sg-panel .box{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.sg-glow{animation:none;box-shadow:0 0 0 4px rgba(240,180,60,.8)}.sg-panel .box{animation:none}}

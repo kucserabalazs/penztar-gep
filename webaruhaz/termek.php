@@ -93,7 +93,7 @@ if ($P) {
   $c = $CATS[$P['kategoria']] ?? ['id' => $P['kategoria'], 'nev' => 'Termékek'];
   $name = fullname($P);
   $price = nowprice($P);
-  $title = cim([$name, $P['alcim'] ?? '', 'Totál Pénztárgép'], [$name, $P['alcim'] ?? '', 'Totál'], [$name, $P['alcim'] ?? ''], [$name, $c['nev'] . ' Pécsen', 'Totál'], [$name, 'Totál Pénztárgép Pécs']);
+  $title = cim([$name, $P['alcim'] ?? '', 'Totál Pénztárgép'], [$name, $P['alcim'] ?? '', 'Totál'], [$name, $P['alcim'] ?? ''], [$name, $c['nev'] . ' Pécsen', 'Totál'], [$name, 'Totál Pénztárgép Pécs'], [$name, 'Totál'], [$name]);
   $desc = cut(($P['alcim'] ? $P['alcim'] . '. ' : '') . ($price ? 'Ár: ' . ft($price) . ' + ÁFA (bruttó ' . ft(gross($price)) . '). ' : '') . ($P['leiras'] ?? '') . ' Átvétel és szerviz Pécsen, a Hunyadi János utca 34. alatt.', 158);
   $canon = SHOP . plink($P);
   $ogimg = img($P) ? absurl(img($P)) : SITE . '/' . katkep($P['kategoria']);
@@ -203,7 +203,7 @@ if (($ogimg ?? '') !== '' && strpos($ogimg, SITE . '/') === 0) {
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <meta name="theme-color" content="#082746">
 <?= ptg_kozossegi($title, $desc ?? '', $canon ?? SHOP, $P ? 'product' : 'website', $ogkep) ?>
-<link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261104">
+<link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261105">
 <link rel="stylesheet" href="../assets/oldal.css?v=<?= PTG_V ?>">
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $ld], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <style>

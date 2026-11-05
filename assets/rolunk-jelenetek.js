@@ -17,14 +17,18 @@
 
   function lathatoFut(elem, rajz) {
     if (nyugi) { rajz(0, true); return; }
-    var fut = false, raf = 0, t0 = performance.now();
+    var fut = false, raf = 0, t0 = performance.now(), lathato = true, allt = 0;
+    function szunet() { return document.hidden || !!(window.PTG_ANIM && window.PTG_ANIM.szunet); }
     function lep(m) { rajz((m - t0) / 1000); raf = requestAnimationFrame(lep); }
+    function be() { if (!fut && lathato && !szunet()) { fut = true; if (allt) { t0 += performance.now() - allt; allt = 0; } raf = requestAnimationFrame(lep); } }
+    function ki() { if (fut) { fut = false; cancelAnimationFrame(raf); allt = performance.now(); } }
     rajz(0);
     if ("IntersectionObserver" in window) new IntersectionObserver(function (e) {
-      if (e[0].isIntersecting) { if (!fut) { fut = true; raf = requestAnimationFrame(lep); } }
-      else if (fut) { fut = false; cancelAnimationFrame(raf); }
+      lathato = e[0].isIntersecting; lathato ? be() : ki();
     }, { rootMargin: "60px" }).observe(elem);
-    else raf = requestAnimationFrame(lep);
+    else be();
+    document.addEventListener("visibilitychange", function () { szunet() ? ki() : be(); });
+    window.addEventListener("ptg-anim", function () { szunet() ? ki() : be(); });
   }
 
   /* ---------- bárányfelhő (a dzsámis angyal felhőjének rajza) ---------- */

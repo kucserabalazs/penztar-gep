@@ -62,8 +62,8 @@ function ptg_lablec(string $root = '/'): string {
 /* ---- közös szkriptek a lap alján (nyelv, e-mail ablak, nyelvválasztó) ---- */
 function ptg_szkriptek(string $root = '/'): string {
   return '<script>window.ZEPHYR_I18N_BASE=' . json_encode($root . 'nyelv/') . ';</script>' . "\n"
-    . '<script src="' . e($root) . 'assets/nyelv.js?v=20261104"></script>' . "\n"
-    . '<script src="' . e($root) . 'assets/kapcsolat.js?v=20261104" defer></script>' . "\n"
+    . '<script src="' . e($root) . 'assets/nyelv.js?v=20261105c"></script>' . "\n"
+    . '<script src="' . e($root) . 'assets/kapcsolat.js?v=20261105c" defer></script>' . "\n"
     . '<script>if (window.ZI18N) ZI18N.mountPicker(document.querySelector("header nav"));</script>' . "\n";
 }
 
@@ -97,7 +97,7 @@ function ptg_fej(string $title, string $desc, string $path, array $crumbs, array
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="theme-color" content="#082746">
 <?= ptg_kozossegi($title, $desc, $canon) ?>
-<link rel="stylesheet" href="/assets/fonts/betutipusok.css?v=20261104">
+<link rel="stylesheet" href="/assets/fonts/betutipusok.css?v=20261105">
 <link rel="stylesheet" href="/assets/oldal.css?v=<?= PTG_V ?>">
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $ld], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>

@@ -94,13 +94,16 @@
     elhelyez();
     var nyugi = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (nyugi) { rajzol(0, true); window.addEventListener("resize", function () { elhelyez(); rajzol(0, true); }); return; }
-    var fut = false, raf = 0, t0 = performance.now();
+    var fut = false, raf = 0, t0 = performance.now(), lathato = true, allt = 0;
+    function szunet() { return document.hidden || !!(window.PTG_ANIM && window.PTG_ANIM.szunet); }
     function lep(most) { rajzol((most - t0) / 1000); raf = requestAnimationFrame(lep); }
-    function be() { if (!fut) { fut = true; raf = requestAnimationFrame(lep); } }
-    function ki() { if (fut) { fut = false; cancelAnimationFrame(raf); } }
+    function be() { if (!fut && lathato && !szunet()) { fut = true; if (allt) { t0 += performance.now() - allt; allt = 0; } raf = requestAnimationFrame(lep); } }
+    function ki() { if (fut) { fut = false; cancelAnimationFrame(raf); allt = performance.now(); } }
     rajzol(0);
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { e[0].isIntersecting ? be() : ki(); }).observe(doboz);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { lathato = e[0].isIntersecting; lathato ? be() : ki(); }).observe(doboz);
     else be();
+    document.addEventListener("visibilitychange", function () { szunet() ? ki() : be(); });
+    window.addEventListener("ptg-anim", function () { szunet() ? ki() : be(); });
     window.addEventListener("resize", elhelyez);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(elhelyez);
     if (window.ResizeObserver) new ResizeObserver(elhelyez).observe(doboz);

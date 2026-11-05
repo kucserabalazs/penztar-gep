@@ -387,8 +387,9 @@
     if (fut) raf = requestAnimationFrame(kocka);
   }
 
-  function indit() { if (fut || !rdy) return; fut = true; raf = requestAnimationFrame(kocka); }
-  function stop() { fut = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+  var allt = 0;   /* megállításkor az idő is megáll, folytatáskor onnan megy tovább */
+  function indit() { if (fut || !rdy || (window.PTG_ANIM && window.PTG_ANIM.szunet)) return; if (allt) { start += performance.now() - allt; allt = 0; } fut = true; raf = requestAnimationFrame(kocka); }
+  function stop() { if (fut && !allt) allt = performance.now(); fut = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
   function init() {
     box = document.querySelector(".map-ph"); if (!box || !window.TJSzereplok) return;
     fetch(TORONY).then(function (r) { return r.text(); }).then(function (txt) {
@@ -397,6 +398,7 @@
       var lathato = true;
       if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { lathato = e[0].isIntersecting; lathato && !document.hidden ? indit() : stop(); }, { rootMargin: "100px" }).observe(box);
       document.addEventListener("visibilitychange", function () { document.hidden ? stop() : lathato && indit(); });
+      window.addEventListener("ptg-anim", function () { window.PTG_ANIM && window.PTG_ANIM.szunet ? stop() : lathato && !document.hidden && indit(); });
       indit();
     }).catch(function () {});
   }

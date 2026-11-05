@@ -1,6 +1,10 @@
 # Penztar-gep.hu – keresőrobotok szabályai
+# A Google a leghosszabb illeszkedő szabályt alkalmazza, ezért az api.php csak olvasható
+# termékadat-végpontja (?a=data – a főoldal kiemelt termékeihez kell) engedélyezett,
+# minden más api.php-kérés tiltott. A „$” a cím végét jelöli (pontos egyezés).
 User-agent: *
 Allow: /
+Allow: /webaruhaz/api.php?a=data$
 Disallow: /webaruhaz/api.php
 Disallow: /webaruhaz/data/
 Disallow: /mentesek/

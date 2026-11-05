@@ -42,27 +42,42 @@ jobs:
             RewriteRule (^|/)\.git(/|$) - [F,L]
           </IfModule>
           <IfModule mod_authz_core.c>
-            <FilesMatch "\.(md|py|lock|bak)$">
+            <FilesMatch "\.(md|py|pyc|lock|bak|old|orig|tmp|swp|log|sql|zip|tar|gz|yml|yaml|env|ini|sh)$|~$">
               Require all denied
             </FilesMatch>
           </IfModule>
           EOF
           cat > webaruhaz/.htaccess <<'EOF'
-          # ELŐNÉZET: az api.php csak a termékadatokat adja (belépés, rendelés, üzenet itt nem működik)
+          # ELŐNÉZET: az api.php csak a termékadatokat adja (belépés, rendelés, üzenet itt nem működik).
+          # Pontos egyezés: csak a „?a=data” lekérdezés megy át (a „?a=data&a=order” nem), és a
+          # horgony nélküli minta az „api.php/valami” (PATH_INFO) kéréseket is elkapja.
           <IfModule mod_rewrite.c>
             RewriteEngine On
-            RewriteCond %{QUERY_STRING} !(^|&)a=data(&|$)
-            RewriteRule ^api\.php$ - [F,L]
+            RewriteCond %{QUERY_STRING} !^a=data$
+            RewriteRule ^api\.php - [F,L]
           </IfModule>
           EOF
+          # az előnézet oldalai a HTML-ben is „noindex” jelzést kapnak (nem csak a fejlécben)
+          python3 - <<'PY'
+          import re
+          for p in ["inc/sablon.php", "webaruhaz/termek.php"]:
+              s = open(p, encoding="utf-8").read()
+              s = re.sub(r'(<meta name="robots" content=")[^"]*(")', r'\1noindex,nofollow\2', s)
+              open(p, "w", encoding="utf-8").write(s)
+          PY
           # jól látható jelzés, hogy ez előnézet
           JEL='<div style="position:fixed;left:50%;top:6px;transform:translateX(-50%);z-index:99999;background:#b3261e;color:#fff;font:700 13px/1 system-ui,sans-serif;letter-spacing:.06em;padding:7px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none">ELŐNÉZET – nem az élő oldal</div>'
           for f in index.html webaruhaz/index.html; do
             python3 - "$f" "$JEL" <<'PY'
-          import sys
+          import re, sys
           p, jel = sys.argv[1], sys.argv[2]
           s = open(p, encoding="utf-8").read()
           s = s.replace("<body", "<body data-elonezet", 1)
+          # keresők elől rejtve: a robots metacímke noindex (ha nincs, beszúrjuk a <head> elejére)
+          s, n = re.subn(r'(<meta name="robots" content=")[^"]*(")', r'\1noindex,nofollow\2', s)
+          if not n:
+              h = s.index(">", s.index("<head")) + 1
+              s = s[:h] + '\n<meta name="robots" content="noindex,nofollow">' + s[h:]
           i = s.index(">", s.index("<body")) + 1
           s = s[:i] + jel + s[i:]
           open(p, "w", encoding="utf-8").write(s)
@@ -94,6 +109,13 @@ jobs:
             --exclude-glob eszkozok/ \
             --exclude-glob assets/kategoria-ermek/eredeti/ \
             --exclude-glob assets/illusztraciok/eredeti/ \
+            --exclude-glob assets/illusztraciok/bemutato.html \
+            --exclude-glob assets/illusztraciok/lista.json \
+            --exclude-glob minta/ \
+            --exclude-glob webaruhaz/forras-index.html \
+            --exclude-glob webaruhaz/build.py \
+            --exclude-glob webaruhaz/OLVASS-EL.txt \
+            --exclude-glob webaruhaz/config.local.minta.php \
             --exclude-glob *.md \
             --exclude-glob webaruhaz/config.local* \
             --exclude-glob webaruhaz/data/admin.* \

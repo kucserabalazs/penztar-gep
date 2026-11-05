@@ -123,10 +123,16 @@
     return [x, y];
   }
 
-  var on = true, t0 = performance.now();
+  /* a ciklus csak akkor fut, ha a fejléc látszik, a fül előtérben van és az animációk nincsenek szüneteltetve;
+     megállításkor az idő is megáll (folytatáskor onnan megy tovább, ahol abbamaradt) */
+  var on = true, t0 = performance.now(), raf = 0, allt = 0;
+  function mehet() { return on && G && !document.hidden && !(window.PTG_ANIM && window.PTG_ANIM.szunet); }
+  function all() { if (raf) cancelAnimationFrame(raf); raf = 0; if (!allt) allt = performance.now(); }
+  function indit() { if (raf) return; if (!mehet()) { if (!allt) allt = performance.now(); return; } if (allt) { t0 += performance.now() - allt; allt = 0; } raf = requestAnimationFrame(frame); }
   function frame(now) {
-    requestAnimationFrame(frame);
-    if (!on || !G) return;
+    raf = 0;
+    if (!mehet()) { all(); return; }
+    raf = requestAnimationFrame(frame);
     var t = ((now - t0) / 1000) % T;
     /* hajtókar */
     kar.style.transform = "rotate(" + (360 * eio(seg(t, KAR0, KAR1))).toFixed(2) + "deg)";
@@ -178,12 +184,13 @@
       } else ce.style.opacity = 0;
     }
   }
-  geo();
-  addEventListener("resize", geo);
-  addEventListener("load", geo);
-  setTimeout(geo, 900);
-  k.querySelector(".k-test").addEventListener("load", geo);
-  if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { on = e[0].isIntersecting; }).observe(top);
-  document.addEventListener("visibilitychange", function () { if (document.hidden) on = false; else { on = true; } });
-  requestAnimationFrame(frame);
+  function geoIndit() { geo(); indit(); }
+  geoIndit();
+  addEventListener("resize", geoIndit);
+  addEventListener("load", geoIndit);
+  setTimeout(geoIndit, 900);
+  k.querySelector(".k-test").addEventListener("load", geoIndit);
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { on = e[0].isIntersecting; on ? geoIndit() : all(); }).observe(top);
+  document.addEventListener("visibilitychange", function () { document.hidden ? all() : indit(); });
+  addEventListener("ptg-anim", function () { window.PTG_ANIM && window.PTG_ANIM.szunet ? all() : indit(); });
 })();

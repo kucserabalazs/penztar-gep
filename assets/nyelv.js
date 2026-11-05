@@ -145,6 +145,7 @@
 .zi-it[aria-current="true"] { background: linear-gradient(180deg, #fff3c4, #ffd978); box-shadow: inset 0 0 0 1px rgba(138,102,48,.35); }
 .zi-it.soon { opacity: .55; cursor: default; } .zi-it.soon:hover { background: transparent; }
 @media (max-width: 700px) { .zi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .zi-it { font-size: 16px; min-height: 50px; } .zi-menu, .zi-menu.zi-port { position: fixed; top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); inset-inline: 12px; left: 12px; right: 12px; width: auto; max-height: min(75vh, calc(100dvh - 24px)); } }
+@media (max-height: 500px) { .zi-menu .zi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .zi-menu.zi-port { width: min(640px, calc(100vw - 24px)); } .zi-hd { padding-bottom: 6px; margin-bottom: 6px; } .zi-it { min-height: 44px; } }
 .zi-pick.inline { display: block; } .zi-pick.inline .zi-btn { display: none; } .zi-pick.inline .zi-menu { display: block; position: static; width: auto; max-height: none; padding: 0; background: none; box-shadow: none; animation: none; color: #fff; }
 .zi-pick.inline .zi-hd { display: none; } .zi-pick.inline .zi-it { color: #fff; background: rgba(255,255,255,.06); } .zi-pick.inline .zi-it em { color: #c9d8e6; }
 .zi-pick.inline .zi-it:hover { background: rgba(255,255,255,.14); } .zi-pick.inline .zi-it:focus-visible { box-shadow: none; } .zi-pick.inline .zi-it.soon { opacity: .6; } .zi-pick.inline .zi-it[aria-current="true"] { color: #0b2a4a; background: linear-gradient(180deg, #fff3c4, #ffd978); }
@@ -184,7 +185,12 @@ html.zi-rtl body { text-align: start; }`;
       const w = menu.offsetWidth, h = menu.offsetHeight;
       const rtl = getComputedStyle(box).direction === "rtl";
       let x = rtl ? r.left : r.right - w; x = Math.max(12, Math.min(x, vw - w - 12));
-      let y = r.bottom + 10; if (y + h > vh - 8 && r.top - 10 - h > 8) y = r.top - 10 - h;   /* ha alul nem fér el, a gomb fölé */
+      menu.style.maxHeight = "";
+      let y = r.bottom + 10;
+      if (y + h > vh - 8) {   /* ha alul nem fér el: a gomb fölé, ha ott sem, a képernyőbe szorítva (görgethető) */
+        if (r.top - 10 - h >= 8) y = r.top - 10 - h;
+        else { y = Math.max(8, vh - 8 - h); if (h > vh - 16) { y = 8; menu.style.maxHeight = (vh - 16) + "px"; } }
+      }
       menu.style.left = Math.round(x) + "px"; menu.style.top = Math.round(y) + "px";
     }
     const later = () => { if (!rafPos) rafPos = requestAnimationFrame(place); };
@@ -198,7 +204,7 @@ html.zi-rtl body { text-align: start; }`;
     }
     function close(focusBtn) {
       if (!isOpen()) return;
-      menu.classList.remove("zi-on", "zi-port"); menu.style.top = menu.style.left = "";
+      menu.classList.remove("zi-on", "zi-port"); menu.style.top = menu.style.left = menu.style.maxHeight = "";
       box.appendChild(menu);
       box.classList.remove("open"); btn.setAttribute("aria-expanded", "false");
       if (!document.querySelector(".zi-menu.zi-on")) document.documentElement.classList.remove("zi-nyitva");

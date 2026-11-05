@@ -1,16 +1,26 @@
-# Penztar-gep.hu – gyorsítás és keresőoptimalizálás (Apache tárhelyhez)
-# Minden blokk feltételes: ha a tárhely nem ismeri az adott modult, egyszerűen kimarad.
+# Penztar-gep.hu – gyorsítás, biztonság és keresőoptimalizálás (Apache 2.4 tárhelyhez)
+# A modulfüggő blokkok feltételesek: ha a tárhely nem ismeri az adott modult, egyszerűen kimaradnak.
 
 DirectoryIndex index.html index.php
 AddDefaultCharset utf-8
 AddType image/webp .webp
 AddType image/svg+xml .svg
+AddType image/x-icon .ico
+AddType font/woff2 .woff2
+AddType font/woff .woff
 AddType application/manifest+json .webmanifest
 
+# Mappák tartalma ne legyen listázható (pl. /assets/, /webaruhaz/kepek/).
+# FIGYELEM: ha a tárhely nem engedné az „Options” használatát, az egész oldal 500-as hibát adna –
+# ilyenkor ezt az egy sort kell törölni (a feltöltő munkafolyamat a főoldal válaszkódját ellenőrzi).
+Options -Indexes
+
+# Saját, arculatos hibaoldal a nem létező címekre (noindex, hasznos linkekkel)
+ErrorDocument 404 /404.html
+
 # ---- HTTPS és egységes cím (www nélkül) -------------------------------------
-# Akkor kapcsolja be (a # jelek törlésével), ha a tárhelyen már működik az SSL
-# tanúsítvány (https://penztar-gep.hu megnyílik lakat ikonnal). Így a Google
-# egyetlen címet indexel, nem négyet (http/https, www/www nélkül).
+# NE kapcsolja be: a tárhely már maga átirányít (http → https, www → www nélkül),
+# és a kettős átirányítás TLS-proxy mögött végtelen körforgást okozhat.
 #<IfModule mod_rewrite.c>
 #  RewriteEngine On
 #  RewriteCond %{HTTPS} !=on [OR]
@@ -20,10 +30,12 @@ AddType application/manifest+json .webmanifest
 
 # ---- Tömörítés ----------------------------------------------------------------
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml application/manifest+json
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml application/manifest+json image/x-icon
 </IfModule>
 
 # ---- Böngésző-gyorsítótár -------------------------------------------------------
+# A CSS/JS hivatkozások ?v=… verziószámot kapnak, így egy javítás azonnal érvényes;
+# a verzió nélküli kérések miatt mégsem adunk „immutable” jelzést.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 week"
@@ -34,9 +46,20 @@ AddType application/manifest+json .webmanifest
   ExpiresByType image/png "access plus 1 month"
   ExpiresByType image/jpeg "access plus 1 month"
   ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+  ExpiresByType image/vnd.microsoft.icon "access plus 1 month"
   ExpiresByType application/pdf "access plus 1 week"
   ExpiresByType text/css "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2?|ttf|otf)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
 </IfModule>
 
 # ---- Biztonsági fejlécek -----------------------------------------------------------
@@ -44,12 +67,21 @@ AddType application/manifest+json .webmanifest
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # Nem korlátozza a szkripteket/képeket; csak a keretbe ágyazást, a pluginokat, a <base> címet
+  # és az űrlapok célját (minden űrlap a saját oldalra küld; a Barion-fizetés átirányítás, nem űrlap).
+  Header always set Content-Security-Policy "frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+  # HSTS csak HTTPS-en (http-n tilos és értelmetlen); TLS-proxy esetén az X-Forwarded-Proto is számít
+  <If "%{HTTPS} == 'on' || req('X-Forwarded-Proto') == 'https'">
+    Header always set Strict-Transport-Security "max-age=31536000"
+  </If>
 </IfModule>
 
 # ---- A régi weboldal címeinek átirányítása ------------------------------------------
 # A Google még a régi (feltört, idegen linkeket tartalmazó) oldal címeit is ismeri
 # (pl. /fooldal/, /kapcsolat/). Ezek végleges (301) átirányítást kapnak az új oldal megfelelő
 # részére, így a Google a régi tartalmat lecseréli az újra. (A /tudnivalok/ és a /szerviz/ már új, valódi oldal.)
+# Minden más, nem létező cím valódi 404-et kap (a fenti saját hibaoldallal) – nincs gyűjtő átirányítás.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^fooldal/?$ https://penztar-gep.hu/ [R=301,L]
@@ -58,29 +90,28 @@ AddType application/manifest+json .webmanifest
   RewriteRule ^(adatkezeles|adatvedelem|adatkezelesi-tajekoztato)/?$ https://penztar-gep.hu/webaruhaz/#adatkezeles [R=301,NE,L]
   RewriteRule ^(javitas|szervizbejelentes)/?$ https://penztar-gep.hu/szerviz/ [R=301,L]
   RewriteRule ^(e-penztargep|online-penztargep)/?$ https://penztar-gep.hu/tudnivalok/ [R=301,L]
+  # A régi WordPress-webáruház (WooCommerce) szokásos termék- és boltcímei a termékkatalógusba
+  RewriteRule ^(shop|bolt|webshop|termekek|product|product-category|termekkategoria)(/.*)?$ https://penztar-gep.hu/webaruhaz/termek.php [R=301,L]
   # Régi WordPress-mappák: véglegesen megszűntek
   RewriteRule ^(wp-admin|wp-content|wp-includes|wp-json)(/|$) - [G,L]
   RewriteRule ^(wp-login\.php|xmlrpc\.php)$ - [G,L]
   # Régi ?p=123 / ?page_id=123 típusú címek a főoldalra
   RewriteCond %{QUERY_STRING} (^|&)(p|page_id|product|product_cat)=
   RewriteRule ^(index\.php)?$ https://penztar-gep.hu/ [R=301,QSD,L]
-  # Minden egyéb, már nem létező régi „/valami/” cím a webáruházba
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^[^/.]+(/[^/.]+)*/$ https://penztar-gep.hu/webaruhaz/ [R=301,L]
 </IfModule>
 
-# ---- Belső mappák elrejtése ---------------------------------------------------------
+# ---- Belső mappák és fájlok elrejtése ---------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^(mentesek|referencia|eszkozok|inc)(/|$) - [F,L]
   RewriteRule (^|/)\.git(/|$) - [F,L]
 </IfModule>
 <IfModule mod_authz_core.c>
-  <FilesMatch "\.(md|py|lock|bak)$">
+  # Forrás-, mentés-, napló-, archívum- és beállítófájlok (a .json, .webmanifest, .pdf stb. nyilvános marad)
+  <FilesMatch "\.(md|py|pyc|lock|bak|old|orig|tmp|swp|log|sql|zip|tar|gz|yml|yaml|env|ini|sh)$|~$">
     Require all denied
   </FilesMatch>
-  <FilesMatch "^(forras-index\.html|OLVASS-EL\.txt|config\.local(\.minta)?\.php)$">
+  <FilesMatch "^(forras-index\.html|OLVASS-EL\.txt|build\.py|config\.local(\.minta)?\.php)$">
     Require all denied
   </FilesMatch>
 </IfModule>

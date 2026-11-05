@@ -5,6 +5,9 @@
 # Biztonság:
 # - A jelszó csak a GitHub titkos beállításai között van (SFTP_PASSWORD), a kódban nincs.
 # - A szerveren semmit nem töröl, csak feltölt és felülír.
+# - Fejlesztői/forrásfájlok nem kerülnek fel (eredeti rajzok, mintaoldalak, a webáruház forrása és
+#   build-szkriptje stb. – lásd az --exclude-glob sorokat). A korábban már feltöltött példányokat
+#   (pl. assets/illusztraciok/eredeti/, minta/) ez NEM törli – azokat egyszer kézzel kell törölni.
 # - Az adminban módosított adatokat NEM írja felül:
 #     webaruhaz/data/products.json (árak, készlet) – csak akkor tölti fel, ha a szerveren még nincs,
 #     vagy ha kézi indításkor kifejezetten bepipálod;
@@ -90,7 +93,14 @@ jobs:
             --exclude-glob referencia/ \
             --exclude-glob eszkozok/ \
             --exclude-glob assets/kategoria-ermek/eredeti/ \
-            --exclude-glob assets/illusztraciok/eredeti/kesobbre/ \
+            --exclude-glob assets/illusztraciok/eredeti/ \
+            --exclude-glob assets/illusztraciok/bemutato.html \
+            --exclude-glob assets/illusztraciok/lista.json \
+            --exclude-glob minta/ \
+            --exclude-glob webaruhaz/forras-index.html \
+            --exclude-glob webaruhaz/build.py \
+            --exclude-glob webaruhaz/OLVASS-EL.txt \
+            --exclude-glob webaruhaz/config.local.minta.php \
             --exclude-glob *.md \
             --exclude-glob webaruhaz/config.local.php \
             --exclude-glob webaruhaz/data/admin.* \
