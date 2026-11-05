@@ -3033,6 +3033,7 @@ function loginHTML(){
   if(L.step==='who' || !u) return box(`<span class="eyebrow">Admin belépés</span><h2 class="it-title">Ki lép be?</h2>
     ${L.err?`<div class="msg err">${esc(L.err)}</div>`:''}
     <div style="display:grid;gap:10px">${(L.users||[]).map(x=>`<button class="who" type="button" data-who="${esc(x.id)}"><span class="av">${esc(x.nev.replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2))}</span><span class="wn"><b>${esc(x.nev)}</b><small class="num">${esc(x.tel)} · ${x.szerep==='tulajdonos'?'tulajdonos':'admin'}</small>${x.aktiv?'':'<span class="tag" style="justify-self:start;margin-top:4px">Első belépés</span>'}</span>${icon('chev')}</button>`).join('')}</div>
+    <div class="out" id="who-out" aria-live="polite"></div>
     <p class="muted" style="font-size:.84rem;display:flex;gap:8px;align-items:flex-start">${icon('shield','ic','width:18px;height:18px;color:var(--gold-d);margin-top:2px')}<span>A belépést a kiválasztott személy saját e-mail címére küldött kóddal kell megerősíteni. Új hozzáférést csak a tulajdonosok adhatnak.</span></p>`);
   const head=`<div class="whohead"><span class="av">${esc(u.nev.replace(/^Ifj\.\s*/,'').split(' ').map(w=>w[0]).join('').slice(0,2))}</span><div><b>${esc(u.nev)}</b><small class="num">${esc(u.tel)}</small></div></div>`;
   if(L.step==='pw') return box(`<span class="eyebrow">1. lépés · jelszó</span>${head}
@@ -3051,7 +3052,7 @@ function loginHTML(){
 function bindLogin(){
   const L=ADMIN.L, go=st=>{ L.step=st; renderAdmin(); }, ok=r=>{ ADMIN.in=true; ADMIN.csrf=r.csrf; ADMIN.me=r.me; ADMIN.L={step:'who'}; ADMIN.tab='termekek'; route(); };
   const sendCode=async(out)=>{ try{ const r=await api('code-start',{body:{id:L.uid}}); Object.assign(L,{cel:r.cel,devCode:r.devCode}); go('set'); }catch(err){ if(out) out.innerHTML=`<div class="msg err">${esc(err.message)}</div>`; else toast(err.message); } };
-  $$('[data-who]').forEach(b=>b.onclick=async()=>{ L.uid=b.dataset.who; try{ localStorage.setItem('ptg-utolso-belepo',L.uid); }catch(_){} const u=L.users.find(x=>x.id===L.uid); if(u.aktiv) go('pw'); else { b.disabled=true; await sendCode(); b.disabled=false; } });
+  $$('[data-who]').forEach(b=>b.onclick=async()=>{ L.uid=b.dataset.who; try{ localStorage.setItem('ptg-utolso-belepo',L.uid); }catch(_){} const u=L.users.find(x=>x.id===L.uid); if(u.aktiv) go('pw'); else { const o=$('#who-out'); if(o) o.innerHTML='<div class="msg info">Kód küldése…</div>'; b.disabled=true; await sendCode(o); b.disabled=false; } });
   $$('[data-lstep]').forEach(b=>b.onclick=()=>{ L.devCode=null; if(b.dataset.lstep==='who') L.valt=true; go(b.dataset.lstep); });
   $('#forgot')?.addEventListener('click',()=>sendCode($('#lf-pw .out')));
   const eye=$('#pweye'); if(eye){ const pw=$('#pw'), show=e=>{ e.preventDefault(); pw.type='text'; eye.classList.add('on'); }, hide=()=>{ pw.type='password'; eye.classList.remove('on'); };

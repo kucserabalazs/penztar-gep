@@ -3024,7 +3024,7 @@ function setTitle(hu){ TITLE_HU=hu; const z=window.ZI18N; document.title=(z&&z.l
 addEventListener('ptg-lang',()=>setTimeout(()=>setTitle(TITLE_HU),0));
 /* a kezelő (admin) telepíthető webalkalmazás-leírója csak az admin oldalon kerül be */
 /* az admin modul külön fájlban (admin.js + admin.css, a build.py készíti) – a látogatók nem töltik le */
-const ADMIN_VER='1d66d0e5d4';
+const ADMIN_VER='992f2bbff6';
 let adminIgeret=null;
 function adminBetolt(){ if(typeof pageAdmin==='function') return Promise.resolve(); if(adminIgeret) return adminIgeret;
   adminIgeret=new Promise((ok,no)=>{ const l=document.createElement('link'); l.rel='stylesheet'; l.href='admin.css?v='+ADMIN_VER; document.head.appendChild(l);
