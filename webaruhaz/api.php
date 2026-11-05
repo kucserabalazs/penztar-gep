@@ -3,7 +3,15 @@
 // Nincs adatbázis: minden a data/ mappában lévő fájlokban tárolódik.
 declare(strict_types=1);
 date_default_timezone_set('Europe/Budapest');
-session_name('ptgadmin');
+/* Előnézet (…/elonezet/… alatt futó másolat): itt csak a nyilvános termékadat kérhető le – belépés, rendelés, üzenet nem.
+   A .htaccess-szabály mellett a PHP is ellenőrzi (a ?a=data&a=order trükk és a PATH_INFO ellen), és más munkamenet-sütit használ,
+   így egy éles admin-munkamenet az előnézetben nem érvényes. */
+$ELONEZET = strpos(str_replace('\\', '/', __DIR__) . '/', '/elonezet/') !== false || strpos((string)($_SERVER['SCRIPT_NAME'] ?? ''), '/elonezet/') !== false;
+if ($ELONEZET && (($_GET['a'] ?? '') !== 'data' || !empty($_SERVER['PATH_INFO']) || preg_match('/(^|&)a(%5B|\[|=.*&a=)/i', (string)($_SERVER['QUERY_STRING'] ?? '')))) {
+  http_response_code(403); header('Content-Type: application/json; charset=utf-8'); header('Cache-Control: no-store');
+  echo json_encode(['error' => 'Az előnézetben ez a művelet nem érhető el.'], JSON_UNESCAPED_UNICODE); exit;
+}
+session_name($ELONEZET ? 'ptgelonezet' : 'ptgadmin');
 session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'secure' => !empty($_SERVER['HTTPS'])]);
 session_start();
 header('Content-Type: application/json; charset=utf-8');
@@ -21,6 +29,9 @@ $CLIENTS  = DATA . '/clients.php';        // ügyféllista – titkosítva (AES-
 $CLOG     = DATA . '/clients.log.php';    // ki mit csinált az ügyféllistával
 $NOTIFY   = DATA . '/ertesites.php';      // titkos értesítési e-mail cím (csak tulajdonos állíthatja; a weboldalon sehol nem jelenik meg)
 $KIP      = DATA . '/kapcsolat.ip.php';   // E-mail küldése űrlap: IP-korlát (csak az IP ujjlenyomata és az időpontok)
+$OIP      = DATA . '/orders.ip.php';      // megrendelés / szerviz / ajánlatkérés űrlapok IP-korlátja (ugyanígy, ujjlenyomattal)
+$KOD      = DATA . '/admin.kodkeres.php'; // e-mailes belépési kód kérésének korlátja (felhasználónként és IP-nként)
+$ZAR      = DATA . '/admin.zarolas.php';  // hibás belépések számlálója IP + felhasználó páronként (így idegen IP-ről nem zárható ki a tulajdonos)
 
 /* ===== Tulajdonosok =====
    Csak ők léphetnek be alapból, és csak ők adhatnak (vagy vonhatnak vissza) további admin hozzáférést.
@@ -147,11 +158,82 @@ function form_ticket_age(string $j): ?int {
   return time() - (int)$m[1];
 }
 function client_ip(): string { return (string)($_SERVER['REMOTE_ADDR'] ?? ''); }
+// az IP-cím ujjlenyomata (magát az IP-címet a korlátozó fájlok nem tárolják)
+function ip_key(string $mit = ''): string { return hash('sha256', client_ip() . ($mit !== '' ? '|' . $mit : '') . '|' . form_secret()); }
+/* fájl alapú sebességkorlát. $limits = [ablak másodpercben => legfeljebb ennyi kérés, …].
+   Ha valamelyik ablak betelt: true (ilyenkor nem rögzít). Különben rögzíti a kérést, és false.
+   Saját zárolást használ: locked() blokkon belülről NEM hívható. */
+function rate_hit(string $file, string $key, array $limits): bool {
+  return locked(function () use ($file, $key, $limits) {
+    $l = read_json($file, []); $most = time(); $leghosszabb = max(array_keys($limits));
+    foreach ($l as $k => $ts) { $l[$k] = array_values(array_filter((array)$ts, fn($t) => $most - (int)$t < $leghosszabb)); if (!$l[$k]) unset($l[$k]); }
+    $sajat = $l[$key] ?? [];
+    foreach ($limits as $ablak => $db) if (count(array_filter($sajat, fn($t) => $most - (int)$t < $ablak)) >= $db) { write_json($file, $l); return true; }
+    $sajat[] = $most; $l[$key] = $sajat; write_json($file, $l); return false;
+  });
+}
+function tel_ok(string $t): bool { return (bool)preg_match('/^[\d\s+()\/-]{6,25}$/', $t) && strlen((string)preg_replace('/\D/', '', $t)) >= 6; }
+function email_ok(string $e): bool { return (bool)filter_var($e, FILTER_VALIDATE_EMAIL) && !preg_match('/[\r\n]/', $e); }
+// adószám: szóközök nélkül; 11 számjegyet kötőjelekkel tagol (12345678-1-02)
+function norm_ado(string $a): string { $a = (string)preg_replace('/\s+/', '', $a); if (preg_match('/^\d{11}$/', $a)) $a = substr($a, 0, 8) . '-' . substr($a, 8, 1) . '-' . substr($a, 9); return $a; }
+function has_link(string $s): bool { return (bool)preg_match('~https?:|www\.|\[url|<a\s~i', $s); }
+// a vevőnek szóló levél megszólításában: internetes hivatkozás, „http”, „www” és tartománynév nélkül, legfeljebb 60 karakter
+function mail_name(string $n): string {
+  $n = (string)preg_replace('~\S*(https?|www|://)\S*~i', ' ', $n);
+  $n = (string)preg_replace('~\b[\w-]+(\.[\w-]+)*\.[a-z]{2,10}\b\S*~', ' ', $n);
+  $n = trim((string)preg_replace('/\s+/u', ' ', str_replace(['<', '>', '"', '`', '\\'], ' ', $n)));
+  $n = trim(mb_substr($n, 0, 60));
+  return mb_strlen($n) >= 2 ? $n : 'Vásárlónk';
+}
+// admin által megadott hivatkozás: csak http(s):// vagy relatív cím maradhat (javascript:, data: stb. kiesik)
+function safe_url($u): string {
+  $u = trim((string)preg_replace('/[\x00-\x1f\x7f]/', '', (string)$u));
+  $tiszta = (string)preg_replace('/[\s\x00-\x20]+/', '', $u);
+  if (preg_match('~^([a-z][a-z0-9+.\-]*):~i', $tiszta, $m) && !in_array(strtolower($m[1]), ['http', 'https'], true)) return '';
+  if (preg_match('~^[\\\\/]{2}~', $tiszta) && !preg_match('~^//[a-z0-9.-]+(/|$)~i', $tiszta)) return '';
+  return mb_substr($u, 0, 1000);
+}
+/* ---- megrendelő pénztárgép-adatlapja: titkosítva tárolva (AES-256-GCM, ugyanaz a kulcs, mint az ügyféllistáé) ----
+   Ha a config.local.php-ban nincs kulcs (pl. helyi teszt), az adatlap a korábbi módon, olvashatóan kerül a fájlba.
+   A régi, titkosítás előtti (sima) rekordokat a dec_adatlap() változatlanul adja vissza. */
+function ckey_opt(): ?string { global $LOCAL; $k = base64_decode((string)($LOCAL['kulcs'] ?? ''), true); return ($k !== false && strlen($k) === 32) ? $k : null; }
+function enc_adatlap($a) {
+  if (!is_array($a) || !$a || !empty($a['_titkos'])) return $a;
+  $k = ckey_opt(); if ($k === null) return $a;
+  $iv = random_bytes(12); $tag = '';
+  $ct = openssl_encrypt(json_encode($a, JSON_UNESCAPED_UNICODE), 'aes-256-gcm', $k, OPENSSL_RAW_DATA, $iv, $tag);
+  if ($ct === false) return $a;
+  return ['_titkos' => 1, 'iv' => base64_encode($iv), 'tag' => base64_encode($tag), 'data' => base64_encode($ct)];
+}
+function dec_adatlap($a) {
+  if (!is_array($a) || empty($a['_titkos'])) return $a;
+  $k = ckey_opt(); if ($k === null) return ['Figyelem' => 'Az adatlap titkosítva van, de a config.local.php fájlból hiányzik a kulcs.'];
+  $p = openssl_decrypt(base64_decode((string)($a['data'] ?? '')), 'aes-256-gcm', $k, OPENSSL_RAW_DATA, base64_decode((string)($a['iv'] ?? '')), base64_decode((string)($a['tag'] ?? '')));
+  if ($p === false) return ['Figyelem' => 'Az adatlap nem fejthető vissza (a config.local.php kulcsa nem egyezik).'];
+  $j = json_decode($p, true); return is_array($j) ? $j : [];
+}
+function order_plain(array $o): array { if (array_key_exists('adatlap', $o)) $o['adatlap'] = dec_adatlap($o['adatlap']); return $o; }
+/* új rekord a rendelések elejére. Az orders.php legfeljebb ORDERS_MAX (+100) rekordot tart: a régebbieket
+   havonta új archívfájlba (data/orders.archiv-ÉÉÉÉ-HH.php) teszi át, 100-asával, hogy ne minden kérésnél írjon két fájlt. */
+const ORDERS_MAX = 2000;
+function orders_add(array $rec): void {
+  global $ORDERS;
+  $rec['adatlap'] = enc_adatlap($rec['adatlap'] ?? null);
+  locked(function () use ($rec, $ORDERS) {
+    $orders = read_json($ORDERS, []); array_unshift($orders, $rec);
+    if (count($orders) > ORDERS_MAX + 100) {
+      $regi = array_splice($orders, ORDERS_MAX);
+      $af = DATA . '/orders.archiv-' . date('Y-m') . '.php';
+      write_json($af, array_merge($regi, read_json($af, [])));
+    }
+    write_json($ORDERS, $orders);
+  });
+}
 // visszaigazolás a vevőnek
 function mail_customer(array $o, string $subj, string $intro): void {
   if (empty($o['email'])) return;
   $set = read_json(DATA . '/products.json', [])['settings'] ?? [];
-  $txt = "Kedves {$o['nev']}!\n\n$intro\n\nRendelésszám: {$o['id']}\n\n" . order_text($o);
+  $txt = "Kedves " . mail_name((string)($o['nev'] ?? '')) . "!\n\n$intro\n\nRendelésszám: {$o['id']}\n\n" . order_text($o);
   if (($o['fizetes']['mod'] ?? '') === 'atutalas' && !empty($set['szamlaszam']))
     $txt .= "\nUtalási adatok (a díjbekérő megérkezése után):\nKedvezményezett: " . ($set['cegnevRovid'] ?? $set['cegnev'] ?? '') . "\nBank: " . ($set['bank'] ?? '') . "\nSzámlaszám: {$set['szamlaszam']}\nKözlemény: {$o['id']}\n";
   $txt .= "\nKérdése van? Egyszerűen válaszoljon erre a levélre, vagy hívjon minket: " . ($set['telefon'] ?? '+36 72 215 652') . "\n\n" . ($set['cegnev'] ?? 'Totál Pénztárgép és Számítástechnika') . "\n" . ($set['cim'] ?? '') . "\nhttps://penztar-gep.hu";
@@ -206,16 +288,22 @@ function pay_refresh(string $orderId): ?array {
   if (!$uj) return $o;
   $changed = locked(function () use ($orderId, $uj, $st) {
     global $ORDERS; $orders = read_json($ORDERS, []); $hit = null;
-    foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') { $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c'); $hit = $x; }
+    foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') {
+      $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c');
+      // sikertelen fizetés: a készlet visszakerül – de csak egyszer (ha közben az admin már lemondta, akkor nem)
+      if ($uj === 'sikertelen') { $x['visszatolt'] = empty($x['keszletVissza']); if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
+      $hit = $x; unset($x['visszatolt']); }
     unset($x); if ($hit) write_json($ORDERS, $orders); return $hit;
   });
   if (!$changed) { foreach (read_json($ORDERS, []) as $x) if (($x['id'] ?? '') === $orderId) return $x; return $o; }
+  $changed = order_plain($changed);
   if ($uj === 'fizetve') {
     mail_shop($changed, 'Új, online kifizetett megrendelés', "\n\nA vételárat a vevő bankkártyával kifizette (Barion).");
     mail_customer($changed, "Sikeres fizetés – rendelés {$changed['id']}", "Köszönjük a vásárlást! A fizetés sikeres volt, a megrendelését feldolgozzuk." . (!empty($changed['adatlap']) ? " A pénztárgépet beprogramozzuk és élesítjük, és e-mailben jelezzük, amikor átveheti." : " E-mailben értesítjük, amikor a csomagot átadtuk a futárnak, vagy amikor átveheti az üzletben."));
-  } else {
+  } elseif (!empty($changed['visszatolt'])) {
     restock($changed['tetelek'] ?? []);
   }
+  unset($changed['visszatolt']);
   return $changed;
 }
 
@@ -233,6 +321,9 @@ function send_code(array $u, string $cel, string $hova = ''): void {
   if ($prev && $prev['uid'] === $u['id'] && time() - $prev['sent'] < 45) out(['error' => 'Az előző kódot most küldtük el. Várjon egy percet az újabb kéréssel.'], 429);
   $sent = array_filter($_SESSION['sends'] ?? [], fn($t) => time() - $t < 900);
   if (count($sent) >= 5) out(['error' => 'Túl sok kódkérés. Próbálja újra 15 perc múlva.'], 429);
+  // a munkamenettől független korlát (süti nélküli kérésekkel sem lehet megkerülni): felhasználónként óránként legfeljebb 10 kód
+  global $KOD;
+  if (rate_hit($KOD, 'kuld:' . $u['id'], [3600 => 10])) out(['error' => 'Ehhez a hozzáféréshez az elmúlt órában túl sok kódot küldtünk. Próbálja újra később.'], 429);
   $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
   $mit = ['belepes' => 'belépéshez', 'aktivalas' => 'az első belépéshez', 'visszaallitas' => 'új jelszó beállításához'][$cel] ?? 'belépéshez';
   $txt = "Kedves {$u['nev']}!\n\nA penztar-gep.hu admin felületén $mit ezt a kódot írja be:\n\n    $code\n\nA kód " . (CODE_TTL / 60) . " percig érvényes, és csak egyszer használható.\nIdőpont: " . date('Y.m.d. H:i') . "\nIP-cím: " . ($_SERVER['REMOTE_ADDR'] ?? '') . "\n\nHa nem Ön kérte, ne adja meg senkinek, és szóljon a többi tulajdonosnak.\n\nTotál Pénztárgép és Számítástechnika";
@@ -263,11 +354,34 @@ function grant(array $u, string $how): void {
   $_SESSION['admin'] = true; $_SESSION['seen'] = time(); $_SESSION['uid'] = $u['id']; $_SESSION['csrf'] = bin2hex(random_bytes(16));
   unset($_SESSION['pw_ok'], $_SESSION['code']);
   update_user($u['id'], function ($x) { $x['fail'] = 0; $x['lockUntil'] = 0; $x['utolso'] = date('c'); return $x; });
+  zar_set($u['id'], null);   // erről az IP-ről a hibaszámláló nullázódik
   log_login($u, $how);
   out(['ok' => true, 'csrf' => $_SESSION['csrf'], 'me' => pub_user($u) + ['szerep' => $u['szerep']]]);
 }
-function guard_user(array $u): void { if (($u['lockUntil'] ?? 0) > time()) out(['error' => 'Túl sok hibás próbálkozás miatt ez a hozzáférés ' . date('H:i', (int)$u['lockUntil']) . '-ig zárolva van.'], 429); }
-function fail_user(string $id, string $msg): void { update_user($id, function ($x) { $x['fail'] = ($x['fail'] ?? 0) + 1; if ($x['fail'] >= 8) { $x['lockUntil'] = time() + 900; $x['fail'] = 0; } return $x; }); usleep(400000); out(['error' => $msg], 401); }
+/* Hibás belépések: 8 hiba után 15 perc zár – de csak az adott IP-címről (IP + felhasználó páronként, az IP ujjlenyomatával),
+   így egy támadó a saját próbálkozásaival nem zárhatja ki a tulajdonosokat a saját gépükről. */
+function zar_key(): string { return substr(ip_key('zar'), 0, 24); }
+function zar_read(): array { global $ZAR; return read_json($ZAR, []); }
+function guard_user(array $u): void {
+  $z = zar_read()[$u['id']][zar_key()] ?? [];
+  if (($z['lockUntil'] ?? 0) > time()) out(['error' => 'Túl sok hibás próbálkozás miatt ez a hozzáférés erről a hálózatról ' . date('H:i', (int)$z['lockUntil']) . '-ig zárolva van.'], 429);
+}
+function zar_set(string $id, ?callable $fn, bool $mind = false): void {
+  global $ZAR; $k = zar_key();
+  locked(function () use ($ZAR, $id, $fn, $mind, $k) {
+    $l = read_json($ZAR, []); $most = time();
+    foreach ($l as $uid => $ips) { foreach ((array)$ips as $ik => $z) if ((int)($z['t'] ?? 0) < $most - 86400 && (int)($z['lockUntil'] ?? 0) < $most) unset($l[$uid][$ik]); if (empty($l[$uid])) unset($l[$uid]); }
+    if ($mind) unset($l[$id]);
+    elseif ($fn === null) { unset($l[$id][$k]); if (empty($l[$id])) unset($l[$id]); }
+    else $l[$id][$k] = $fn($l[$id][$k] ?? ['fail' => 0]) + ['t' => $most];
+    write_json($ZAR, $l);
+  });
+}
+function fail_user(string $id, string $msg): void {
+  zar_set($id, function ($z) { $z['fail'] = (int)($z['fail'] ?? 0) + 1; $z['t'] = time(); if ($z['fail'] >= 8) { $z['lockUntil'] = time() + 900; $z['fail'] = 0; } return $z; });
+  usleep(400000); out(['error' => $msg], 401);
+}
+function user_locked(string $id): bool { foreach ((array)(zar_read()[$id] ?? []) as $z) if ((int)($z['lockUntil'] ?? 0) > time()) return true; return false; }
 function pw_ok(string $pw): void { if (mb_strlen($pw) < 10) out(['error' => 'A jelszó legalább 10 karakter legyen.'], 400); }
 
 /* ===== Ügyféllista: titkosított tárolás, távolság az üzlettől, zónák ===== */
@@ -322,13 +436,17 @@ switch ($a) {
     $me = authed() ? me() : null;
     out(['admin' => (bool)$me, 'csrf' => $me ? $_SESSION['csrf'] : null, 'me' => $me ? pub_user($me) : null]);
 
-  case 'admins':    // a belépő képernyőhöz: ki léphet be (a telefonszám csak részben látszik)
-    out(array_values(array_map('pub_user', users())));
+  case 'admins':    // a belépő képernyőhöz: csak amit a felület valóban használ (név, maszkolt telefonszám, szerep;
+                    // „aktiv”: a felület ebből dönti el, hogy jelszót kér-e vagy az „Első belépés” kódküldését indítja)
+    out(array_values(array_map(fn($u) => ['id' => $u['id'], 'nev' => $u['nev'], 'tel' => mask_tel($u['tel'] ?? ''), 'szerep' => $u['szerep'] ?? 'admin', 'aktiv' => !empty($u['hash'])], users())));
 
   case 'code-start':   // e-mailes kód kérése első belépéshez vagy elfelejtett jelszóhoz
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
     $b = body(); $u = user((string)($b['id'] ?? '')); if (!$u) out(['error' => 'Ismeretlen felhasználó.'], 404);
     guard_user($u);
+    // jelszó nélkül hívható, ezért a munkamenettől független korlát is van: IP-nként óránként 6, felhasználónként óránként 3 kérés
+    if (rate_hit($KOD, 'ip:' . ip_key('kod'), [3600 => 6])) out(['error' => 'Erről a hálózatról túl sok kódkérés érkezett. Próbálja újra egy óra múlva.'], 429);
+    if (rate_hit($KOD, 'start:' . $u['id'], [3600 => 3])) out(['error' => 'Ehhez a hozzáféréshez az elmúlt órában már 3 kódot kértek. Próbálja újra később.'], 429);
     $cel = empty($u['hash']) ? 'aktivalas' : 'visszaallitas';
     send_code($u, $cel);
     out(['ok' => true, 'cel' => $cel]);
@@ -493,7 +611,7 @@ switch ($a) {
   /* ---- felhasználók kezelése: csak tulajdonos ---- */
   case 'users':
     need_owner();
-    out(array_values(array_map(fn($u) => pub_user($u) + ['telTeljes' => $u['tel'], 'emailCim' => $u['email'] ?? '', 'utolso' => $u['utolso'] ?? null, 'app' => !empty($u['totp']['enabled']), 'felvette' => $u['felvette'] ?? null, 'zarolva' => ($u['lockUntil'] ?? 0) > time()], users())));
+    out(array_values(array_map(fn($u) => pub_user($u) + ['telTeljes' => $u['tel'], 'emailCim' => $u['email'] ?? '', 'utolso' => $u['utolso'] ?? null, 'app' => !empty($u['totp']['enabled']), 'felvette' => $u['felvette'] ?? null, 'zarolva' => user_locked($u['id'])], users())));
 
   case 'user-add':
     need_owner(); check_csrf();
@@ -516,6 +634,7 @@ switch ($a) {
     $id = (string)(body()['id'] ?? ''); if ($id === me()['id']) out(['error' => 'A saját hozzáférését a Biztonság fülön módosíthatja.'], 400);
     if (!user($id)) out(['error' => 'Ismeretlen felhasználó.'], 404);
     update_user($id, function ($x) { $x['hash'] = null; $x['totp'] = null; $x['fail'] = 0; $x['lockUntil'] = 0; return $x; });
+    zar_set($id, null, true);   // minden IP-ről feloldja
     out(['ok' => true]);
 
   case 'user-del':     // további admin törlése (tulajdonost nem lehet)
@@ -527,14 +646,67 @@ switch ($a) {
   case 'save':      // teljes katalógus mentése (termékek, árak, szolgáltatások, beállítások)
     need_auth(); check_csrf();
     $b = body();
-    if (!isset($b['products'], $b['categories'], $b['services'], $b['settings'])) out(['error' => 'Hiányos adat.'], 400);
-    if (is_file($PRODUCTS)) copy($PRODUCTS, DATA . '/products.backup-' . date('Ymd-His') . '.json');
-    // csak az utolsó 20 mentést tartjuk meg
-    $bk = glob(DATA . '/products.backup-*.json'); sort($bk);
-    while (count($bk) > 20) { @unlink(array_shift($bk)); }
-    unset($b['fizetes']);
-    write_json($PRODUCTS, $b);
-    out(['ok' => true]);
+    if (!isset($b['products'], $b['categories'], $b['services'], $b['settings']) || !is_array($b['products']) || !is_array($b['settings'])) out(['error' => 'Hiányos adat.'], 400);
+    $me = me(); $owner = ($me['szerep'] ?? '') === 'tulajdonos';
+    // a készlet kiinduló értékei, ahogy a böngésző a katalógust betöltötte: termékazonosító => keszletDb (null = rendelésre)
+    $alap = is_array($b['_alapKeszlet'] ?? null) ? $b['_alapKeszlet'] : null;
+    unset($b['_alapKeszlet'], $b['fizetes']);
+    $res = locked(function () use ($b, $alap, $owner, $PRODUCTS) {
+      $cur = read_json($PRODUCTS, []);
+      if (is_file($PRODUCTS)) copy($PRODUCTS, DATA . '/products.backup-' . date('Ymd-His') . '.json');
+      // csak az utolsó 20 mentést tartjuk meg
+      $bk = glob(DATA . '/products.backup-*.json'); sort($bk);
+      while (count($bk) > 20) { @unlink(array_shift($bk)); }
+      // cégadatok (bankszámlaszám, e-mail, telefon, cím…): csak tulajdonos módosíthatja; másnál a szerveren lévő marad
+      $regiSet = is_array($cur['settings'] ?? null) ? $cur['settings'] : null;
+      $setEldobva = false;
+      if (!$owner && $regiSet !== null) { $setEldobva = json_encode($b['settings']) !== json_encode($regiSet); $b['settings'] = $regiSet; }
+      /* Készlet: a mentés nem írhatja felül a közben leadott rendelések (vagy egy másik admin) készletváltozását.
+         Termékenként: végső = a böngésző értéke + (a szerver mostani értéke − a betöltéskori érték).
+         - Ha a betöltéskori vagy a böngészőbeli érték null (rendelésre / most kapcsolták be a készletkövetést), a böngésző értéke marad.
+         - Tartalék, ha a régi, gyorsítótárból futó kezelő nem küld kiinduló értékeket: a szerveren már meglévő termékeknél
+           a szerver MOSTANI keszletDb értéke marad (így nem lehet túladni a közben elkelt darabokat); ilyenkor a kezelőben
+           módosított készletszám nem mentődik, ezt a válasz jelzi (keszletNemMentve), és újratöltés után újra beírható. */
+      $srvBy = []; foreach (($cur['products'] ?? []) as $p) if (isset($p['id'])) $srvBy[(string)$p['id']] = $p;
+      $nemMentve = 0; $vegso = [];
+      foreach ($b['products'] as $i => $p) {
+        if (!is_array($p) || !isset($p['id'])) { unset($b['products'][$i]); continue; }
+        $id = (string)$p['id'];
+        if (array_key_exists('video', $p)) $p['video'] = safe_url($p['video']);
+        if (is_array($p['letoltesek'] ?? null)) $p['letoltesek'] = array_values(array_filter(array_map(fn($d) => is_array($d) ? ['nev' => mb_substr(trim((string)($d['nev'] ?? '')), 0, 160), 'url' => safe_url($d['url'] ?? '')] : null, $p['letoltesek']), fn($d) => $d && $d['nev'] !== '' && $d['url'] !== ''));
+        $cli = (isset($p['keszletDb']) && is_numeric($p['keszletDb'])) ? max(0, (int)$p['keszletDb']) : null;
+        if (isset($srvBy[$id])) {
+          $srvV = $srvBy[$id]['keszletDb'] ?? null; $srv = is_numeric($srvV) ? (int)$srvV : null;
+          if ($alap !== null && array_key_exists($id, $alap)) {
+            $base = is_numeric($alap[$id]) ? (int)$alap[$id] : null;
+            if ($cli !== null && $base !== null && $srv !== null) $cli = max(0, $cli + ($srv - $base));
+          } elseif ($alap === null) {
+            if ($cli !== $srv) $nemMentve++;
+            $cli = $srv;
+          }
+        }
+        $p['keszletDb'] = $cli;
+        if ($cli === null) { if (!in_array($p['keszlet'] ?? '', ['rendelesre', 'raktaron', 'elfogyott'], true)) $p['keszlet'] = 'rendelesre'; }
+        elseif ($cli === 0) $p['keszlet'] = 'elfogyott';
+        elseif (($p['keszlet'] ?? '') === 'elfogyott' || ($p['keszlet'] ?? '') === 'rendelesre') $p['keszlet'] = 'raktaron';
+        $vegso[$id] = ['keszletDb' => $cli, 'keszlet' => $p['keszlet']];
+        $b['products'][$i] = $p;
+      }
+      $b['products'] = array_values($b['products']);
+      write_json($PRODUCTS, $b);
+      return ['regiSzamla' => (string)($regiSet['szamlaszam'] ?? ''), 'ujSzamla' => (string)($b['settings']['szamlaszam'] ?? ''), 'regiBank' => (string)($regiSet['bank'] ?? ''), 'ujBank' => (string)($b['settings']['bank'] ?? ''),
+              'setEldobva' => $setEldobva, 'nemMentve' => $nemMentve, 'keszlet' => $vegso, 'settings' => $b['settings']];
+    });
+    // bankszámlaszám-változásról minden tulajdonos e-mailt kap
+    if ($owner && ($res['regiSzamla'] !== $res['ujSzamla'] || $res['regiBank'] !== $res['ujBank'])) {
+      $txt = "A penztar-gep.hu admin felületén megváltozott a cégadatoknál megadott bankszámla.\n\n"
+        . "Korábbi: " . ($res['regiBank'] !== '' ? $res['regiBank'] . ' – ' : '') . ($res['regiSzamla'] !== '' ? $res['regiSzamla'] : '(üres)') . "\n"
+        . "Új:      " . ($res['ujBank'] !== '' ? $res['ujBank'] . ' – ' : '') . ($res['ujSzamla'] !== '' ? $res['ujSzamla'] : '(üres)') . "\n\n"
+        . "Módosította: " . ($me['nev'] ?? '?') . "\nIdőpont: " . date('Y.m.d. H:i') . "\nIP-cím: " . client_ip() . "\n\n"
+        . "Ez a számlaszám jelenik meg a vevőknek küldött utalási adatokban és a vásárlási feltételekben.\nHa nem Önök módosították, azonnal állítsák vissza, és cseréljék le az érintett jelszavát.\n\nTotál Pénztárgép és Számítástechnika";
+      foreach (OWNERS as $o) { $e = owner_email($o['id']); if ($e !== '') send_mail($e, 'Figyelem: megváltozott a bankszámlaszám – penztar-gep.hu', $txt); }
+    }
+    out(['ok' => true, 'keszlet' => $res['keszlet'], 'keszletNemMentve' => $res['nemMentve'], 'beallitasNemMentve' => $res['setEldobva'], 'settings' => $res['settings']]);
 
   case 'upload':    // termékkép feltöltése
     need_auth(); check_csrf();
@@ -548,19 +720,50 @@ switch ($a) {
     move_uploaded_file($_FILES['kep']['tmp_name'], UPLOADS . '/' . $name);
     out(['ok' => true, 'url' => 'uploads/' . $name]);
 
-  case 'order':     // nyilvános: megrendelés, ajánlatkérés, szerviz-időpont
+  case 'order':     // nyilvános: megrendelés, ajánlatkérés, szerviz-időpont, visszahívás, üzenet
+    /* Védelem (mint az „E-mail küldése” űrlapnál): rejtett csapdamező, aláírt űrlapjegy (?a=kapcsolat-jegy; legalább 4 mp az űrlap
+       megnyitása után, legfeljebb 2 óra), IP-korlát (10 percenként 3, naponta 10 beküldés), mezőellenőrzés minden űrlaptípusra.
+       A vevőnek automatikus levél csak valódi, legalább egy érvényes tételt tartalmazó megrendelésnél megy. */
     if ($m !== 'POST') out(['error' => 'POST kell.'], 405);
     $b = body();
-    if (!empty($b['web'])) out(['ok' => true]);           // csapda a robotoknak (rejtett mező)
-    $nev = trim((string)($b['nev'] ?? '')); $tel = trim((string)($b['telefon'] ?? '')); $email = trim((string)($b['email'] ?? ''));
-    if ($nev === '' || ($tel === '' && $email === '')) out(['error' => 'Adja meg a nevét és legalább egy elérhetőséget.'], 400);
-    $kosar = ($b['tipus'] ?? '') === 'megrendeles' && !empty($b['tetelek']);
+    if (!empty($b['web'])) out(['ok' => true, 'id' => '']);           // csapda a robotoknak (rejtett mező)
+    $kor = form_ticket_age((string)($b['jegy'] ?? ''));
+    if ($kor === null || $kor > 7200) out(['error' => 'Az űrlap lejárt. Kérjük, küldje el még egyszer.', 'ujjegy' => form_ticket()], 400);
+    if ($kor < 4) out(['error' => 'Kérjük, várjon néhány másodpercet, mielőtt elküldi az űrlapot.'], 400);
+    $tipus = (string)($b['tipus'] ?? '');
+    if (!in_array($tipus, ['megrendeles', 'szerviz', 'uzenet', 'atallas', 'ajanlat'], true)) out(['error' => 'Ismeretlen űrlap.'], 400);
+    $kosar = $tipus === 'megrendeles';
+    $nev = trim((string)preg_replace('/\s+/u', ' ', (string)($b['nev'] ?? ''))); $tel = trim((string)($b['telefon'] ?? '')); $email = trim((string)($b['email'] ?? ''));
+    $ceg = trim((string)preg_replace('/\s+/u', ' ', (string)($b['ceg'] ?? '')));
+    if (mb_strlen($nev) < 2 || has_link($nev)) out(['error' => 'Kérjük, adja meg a nevét.', 'mezo' => 'nev'], 400);
+    if ($email !== '' && !email_ok($email)) out(['error' => $kosar ? 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.' : 'Az e-mail-cím formátuma nem megfelelő.', 'mezo' => 'email'], 400);
+    if ($tel !== '' && !tel_ok($tel)) out(['error' => 'A telefonszám formátuma nem megfelelő (pl. +36 30 123 4567).', 'mezo' => 'telefon'], 400);
+    if ($kosar && $email === '') out(['error' => 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.', 'mezo' => 'email'], 400);
+    if ($email === '' && $tel === '') out(['error' => 'Adja meg legalább a telefonszámát vagy az e-mail-címét.', 'mezo' => 'telefon'], 400);
+    $idopont = trim((string)($b['idopont'] ?? ''));
+    if ($idopont !== '') {
+      $d = DateTime::createFromFormat('!Y-m-d', $idopont);
+      if (!$d || $d->format('Y-m-d') !== $idopont) out(['error' => 'Az időpont formátuma nem megfelelő.', 'mezo' => 'idopont'], 400);
+      if ($idopont < date('Y-m-d')) out(['error' => 'Az időpont nem lehet múltbeli dátum.', 'mezo' => 'idopont'], 400);
+    }
+    $uzenetBe = (string)($b['uzenet'] ?? '');
+    if (preg_match_all('~(https?://|www\.|\[url|<a\s)~i', $uzenetBe) > 2) out(['error' => 'Az üzenetben legfeljebb 2 internetes hivatkozás lehet.', 'mezo' => 'uzenet'], 400);
     $fizmod = in_array($b['fizmod'] ?? '', ['online', 'atutalas', 'atvetelkor'], true) ? $b['fizmod'] : 'atvetelkor';
     $kiszall = false;   // jelenleg csak személyes átvétel van
-    if (($b['atvetel'] ?? '') === 'Kiszállítással') out(['error' => 'A termékeket jelenleg csak üzletünkben lehet átvenni.'], 400);
-    if ($kosar && !filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' => 'Adjon meg érvényes e-mail-címet: ide küldjük a visszaigazolást.'], 400);
-    if ($kosar && $fizmod === 'online' && !barion_on()) out(['error' => 'Az online fizetés most nem érhető el. Kérjük, válasszon másik fizetési módot.'], 400);
-    if ($kosar && $fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre, átutalással kell fizetni.'], 400);
+    $adoszam = ''; $szamlacim = '';
+    if ($kosar) {
+      if (($b['atvetel'] ?? '') === 'Kiszállítással') out(['error' => 'A termékeket jelenleg csak üzletünkben lehet átvenni.'], 400);
+      if ($fizmod === 'online' && !barion_on()) out(['error' => 'Az online fizetés most nem érhető el. Kérjük, válasszon másik fizetési módot.'], 400);
+      if ($fizmod === 'atvetelkor' && $kiszall) out(['error' => 'Kiszállításnál előre, átutalással kell fizetni.'], 400);
+      // cégként vásárlás: a cégnévhez adószám is kell
+      $adoszam = norm_ado((string)($b['adoszam'] ?? ''));
+      if ($ceg !== '' && $adoszam === '') out(['error' => 'Cégként történő vásárlásnál adja meg a cég adószámát.', 'mezo' => 'adoszam'], 400);
+      if ($adoszam !== '' && !preg_match('/^\d{8}-\d-\d{2}$/', $adoszam)) out(['error' => 'Az adószám formátuma: 12345678-1-02.', 'mezo' => 'adoszam'], 400);
+      $szamlacim = mb_substr(trim((string)preg_replace('/\s+/u', ' ', (string)($b['szamlacim'] ?? ''))), 0, 200);
+      // a vásárlási feltételek és az adatkezelés elfogadása (a rekordban is rögzítjük)
+      if (empty($b['aszf'])) out(['error' => 'A megrendeléshez fogadja el a vásárlási feltételeket.', 'mezo' => 'aszf'], 400);
+      if (empty($b['adatkezeles'])) out(['error' => 'A megrendeléshez fogadja el az adatkezelést.', 'mezo' => 'adatkezeles'], 400);
+    }
     $szallcim = '';
     if ($kosar && $kiszall) {
       $sc = is_array($b['szallcim'] ?? null) ? $b['szallcim'] : [];
@@ -568,12 +771,12 @@ switch ($a) {
       if (!preg_match('/^\d{4}$/', $irsz) || $varos === '' || $utca === '') out(['error' => 'Adja meg a szállítási címet (irányítószám, település, utca, házszám).'], 400);
       $szallcim = mb_substr("$irsz $varos, $utca", 0, 200);
     }
-    // pénztárgép-adatlap (előre fizetésnél kötelező): külön mezőben tároljuk, e-mailben NEM küldjük ki
+    // pénztárgép-adatlap (előre fizetésnél kötelező): külön mezőben, titkosítva tároljuk, e-mailben NEM küldjük ki
     $adatlap = null;
-    if (is_array($b['adatlap'] ?? null)) {
+    if ($kosar && is_array($b['adatlap'] ?? null)) {
       $adatlap = [];
       foreach (array_slice($b['adatlap'], 0, 25, true) as $k => $v) {
-        $k = mb_substr(trim((string)$k), 0, 60); if ($k === '' || is_array($v)) continue;
+        $k = mb_substr(trim((string)$k), 0, 60); if ($k === '' || $k === '_titkos' || is_array($v)) continue;
         $adatlap[$k] = mb_substr(trim((string)$v), 0, 200);
       }
       if (str_starts_with($adatlap['Élesítés módja'] ?? '', 'Előre')) {
@@ -582,32 +785,52 @@ switch ($a) {
         if (!preg_match('/^\d{8}-\d-\d{2}$/', $adatlap['Adószám'])) out(['error' => 'Az adatlapon az adószám formátuma hibás.'], 400);
         if (strlen(preg_replace('/[^A-Za-z0-9]/', '', $adatlap['NAV regisztrációs kód'])) !== 16) out(['error' => 'A NAV regisztrációs kód 16 karakterből áll.'], 400);
       }
+      if (!$adatlap) $adatlap = null;
     }
+    // tételek – csak megrendelésnél. Ár: akciós ár, ha van és nem 0 (ugyanúgy, mint a weboldalon: akciosAr || ar); 0 vagy üres ár = ár kérésre
+    $netAr = function (array $p) { $ak = $p['akciosAr'] ?? null; $ar = $p['ar'] ?? null; $ak = is_numeric($ak) ? (int)$ak : 0; $ar = is_numeric($ar) ? (int)$ar : 0; return $ak ?: ($ar ?: null); };
+    $kerTetelek = $kosar ? array_slice(is_array($b['tetelek'] ?? null) ? $b['tetelek'] : [], 0, 30) : [];
+    if ($kosar) {   // előzetes ellenőrzés zárolás nélkül, hogy a hibás kosár ne számítson bele az IP-korlátba
+      $cat0 = read_json($PRODUCTS, []); $by0 = []; foreach (($cat0['products'] ?? []) as $p) if (isset($p['id'])) $by0[(string)$p['id']] = $p;
+      $joDb = 0;
+      foreach ($kerTetelek as $t) { $id = (string)(is_array($t) ? ($t['id'] ?? '') : ''); if (!isset($by0[$id])) continue;
+        if (!empty($by0[$id]['rejtett'])) out(['error' => trim(($by0[$id]['marka'] ?? '') . ' ' . ($by0[$id]['nev'] ?? '')) . ': ez a termék már nem rendelhető. Kérjük, vegye ki a kosárból.', 'kosar' => true], 400);
+        $joDb++; }
+      if (!$joDb) out(['error' => 'A kosárban nincs rendelhető termék. Kérjük, válassza ki újra a termékeket.', 'kosar' => true], 400);
+    }
+    // IP-korlát (az IP-címet nem tároljuk, csak egy ujjlenyomatát): 10 percenként 3, naponta 10 beküldés
+    if (rate_hit($OIP, ip_key('order'), [600 => 3, 86400 => 10])) out(['error' => 'Rövid időn belül több űrlap érkezett erről a hálózatról. Kérjük, próbálja újra később, vagy hívjon minket: +36 72 215 652.'], 429);
     // tételek: név és ár a szerver katalógusából; készlet ellenőrzése és csökkentése zárolás alatt
     $tetelek = [];
     $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
     $cat = read_json($PRODUCTS, []);
-    $byId = []; foreach (($cat['products'] ?? []) as $i => $p) $byId[$p['id']] = $i;
-    foreach (array_slice(is_array($b['tetelek'] ?? null) ? $b['tetelek'] : [], 0, 30) as $t) {
+    $byId = []; foreach (($cat['products'] ?? []) as $i => $p) if (isset($p['id'])) $byId[(string)$p['id']] = $i;
+    $vanGep = false;
+    foreach ($kerTetelek as $t) {
+      if (!is_array($t)) continue;
       $id = (string)($t['id'] ?? ''); $db = max(1, min(99, (int)($t['db'] ?? 1)));
       if (!isset($byId[$id])) continue;
       $p = &$cat['products'][$byId[$id]];
-      if ($kosar && $fizmod === 'online' && ($p['akciosAr'] ?? $p['ar'] ?? null) === null) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': az ára egyeztetés után derül ki, ezért online nem fizethető. Kérjük, válasszon átutalást.'], 400); }
-      if (isset($p['keszletDb']) && $p['keszletDb'] !== null) {
-        if ($p['keszletDb'] < $db) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': csak ' . (int)$p['keszletDb'] . ' db van raktáron.'], 409); }
-        $p['keszletDb'] -= $db;
+      if (!empty($p['rejtett'])) { flock($lock, LOCK_UN); out(['error' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')) . ': ez a termék már nem rendelhető. Kérjük, vegye ki a kosárból.', 'kosar' => true], 400); }
+      $net = $netAr($p);
+      if ($fizmod === 'online' && $net === null) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': az ára egyeztetés után derül ki, ezért online nem fizethető. Kérjük, válasszon átutalást.', 'kosar' => true], 400); }
+      if (isset($p['keszletDb']) && $p['keszletDb'] !== null && $p['keszletDb'] !== '') {
+        if ((int)$p['keszletDb'] < $db) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': csak ' . (int)$p['keszletDb'] . ' db van raktáron.', 'kosar' => true], 409); }
+        $p['keszletDb'] = (int)$p['keszletDb'] - $db;
         if ($p['keszletDb'] <= 0) { $p['keszletDb'] = 0; $p['keszlet'] = 'elfogyott'; }
       }
-      $net = $p['akciosAr'] ?? $p['ar'] ?? null;
+      // üzembe helyezés csak pénztárgéphez (ugyanaz a szabály, mint a pénztár oldalon: pénztárgép kategória, vagy használt pénztárgép)
+      if (($p['kategoria'] ?? '') === 'penztargep' || (($p['kategoria'] ?? '') === 'hasznalt' && preg_match('/pénztárgép/iu', ($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')))) $vanGep = true;
       $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $net, 'brutto' => $net === null ? null : brutto($net, $cat['settings']['afa'] ?? 27)];
       unset($p);
     }
     if ($tetelek) write_json($PRODUCTS, $cat);
     flock($lock, LOCK_UN);
-    // díjak: üzembe helyezés, szállítás
+    if ($kosar && !$tetelek) out(['error' => 'A kosárban nincs rendelhető termék. Kérjük, válassza ki újra a termékeket.', 'kosar' => true], 400);
+    // díjak: üzembe helyezés (csak ha pénztárgép van a kosárban), szállítás
     $set = $cat['settings'] ?? []; $extrak = []; $osszeg = 0;
     foreach ($tetelek as $t) $osszeg += (int)($t['brutto'] ?? 0) * $t['db'];
-    if ($kosar && !empty($b['uzembe'])) foreach (($cat['services'] ?? []) as $sv) if (($sv['id'] ?? '') === 'uzembe' && !empty($sv['ar'])) $extrak[] = ['id' => 'uzembe', 'nev' => 'Üzembe helyezés, betanítás, ügyintézés', 'brutto' => brutto($sv['ar'], $set['afa'] ?? 27)];
+    if ($kosar && $vanGep && !empty($b['uzembe'])) foreach (($cat['services'] ?? []) as $sv) if (($sv['id'] ?? '') === 'uzembe' && !empty($sv['ar'])) $extrak[] = ['id' => 'uzembe', 'nev' => 'Üzembe helyezés, betanítás, ügyintézés', 'brutto' => brutto($sv['ar'], $set['afa'] ?? 27)];
     foreach ($extrak as $x) $osszeg += $x['brutto'];
     if ($kosar && $kiszall) { $dij = (int)($set['szallitasDij'] ?? 0); $hat = (int)($set['ingyenesSzallitasFelett'] ?? 0); if ($hat && $osszeg >= $hat) $dij = 0;
       if ($dij) { $extrak[] = ['id' => 'szallitas', 'nev' => 'Szállítás (' . ($set['futar'] ?? 'futárszolgálat') . ')', 'brutto' => $dij]; $osszeg += $dij; } }
@@ -615,26 +838,28 @@ switch ($a) {
     $rec = [
       'id' => date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3))),
       'ido' => date('c'),
-      'tipus' => mb_substr((string)($b['tipus'] ?? 'ajanlat'), 0, 30),
-      'nev' => mb_substr($nev, 0, 120), 'ceg' => mb_substr((string)($b['ceg'] ?? ''), 0, 120),
+      'tipus' => $tipus,
+      'nev' => mb_substr($nev, 0, 120), 'ceg' => mb_substr($ceg, 0, 120),
       'telefon' => mb_substr($tel, 0, 40), 'email' => mb_substr($email, 0, 120),
       'tetelek' => $tetelek,
-      'idopont' => mb_substr((string)($b['idopont'] ?? ''), 0, 40),
-      'uzenet' => mb_substr((string)($b['uzenet'] ?? ''), 0, 3000),
+      'idopont' => mb_substr($idopont, 0, 40),
+      'uzenet' => mb_substr($uzenetBe, 0, 3000),
       'adatlap' => $adatlap,
       'allapot' => 'uj'
     ];
     if ($kosar) $rec += ['extrak' => $extrak, 'osszeg' => $osszeg, 'atvetel' => $kiszall ? 'Kiszállítással' : 'Személyesen az üzletben', 'szallcim' => $szallcim, 'fizmod' => $fizszoveg,
+      'adoszam' => $adoszam, 'szamlacim' => $szamlacim,
+      'elfogadas' => ['aszf' => true, 'adatkezeles' => true, 'ido' => date('c')],   // a vásárlási feltételek és az adatkezelés elfogadása
       'fizetes' => ['mod' => $fizmod, 'allapot' => $fizmod === 'online' ? 'fizetesre_var' : 'nem_online']];
     $gw = null;
     if ($kosar && $fizmod === 'online') {
       $gw = barion_start($rec);
       if (!$gw) { restock($tetelek); out(['error' => 'Az online fizetést most nem sikerült elindítani. Kérjük, próbálja újra néhány perc múlva, vagy válasszon átutalást.'], 502); }
     }
-    locked(function () use ($rec, $ORDERS) { $orders = read_json($ORDERS, []); array_unshift($orders, $rec); write_json($ORDERS, $orders); });
+    orders_add($rec);   // az adatlapot titkosítva írja ki; a $rec itt olvasható marad a levelekhez
     if ($gw) out(['ok' => true, 'id' => $rec['id'], 'fizetes' => $gw]);   // az értesítők a sikeres fizetés után mennek ki
     mail_shop($rec, $kosar ? 'Új megrendelés a weboldalról' : 'Új ' . $rec['tipus'] . ' a weboldalról');
-    if ($kosar) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolással együtt küldjük.' : ''));
+    if ($kosar && $tetelek && email_ok($rec['email'])) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolással együtt küldjük.' : ''));
     out(['ok' => true, 'id' => $rec['id']]);
 
   case 'barion-callback':   // a Barion szól, ha egy fizetés állapota megváltozott
@@ -676,15 +901,7 @@ switch ($a) {
     if (preg_match_all('~(https?://|www\.|\[url|<a\s)~i', $nev . ' ' . $targy . ' ' . $uz) > 2) out(['error' => 'Az üzenetben legfeljebb 2 internetes hivatkozás lehet.', 'mezo' => 'uzenet'], 400);
     if (preg_match('~https?://|www\.~i', $nev)) out(['error' => 'Kérjük, adja meg a nevét.', 'mezo' => 'nev'], 400);
     // IP-korlát (az IP-címet nem tároljuk, csak egy ujjlenyomatát)
-    $ip = hash('sha256', client_ip() . '|' . form_secret());
-    $tilt = locked(function () use ($KIP, $ip) {
-      $l = read_json($KIP, []); $most = time();
-      foreach ($l as $k => $ts) { $l[$k] = array_values(array_filter((array)$ts, fn($t) => $most - (int)$t < 86400)); if (!$l[$k]) unset($l[$k]); }
-      $sajat = $l[$ip] ?? [];
-      $tiz = count(array_filter($sajat, fn($t) => $most - (int)$t < 600));
-      if ($tiz >= 3 || count($sajat) >= 10) { write_json($KIP, $l); return true; }
-      $sajat[] = $most; $l[$ip] = $sajat; write_json($KIP, $l); return false;
-    });
+    $tilt = rate_hit($KIP, ip_key(), [600 => 3, 86400 => 10]);
     if ($tilt) out(['error' => 'Rövid időn belül több üzenet érkezett erről a hálózatról. Kérjük, próbálja újra később, vagy hívjon minket telefonon.'], 429);
     $targy = mb_substr($targy !== '' ? $targy : 'Egyéb kérdés', 0, 80);
     $rec = [
@@ -696,7 +913,7 @@ switch ($a) {
       'adatlap' => null, 'allapot' => 'uj',
       'oldal' => mb_substr(preg_replace('/[^\x21-\x7e]/', '', $oldal), 0, 200), 'nyelv' => preg_match('/^[a-z]{2}$/', (string)($b['nyelv'] ?? '')) ? $b['nyelv'] : 'hu'
     ];
-    locked(function () use ($rec, $ORDERS) { $orders = read_json($ORDERS, []); array_unshift($orders, $rec); write_json($ORDERS, $orders); });
+    orders_add($rec);
     $to = notify_email();
     if ($to !== '') {
       $nyelvek = ['hu' => 'magyar', 'en' => 'angol', 'de' => 'német', 'it' => 'olasz', 'hr' => 'horvát', 'sk' => 'szlovák', 'pl' => 'lengyel', 'zh' => 'kínai'];
@@ -748,23 +965,35 @@ switch ($a) {
     if (!$ok) out(['error' => 'Ilyen bejegyzés nincs.'], 404);
     out(['ok' => true]);
 
-  case 'orders':
-    need_auth(); out(read_json($ORDERS, []));
+  case 'orders':     // a pénztárgép-adatlap titkosítva van a fájlban; itt, belépett adminnak visszafejtve adjuk ki (a régi, sima rekordok is működnek)
+    need_auth(); out(array_map(fn($o) => is_array($o) ? order_plain($o) : $o, read_json($ORDERS, [])));
 
   case 'order-status':
     need_auth(); check_csrf();
-    $b = body(); $orders = read_json($ORDERS, []);
-    $vissza = null;
-    foreach ($orders as &$o) if ($o['id'] === ($b['id'] ?? '')) {
-      $uj = in_array($b['allapot'] ?? '', ['uj', 'folyamatban', 'kesz']) ? $b['allapot'] : $o['allapot'];
-      // megrendelés visszaigazolása: az első "Visszaigazolva" állapotnál a vevő e-mailt kap (ezzel jön létre a szerződés)
-      if ($uj === 'folyamatban' && ($o['allapot'] ?? '') === 'uj' && !empty($o['tetelek']) && empty($o['visszaigazolva'])) { $o['visszaigazolva'] = date('c'); $vissza = $o; }
-      $o['allapot'] = $uj;
-    }
-    unset($o);
-    write_json($ORDERS, $orders);
+    $b = body(); $oid = (string)($b['id'] ?? ''); $kert = (string)($b['allapot'] ?? '');
+    // „lemondva”: a rendelés lemondva / törölve – ilyenkor a lefoglalt készlet visszakerül (rendelésenként csak egyszer, keszletVissza jelzi)
+    $r = locked(function () use ($ORDERS, $oid, $kert) {
+      $orders = read_json($ORDERS, []); $vissza = null; $restock = null; $talalt = false;
+      foreach ($orders as &$o) if (($o['id'] ?? '') === $oid) {
+        $talalt = true;
+        $uj = in_array($kert, ['uj', 'folyamatban', 'kesz', 'lemondva'], true) ? $kert : $o['allapot'];
+        // megrendelés visszaigazolása: az első "Visszaigazolva" állapotnál a vevő e-mailt kap (ezzel jön létre a szerződés)
+        if ($uj === 'folyamatban' && ($o['allapot'] ?? '') === 'uj' && !empty($o['tetelek']) && empty($o['visszaigazolva'])) { $o['visszaigazolva'] = date('c'); $vissza = $o; }
+        if ($uj === 'lemondva' && ($o['allapot'] ?? '') !== 'lemondva') {
+          $o['lemondva'] = date('c');
+          if (!empty($o['tetelek']) && empty($o['keszletVissza'])) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
+        }
+        $o['allapot'] = $uj;
+      }
+      unset($o);
+      if ($talalt) write_json($ORDERS, $orders);
+      return ['talalt' => $talalt, 'vissza' => $vissza, 'restock' => $restock];
+    });
+    if (!$r['talalt']) out(['error' => 'Ilyen rendelés nincs.'], 404);
+    if ($r['restock']) restock($r['restock']);   // a saját zárolásával, a fenti blokk után (egymásba ágyazott zárolás holtpontot okozna)
+    $vissza = $r['vissza'];
     if ($vissza) mail_customer($vissza, "Megrendelés visszaigazolása – {$vissza['id']}", 'Megrendelését visszaigazoljuk: az alábbi tételeket az Ön részére előkészítjük, a megrendelés ezzel elfogadásra került. Amikor a termék átvehető, e-mailben értesítjük.' . (($vissza['fizetes']['mod'] ?? '') === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt külön küldjük.' : ''));
-    out(['ok' => true, 'visszaigazolva' => $vissza ? $vissza['visszaigazolva'] : null]);
+    out(['ok' => true, 'visszaigazolva' => $vissza ? $vissza['visszaigazolva'] : null, 'keszletVissza' => (bool)$r['restock']]);
 
   default:
     out(['error' => 'Ismeretlen művelet.'], 404);

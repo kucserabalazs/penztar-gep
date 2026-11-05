@@ -8,8 +8,11 @@ $gyik = [
   ['Mit jelent a nyugtaadat-szolgáltatás?', 'A kézi nyugtatömbbel vagy számítógéppel kiállított nyugták adatait 2026. szeptember 1-jétől a NAV felé be kell jelenteni: napi összesítésben, a nyugta kiállítását követő 3 naptári napon belül. E-pénztárgép használata esetén ezt a készülék automatikusan elvégzi.'],
 ];
 $ld = [['@type' => 'FAQPage', 'mainEntity' => array_map(fn($q) => ['@type' => 'Question', 'name' => $q[0], 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $q[1]]], $gyik)],
-       ['@type' => 'Article', 'headline' => 'Pénztárgép és e-pénztárgép tudnivalók', 'dateModified' => '2026-11-04', 'author' => ['@type' => 'Organization', 'name' => 'Totál Pénztárgép és Számítástechnika Kkt.'], 'inLanguage' => 'hu-HU']];
-ptg_fej('Pénztárgép és e-pénztárgép tudnivalók 2026 – határidők, NAV | Totál Pécs',
+       ['@type' => 'Article', 'headline' => 'Pénztárgép és e-pénztárgép tudnivalók', 'mainEntityOfPage' => PTG_SITE . '/tudnivalok/',
+        'image' => [PTG_SITE . '/assets/og-kep.jpg'], 'datePublished' => '2026-11-04', 'dateModified' => '2026-11-04',
+        'author' => ['@type' => 'Organization', 'name' => 'Totál Pénztárgép és Számítástechnika Kkt.', 'url' => PTG_SITE . '/'],
+        'publisher' => ['@id' => PTG_SITE . '/#uzlet'], 'inLanguage' => 'hu-HU']];
+ptg_fej('Pénztárgép és e-pénztárgép tudnivalók 2026 · határidők · Totál',
   'Online pénztárgép, hardveralapú és felhőalapú e-pénztárgép: határidők, nyugtaadat-szolgáltatás és teendők a NAV tájékoztatása alapján. Ellenőrizve: 2026. november 4.',
   '/tudnivalok/', [['Kezdőlap', '/'], ['Pénztárgép és e-pénztárgép tudnivalók', '/tudnivalok/']], $ld); ?>
 <h1>Pénztárgép és e-pénztárgép tudnivalók</h1>
@@ -40,7 +43,7 @@ ptg_fej('Pénztárgép és e-pénztárgép tudnivalók 2026 – határidők, NAV
   <li><b>Egyeztessen könyvelőjével</b>Ő tudja megmondani, hogy vállalkozása tevékenysége pénztárgép-használatra kötelezett-e, és milyen nyilvántartási teendői vannak.</li>
   <li><b>Kérjen tőlünk tájékoztatást</b>Megmutatjuk, mely engedélyezett készülékek jöhetnek szóba az Ön munkájához, és mennyibe kerül az átállás.</li>
 </ol>
-<div class="cta"><a class="gomb" href="/webaruhaz/#e-penztargep">E-pénztárgépes tájékoztatást kérek</a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a></div>
+<div class="cta"><a class="gomb" href="/webaruhaz/#e-penztargep">E-pénztárgépes tájékoztatást kérek</a><a class="gomb k" href="<?= e(ptg_tel_href()) ?>">Hívjon: <?= e(ptg_tel()) ?></a></div>
 
 <p class="figy">Ez az oldal általános tájékoztatás, nem minősül jogi vagy adótanácsadásnak. A termékek engedélyezettségét mindig a NAV aktuális engedélylistája alapján ellenőrizzük.</p>
 

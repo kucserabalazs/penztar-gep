@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../inc/sablon.php';
-ptg_fej('Melyik pénztárgépet válasszam? Pénztárgép-választási segítség | Totál Pécs',
+ptg_fej('Melyik pénztárgépet válasszam? · Gépválasztási segítség · Totál',
   'Asztali, hordozható vagy rendszerbe köthető pénztárgép, esetleg érintőképernyős POS? Néhány kérdés alapján segítünk kiválasztani a vállalkozásához illő megoldást.',
   '/penztargep-valasztas/', [['Kezdőlap', '/'], ['Pénztárgép-választási segítség', '/penztargep-valasztas/']]); ?>
 <h1>Melyik pénztárgép illik Önhöz?</h1>
@@ -34,7 +34,7 @@ ptg_fej('Melyik pénztárgépet válasszam? Pénztárgép-választási segítsé
   <li><b>Gondoljon a következő évekre</b>Az online pénztárgépek 2028. július 1-jéig használhatók. Ha most vásárol, érdemes ezzel is számolnia.</li>
   <li><b>Kérdezzen bátran</b>Üzletünkben a készülékeket ki is próbálhatja, és segítünk kiválasztani az Ön munkájához illőt.</li>
 </ol>
-<div class="cta"><a class="gomb" href="/webaruhaz/#kat-penztargep">Pénztárgépek a webáruházban</a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a></div>
+<div class="cta"><a class="gomb" href="/webaruhaz/#kat-penztargep">Pénztárgépek a webáruházban</a><a class="gomb k" href="<?= e(ptg_tel_href()) ?>">Hívjon: <?= e(ptg_tel()) ?></a></div>
 <p><a href="/tudnivalok/">Pénztárgép és e-pénztárgép tudnivalók</a></p>
 
 <script>
@@ -49,8 +49,8 @@ ptg_fej('Melyik pénztárgépet válasszam? Pénztárgép-választási segítsé
   function v(n){ var x=f.querySelector('[name='+n+']:checked'); return x?x.value:''; }
   function upd(){
     var k=v('hol')==='mobil'?'mobil':v('hol')==='vendeg'?'vendeg':(v('forg')==='nagy'||v('csat')==='tobb')?'nagy':'kicsi', r=T[k];
-    out.innerHTML='<h3></h3><p></p><div class="cta"><a class="gomb" href=""></a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a></div>';
-    out.querySelector('h3').innerHTML='<span>Javaslatunk:</span> <span></span>'; out.querySelector('h3 span:last-child').textContent=r[0]; out.querySelector('p').textContent=r[1];
+    out.innerHTML='<h2></h2><p></p><div class="cta"><a class="gomb" href=""></a><a class="gomb k" href="<?= e(ptg_tel_href()) ?>">Hívjon: <?= e(ptg_tel()) ?></a></div>';
+    out.querySelector('h2').innerHTML='<span>Javaslatunk:</span> <span></span>'; out.querySelector('h2 span:last-child').textContent=r[0]; out.querySelector('p').textContent=r[1];
     var a=out.querySelector('a.gomb'); a.href=r[2]; a.textContent=r[3];
   }
   f.addEventListener('change',upd); upd();

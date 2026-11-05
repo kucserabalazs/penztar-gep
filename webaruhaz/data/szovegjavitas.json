@@ -494,5 +494,109 @@
  {
   "lista_torol": "mobil",
   "elem": "+36 20 980 4748"
+ },
+ {
+  "regi": "Lézeres",
+  "uj": "CCD-technológia"
+ },
+ {
+  "regi": "1D CCD (2500 pixel) – a régi oldalon tévesen lézerként szerepelt",
+  "uj": "1D CCD (2500 pixel)"
+ },
+ {
+  "regi": "iMin D3-504 (a korábbi weboldalon SWAN2 néven szerepelt)",
+  "uj": "iMin D3-504"
+ },
+ {
+  "regi": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: 400 × 450 × 100 mm. Fekete vagy fehér színben kapható.",
+  "uj": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 vagy 5 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: kb. 410 × 415 × 100 mm. Fekete vagy fehér színben kapható."
+ },
+ {
+  "regi": "4 vagy 5 bankjegy- és 8 érmetartó",
+  "uj": "4 vagy 5 bankjegytartó és 8 érmetartó"
+ },
+ {
+  "regi": "Hitelesített árszorzós bolti mérleg",
+  "uj": "Hitelesíthető árszorzós bolti mérleg"
+ },
+ {
+  "regi": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel. A hitelesítés lehetőségéről, a méréshatárról és az aktuális konfigurációról kérjük, érdeklődjön.",
+  "uj": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel."
+ },
+ {
+  "regi": "Eladók",
+  "uj": "Kezelők"
+ },
+ {
+  "regi": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + ÁFA díj ellenében.",
+  "uj": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + áfa. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + áfa díj ellenében."
+ },
+ {
+  "regi": "139 500 Ft + ÁFA",
+  "uj": "139 500 Ft + áfa"
+ },
+ {
+  "regi": "+2 év: 15 000 Ft + ÁFA",
+  "uj": "+2 év: 15 000 Ft + áfa"
+ },
+ {
+  "regi": "Pénztárosok",
+  "uj": "Kezelők"
+ },
+ {
+  "regi": "ÁFA-kulcsok",
+  "uj": "Áfakulcsok"
+ },
+ {
+  "regi": "ÁFA-szintek",
+  "uj": "Áfakulcsok"
+ },
+ {
+  "regi": "USB A, USB AB, RS232, kasszanyitó",
+  "uj": "USB-A, USB-AB, RS232, kasszanyitó"
+ },
+ {
+  "regi": "15,6\" Android POS terminál",
+  "uj": "15,6\" Android POS-terminál"
+ },
+ {
+  "regi": "D2 10,1\" Android POS terminál",
+  "uj": "D2 10,1\" Android POS-terminál"
+ },
+ {
+  "regi": "Trezor funkció",
+  "uj": "Trezorfunkció"
+ },
+ {
+  "regi": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: a 15 kg-os változatnál 4 000 Ft + ÁFA, a 30 kg-os változatnál 7 000 Ft + ÁFA.",
+  "uj": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: a 15 kg-os változatnál 4 000 Ft + áfa, a 30 kg-os változatnál 7 000 Ft + áfa."
+ },
+ {
+  "regi": "15 kg: 4 000 Ft + ÁFA, 30 kg: 7 000 Ft + ÁFA",
+  "uj": "15 kg: 4 000 Ft + áfa, 30 kg: 7 000 Ft + áfa"
+ },
+ {
+  "regi": "Üzembe helyezési kód (amelyet Ön vagy könyvelője igényel az Ügyfélkapun keresztül); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük.",
+  "uj": "Üzembe helyezési kód, amelyet Ön vagy könyvelője igényel a NAV online felületén (Ügyfélkapu+ vagy DÁP azonosítással); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
+ },
+ {
+  "regi": "1 500 Ft + ÁFA havonta gépenként. A szerződést a vásárláskor intézzük.",
+  "uj": "1 500 Ft + áfa havonta gépenként. A szerződést a vásárláskor intézzük."
+ },
+ {
+  "regi": "A pénztárgép-kötelezett vállalkozások 2028. július 1-ig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk.",
+  "uj": "A pénztárgép-kötelezett vállalkozások 2028. július 1-jéig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk."
+ },
+ {
+  "regi": "POS rendszerek",
+  "uj": "POS-rendszerek"
+ },
+ {
+  "regi": "POS rendszereink",
+  "uj": "POS-rendszereink"
+ },
+ {
+  "regi": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
+  "uj": "Online pénztárgépe 2028. július 1-jéig használható. Kérjen átállási tanácsot az e-pénztárgépre!"
  }
 ]

@@ -11,7 +11,7 @@
   "alapitas": "1982",
   "afa": 27,
   "mobildij": "A pénztárgép mobil adatkapcsolatának díja gépenként havonta 1 500 Ft + ÁFA. A szerződéskötés részleteit és az aktuális díjat vásárlás előtt egyeztetjük.",
-  "hirdetes": "Online pénztárgépe 2028. július 1-ig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
+  "hirdetes": "Online pénztárgépe 2028. július 1-jéig használható. Kérjen átállási tanácsot az e-pénztárgépre!",
   "ingyenesSzallitas": "",
   "nyitva": {
    "1": [
@@ -53,15 +53,15 @@
    "gyik": [
     [
      "Mi szükséges a pénztárgép üzembe helyezéséhez?",
-     "Üzembe helyezési kód (amelyet Ön vagy könyvelője igényel az Ügyfélkapun keresztül); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
+     "Üzembe helyezési kód, amelyet Ön vagy könyvelője igényel a NAV online felületén (Ügyfélkapu+ vagy DÁP azonosítással); társaság esetén aláírási címpéldány. A bejelentést és a beállítást mi intézzük."
     ],
     [
      "Mennyibe kerül a mobil adatkapcsolat?",
-     "1 500 Ft + ÁFA havonta gépenként. A szerződést a vásárláskor intézzük."
+     "1 500 Ft + áfa havonta gépenként. A szerződést a vásárláskor intézzük."
     ],
     [
      "Meddig használható az online pénztárgép?",
-     "A pénztárgép-kötelezett vállalkozások 2028. július 1-ig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk."
+     "A pénztárgép-kötelezett vállalkozások 2028. július 1-jéig használhatják, utána hardveralapú e-pénztárgépre kell váltani. Ebben is segítünk."
     ],
     [
      "Hol javítják, ha elromlik?",
@@ -78,7 +78,7 @@
   },
   {
    "id": "pos",
-   "nev": "POS rendszerek",
+   "nev": "POS-rendszerek",
    "ikon": "pos",
    "leiras": "Érintőképernyős POS-terminálok, blokk- és címkenyomtatók, valamint vonalkódolvasók bolti és vendéglátóipari felhasználásra. Az eszközök együttműködése a választott szoftvertől és a csatlakozási lehetőségektől függ; rendelés előtt egyeztessen velünk.",
    "gyik": [
@@ -97,7 +97,7 @@
     "szoveg": "Érintőképernyős kasszarendszerek vendéglátóhelyek és kiskereskedelmi üzletek számára.",
     "kep": ""
    },
-   "listaCim": "POS rendszereink"
+   "listaCim": "POS-rendszereink"
   },
   {
    "id": "fiok",
@@ -252,7 +252,7 @@
      "8"
     ],
     [
-     "Eladók",
+     "Kezelők",
      "30"
     ],
     [
@@ -458,7 +458,7 @@
    "kiemelt": true,
    "engedely": "A311",
    "modell": "nagy",
-   "leiras": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + ÁFA. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + ÁFA díj ellenében.",
+   "leiras": "Nagyobb forgalmú üzletekbe ajánlott, rendszerbe köthető asztali pénztárgép fém kasszafiókkal és forgatható vevőkijelzővel. A készülék kulcsos üzemmódválasztóval, nagy címletű bankjegyek bedobására szolgáló nyílással és nagy sebességű hőnyomtatóval rendelkezik, továbbá számítógéphez is csatlakoztatható. Kasszafiók nélküli ár: 139 500 Ft + áfa. A garancia további 2 évvel hosszabbítható meg, 15 000 Ft + áfa díj ellenében.",
    "jellemzok": [
     "NAV-engedélyszám: A311",
     "Beépített kasszafiókkal",
@@ -510,11 +510,11 @@
     ],
     [
      "Kasszafiók nélkül",
-     "139 500 Ft + ÁFA"
+     "139 500 Ft + áfa"
     ],
     [
      "Garanciakiterjesztés",
-     "+2 év: 15 000 Ft + ÁFA"
+     "+2 év: 15 000 Ft + áfa"
     ]
    ],
    "letoltesek": [],
@@ -619,7 +619,7 @@
    "keszlet": "raktaron",
    "kiemelt": false,
    "engedely": "",
-   "modell": "kompakt",
+   "modell": "kezi",
    "leiras": "Hordozható, GPS-szel és 4G-kapcsolattal rendelkező online pénztárgép. A megadott adatok szerint belső akkumulátora egy feltöltéssel körülbelül 300 nyugta nyomtatására elegendő. A készülék 57 mm-es Seiko nyomtatóval rendelkezik; kasszafiók, számítógép, USB-s vonalkódolvasó és mérleg is csatlakoztatható hozzá.",
    "jellemzok": [
     "GPS és 4G",
@@ -646,11 +646,11 @@
      "99"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "30"
     ],
     [
-     "ÁFA-kulcsok",
+     "Áfakulcsok",
      "5"
     ],
     [
@@ -737,7 +737,7 @@
      "99"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "10"
     ],
     [
@@ -929,7 +929,7 @@
      "15"
     ],
     [
-     "Eladók",
+     "Kezelők",
      "30, azonosítható"
     ],
     [
@@ -996,11 +996,11 @@
      "20"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "10"
     ],
     [
-     "ÁFA-szintek",
+     "Áfakulcsok",
      "7"
     ],
     [
@@ -1065,7 +1065,7 @@
    "kategoria": "penztargep",
    "marka": "Montel",
    "nev": "Jota H / Micra Jota M",
-   "modell": "kompakt",
+   "modell": "kezi",
    "alcim": "Hordozható, rendszerbe köthető, nagy forgalmú helyekre",
    "leiras": "Hordozható, belső akkumulátoros online pénztárgép nagyobb forgalmú helyszínekre. A Seiko nyomtató másodpercenként 21 sort nyomtat; a készülék 8 179 PLU-t és 30 kezelőt támogat. Mérleg, vonalkódolvasó, kasszafiók és külső vevőkijelző is csatlakoztatható hozzá.",
    "jellemzok": [
@@ -1172,7 +1172,7 @@
      "8 000"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "30"
     ],
     [
@@ -1259,7 +1259,7 @@
      "20 000"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "max. 20"
     ],
     [
@@ -1268,7 +1268,7 @@
     ],
     [
      "Csatlakozók",
-     "USB A, USB AB, RS232, kasszanyitó"
+     "USB-A, USB-AB, RS232, kasszanyitó"
     ],
     [
      "Csatlakoztatható",
@@ -1337,7 +1337,7 @@
      "10 000"
     ],
     [
-     "Pénztárosok",
+     "Kezelők",
      "20"
     ],
     [
@@ -1376,7 +1376,7 @@
    "spin": [],
    "illusztracio": false,
    "id": "imin-15-pos",
-   "nev": "15,6\" Android POS terminál",
+   "nev": "15,6\" Android POS-terminál",
    "alcim": "Nagyméretű, állványos érintőképernyős POS-terminál NTAK-kompatibilis vendéglátó-szoftverekhez",
    "ar": 129900,
    "keszletDb": 1,
@@ -1396,7 +1396,7 @@
    "specs": [
     [
      "Modell",
-     "iMin D3-504 (a korábbi weboldalon SWAN2 néven szerepelt)"
+     "iMin D3-504"
     ],
     [
      "Kijelző",
@@ -1442,7 +1442,7 @@
    "spin": [],
    "illusztracio": false,
    "id": "imin-d2",
-   "nev": "D2 10,1\" Android POS terminál",
+   "nev": "D2 10,1\" Android POS-terminál",
    "alcim": "Kompakt, érintőképernyős terminál állvánnyal, vendéglátóipari NTAK-szoftverekhez",
    "ar": 92900,
    "keszletDb": 2,
@@ -1513,7 +1513,7 @@
     "kepek/termekek/blokknyomtato-2.webp"
    ],
    "spin": [],
-   "keszletDb": 2,
+   "keszletDb": null,
    "specs": [],
    "letoltesek": [],
    "video": "",
@@ -1534,7 +1534,7 @@
    "modell": "scanner",
    "leiras": "Állvánnyal ellátott, kézi CCD-vonalkódolvasó pénztárgéphez vagy számítógéphez. A csatlakozási módról és a támogatott kódokról kérjük, vásárlás előtt tájékozódjon.",
    "jellemzok": [
-    "Lézeres",
+    "CCD-technológia",
     "Kézi"
    ],
    "kepek": [
@@ -1545,7 +1545,7 @@
    "specs": [
     [
      "Technológia",
-     "1D CCD (2500 pixel) – a régi oldalon tévesen lézerként szerepelt"
+     "1D CCD (2500 pixel)"
     ],
     [
      "Olvasási sebesség",
@@ -1738,7 +1738,7 @@
      "nagy címletű bankjegyek és bizonylatok bedobónyílása"
     ],
     [
-     "Trezor funkció",
+     "Trezorfunkció",
      "van"
     ],
     [
@@ -1776,7 +1776,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "fiok",
-   "leiras": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: 400 × 450 × 100 mm. Fekete vagy fehér színben kapható.",
+   "leiras": "Nagyméretű fém kasszafiók forgalmas üzletekbe, 4 vagy 5 bankjegytartóval és 8 érmetartóval, nagy címletű bankjegyek bedobására szolgáló nyílással. Kulccsal nyitható és zárható. Mérete: kb. 410 × 415 × 100 mm. Fekete vagy fehér színben kapható.",
    "jellemzok": [
     "Több rekesz",
     "Kulccsal zárható"
@@ -1789,7 +1789,7 @@
    "specs": [
     [
      "Rekeszek",
-     "4 vagy 5 bankjegy- és 8 érmetartó"
+     "4 vagy 5 bankjegytartó és 8 érmetartó"
     ],
     [
      "Bedobó",
@@ -1834,7 +1834,7 @@
    "kategoria": "merleg",
    "marka": "ACS",
    "nev": "ACS-A 15 / 30 AN",
-   "alcim": "Hitelesített árszorzós bolti mérleg",
+   "alcim": "Hitelesíthető árszorzós bolti mérleg",
    "ar": 34900,
    "arTol": false,
    "akciosAr": null,
@@ -1842,10 +1842,10 @@
    "kiemelt": true,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: a 15 kg-os változatnál 4 000 Ft + ÁFA, a 30 kg-os változatnál 7 000 Ft + ÁFA.",
+   "leiras": "Hordozható, digitális, árszorzós bolti mérleg 15 vagy 30 kg méréshatárral. Levehető acéltálcával és beépített akkumulátorral rendelkezik. Hitelesítési díj: a 15 kg-os változatnál 4 000 Ft + áfa, a 30 kg-os változatnál 7 000 Ft + áfa.",
    "jellemzok": [
     "15 vagy 30 kg",
-    "Hitelesítve",
+    "Hitelesíthető",
     "Árszorzó, memória",
     "Akkumulátoros"
    ],
@@ -1874,7 +1874,7 @@
     ],
     [
      "Hitelesítés díja",
-     "15 kg: 4 000 Ft + ÁFA, 30 kg: 7 000 Ft + ÁFA"
+     "15 kg: 4 000 Ft + áfa, 30 kg: 7 000 Ft + áfa"
     ]
    ],
    "letoltesek": [],
@@ -1895,7 +1895,7 @@
    "kiemelt": false,
    "engedely": "",
    "modell": "merleg",
-   "leiras": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel. A hitelesítés lehetőségéről, a méréshatárról és az aktuális konfigurációról kérjük, érdeklődjön.",
+   "leiras": "Bolti árszorzós mérleg kétoldali, jól olvasható kijelzővel.",
    "jellemzok": [
     "Hitelesítve",
     "Árszorzó",
@@ -1970,7 +1970,7 @@
     "kepek/termekek/rongta-rls1000-1.webp"
    ],
    "spin": [],
-   "keszletDb": 1,
+   "keszletDb": null,
    "specs": [
     [
      "Méréshatár / osztásérték",
@@ -2304,8 +2304,7 @@
    "keszletDb": null,
    "specs": [],
    "letoltesek": [],
-   "video": "",
-   "garancia": "1 év"
+   "video": ""
   },
   {
    "id": "arazocimke",
@@ -2333,8 +2332,7 @@
    "keszletDb": null,
    "specs": [],
    "letoltesek": [],
-   "video": "",
-   "garancia": "1 év"
+   "video": ""
   },
   {
    "kategoria": "kellek",
@@ -2346,7 +2344,6 @@
    "modell": "papir",
    "letoltesek": [],
    "video": "",
-   "garancia": "1 év",
    "spin": [],
    "illusztracio": false,
    "id": "belovoszal-5000",

@@ -21,7 +21,7 @@
   var PRIVACY = API.replace(/api\.php$/, "#adatkezeles");
   var TEL = "+36 72 215 652", TEL_H = "tel:+3672215652";
   var DRAFT = "ptg-uzenet-piszkozat";
-  var TARGYAK = ["Ajánlatkérés", "Pénztárgép vásárlás", "Szerviz, javítás", "E-pénztárgép átállás", "Számítástechnika, irodatechnika", "Egyéb kérdés"];
+  var TARGYAK = ["Ajánlatkérés", "Pénztárgép-vásárlás", "Szerviz, javítás", "Átállás e-pénztárgépre", "Számítástechnika, irodatechnika", "Egyéb kérdés"];
   var MAX = 3000;
 
   var store = {
@@ -133,7 +133,7 @@
       (ctx.termek ? '<div class="ptgk-chip">' + ICON.tag + '<span>Termék: <b data-noi18n>' + esc(ctx.termek) + '</b></span></div>' : "") +
       '<div class="ptgk-row">' +
         '<label><span>Az Ön neve</span><input name="nev" autocomplete="name" maxlength="120" required value="' + esc(d.nev) + '"></label>' +
-        '<label><span>E-mail címe <small>(erre válaszolunk)</small></span><input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required value="' + esc(d.email) + '"></label>' +
+        '<label><span>E-mail-címe <small>(erre válaszolunk)</small></span><input name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required value="' + esc(d.email) + '"></label>' +
       '</div>' +
       '<div class="ptgk-row">' +
         '<label><span>Telefonszáma <small>(nem kötelező)</small></span><input name="telefon" type="tel" inputmode="tel" autocomplete="tel" maxlength="25" value="' + esc(d.telefon) + '"></label>' +
@@ -258,9 +258,11 @@
     form = null;
   }
 
+  var zarIdo = 0;   /* a bezárás késleltetett elrejtése – újranyitáskor törölni kell, különben a friss ablak eltűnne */
   function open(o) {
     o = o || {};
     if (!ov) build();
+    clearTimeout(zarIdo); zarIdo = 0;
     ctx = { targy: o.targy || "", termek: (o.termek || "").slice(0, 160) };
     var d = store.get() || {};
     var data = { nev: d.nev || "", email: d.email || "", telefon: d.telefon || "", targy: ctx.targy && TARGYAK.indexOf(ctx.targy) >= 0 ? ctx.targy : (d.targy || (ctx.termek ? "Ajánlatkérés" : TARGYAK[0])), uzenet: d.uzenet || "" };
@@ -282,11 +284,11 @@
   }
 
   function close() {
-    if (!ov || ov.hidden) return;
+    if (!ov || ov.hidden || zarIdo) return;
     saveDraft();
     ov.classList.remove("on");
     document.documentElement.style.overflow = "";
-    setTimeout(function () { ov.hidden = true; }, reduce ? 0 : 220);
+    zarIdo = setTimeout(function () { zarIdo = 0; ov.hidden = true; }, reduce ? 0 : 220);
     if (lastFocus && lastFocus.focus) try { lastFocus.focus({ preventScroll: true }); } catch (e) {}
   }
 

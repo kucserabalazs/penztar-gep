@@ -77,12 +77,12 @@
       if (cur !== r.out) el.setAttribute(a, r.out);
     }
   }
-  function skip(el) { for (let e = el; e && e !== document; e = e.parentNode) { if (e.nodeType === 1 && (SKIP[e.nodeName] || e.hasAttribute("data-noi18n") || e.isContentEditable)) return true; } return false; }
+  function skip(el) { for (let e = el; e && e !== document; e = e.parentNode) { if (e.nodeType === 1 && (SKIP[e.nodeName.toUpperCase()] || e.hasAttribute("data-noi18n") || e.isContentEditable)) return true; } return false; }
   function walk(root) {
     if (!root) return; if (root.nodeType === 3) { if (!skip(root.parentNode)) doText(root); return; }
     if (root.nodeType !== 1 || skip(root)) return;
     doAttrs(root);
-    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, { acceptNode: (n) => n.nodeType === 1 ? (SKIP[n.nodeName] || n.hasAttribute("data-noi18n") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_SKIP) : NodeFilter.FILTER_ACCEPT });
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, { acceptNode: (n) => n.nodeType === 1 ? (SKIP[n.nodeName.toUpperCase()] || n.hasAttribute("data-noi18n") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_SKIP) : NodeFilter.FILTER_ACCEPT });
     root.querySelectorAll("[placeholder],[aria-label],[title],[alt]").forEach((e) => { if (!skip(e)) doAttrs(e); });
     for (let n = w.nextNode(); n; n = w.nextNode()) if (n.nodeValue.trim()) doText(n);
   }
@@ -125,12 +125,15 @@
 .zi-btn { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 12px 0 8px; border-radius: 999px; color: #fff; font: 800 14px/1 inherit; letter-spacing: .04em;
   background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,.08)); box-shadow: inset 0 0 0 1px rgba(255,217,120,.5), inset 0 1px 0 rgba(255,255,255,.3); transition: background .2s, transform .2s; }
 .zi-btn:hover, .zi-btn:focus-visible { background: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,.12)); transform: translateY(-1px); }
+.zi-btn:focus-visible { outline: 3px solid #ffd98a; outline-offset: 3px; }
 .zi-flag { font-size: 22px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
 .zi-car { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #ffd978; transition: transform .2s; }
 .zi-pick.open .zi-car { transform: rotate(180deg); }
 .zi-menu { position: absolute; z-index: 2147483000; top: calc(100% + 10px); inset-inline-end: 0; width: min(380px, calc(100vw - 24px)); max-height: min(70vh, 560px); overflow: auto; padding: 14px; border-radius: 20px; color: #0b2a4a;
   background: linear-gradient(180deg, #ffffff, #f3f7fb); box-shadow: 0 24px 60px rgba(4,20,40,.45), 0 0 0 1px rgba(11,42,74,.08); display: none; }
-.zi-pick.open .zi-menu { display: block; animation: ziIn .22s ease; } @keyframes ziIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+.zi-menu.zi-on { display: block; animation: ziIn .22s ease; } @keyframes ziIn { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+/* nyitva a menü a <body> közvetlen gyermeke, rögzített helyen: így semmilyen „overflow:hidden” szülő nem vágja le */
+.zi-menu.zi-port { position: fixed; top: 0; left: 0; right: auto; bottom: auto; inset-inline-end: auto; margin: 0; }
 .zi-hd { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 2px 4px 10px; border-bottom: 1px solid #e3eaf1; margin-bottom: 10px; }
 .zi-hd b { font: 900 17px/1.2 inherit; } .zi-hd small { font: 700 13px/1.3 inherit; color: #5a6b7b; }
 .zi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
@@ -138,12 +141,13 @@
 .zi-it .zi-flag { font-size: 24px; }
 .zi-it span { display: flex; flex-direction: column; min-width: 0; } .zi-it em { font-style: normal; font: 700 11.5px/1.2 inherit; color: #8a96a2; }
 .zi-it:hover, .zi-it:focus-visible { background: #eaf2fa; }
+.zi-it:focus-visible { outline: 3px solid #ffd98a; outline-offset: 3px; box-shadow: 0 0 0 3px #8a5f12; }
 .zi-it[aria-current="true"] { background: linear-gradient(180deg, #fff3c4, #ffd978); box-shadow: inset 0 0 0 1px rgba(138,102,48,.35); }
 .zi-it.soon { opacity: .55; cursor: default; } .zi-it.soon:hover { background: transparent; }
-@media (max-width: 700px) { .zi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .zi-it { font-size: 16px; min-height: 50px; } .zi-menu { position: fixed; top: auto; bottom: 12px; inset-inline: 12px; width: auto; max-height: 75vh; } }
+@media (max-width: 700px) { .zi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .zi-it { font-size: 16px; min-height: 50px; } .zi-menu, .zi-menu.zi-port { position: fixed; top: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); inset-inline: 12px; left: 12px; right: 12px; width: auto; max-height: min(75vh, calc(100dvh - 24px)); } }
 .zi-pick.inline { display: block; } .zi-pick.inline .zi-btn { display: none; } .zi-pick.inline .zi-menu { display: block; position: static; width: auto; max-height: none; padding: 0; background: none; box-shadow: none; animation: none; color: #fff; }
 .zi-pick.inline .zi-hd { display: none; } .zi-pick.inline .zi-it { color: #fff; background: rgba(255,255,255,.06); } .zi-pick.inline .zi-it em { color: #c9d8e6; }
-.zi-pick.inline .zi-it:hover { background: rgba(255,255,255,.14); } .zi-pick.inline .zi-it.soon { opacity: .6; } .zi-pick.inline .zi-it[aria-current="true"] { color: #0b2a4a; background: linear-gradient(180deg, #fff3c4, #ffd978); }
+.zi-pick.inline .zi-it:hover { background: rgba(255,255,255,.14); } .zi-pick.inline .zi-it:focus-visible { box-shadow: none; } .zi-pick.inline .zi-it.soon { opacity: .6; } .zi-pick.inline .zi-it[aria-current="true"] { color: #0b2a4a; background: linear-gradient(180deg, #fff3c4, #ffd978); }
 html.zi-rtl body { text-align: start; }`;
   function injectCss() { if (document.getElementById("ziCss")) return; const s = document.createElement("style"); s.id = "ziCss"; s.textContent = CSS; document.head.appendChild(s); }
   const L = (c) => LANGS.find((l) => l[0] === c) || LANGS[0];
@@ -151,23 +155,81 @@ html.zi-rtl body { text-align: start; }`;
     const cur = L(lang);
     box.querySelector(".zi-btn").innerHTML = `<span class="zi-flag">${cur[2]}</span><span>${cur[0].toUpperCase()}</span><i class="zi-car"></i>`;
     box.querySelector(".zi-btn").setAttribute("aria-label", "Nyelv: " + cur[1]);
-    box.querySelector(".zi-grid").innerHTML = LANGS.map(([c, n, f]) => { const ok = READY.includes(c);
+    (box._menu || box).querySelector(".zi-grid").innerHTML = LANGS.map(([c, n, f]) => { const ok = READY.includes(c);
       return `<button type="button" class="zi-it${ok ? "" : " soon"}" data-lang="${c}" lang="${c}" dir="${RTL[c] ? "rtl" : "ltr"}" aria-current="${c === lang}" ${ok ? "" : 'aria-disabled="true"'}><span class="zi-flag">${f}</span><span>${n}${ok ? "" : "<em>hamarosan</em>"}</span></button>`; }).join("");
   }
   function mountPicker(host, opts) {
     if (!host) return null; injectCss();
     const box = document.createElement("div"); box.className = "zi-pick"; box.setAttribute("data-noi18n", "");
-    box.innerHTML = `<button type="button" class="zi-btn" aria-haspopup="true" aria-expanded="false"></button><div class="zi-menu" role="menu"><div class="zi-hd"><b>Nyelv · Language</b><small>${READY.length} / ${LANGS.length}</small></div><div class="zi-grid"></div></div>`;
-    if (opts && opts.inline) box.classList.add("inline");
+    const mid = "zi-menu-" + (++mountPicker.n);
+    box.innerHTML = `<button type="button" class="zi-btn" aria-haspopup="true" aria-expanded="false" aria-controls="${mid}"></button><div class="zi-menu" id="${mid}" role="group" aria-label="Nyelv · Language" data-noi18n><div class="zi-hd"><b>Nyelv · Language</b><small>${READY.length} / ${LANGS.length}</small></div><div class="zi-grid"></div></div>`;
+    const inline = !!(opts && opts.inline);
+    if (inline) box.classList.add("inline");
     if (opts && opts.before) host.insertBefore(box, opts.before); else host.appendChild(box);
+    const btn = box.querySelector(".zi-btn"), menu = box.querySelector(".zi-menu");
+    box._menu = menu;
     paintPicker(box);
-    const btn = box.querySelector(".zi-btn");
-    const close = () => { box.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); };
-    btn.addEventListener("click", (e) => { e.stopPropagation(); const o = !box.classList.contains("open"); document.querySelectorAll(".zi-pick.open").forEach((x) => x.classList.remove("open")); box.classList.toggle("open", o); btn.setAttribute("aria-expanded", String(o)); });
-    box.querySelector(".zi-menu").addEventListener("click", (e) => { if (!box.classList.contains("inline")) e.stopPropagation(); const it = e.target.closest("[data-lang]"); if (!it || it.classList.contains("soon")) return; close(); setLang(it.dataset.lang, true); });
-    document.addEventListener("click", close); document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    if (inline) {
+      menu.addEventListener("click", (e) => { const it = e.target.closest("[data-lang]"); if (!it || it.classList.contains("soon")) return; setLang(it.dataset.lang, true); });
+      return box;
+    }
+    const sheet = matchMedia("(max-width: 700px)");
+    let rafPos = 0;
+    /* asztalon a gomb alá, jobb szélhez igazítva (RTL-ben balra); telefonon alsó lap (a CSS adja) */
+    function place() {
+      rafPos = 0;
+      if (!menu.classList.contains("zi-on")) return;
+      if (sheet.matches) { menu.style.top = menu.style.left = ""; return; }
+      const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = innerHeight;
+      const w = menu.offsetWidth, h = menu.offsetHeight;
+      const rtl = getComputedStyle(box).direction === "rtl";
+      let x = rtl ? r.left : r.right - w; x = Math.max(12, Math.min(x, vw - w - 12));
+      let y = r.bottom + 10; if (y + h > vh - 8 && r.top - 10 - h > 8) y = r.top - 10 - h;   /* ha alul nem fér el, a gomb fölé */
+      menu.style.left = Math.round(x) + "px"; menu.style.top = Math.round(y) + "px";
+    }
+    const later = () => { if (!rafPos) rafPos = requestAnimationFrame(place); };
+    function isOpen() { return menu.classList.contains("zi-on"); }
+    function open() {
+      document.querySelectorAll(".zi-menu.zi-on").forEach((m) => { if (m !== menu && m._close) m._close(); });
+      document.body.appendChild(menu); menu.classList.add("zi-port", "zi-on");
+      box.classList.add("open"); btn.setAttribute("aria-expanded", "true"); document.documentElement.classList.add("zi-nyitva");
+      place();
+      addEventListener("scroll", later, { passive: true, capture: true }); addEventListener("resize", later);
+    }
+    function close(focusBtn) {
+      if (!isOpen()) return;
+      menu.classList.remove("zi-on", "zi-port"); menu.style.top = menu.style.left = "";
+      box.appendChild(menu);
+      box.classList.remove("open"); btn.setAttribute("aria-expanded", "false");
+      if (!document.querySelector(".zi-menu.zi-on")) document.documentElement.classList.remove("zi-nyitva");
+      removeEventListener("scroll", later, { capture: true }); removeEventListener("resize", later);
+      if (focusBtn) btn.focus();
+    }
+    menu._close = close;
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (isOpen()) { close(); return; }
+      open();
+      /* billentyűzettel nyitva a fókusz a menübe lép (a menü a lap végén van a DOM-ban) */
+      if (e.detail === 0) { const cur = menu.querySelector('[aria-current="true"]') || menu.querySelector(".zi-it"); if (cur) cur.focus(); }
+    });
+    menu.addEventListener("click", (e) => { e.stopPropagation(); const it = e.target.closest("[data-lang]"); if (!it || it.classList.contains("soon")) return; close(true); setLang(it.dataset.lang, true); });
+    menu.addEventListener("keydown", (e) => {
+      const items = Array.from(menu.querySelectorAll(".zi-it")), i = items.indexOf(document.activeElement);
+      if (e.key === "Escape") { e.preventDefault(); close(true); return; }
+      if (e.key === "Tab") { if (e.shiftKey && i <= 0) { e.preventDefault(); close(true); } else if (!e.shiftKey && i === items.length - 1) close(true); return; }
+      const step = { ArrowDown: 2, ArrowUp: -2, ArrowRight: 1, ArrowLeft: -1, Home: -99, End: 99 }[e.key];
+      if (step == null || !items.length) return;
+      e.preventDefault();
+      let j = step === -99 ? 0 : step === 99 ? items.length - 1 : Math.max(0, Math.min(items.length - 1, (i < 0 ? 0 : i) + step));
+      items[j].focus();
+    });
+    document.addEventListener("click", (e) => { if (isOpen() && !menu.contains(e.target)) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) close(document.activeElement === btn || menu.contains(document.activeElement)); });
+    sheet.addEventListener ? sheet.addEventListener("change", later) : sheet.addListener(later);
     return box;
   }
+  mountPicker.n = 0;
 
   function start() {
     const c = detect();

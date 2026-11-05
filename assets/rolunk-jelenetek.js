@@ -91,9 +91,9 @@
     defs.innerHTML = '<radialGradient id="' + P + 'felho" cx="38%" cy="22%" r="85%"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#f7f2e7"/><stop offset="1" stop-color="#ddd1bb"/></radialGradient>' +
       '<linearGradient id="' + P + 'gfa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c27a"/><stop offset=".5" stop-color="#cf8a3c"/><stop offset="1" stop-color="#8a4e1c"/></linearGradient>' +
       '<clipPath id="' + P + 'fe-v"><rect x="-300" y="-200" width="600" height="146"/></clipPath>' +
-      '<filter id="' + P + 'fa" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2b1a10" flood-opacity=".12"/></filter>';
+      '<filter id="' + P + 'fa-arny" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2b1a10" flood-opacity=".12"/></filter>';
     var hangok = el("g", {}, svg);
-    var csop = el("g", { filter: "url(#" + P + "fa)" }, svg);
+    var csop = el("g", { filter: "url(#" + P + "fa-arny)" }, svg);
     felho(P, csop, KORO, "fk");
     var aHely = el("g", { transform: "translate(6 -" + AY + ") scale(" + AS + ")" }, csop);
     var a = TJSzereplok.angyal(aHely, P);

@@ -15,10 +15,11 @@ declare(strict_types=1);
 header('Content-Type: text/html; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 
+require __DIR__ . '/../inc/sablon.php';   /* közös fejléc, lábléc, közösségi címkék */
 const SITE = 'https://penztar-gep.hu';
 const SHOP = SITE . '/webaruhaz/';
 
-$db = json_decode((string)@file_get_contents(__DIR__ . '/data/products.json'), true) ?: [];
+$db = ptg_data();
 $S = $db['settings'] ?? [];
 $CATS = [];
 foreach (($db['categories'] ?? []) as $c) { $CATS[$c['id']] = $c; }
@@ -34,6 +35,21 @@ function img(array $p): ?string { return ($p['kepek'][0] ?? null) ?: null; }
 function absurl(string $rel): string { return SHOP . ltrim($rel, './'); }
 function plink(array $p): string { return 'termek.php?id=' . rawurlencode($p['id']); }
 function klink(string $k): string { return 'termek.php?kat=' . rawurlencode($k); }
+/* készletállapot egy szabály szerint: raktáron / elfogyott / rendelésre */
+function allapot(array $p): string {
+  $k = (string)($p['keszlet'] ?? '');
+  if ($k === 'raktaron' && array_key_exists('keszletDb', $p) && $p['keszletDb'] !== null && (int)$p['keszletDb'] <= 0) return 'elfogyott';
+  return in_array($k, ['raktaron', 'elfogyott'], true) ? $k : 'rendelesre';
+}
+/* kép nélküli termékhez a kategória érme-illusztrációja (helyettesítő kép) */
+function katkep(string $kat): string {
+  static $M = ['penztargep' => 'penztargep', 'pos' => 'kassza', 'fiok' => 'kassza', 'merleg' => 'merleg', 'arazo' => 'arazogep', 'irodatechnika' => 'irodatechnika', 'kellek' => 'kellekanyagok', 'hasznalt' => 'hasznalt'];
+  return 'assets/kategoria-ermek/' . ($M[$kat] ?? 'penztargep') . '-640.webp';
+}
+/* megjelenített név: a márka külön elemben, így a nyelvi motor a terméknevet magában is lefordíthatja */
+function nevhtml(array $p): string { $m = trim((string)($p['marka'] ?? '')); return ($m !== '' ? '<span class="marka">' . h($m) . '</span> ' : '') . h(trim((string)($p['nev'] ?? ''))); }
+/* oldalcím: részei „ · ” jellel elválasztva (a nyelvi motor részenként fordítja), legfeljebb kb. 65 karakter */
+function cim(array ...$valt): string { foreach ($valt as $v) { $t = implode(' · ', array_filter($v, 'strlen')); if (mb_strlen($t) <= 65) return $t; } return implode(' · ', array_filter(end($valt), 'strlen')); }
 function shoplink(array $p): string { return './#kat-' . rawurlencode($p['kategoria']) . '/' . rawurlencode($p['id']); }
 function cut(string $s, int $n): string { $s = trim(preg_replace('/\s+/u', ' ', $s)); return mb_strlen($s) > $n ? rtrim(mb_substr($s, 0, $n - 1), " ,.;–-") . '…' : $s; }
 
@@ -52,11 +68,12 @@ $STORE = [
   'url' => SITE . '/',
   'logo' => SITE . '/assets/logo/total-logo-512.png',
   'image' => SITE . '/assets/uzlet-homlokzat.webp',
-  'telephone' => '+36 72 215 652',
+  'telephone' => ptg_tel(),
   'priceRange' => '$$',
   'currenciesAccepted' => 'HUF',
   'paymentAccepted' => 'Készpénz, banki átutalás',
   'address' => ['@type' => 'PostalAddress', 'streetAddress' => 'Hunyadi János utca 34.', 'postalCode' => '7625', 'addressLocality' => 'Pécs', 'addressRegion' => 'Baranya', 'addressCountry' => 'HU'],
+  'geo' => PTG_GEO,
   'openingHoursSpecification' => $hours,
   'hasMap' => 'https://www.google.com/maps?q=P%C3%A9cs%2C+Hunyadi+J%C3%A1nos+utca+34',
 ];
@@ -76,48 +93,61 @@ if ($P) {
   $c = $CATS[$P['kategoria']] ?? ['id' => $P['kategoria'], 'nev' => 'Termékek'];
   $name = fullname($P);
   $price = nowprice($P);
-  $title = $name . ($P['alcim'] ? ' – ' . $P['alcim'] : '') . ' | Totál Pénztárgép Pécs';
-  if (mb_strlen($title) > 72) { $title = $name . ' – ár és átvétel Pécsen | Totál Pénztárgép'; }
+  $title = cim([$name, $P['alcim'] ?? '', 'Totál Pénztárgép'], [$name, $P['alcim'] ?? '', 'Totál'], [$name, $P['alcim'] ?? ''], [$name, $c['nev'] . ' Pécsen', 'Totál'], [$name, 'Totál Pénztárgép Pécs']);
   $desc = cut(($P['alcim'] ? $P['alcim'] . '. ' : '') . ($price ? 'Ár: ' . ft($price) . ' + ÁFA (bruttó ' . ft(gross($price)) . '). ' : '') . ($P['leiras'] ?? '') . ' Átvétel és szerviz Pécsen, a Hunyadi János utca 34. alatt.', 158);
   $canon = SHOP . plink($P);
-  $ogimg = img($P) ? absurl(img($P)) : SITE . '/assets/og-kep.jpg';
+  $ogimg = img($P) ? absurl(img($P)) : SITE . '/' . katkep($P['kategoria']);
   $crumbs[] = [$c['nev'], SHOP . klink($c['id'])];
   $crumbs[] = [$name, $canon];
-  $prod = [
-    '@type' => 'Product', '@id' => $canon . '#termek', 'name' => $name, 'url' => $canon,
-    'description' => cut(($P['alcim'] ? $P['alcim'] . '. ' : '') . ($P['leiras'] ?? ''), 4900),
-    'category' => $c['nev'], 'sku' => $P['id'],
-  ];
-  if (!empty($P['marka'])) { $prod['brand'] = ['@type' => 'Brand', 'name' => $P['marka']]; }
-  if (!empty($P['kepek'])) { $prod['image'] = array_map('absurl', array_slice($P['kepek'], 0, 6)); }
-  if (!empty($P['specs'])) { $prod['additionalProperty'] = array_map(fn($s) => ['@type' => 'PropertyValue', 'name' => $s[0], 'value' => $s[1]], array_slice($P['specs'], 0, 20)); }
+  $kepek = !empty($P['kepek']) ? array_map('absurl', array_slice($P['kepek'], 0, 6)) : [SITE . '/' . katkep($P['kategoria'])];
+  $leiras = cut(($P['alcim'] ? $P['alcim'] . '. ' : '') . ($P['leiras'] ?? ''), 4900);
   if ($price) {
+    /* Product (termék-gazdagtalálat): csak ha van ár, mert az ár nélküli Offer érvénytelen */
+    $prod = [
+      '@type' => 'Product', '@id' => $canon . '#termek', 'name' => $name, 'url' => $canon,
+      'description' => $leiras, 'category' => $c['nev'], 'sku' => $P['id'], 'image' => $kepek,
+    ];
+    if (!empty($P['marka'])) { $prod['brand'] = ['@type' => 'Brand', 'name' => $P['marka']]; }
+    if (!empty($P['specs'])) { $prod['additionalProperty'] = array_map(fn($s) => ['@type' => 'PropertyValue', 'name' => $s[0], 'value' => $s[1]], array_slice($P['specs'], 0, 20)); }
+    $all = allapot($P);
     $prod['offers'] = [
       '@type' => 'Offer', 'url' => $canon, 'priceCurrency' => 'HUF', 'price' => (string)gross($price),
       'priceSpecification' => ['@type' => 'UnitPriceSpecification', 'price' => gross($price), 'priceCurrency' => 'HUF', 'valueAddedTaxIncluded' => true],
-      'availability' => ($P['keszlet'] ?? '') === 'raktaron' ? 'https://schema.org/InStock' : (($P['keszlet'] ?? '') === 'elfogyott' ? 'https://schema.org/OutOfStock' : 'https://schema.org/PreOrder'),
+      'availability' => $all === 'raktaron' ? 'https://schema.org/InStock' : ($all === 'elfogyott' ? 'https://schema.org/OutOfStock' : 'https://schema.org/BackOrder'),
       'itemCondition' => ($P['kategoria'] === 'hasznalt' || stripos($P['nev'], 'használt') !== false) ? 'https://schema.org/UsedCondition' : 'https://schema.org/NewCondition',
       'seller' => ['@id' => SITE . '/#uzlet'],
       'availableAtOrFrom' => ['@id' => SITE . '/#uzlet'],
       'availableDeliveryMethod' => 'https://schema.org/OnSitePickup',
+      /* csak személyes átvétel: házhoz szállítás nincs */
+      'shippingDetails' => ['@type' => 'OfferShippingDetails', 'shippingDestination' => ['@type' => 'DefinedRegion', 'addressCountry' => 'HU'], 'doesNotShip' => true],
+      /* ÁSZF: 14 napos elállás, a terméket az üzletbe kell visszahozni */
+      'hasMerchantReturnPolicy' => ['@type' => 'MerchantReturnPolicy', 'applicableCountry' => 'HU', 'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow', 'merchantReturnDays' => 14, 'returnMethod' => 'https://schema.org/ReturnInStore'],
+    ];
+  } else {
+    /* ár nélkül („Ár kérésre”): termékoldal + általános leírás, Product-állítás nélkül */
+    $prod = [
+      '@type' => 'ItemPage', '@id' => $canon . '#oldal', 'url' => $canon, 'name' => $name, 'description' => $leiras, 'inLanguage' => 'hu-HU',
+      'primaryImageOfPage' => ['@type' => 'ImageObject', 'url' => $kepek[0]],
+      'mainEntity' => ['@type' => 'Thing', 'name' => $name, 'description' => $leiras, 'image' => $kepek, 'url' => $canon, 'identifier' => $P['id']],
+      'publisher' => ['@id' => SITE . '/#uzlet'],
     ];
   }
   $ld[] = $prod;
 } elseif ($kat !== '') {
   $c = $CATS[$kat];
   $list = array_values(array_filter($PRODS, fn($p) => $p['kategoria'] === $kat));
-  $title = $c['nev'] . ' Pécsen – ' . ($c['listaCim'] ?? 'kínálat') . ' | Totál Pénztárgép';
+  $title = cim([$c['nev'] . ' Pécsen', 'kínálat és szerviz', 'Totál Pénztárgép'], [$c['nev'] . ' Pécsen', 'Totál Pénztárgép']);
   $desc = cut(($c['leiras'] ?? '') . ' Személyes átvétel, beüzemelés és szerviz Pécsen, a Hunyadi János utca 34. alatt.', 158);
   $canon = SHOP . klink($kat);
   $ogimg = SITE . '/assets/og-kep.jpg';
   $crumbs[] = [$c['nev'], $canon];
 } else {
-  $title = 'Termékkatalógus – pénztárgépek, POS, mérlegek, árazógépek Pécsen | Totál';
-  $desc = 'A Totál Pénztárgép teljes kínálata: online pénztárgépek, POS terminálok, kasszafiókok, mérlegek, árazógépek, irodatechnika és kellékanyagok. Pécs, Hunyadi János utca 34.';
+  $title = 'Termékkatalógus · pénztárgépek, POS, mérlegek Pécsen · Totál';
+  $desc = 'A Totál Pénztárgép teljes kínálata: online pénztárgépek, POS-terminálok, kasszafiókok, mérlegek, árazógépek, irodatechnika és kellékanyagok. Pécs, Hunyadi János utca 34.';
   $canon = SHOP . 'termek.php';
   $ogimg = SITE . '/assets/og-kep.jpg';
 }
-if (!$P && $id !== '') { $title = 'A termék nem található | Totál Pénztárgép Pécs'; }
+if (!$P && $id !== '') { $title = 'A termék nem található · Totál Pénztárgép'; }
 
 $ld[] = ['@type' => 'BreadcrumbList', 'itemListElement' => array_map(fn($b, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $b[0], 'item' => $b[1]], $crumbs, array_keys($crumbs))];
 if (!$P) {
@@ -144,100 +174,62 @@ function card(array $p): string {
   $pr = nowprice($p);
   $i = img($p);
   return '<a class="kartya" href="' . h(plink($p)) . '">'
-    . '<span class="kk">' . ($i ? '<img src="' . h($i) . '" alt="' . h(fullname($p)) . '" loading="lazy" decoding="async" width="320" height="240">' : '<span class="nincs">TOTÁL</span>') . '</span>'
-    . '<span class="kn"><b>' . h(fullname($p)) . '</b><small>' . h($p['alcim'] ?? '') . '</small>'
+    . '<span class="kk">' . ($i ? '<img src="' . h($i) . '" alt="" loading="lazy" decoding="async" width="320" height="240">' : '<img class="helyettes" src="../' . h(katkep($p['kategoria'] ?? '')) . '" alt="" loading="lazy" decoding="async" width="160" height="160">') . '</span>'
+    . '<span class="kn"><b>' . nevhtml($p) . '</b><small>' . h($p['alcim'] ?? '') . '</small>'
     . '<em>' . ($pr ? h(ft($pr)) . ($p['arTol'] ? '-tól' : '') . ' <i>+ ÁFA</i>' : 'Ár kérésre') . '</em></span></a>';
+}
+/* közösségi kép: a termékkép mérete a fájlból (ha olvasható), egyébként az alapértelmezett OG-kép */
+$ogkep = null;
+if (($ogimg ?? '') !== '' && strpos($ogimg, SITE . '/') === 0) {
+  $lok = __DIR__ . '/../' . substr($ogimg, strlen(SITE . '/'));
+  $m = is_file($lok) ? @getimagesize($lok) : false;
+  $ogkep = [$ogimg, $m[0] ?? 0, $m[1] ?? 0, $P ? fullname($P) : $title];
+  if (substr($ogimg, -11) === '/og-kep.jpg') $ogkep = null;
 }
 ?><!doctype html>
 <html lang="hu">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../assets/nezet.js?v=<?= PTG_V ?>"></script>
 <title><?= h($title) ?></title>
 <meta name="description" content="<?= h($desc ?? '') ?>">
 <?php if ($id !== '' && !$P): ?><meta name="robots" content="noindex,follow">
 <?php else: ?><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="<?= h($canon) ?>">
 <?php endif; ?>
+<link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="../assets/favicon-64.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <meta name="theme-color" content="#082746">
-<meta property="og:type" content="<?= $P ? 'product' : 'website' ?>">
-<meta property="og:locale" content="hu_HU">
-<meta property="og:site_name" content="Totál Pénztárgép Pécs">
-<meta property="og:title" content="<?= h($title) ?>">
-<meta property="og:description" content="<?= h($desc ?? '') ?>">
-<meta property="og:url" content="<?= h($canon ?? SHOP) ?>">
-<meta property="og:image" content="<?= h($ogimg ?? SITE . '/assets/og-kep.jpg') ?>">
-<meta name="twitter:card" content="summary_large_image">
+<?= ptg_kozossegi($title, $desc ?? '', $canon ?? SHOP, $P ? 'product' : 'website', $ogkep) ?>
 <link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261104">
+<link rel="stylesheet" href="../assets/oldal.css?v=<?= PTG_V ?>">
 <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $ld], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <style>
-:root{--n0:#041a33;--n2:#082746;--n3:#123b61;--gold:#d6a64e;--gold-l:#f4d58d;--gold-d:#b7832e;--ink:#182e48;--muted:#5f6f80;--line:#e3dccd;--cream:#f7f3eb;--fd:"Montserrat","Arial Black",Arial,sans-serif;--fb:"Inter","Segoe UI",system-ui,sans-serif}
-*{box-sizing:border-box}html,body{margin:0}
-body{background:var(--cream) url("../assets/motivumok/gilos-vilagos.svg") center/900px;color:var(--ink);font:17px/1.6 var(--fb);-webkit-font-smoothing:antialiased}
-a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,4vw)}
-header{background:radial-gradient(ellipse 70% 140% at 25% 0%,#0b2a52,var(--n2) 55%,var(--n0));color:#fff;border-bottom:3px solid var(--gold)}
-header .wrap{display:flex;align-items:center;gap:22px;min-height:84px;flex-wrap:wrap;padding-block:10px}
-header img{height:56px;width:auto;display:block}
-header nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap;font:600 .95rem var(--fd)}
-header nav a{text-decoration:none;color:#f4d58d}header nav a:hover{color:#fff}
-.morzsa{font-size:.88rem;color:var(--muted);padding:18px 0 4px}.morzsa a{text-decoration:none}.morzsa a:hover{text-decoration:underline}
-h1{font:italic 800 clamp(1.7rem,3.6vw,2.6rem)/1.12 var(--fd);color:var(--n2);margin:.25em 0 .3em}
-h2{font:italic 800 clamp(1.3rem,2.4vw,1.75rem)/1.2 var(--fd);color:var(--n2);margin:1.6em 0 .6em}
-.lead{font-size:1.1rem;color:#33475e;max-width:780px}
-.termek{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,48px);align-items:start;margin:10px 0 30px}
-.kep{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 20px 40px -24px rgba(8,39,70,.35)}
-.kep img{width:100%;height:auto;display:block;aspect-ratio:4/3;object-fit:contain}
-.kepek{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.kepek img{width:84px;height:64px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px}
-.ar{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:16px;padding:16px 20px;margin:14px 0}
-.ar b{font:800 1.9rem var(--fd);color:var(--n2)}.ar small{color:var(--muted);display:block}
-.ar s{color:var(--muted);margin-right:8px}
-.kesz{display:inline-block;font-weight:700;font-size:.9rem;padding:4px 12px;border-radius:999px;background:#e6f4ec;color:#17643b;margin-top:8px}
-.kesz.r{background:#fff4e0;color:#8a5200}
-.gomb{display:inline-flex;align-items:center;gap:8px;font:700 1.02rem var(--fd);text-decoration:none;padding:14px 22px;border-radius:12px;margin:6px 8px 6px 0;background:linear-gradient(180deg,#f4d58d,#d6a64e 55%,#b7832e);color:#1b1404;box-shadow:0 6px 0 #8c6020,0 12px 20px -8px rgba(0,0,0,.35)}
-.gomb.k{background:linear-gradient(180deg,#fff,#e8edf3);color:var(--n2);box-shadow:0 6px 0 #b9c3cf,0 12px 20px -8px rgba(0,0,0,.25)}
-ul.jel{padding:0;list-style:none}ul.jel li{padding-left:30px;position:relative;margin:.35em 0}
-ul.jel li::before{content:"";position:absolute;left:0;top:.28em;width:20px;height:20px;background:url("../assets/motivumok/erme-total.svg") center/contain no-repeat}
-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-th,td{text-align:left;padding:10px 14px;border-bottom:1px solid #eee6d6;vertical-align:top}th{width:38%;color:var(--n3);font-weight:600;background:#fbf8f1}
-.racs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;margin:14px 0 30px}
-.kartya{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;box-shadow:0 14px 30px -22px rgba(8,39,70,.45);transition:transform .2s}
-.kartya:hover{transform:translateY(-3px)}
-.kk{height:210px;display:grid;place-items:center;background:#fff;padding:12px;overflow:hidden}.kk img{width:100%;height:100%;max-height:186px;object-fit:contain}
-.nincs{font:italic 800 1.6rem var(--fd);color:var(--gold-d)}
-.kn{padding:12px 16px 16px;display:flex;flex-direction:column;gap:4px;border-top:1px solid #f0e9da}
-.kn b{font:700 1.02rem/1.25 var(--fd);color:var(--n2)}.kn small{color:var(--muted);font-size:.88rem;line-height:1.35}.kn em{font-style:normal;font-weight:700;margin-top:auto;color:var(--n2)}.kn i{font-style:normal;font-weight:500;font-size:.8rem;color:var(--muted)}
-.katok{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}.katok a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;text-decoration:none;font-weight:600}
-.katok a.on{background:var(--n2);color:#fff;border-color:var(--n2)}
-.gyik details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 18px;margin:10px 0}.gyik summary{font-weight:700;cursor:pointer;color:var(--n2)}
-footer{background:var(--n0);color:#d6dfea;margin-top:50px;border-top:3px solid var(--gold);font-size:.98rem}
-footer .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding-block:34px}
-footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}footer a:hover{text-decoration:underline}
-@media (max-width:820px){.termek{grid-template-columns:1fr}body{font-size:18px}header nav{margin-left:0;width:100%}}
+.kk img.helyettes{width:auto;height:auto;max-width:150px;max-height:150px;opacity:.9}
+.kep img.helyettes{max-width:62%;margin:0 auto}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a href="../"><img src="../assets/logo/total-logo-fejlec.svg" alt="TOTÁL Pénztárgép és Számítástechnika – Pécs" width="232" height="70"></a>
-<nav aria-label="Fő menü"><a href="../">Kezdőlap</a><a href="./">Webáruház</a><a href="termek.php">Termékkatalógus</a><a href="../#kapcsolat">Kapcsolat</a></nav></div></header>
-<main class="wrap">
-<nav class="morzsa" aria-label="Útvonal"><?php foreach ($crumbs as $i => $b) { echo $i ? ' › ' : ''; echo $i === count($crumbs) - 1 ? '<span>' . h($b[0]) . '</span>' : '<a href="' . h($b[1]) . '">' . h($b[0]) . '</a>'; } ?></nav>
+<?= ptg_fejlec('webaruhaz/termek.php', '../') ?>
+<main class="wrap" id="tartalom" tabindex="-1">
+<nav class="morzsa" aria-label="Útvonal"><?php foreach ($crumbs as $i => $b) { echo $i ? '<span class="sep" aria-hidden="true">›</span>' : ''; echo $i === count($crumbs) - 1 ? '<span aria-current="page">' . h($b[0]) . '</span>' : '<a href="' . h($b[1]) . '">' . h($b[0]) . '</a>'; } ?></nav>
 
 <?php if ($P):
   $c = $CATS[$P['kategoria']] ?? ['id' => $P['kategoria'], 'nev' => 'Termékek'];
   $pr = nowprice($P); ?>
-<article class="termek" itemscope>
+<article class="termek">
   <div>
-    <div class="kep"><?php if (img($P)): ?><img src="<?= h(img($P)) ?>" alt="<?= h(fullname($P) . ($P['alcim'] ? ' – ' . $P['alcim'] : '')) ?>" width="800" height="600" fetchpriority="high"><?php else: ?><div class="nincs" style="aspect-ratio:4/3;display:grid;place-items:center">TOTÁL</div><?php endif; ?></div>
+    <div class="kep"><?php if (img($P)): ?><img src="<?= h(img($P)) ?>" alt="<?= h(fullname($P)) ?>" width="800" height="600" fetchpriority="high"><?php else: ?><img class="helyettes" src="../<?= h(katkep($P['kategoria'])) ?>" alt="" width="640" height="640"><?php endif; ?></div>
     <?php if (count($P['kepek'] ?? []) > 1): ?><div class="kepek"><?php foreach (array_slice($P['kepek'], 1, 6) as $k => $src): ?><img src="<?= h($src) ?>" alt="<?= h(fullname($P)) ?> – <?= $k + 2 ?>. kép" loading="lazy" width="84" height="64"><?php endforeach; ?></div><?php endif; ?>
   </div>
   <div>
-    <h1><?= h(fullname($P)) ?></h1>
+    <h1><?= nevhtml($P) ?></h1>
     <p class="lead"><?= h($P['alcim'] ?? '') ?></p>
     <div class="ar"><?php if ($pr): ?><?php if (!empty($P['akciosAr'])): ?><s><?= h(ft($P['ar'])) ?></s><?php endif; ?><b><?= h(ft($pr)) ?><?= $P['arTol'] ? '-tól' : '' ?></b> <span>+ ÁFA</span><small>bruttó <?= h(ft(gross($pr))) ?> (<?= h((string)$AFA) ?>% ÁFA-val)</small><?php else: ?><b>Ár kérésre</b><small>Kérjen ajánlatot telefonon vagy e-mailben.</small><?php endif; ?>
-      <span class="kesz<?= ($P['keszlet'] ?? '') === 'raktaron' ? '' : ' r' ?>"><?= ($P['keszlet'] ?? '') === 'raktaron' ? 'Raktáron – átvehető Pécsen' : (($P['keszlet'] ?? '') === 'elfogyott' ? 'Jelenleg elfogyott – érdeklődjön' : 'Rendelésre – kérjen időpontot') ?></span></div>
-    <a class="gomb" href="<?= h(shoplink($P)) ?>">Megrendelem a webáruházban ›</a><a class="gomb k" href="tel:+3672215652">Hívjon: 72/215-652</a><a class="gomb k" href="#uzenet" data-kapcsolat role="button" data-kapcsolat-targy="Ajánlatkérés" data-kapcsolat-termek="<?= h(fullname($P)) ?>">Kérdés e-mailben</a>
+      <?php $all = allapot($P); ?><span class="kesz<?= $all === 'raktaron' ? '' : ' r' ?>"><?= $all === 'raktaron' ? 'Raktáron – átvehető Pécsen' : ($all === 'elfogyott' ? 'Jelenleg elfogyott – érdeklődjön' : 'Rendelésre – érdeklődjön a beszerzési időről') ?></span></div>
+    <a class="gomb" href="<?= h(shoplink($P)) ?>">Megrendelem a webáruházban ›</a><a class="gomb k" href="<?= h(ptg_tel_href()) ?>">Hívjon: <?= h(ptg_tel()) ?></a><a class="gomb k" href="#uzenet" data-kapcsolat role="button" data-kapcsolat-targy="Ajánlatkérés" data-kapcsolat-termek="<?= h(fullname($P)) ?>">Kérdés e-mailben</a>
     <?php if (!empty($P['engedely'])): ?><p><b>NAV forgalmazási engedély:</b> <?= h($P['engedely']) ?></p><?php endif; ?>
     <?php if (!empty($P['garancia'])): ?><p><b>Garancia:</b> <?= h($P['garancia']) ?></p><?php endif; ?>
     <?php if (!empty($P['jellemzok'])): ?><h2>Főbb jellemzők</h2><ul class="jel"><?php foreach ($P['jellemzok'] as $j): ?><li><?= h($j) ?></li><?php endforeach; ?></ul><?php endif; ?>
@@ -245,19 +237,19 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
 </article>
 <?php if (ajanlott($P) !== ''): ?><section><h2>Kinek ajánljuk?</h2><p class="lead"><?= h(ajanlott($P)) ?></p></section><?php endif; ?>
 <?php if (!empty($P['leiras'])): ?><section><h2>Leírás</h2><p class="lead"><?= nl2br(h($P['leiras'])) ?></p></section><?php endif; ?>
-<?php if (!empty($P['specs'])): ?><section><h2>Műszaki adatok</h2><table><?php foreach ($P['specs'] as $s): ?><tr><th scope="row"><?= h($s[0]) ?></th><td><?= h($s[1]) ?></td></tr><?php endforeach; ?></table></section><?php endif; ?>
+<?php if (!empty($P['specs'])): ?><section><h2>Műszaki adatok</h2><table class="spec"><tbody><?php foreach ($P['specs'] as $s): ?><tr><th scope="row"><?= h($s[0]) ?></th><td><?= h($s[1]) ?></td></tr><?php endforeach; ?></tbody></table></section><?php endif; ?>
 <section><h2>Vásárlás, átvétel és szerviz Pécsen</h2><p class="lead">A terméket üzletünkben, Pécsen, a Hunyadi János utca 34. alatt veheti át (hétfőtől péntekig 9:00–15:00). Fizethet készpénzzel átvételkor vagy előre banki átutalással. <?= $P['kategoria'] === 'penztargep' ? 'Pénztárgépek esetén az üzembe helyezést, a NAV-bejelentést, a kezelés betanítását és az éves felülvizsgálatot is mi végezzük.' : 'A beállításban és a használatba vételben is segítünk.' ?></p></section>
 <?php $rel = array_values(array_filter($PRODS, fn($x) => $x['kategoria'] === $P['kategoria'] && $x['id'] !== $P['id'])); if ($rel): ?>
 <section><h2>Hasonló termékek</h2><div class="racs"><?php foreach (array_slice($rel, 0, 8) as $x) echo card($x); ?></div><p><a href="<?= h(klink($c['id'])) ?>">A csoport összes terméke ›</a></p></section>
 <?php endif; ?>
 
 <?php elseif ($id !== ''): ?>
-<h1>Ez a termék nem található</h1><p class="lead">Lehet, hogy már nem forgalmazzuk. Nézze meg teljes kínálatunkat, vagy hívjon minket: <a href="tel:+3672215652">72/215-652</a>.</p><p><a class="gomb" href="termek.php">Termékkatalógus ›</a></p>
+<h1>Ez a termék nem található</h1><p class="lead">Lehet, hogy már nem forgalmazzuk. Nézze meg teljes kínálatunkat, vagy hívjon minket: <a href="<?= h(ptg_tel_href()) ?>"><?= h(ptg_tel()) ?></a>.</p><p><a class="gomb" href="termek.php">Termékkatalógus <span aria-hidden="true">›</span></a></p>
 
 <?php else:
   $lista = $kat !== '' ? [$kat] : array_keys($CATS); ?>
 <h1><?= $kat !== '' ? h($CATS[$kat]['nev']) . ' Pécsen' : 'Termékkatalógus' ?></h1>
-<p class="lead"><?= $kat !== '' ? h($CATS[$kat]['leiras'] ?? '') : 'Online pénztárgépek, POS rendszerek, kasszafiókok, mérlegek, árazógépek, irodatechnika és kellékanyagok – személyes átvétellel, beüzemeléssel és helyi szervizzel Pécsen, 1982 óta.' ?></p>
+<p class="lead"><?= $kat !== '' ? h($CATS[$kat]['leiras'] ?? '') : 'Online pénztárgépek, POS-rendszerek, kasszafiókok, mérlegek, árazógépek, irodatechnika és kellékanyagok – személyes átvétellel, beüzemeléssel és helyi szervizzel Pécsen, 1982 óta.' ?></p>
 <div class="katok"><a href="termek.php"<?= $kat === '' ? ' class="on"' : '' ?>>Összes</a><?php foreach ($CATS as $k => $c) { if (!array_filter($PRODS, fn($p) => $p['kategoria'] === $k)) continue; echo '<a href="' . h(klink($k)) . '"' . ($k === $kat ? ' class="on"' : '') . '>' . h($c['nev']) . '</a>'; } ?></div>
 <?php foreach ($lista as $k): $ps = array_values(array_filter($PRODS, fn($p) => $p['kategoria'] === $k)); if (!$ps) continue; ?>
 <section><?php if ($kat === ''): ?><h2><a href="<?= h(klink($k)) ?>" style="text-decoration:none"><?= h($CATS[$k]['nev']) ?></a></h2><?php endif; ?><div class="racs"><?php foreach ($ps as $p) echo card($p); ?></div></section>
@@ -267,14 +259,7 @@ footer b{color:#f4d58d;font-family:var(--fd)}footer a{text-decoration:none}foote
 <p><a class="gomb" href="./<?= $kat !== '' ? '#kat-' . h($kat) : '#termekek' ?>">Tovább a webáruházba ›</a></p>
 <?php endif; ?>
 </main>
-<footer><div class="wrap">
-<div><b>Totál Pénztárgép és Számítástechnika Kkt.</b><br>7625 Pécs, Hunyadi János utca 34.<br>Pénztárgép szaküzlet és szerviz 1982 óta</div>
-<div><b>Elérhetőség</b><br>Telefon: <a href="tel:+3672215652">72/215-652</a><br><a href="#uzenet" data-kapcsolat role="button">E-mail küldése</a><br>Nyitvatartás: hétfő–péntek 9:00–15:00</div>
-<div><b>Kínálat</b><br><?php foreach ($CATS as $k => $c) { if (!array_filter($PRODS, fn($p) => $p['kategoria'] === $k)) continue; echo '<a href="' . h(klink($k)) . '">' . h($c['nev']) . '</a><br>'; } ?></div>
-</div></footer>
-<script>window.ZEPHYR_I18N_BASE="/nyelv/";</script>
-<script src="/assets/nyelv.js?v=20261104"></script>
-<script src="/assets/kapcsolat.js?v=20261104" defer></script>
-<script>if (window.ZI18N) ZI18N.mountPicker(document.querySelector("header nav"));</script>
+<?= ptg_lablec('../') ?>
+<?= ptg_szkriptek('/') ?>
 </body>
 </html>
