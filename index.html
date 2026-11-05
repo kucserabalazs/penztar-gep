@@ -237,6 +237,8 @@ ul.ticks svg{width:1.25em;height:1.25em;color:var(--gold);stroke-width:2.2;flex-
 .fp .pr small{font-family:var(--fb);font-weight:500;font-size:.75rem;color:var(--muted)}
 .fp .st{font-size:.8rem;font-weight:700;color:#17804a}
 .fp .st.low{color:#b06a00}.fp .st.last{color:#c0352b}
+.fp .st.kz{justify-self:start;max-width:100%;padding:3px 10px;border-radius:999px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fp .st.kz-szallitas{background:#e8f1fb;color:#1b558e!important}.fp .st.kz-egyedi{background:#fff4e0;color:#82500a!important}.fp .st.kz.nr,.fp .st.kz-elfogyott{background:#eef1f5;color:#4a5b6e!important}
 .ul-m{display:none}
 @media (max-width:900px){.ulast,.ul-d{display:none!important}.ul-m{display:inline}.fp .st.last{color:#17804a}}
 /* számok */
@@ -1657,27 +1659,37 @@ function autoDrift(el,speed){
   /* kiemelt termékek a webáruházból */
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
   function ft(n){ return Math.round(n).toLocaleString('hu-HU').replace(/\u00a0/g,' ')+' Ft'; }
+  /* készletnyilvántartás (a webáruház admin kapcsolója) és kézi termékállapot – ugyanaz a szabály, mint a webáruházban */
+  var KOV=true;
+  function kezi(p){ var k=p&&p.allapotKezi, t; if(k==='elfogyott') return {k:k,txt:'Elfogyott',rend:false}; if(k==='szallitas') return {k:k,txt:'Szállítás alatt',rend:true};
+    if(k==='egyedi'){ t=String(p.allapotSzoveg||'').replace(/\s+/g,' ').trim().slice(0,80); if(t) return {k:k,txt:t,rend:p.allapotRendelheto!==false}; } return null; }
+  function keziSt(m){ return '<span class="st kz kz-'+m.k+(m.rend?'':' nr')+'" title="'+esc(m.txt)+'">'+esc(m.txt)+'</span>'; }
   function show(d){
     if(!d||!d.products){ tartalek(); return; }
     var st=d.settings||{}; if(st.nyitva){ var H={}; Object.keys(st.nyitva).forEach(function(k){ var v=st.nyitva[k]; if(v){ var a=v[0].split(':'), b=v[1].split(':'); H[k]=[+a[0]*60+(+a[1]||0), +b[0]*60+(+b[1]||0)]; } }); HOURS=H; }
     if(Array.isArray(st.zarvaNapok)) CLOSED=st.zarvaNapok; render();
     if(st.nyitvatartas){ var fh=document.getElementById('fhours'); if(fh) fh.textContent=st.nyitvatartas; var cp=document.querySelector('.cream .cb p'); if(cp) cp.innerHTML='<b>Pécs, Hunyadi János utca 34.</b> · '+esc(st.nyitvatartas)+' · Ingyenes parkolás az üzlet előtt'; }
     var afa=1+((d.settings&&d.settings.afa)||27)/100;
-    var list=d.products.filter(function(p){return !p.rejtett && p.kategoria!=='hasznalt' && (p.kepek||[]).length && (p.keszletDb==null||p.keszletDb>0);}).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
+    KOV=d.keszletKovetes!==false;
+    /* kiemeltek: nem rendelhető (kézi állapot) termék nem kerül ide; elfogyott (0 db) csak bekapcsolt készletnyilvántartásnál marad ki */
+    var list=d.products.filter(function(p){ var m=kezi(p); return !p.rejtett && p.kategoria!=='hasznalt' && (p.kepek||[]).length && (m ? m.rend : (!KOV || p.keszletDb==null || p.keszletDb>0)); }).sort(function(a,b){return (b.kiemelt?1:0)-(a.kiemelt?1:0);}).slice(0,8);
     if(!kiemelt(list,afa)) tartalek();
     document.querySelectorAll('.pk[data-ids]').forEach(function(c){ var ids=c.getAttribute('data-ids').split(','), m=null; d.products.forEach(function(p){ var v=p.akciosAr||p.ar; if(ids.indexOf(p.id)>=0 && v && !p.rejtett){ v=v*afa; if(m==null||v<m) m=v; } }); var el=c.querySelector('[data-min]'); if(el && m) el.textContent=ft(m)+'-TÓL'; });
     var used=d.products.filter(function(p){return !p.rejtett && p.kategoria==='hasznalt';});
-    if(used.length){ document.getElementById('usedlist').innerHTML=used.map(function(p){ var pr=p.akciosAr||p.ar, img=(p.kepek||[])[0]||''; if(img&&!/^https?:|^\//.test(img)) img='webaruhaz/'+img; var a=p.keszletDb;
-      return '<a class="fp" href="webaruhaz/#kat-hasznalt/'+esc(p.id)+'"><span class="im"><span class="tg used">Használt</span>'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async">':'')+'</span><div class="bd"><h3>'+esc(p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?(p.arTol?'':'')+ft(pr*afa)+(p.arTol?'-tól':'')+' <small>bruttó</small>':'Ár kérésre')+'</span><span class="st">'+(a==null?'Rendelésre':(a>0?'Raktáron':'Elfogyott'))+(p.garancia?' · garancia: '+esc(p.garancia):'')+'</span></div></a>'; }).join('');
+    if(used.length){ document.getElementById('usedlist').innerHTML=used.map(function(p){ var pr=p.akciosAr||p.ar, img=(p.kepek||[])[0]||''; if(img&&!/^https?:|^\//.test(img)) img='webaruhaz/'+img; var a=p.keszletDb, m=kezi(p);
+      var st=m?keziSt(m)+(p.garancia?'<span class="st">garancia: '+esc(p.garancia)+'</span>':''):'<span class="st">'+(KOV?(a==null?'Rendelésre':(a>0?'Raktáron':'Elfogyott'))+(p.garancia?' · ':''):'')+(p.garancia?'garancia: '+esc(p.garancia):'')+'</span>';
+      if(!m&&!KOV&&!p.garancia) st='';
+      return '<a class="fp" href="webaruhaz/#kat-hasznalt/'+esc(p.id)+'"><span class="im"><span class="tg used">Használt</span>'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async">':'')+'</span><div class="bd"><h3>'+esc(p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span><span class="pr">'+(pr?(p.arTol?'':'')+ft(pr*afa)+(p.arTol?'-tól':'')+' <small>bruttó</small>':'Ár kérésre')+'</span>'+st+'</div></a>'; }).join('');
       document.getElementById('hasznalt').hidden=false; autoDrift(document.getElementById('usedlist'),20); }
     observe();
   }
   /* kiemelt kártyák; afa==null: beépített tartaléklista (ár és készlet nélkül – azokat csak a webáruház élő adata mutatja) */
   function kartya(p,afa){
-    var tart=afa==null, a=p.keszletDb, pr=p.akciosAr||p.ar, img=(p.kepek||[])[0]||''; if(img&&!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
-    var st=tart?'':(a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last"><span class="ul-d">Utolsó darab</span><span class="ul-m">Raktáron · 1 db</span></span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>')));
+    var tart=afa==null, a=p.keszletDb, m=tart?null:kezi(p), nincs=!tart&&!m&&!KOV, pr=p.akciosAr||p.ar, img=(p.kepek||[])[0]||''; if(img&&!/^https?:|^\//.test(img)) img='webaruhaz/'+img;
+    /* nincs: kikapcsolt készletnyilvántartás – nincs készletjelzés (az ár marad) */
+    var st=m?keziSt(m):(tart||nincs)?'':(a==null?'<span class="st">Rendelésre</span>':(a===1?'<span class="st last"><span class="ul-d">Utolsó darab</span><span class="ul-m">Raktáron · 1 db</span></span>':(a<=3?'<span class="st low">Csak '+a+' db raktáron</span>':'<span class="st">Raktáron · '+a+' db</span>')));
     var ar=tart?'<span class="pr tajek">Aktuális ár a webáruházban</span>':'<span class="pr">'+(pr?ft(pr*afa)+' <small>bruttó</small>':'Ár kérésre')+'</span>';
-    return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(!tart&&a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async"></span><div class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span>'+ar+st+'</div></a>';
+    return '<a class="fp" href="webaruhaz/#kat-'+esc(p.kategoria)+'/'+esc(p.id)+'"><span class="im">'+(!tart&&!nincs&&!m&&a===1?'<span class="tg ulast">Utolsó db</span>':'')+'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async"></span><div class="bd"><h3>'+esc((p.marka&&p.nev.indexOf(p.marka)<0?p.marka+' ':'')+p.nev)+'</h3><span class="sub">'+esc(p.alcim)+'</span>'+ar+st+'</div></a>';
   }
   var featEl=document.getElementById('featlist'), featKesz=false;
   function kiemelt(list,afa){

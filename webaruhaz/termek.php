@@ -35,6 +35,21 @@ function img(array $p): ?string { return ($p['kepek'][0] ?? null) ?: null; }
 function absurl(string $rel): string { return SHOP . ltrim($rel, './'); }
 function plink(array $p): string { return 'termek.php?id=' . rawurlencode($p['id']); }
 function klink(string $k): string { return 'termek.php?kat=' . rawurlencode($k); }
+/* készletnyilvántartás (admin kapcsoló a products.json gyökerében): hiányzik / true = be van kapcsolva */
+function kovet(): bool { global $db; return !array_key_exists('keszletKovetes', $db) || $db['keszletKovetes'] !== false; }
+/* kézi termékállapot (mindig érvényes, felülírja az automatikus jelzést): ['k','txt','rend'] vagy null */
+function kezi_all(array $p): ?array {
+  $k = (string)($p['allapotKezi'] ?? '');
+  if ($k === 'elfogyott') return ['k' => $k, 'txt' => 'Elfogyott', 'rend' => false];
+  if ($k === 'szallitas') return ['k' => $k, 'txt' => 'Szállítás alatt', 'rend' => true];
+  if ($k === 'egyedi') {
+    $t = trim((string)preg_replace('/\s+/u', ' ', strip_tags((string)($p['allapotSzoveg'] ?? ''))));
+    if ($t !== '') return ['k' => $k, 'txt' => mb_substr($t, 0, 80), 'rend' => ($p['allapotRendelheto'] ?? true) !== false];
+  }
+  return null;
+}
+/* rendelhető-e a webáruházban (a kézi „nem rendelhető” állapot kivételével igen; a készletet a webáruház kezeli) */
+function rendelheto(array $p): bool { $m = kezi_all($p); return !$m || $m['rend']; }
 /* készletállapot egy szabály szerint: raktáron / elfogyott / rendelésre */
 function allapot(array $p): string {
   $k = (string)($p['keszlet'] ?? '');
@@ -109,11 +124,14 @@ if ($P) {
     ];
     if (!empty($P['marka'])) { $prod['brand'] = ['@type' => 'Brand', 'name' => $P['marka']]; }
     if (!empty($P['specs'])) { $prod['additionalProperty'] = array_map(fn($s) => ['@type' => 'PropertyValue', 'name' => $s[0], 'value' => $s[1]], array_slice($P['specs'], 0, 20)); }
-    $all = allapot($P);
+    /* elérhetőség: kézi állapot (nem rendelhető → OutOfStock, rendelhető → BackOrder); kikapcsolt készletnyilvántartás → InStock;
+       egyébként a készlet szerint */
+    $mk = kezi_all($P); $all = allapot($P);
+    $avail = $mk ? ($mk['rend'] ? 'BackOrder' : 'OutOfStock') : (!kovet() ? 'InStock' : ($all === 'raktaron' ? 'InStock' : ($all === 'elfogyott' ? 'OutOfStock' : 'BackOrder')));
     $prod['offers'] = [
       '@type' => 'Offer', 'url' => $canon, 'priceCurrency' => 'HUF', 'price' => (string)gross($price),
       'priceSpecification' => ['@type' => 'UnitPriceSpecification', 'price' => gross($price), 'priceCurrency' => 'HUF', 'valueAddedTaxIncluded' => true],
-      'availability' => $all === 'raktaron' ? 'https://schema.org/InStock' : ($all === 'elfogyott' ? 'https://schema.org/OutOfStock' : 'https://schema.org/BackOrder'),
+      'availability' => 'https://schema.org/' . $avail,
       'itemCondition' => ($P['kategoria'] === 'hasznalt' || stripos($P['nev'], 'használt') !== false) ? 'https://schema.org/UsedCondition' : 'https://schema.org/NewCondition',
       'seller' => ['@id' => SITE . '/#uzlet'],
       'availableAtOrFrom' => ['@id' => SITE . '/#uzlet'],
@@ -176,7 +194,8 @@ function card(array $p): string {
   return '<a class="kartya" href="' . h(plink($p)) . '">'
     . '<span class="kk">' . ($i ? '<img src="' . h($i) . '" alt="" loading="lazy" decoding="async" width="320" height="240">' : '<img class="helyettes" src="../' . h(katkep($p['kategoria'] ?? '')) . '" alt="" loading="lazy" decoding="async" width="160" height="160">') . '</span>'
     . '<span class="kn"><b>' . nevhtml($p) . '</b><small>' . h($p['alcim'] ?? '') . '</small>'
-    . '<em>' . ($pr ? h(ft($pr)) . ($p['arTol'] ? '-tól' : '') . ' <i>+ ÁFA</i>' : 'Ár kérésre') . '</em></span></a>';
+    . '<em>' . ($pr ? h(ft($pr)) . ($p['arTol'] ? '-tól' : '') . ' <i>+ ÁFA</i>' : 'Ár kérésre') . '</em>'
+    . (($m = kezi_all($p)) ? '<span class="kz kz-' . h($m['k']) . ($m['rend'] ? '' : ' nr') . '">' . h($m['txt']) . '</span>' : '') . '</span></a>';
 }
 /* közösségi kép: a termékkép mérete a fájlból (ha olvasható), egyébként az alapértelmezett OG-kép */
 $ogkep = null;
@@ -209,6 +228,11 @@ if (($ogimg ?? '') !== '' && strpos($ogimg, SITE . '/') === 0) {
 <style>
 .kk img.helyettes{width:auto;height:auto;max-width:150px;max-height:150px;opacity:.9}
 .kep img.helyettes{max-width:62%;margin:0 auto}
+/* kézi termékállapot (Elfogyott / Szállítás alatt / egyedi ok) */
+.kesz.kz{max-width:100%;overflow-wrap:anywhere}
+.kz-szallitas{background:#e8f1fb!important;color:#1b558e!important}.kz-egyedi{background:#fff4e0!important;color:#82500a!important}.kz.nr,.kz-elfogyott{background:#eef1f5!important;color:#4a5b6e!important}
+.ar .kz-meg{display:block;margin-top:6px;color:#1b4b7a;font-size:.88rem;line-height:1.45}
+.kn .kz{align-self:flex-start;display:inline-block;max-width:100%;margin-top:4px;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -228,8 +252,12 @@ if (($ogimg ?? '') !== '' && strpos($ogimg, SITE . '/') === 0) {
     <h1><?= nevhtml($P) ?></h1>
     <p class="lead"><?= h($P['alcim'] ?? '') ?></p>
     <div class="ar"><?php if ($pr): ?><?php if (!empty($P['akciosAr'])): ?><s><?= h(ft($P['ar'])) ?></s><?php endif; ?><b><?= h(ft($pr)) ?><?= $P['arTol'] ? '-tól' : '' ?></b> <span>+ ÁFA</span><small>bruttó <?= h(ft(gross($pr))) ?> (<?= h((string)$AFA) ?>% ÁFA-val)</small><?php else: ?><b>Ár kérésre</b><small>Kérjen ajánlatot telefonon vagy e-mailben.</small><?php endif; ?>
-      <?php $all = allapot($P); ?><span class="kesz<?= $all === 'raktaron' ? '' : ' r' ?>"><?= $all === 'raktaron' ? 'Raktáron – átvehető Pécsen' : ($all === 'elfogyott' ? 'Jelenleg elfogyott – érdeklődjön' : 'Rendelésre – érdeklődjön a beszerzési időről') ?></span></div>
-    <a class="gomb" href="<?= h(shoplink($P)) ?>">Megrendelem a webáruházban ›</a><a class="gomb k" href="<?= h(ptg_tel_href()) ?>">Hívjon: <?= h(ptg_tel()) ?></a><a class="gomb k" href="#uzenet" data-kapcsolat role="button" data-kapcsolat-targy="Ajánlatkérés" data-kapcsolat-termek="<?= h(fullname($P)) ?>">Kérdés e-mailben</a>
+      <?php $mk = kezi_all($P); $all = allapot($P);
+      if ($mk): ?><span class="kesz kz kz-<?= h($mk['k']) ?><?= $mk['rend'] ? '' : ' nr' ?>"><?= h($mk['txt']) ?><?= $mk['k'] === 'elfogyott' ? ' – érdeklődjön, mikor érkezik újra' : '' ?></span><?php
+        if ($mk['k'] === 'szallitas'): ?><small class="kz-meg">A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.</small><?php
+        elseif (!$mk['rend'] && $mk['k'] === 'egyedi'): ?><small class="kz-meg">Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.</small><?php endif;
+      elseif (kovet()): ?><span class="kesz<?= $all === 'raktaron' ? '' : ' r' ?>"><?= $all === 'raktaron' ? 'Raktáron – átvehető Pécsen' : ($all === 'elfogyott' ? 'Jelenleg elfogyott – érdeklődjön' : 'Rendelésre – érdeklődjön a beszerzési időről') ?></span><?php endif; ?></div>
+    <a class="gomb" href="<?= h(shoplink($P)) ?>"><?= rendelheto($P) ? 'Megrendelem a webáruházban ›' : 'Megnézem a webáruházban ›' ?></a><a class="gomb k" href="<?= h(ptg_tel_href()) ?>">Hívjon: <?= h(ptg_tel()) ?></a><a class="gomb k" href="#uzenet" data-kapcsolat role="button" data-kapcsolat-targy="Ajánlatkérés" data-kapcsolat-termek="<?= h(fullname($P)) ?>">Kérdés e-mailben</a>
     <?php if (!empty($P['engedely'])): ?><p><b>NAV forgalmazási engedély:</b> <?= h($P['engedely']) ?></p><?php endif; ?>
     <?php if (!empty($P['garancia'])): ?><p><b>Garancia:</b> <?= h($P['garancia']) ?></p><?php endif; ?>
     <?php if (!empty($P['jellemzok'])): ?><h2>Főbb jellemzők</h2><ul class="jel"><?php foreach ($P['jellemzok'] as $j): ?><li><?= h($j) ?></li><?php endforeach; ?></ul><?php endif; ?>

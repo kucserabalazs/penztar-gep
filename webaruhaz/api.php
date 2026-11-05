@@ -128,7 +128,7 @@ function ft(int $n): string { return number_format($n, 0, ',', ' ') . ' Ft'; }
 function brutto($net, $afa): int { return (int)round((float)$net * (1 + (float)$afa / 100)); }
 // megrendelés összesítője e-mailhez
 function order_text(array $o): string {
-  $t = ''; foreach ($o['tetelek'] as $x) $t .= '- ' . ($x['db'] ?? 1) . ' × ' . ($x['nev'] ?? '') . (isset($x['brutto']) ? '  (' . ft((int)$x['brutto'] * (int)($x['db'] ?? 1)) . ')' : '') . "\n";
+  $t = ''; foreach ($o['tetelek'] as $x) $t .= '- ' . ($x['db'] ?? 1) . ' × ' . ($x['nev'] ?? '') . (!empty($x['allapot']) ? ' [' . $x['allapot'] . ']' : '') . (isset($x['brutto']) ? '  (' . ft((int)$x['brutto'] * (int)($x['db'] ?? 1)) . ')' : '') . "\n";
   foreach (($o['extrak'] ?? []) as $x) $t .= '- ' . $x['nev'] . '  (' . ft((int)$x['brutto']) . ")\n";
   if (!empty($o['osszeg'])) $t .= "\nFizetendő összesen (bruttó): " . ft((int)$o['osszeg']) . "\n";
   $t .= "\nÁtvétel: " . ($o['atvetel'] ?? '') . (!empty($o['szallcim']) ? ' – ' . $o['szallcim'] : '') . "\nFizetés: " . ($o['fizmod'] ?? '') . "\n";
@@ -265,12 +265,38 @@ function barion_start(array &$o): ?string {
   $o['fizetes']['paymentId'] = (string)$r['PaymentId'];
   return (string)$r['GatewayUrl'];
 }
-// raktárkészlet visszaadása (sikertelen fizetésnél)
+/* Készletnyilvántartás: a products.json gyökerében lévő kapcsoló (hiányzik vagy true = be van kapcsolva).
+   Kikapcsolva a rendelés nem ellenőrzi és nem csökkenti a készletet. */
+function keszlet_kovet(array $cat): bool { return !array_key_exists('keszletKovetes', $cat) || $cat['keszletKovetes'] !== false; }
+/* Kézi termékállapot (az admin állítja, a készletnyilvántartástól függetlenül érvényes):
+   'elfogyott' – nem rendelhető; 'szallitas' – rendelhető (előrendelés); 'egyedi' – saját szöveg, rendelhető, ha allapotRendelheto.
+   Visszaad: ['k' => ..., 'txt' => ..., 'rend' => bool] vagy null (nincs kézi állapot). */
+function kezi_allapot(array $p): ?array {
+  $k = (string)($p['allapotKezi'] ?? '');
+  if ($k === 'elfogyott') return ['k' => $k, 'txt' => 'Elfogyott', 'rend' => false];
+  if ($k === 'szallitas') return ['k' => $k, 'txt' => 'Szállítás alatt', 'rend' => true];
+  if ($k === 'egyedi') { $t = allapot_szoveg($p['allapotSzoveg'] ?? ''); if ($t !== '') return ['k' => $k, 'txt' => $t, 'rend' => ($p['allapotRendelheto'] ?? true) !== false]; }
+  return null;
+}
+/* az egyedi ok szövege: címkék és vezérlőkarakterek nélkül, egy sorban, legfeljebb 80 karakter */
+function allapot_szoveg($t): string {
+  $t = is_scalar($t) ? (string)$t : '';
+  $t = strip_tags($t);
+  $t = (string)preg_replace('/[\x00-\x1F\x7F<>]/u', ' ', $t);
+  $t = trim((string)preg_replace('/\s+/u', ' ', $t));
+  return mb_substr($t, 0, 80);
+}
+/* a kézi állapot miatt nem rendelhető termék hibaüzenete */
+function nem_rendelheto_uzenet(array $p, array $m): string {
+  return trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')) . ': jelenleg nem rendelhető (' . ($m['k'] === 'elfogyott' ? 'elfogyott' : $m['txt']) . ').';
+}
+// raktárkészlet visszaadása (sikertelen fizetésnél, lemondásnál) – csak a rendeléskor ténylegesen levont tételeké
+// (a 'levonva' jelző nélküli, régi tételeket levontnak tekintjük)
 function restock(array $tetelek): void {
   global $PRODUCTS;
   locked(function () use ($tetelek, $PRODUCTS) {
     $cat = read_json($PRODUCTS, []); $by = []; foreach (($cat['products'] ?? []) as $i => $p) $by[$p['id']] = $i;
-    foreach ($tetelek as $t) { if (!isset($by[$t['id']])) continue; $p = &$cat['products'][$by[$t['id']]];
+    foreach ($tetelek as $t) { if (!isset($by[$t['id']])) continue; if (array_key_exists('levonva', $t) && $t['levonva'] === false) continue; $p = &$cat['products'][$by[$t['id']]];
       if (isset($p['keszletDb']) && $p['keszletDb'] !== null) { $p['keszletDb'] += (int)$t['db']; if ($p['keszletDb'] > 0 && ($p['keszlet'] ?? '') === 'elfogyott') $p['keszlet'] = 'raktaron'; } unset($p); }
     write_json($PRODUCTS, $cat);
   });
@@ -291,7 +317,7 @@ function pay_refresh(string $orderId): ?array {
     foreach ($orders as &$x) if (($x['id'] ?? '') === $orderId && ($x['fizetes']['allapot'] ?? '') === 'fizetesre_var') {
       $x['fizetes']['allapot'] = $uj; $x['fizetes']['barion'] = $st; $x['fizetes']['ido'] = date('c');
       // sikertelen fizetés: a készlet visszakerül – de csak egyszer (ha közben az admin már lemondta, akkor nem)
-      if ($uj === 'sikertelen') { $x['visszatolt'] = empty($x['keszletVissza']); if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
+      if ($uj === 'sikertelen') { $x['visszatolt'] = empty($x['keszletVissza']) && !empty($x['tetelek']) && ($x['keszletLevonva'] ?? true) !== false; if ($x['visszatolt']) $x['keszletVissza'] = date('c'); }
       $hit = $x; unset($x['visszatolt']); }
     unset($x); if ($hit) write_json($ORDERS, $orders); return $hit;
   });
@@ -651,8 +677,12 @@ switch ($a) {
     // a készlet kiinduló értékei, ahogy a böngésző a katalógust betöltötte: termékazonosító => keszletDb (null = rendelésre)
     $alap = is_array($b['_alapKeszlet'] ?? null) ? $b['_alapKeszlet'] : null;
     unset($b['_alapKeszlet'], $b['fizetes']);
-    $res = locked(function () use ($b, $alap, $owner, $PRODUCTS) {
+    // készletnyilvántartás kapcsoló (gyökérkulcs, bármely admin állíthatja): csak logikai érték; ha a kérés nem küldi, a szerveren lévő marad (lent)
+    $kkvKuldve = array_key_exists('keszletKovetes', $b);
+    if ($kkvKuldve) { $v = $b['keszletKovetes']; $b['keszletKovetes'] = is_bool($v) ? $v : !in_array($v, [0, '0', 'false', 'ki', null], true); }
+    $res = locked(function () use ($b, $alap, $owner, $PRODUCTS, $kkvKuldve) {
       $cur = read_json($PRODUCTS, []);
+      if (!$kkvKuldve) $b['keszletKovetes'] = keszlet_kovet($cur);
       if (is_file($PRODUCTS)) copy($PRODUCTS, DATA . '/products.backup-' . date('Ymd-His') . '.json');
       // csak az utolsó 20 mentést tartjuk meg
       $bk = glob(DATA . '/products.backup-*.json'); sort($bk);
@@ -674,6 +704,14 @@ switch ($a) {
         $id = (string)$p['id'];
         if (array_key_exists('video', $p)) $p['video'] = safe_url($p['video']);
         if (is_array($p['letoltesek'] ?? null)) $p['letoltesek'] = array_values(array_filter(array_map(fn($d) => is_array($d) ? ['nev' => mb_substr(trim((string)($d['nev'] ?? '')), 0, 160), 'url' => safe_url($d['url'] ?? '')] : null, $p['letoltesek']), fn($d) => $d && $d['nev'] !== '' && $d['url'] !== ''));
+        // kézi állapot: csak az engedélyezett értékek; az egyedi ok szövege tisztítva, legfeljebb 80 karakter, nélküle nincs egyedi állapot
+        $ak = (string)($p['allapotKezi'] ?? '');
+        if (!in_array($ak, ['', 'elfogyott', 'szallitas', 'egyedi'], true)) $ak = '';
+        $asz = $ak === 'egyedi' ? allapot_szoveg($p['allapotSzoveg'] ?? '') : '';
+        if ($ak === 'egyedi' && $asz === '') $ak = '';
+        $p['allapotKezi'] = $ak; $p['allapotSzoveg'] = $asz;
+        $ar0 = $p['allapotRendelheto'] ?? true;
+        $p['allapotRendelheto'] = $ak === 'egyedi' ? !in_array($ar0, [false, 0, '0', 'false'], true) : true;
         $cli = (isset($p['keszletDb']) && is_numeric($p['keszletDb'])) ? max(0, (int)$p['keszletDb']) : null;
         if (isset($srvBy[$id])) {
           $srvV = $srvBy[$id]['keszletDb'] ?? null; $srv = is_numeric($srvV) ? (int)$srvV : null;
@@ -695,7 +733,7 @@ switch ($a) {
       $b['products'] = array_values($b['products']);
       write_json($PRODUCTS, $b);
       return ['regiSzamla' => (string)($regiSet['szamlaszam'] ?? ''), 'ujSzamla' => (string)($b['settings']['szamlaszam'] ?? ''), 'regiBank' => (string)($regiSet['bank'] ?? ''), 'ujBank' => (string)($b['settings']['bank'] ?? ''),
-              'setEldobva' => $setEldobva, 'nemMentve' => $nemMentve, 'keszlet' => $vegso, 'settings' => $b['settings']];
+              'setEldobva' => $setEldobva, 'nemMentve' => $nemMentve, 'keszlet' => $vegso, 'settings' => $b['settings'], 'keszletKovetes' => $b['keszletKovetes']];
     });
     // bankszámlaszám-változásról minden tulajdonos e-mailt kap
     if ($owner && ($res['regiSzamla'] !== $res['ujSzamla'] || $res['regiBank'] !== $res['ujBank'])) {
@@ -706,7 +744,7 @@ switch ($a) {
         . "Ez a számlaszám jelenik meg a vevőknek küldött utalási adatokban és a vásárlási feltételekben.\nHa nem Önök módosították, azonnal állítsák vissza, és cseréljék le az érintett jelszavát.\n\nTotál Pénztárgép és Számítástechnika";
       foreach (OWNERS as $o) { $e = owner_email($o['id']); if ($e !== '') send_mail($e, 'Figyelem: megváltozott a bankszámlaszám – penztar-gep.hu', $txt); }
     }
-    out(['ok' => true, 'keszlet' => $res['keszlet'], 'keszletNemMentve' => $res['nemMentve'], 'beallitasNemMentve' => $res['setEldobva'], 'settings' => $res['settings']]);
+    out(['ok' => true, 'keszlet' => $res['keszlet'], 'keszletNemMentve' => $res['nemMentve'], 'beallitasNemMentve' => $res['setEldobva'], 'settings' => $res['settings'], 'keszletKovetes' => $res['keszletKovetes']]);
 
   case 'upload':    // termékkép feltöltése
     need_auth(); check_csrf();
@@ -795,6 +833,7 @@ switch ($a) {
       $joDb = 0;
       foreach ($kerTetelek as $t) { $id = (string)(is_array($t) ? ($t['id'] ?? '') : ''); if (!isset($by0[$id])) continue;
         if (!empty($by0[$id]['rejtett'])) out(['error' => trim(($by0[$id]['marka'] ?? '') . ' ' . ($by0[$id]['nev'] ?? '')) . ': ez a termék már nem rendelhető. Kérjük, vegye ki a kosárból.', 'kosar' => true], 400);
+        $m0 = kezi_allapot($by0[$id]); if ($m0 && !$m0['rend']) out(['error' => nem_rendelheto_uzenet($by0[$id], $m0), 'kosar' => true], 409);
         $joDb++; }
       if (!$joDb) out(['error' => 'A kosárban nincs rendelhető termék. Kérjük, válassza ki újra a termékeket.', 'kosar' => true], 400);
     }
@@ -805,7 +844,7 @@ switch ($a) {
     $lock = fopen(DATA . '/.lock', 'c'); flock($lock, LOCK_EX);
     $cat = read_json($PRODUCTS, []);
     $byId = []; foreach (($cat['products'] ?? []) as $i => $p) if (isset($p['id'])) $byId[(string)$p['id']] = $i;
-    $vanGep = false;
+    $vanGep = false; $kovet = keszlet_kovet($cat); $levonva = false;
     foreach ($kerTetelek as $t) {
       if (!is_array($t)) continue;
       $id = (string)($t['id'] ?? ''); $db = max(1, min(99, (int)($t['db'] ?? 1)));
@@ -814,17 +853,23 @@ switch ($a) {
       if (!empty($p['rejtett'])) { flock($lock, LOCK_UN); out(['error' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')) . ': ez a termék már nem rendelhető. Kérjük, vegye ki a kosárból.', 'kosar' => true], 400); }
       $net = $netAr($p);
       if ($fizmod === 'online' && $net === null) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': az ára egyeztetés után derül ki, ezért online nem fizethető. Kérjük, válasszon átutalást.', 'kosar' => true], 400); }
-      if (isset($p['keszletDb']) && $p['keszletDb'] !== null && $p['keszletDb'] !== '') {
+      // kézi állapot: „elfogyott” és a nem rendelhető egyedi ok elutasítva; a rendelhető kézi állapot (szállítás alatt, egyedi) előrendelés: nem ellenőrzi és nem csökkenti a készletet
+      $mk = kezi_allapot($p);
+      if ($mk && !$mk['rend']) { flock($lock, LOCK_UN); out(['error' => nem_rendelheto_uzenet($p, $mk), 'kosar' => true], 409); }
+      $lev = false;
+      if ($kovet && !$mk && isset($p['keszletDb']) && $p['keszletDb'] !== null && $p['keszletDb'] !== '') {
         if ((int)$p['keszletDb'] < $db) { flock($lock, LOCK_UN); out(['error' => ($p['nev'] ?? 'A termék') . ': csak ' . (int)$p['keszletDb'] . ' db van raktáron.', 'kosar' => true], 409); }
         $p['keszletDb'] = (int)$p['keszletDb'] - $db;
         if ($p['keszletDb'] <= 0) { $p['keszletDb'] = 0; $p['keszlet'] = 'elfogyott'; }
+        $lev = $levonva = true;
       }
       // üzembe helyezés csak pénztárgéphez (ugyanaz a szabály, mint a pénztár oldalon: pénztárgép kategória, vagy használt pénztárgép)
       if (($p['kategoria'] ?? '') === 'penztargep' || (($p['kategoria'] ?? '') === 'hasznalt' && preg_match('/pénztárgép/iu', ($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')))) $vanGep = true;
-      $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $net, 'brutto' => $net === null ? null : brutto($net, $cat['settings']['afa'] ?? 27)];
+      $tetelek[] = ['id' => $id, 'db' => $db, 'nev' => trim(($p['marka'] ?? '') . ' ' . ($p['nev'] ?? '')), 'ar' => $net, 'brutto' => $net === null ? null : brutto($net, $cat['settings']['afa'] ?? 27), 'levonva' => $lev]
+        + ($mk ? ['allapot' => $mk['txt']] : []);
       unset($p);
     }
-    if ($tetelek) write_json($PRODUCTS, $cat);
+    if ($levonva) write_json($PRODUCTS, $cat);   // csak ha valóban csökkent a készlet
     flock($lock, LOCK_UN);
     if ($kosar && !$tetelek) out(['error' => 'A kosárban nincs rendelhető termék. Kérjük, válassza ki újra a termékeket.', 'kosar' => true], 400);
     // díjak: üzembe helyezés (csak ha pénztárgép van a kosárban), szállítás
@@ -847,6 +892,7 @@ switch ($a) {
       'adatlap' => $adatlap,
       'allapot' => 'uj'
     ];
+    if ($kosar) $rec['keszletLevonva'] = $levonva;   // lemondáskor / sikertelen fizetéskor csak ilyenkor töltünk vissza
     if ($kosar) $rec += ['extrak' => $extrak, 'osszeg' => $osszeg, 'atvetel' => $kiszall ? 'Kiszállítással' : 'Személyesen az üzletben', 'szallcim' => $szallcim, 'fizmod' => $fizszoveg,
       'adoszam' => $adoszam, 'szamlacim' => $szamlacim,
       'elfogadas' => ['aszf' => true, 'adatkezeles' => true, 'ido' => date('c')],   // a vásárlási feltételek és az adatkezelés elfogadása
@@ -981,7 +1027,8 @@ switch ($a) {
         if ($uj === 'folyamatban' && ($o['allapot'] ?? '') === 'uj' && !empty($o['tetelek']) && empty($o['visszaigazolva'])) { $o['visszaigazolva'] = date('c'); $vissza = $o; }
         if ($uj === 'lemondva' && ($o['allapot'] ?? '') !== 'lemondva') {
           $o['lemondva'] = date('c');
-          if (!empty($o['tetelek']) && empty($o['keszletVissza'])) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
+          // csak ha a rendeléskor csökkent a készlet (kikapcsolt készletnyilvántartásnál leadott rendelésnél nem); régi rendelés jelző nélkül: igen
+          if (!empty($o['tetelek']) && empty($o['keszletVissza']) && ($o['keszletLevonva'] ?? true) !== false) { $o['keszletVissza'] = date('c'); $restock = $o['tetelek']; }
         }
         $o['allapot'] = $uj;
       }
