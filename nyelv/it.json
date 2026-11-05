@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Stampanti da ufficio, multifunzione",
 "{#} × Hőpapírtekercsek": "{#} × Rotoli di carta termica",
 "{#} × Árazócímkék, festékhengerek": "{#} × Etichette prezzo, rulli inchiostratori",
-"{#} × Belövőszál {#} db": "{#} × Filo di aggancio, {#} pz"
+"{#} × Belövőszál {#} db": "{#} × Filo di aggancio, {#} pz",
+"Szállítás alatt": "In arrivo",
+"Nem rendelhető": "Non ordinabile",
+"Állapot": "Stato",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "Il prodotto è in arrivo da noi: può ordinarlo e la avviseremo non appena sarà pronto per il ritiro.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "Questo prodotto al momento non è ordinabile. Chieda informazioni per telefono o tramite messaggio.",
+"Ez a termék jelenleg nem rendelhető.": "Questo prodotto al momento non è ordinabile.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Rimuova dal carrello l'articolo non ordinabile prima di ordinare.",
+"Jelenleg nem rendelhető termék van a kosárban:": "Nel carrello c'è un prodotto al momento non ordinabile:",
+"Nem rendelhető tételek törlése": "Rimuovi gli articoli non ordinabili",
+"Megnézem a webáruházban ›": "Vedi nel negozio online ›",
+"garancia: {#} hónap": "garanzia: {#} mesi",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Registratore di cassa mobile portatile con GPS per mercati e consegne."
 }

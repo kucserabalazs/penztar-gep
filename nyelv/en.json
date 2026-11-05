@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Office printers, multifunction devices",
 "{#} × Hőpapírtekercsek": "{#} × Thermal paper rolls",
 "{#} × Árazócímkék, festékhengerek": "{#} × Price labels, ink rollers",
-"{#} × Belövőszál {#} db": "{#} × Tag pins, {#} pcs"
+"{#} × Belövőszál {#} db": "{#} × Tag pins, {#} pcs",
+"Szállítás alatt": "In transit",
+"Nem rendelhető": "Not available to order",
+"Állapot": "Status",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "This product is on its way to us – you can order it now and we will let you know as soon as it is ready for collection.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "This product is currently not available to order. Please ask us by phone or message.",
+"Ez a termék jelenleg nem rendelhető.": "This product is currently not available to order.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Please remove the item that is not available to order from your cart before ordering.",
+"Jelenleg nem rendelhető termék van a kosárban:": "Your cart contains a product that is currently not available to order:",
+"Nem rendelhető tételek törlése": "Remove items not available to order",
+"Megnézem a webáruházban ›": "View in the webshop ›",
+"garancia: {#} hónap": "warranty: {#} months",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Portable mobile cash register with GPS for markets and deliveries."
 }

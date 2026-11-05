@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Uredski pisači, višenamjenski uređaji",
 "{#} × Hőpapírtekercsek": "{#} × Role termalnog papira",
 "{#} × Árazócímkék, festékhengerek": "{#} × Naljepnice s cijenama, valjci s bojom",
-"{#} × Belövőszál {#} db": "{#} × Nit za označavanje {#} kom"
+"{#} × Belövőszál {#} db": "{#} × Nit za označavanje {#} kom",
+"Szállítás alatt": "U dolasku",
+"Nem rendelhető": "Nije moguće naručiti",
+"Állapot": "Status",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "Proizvod je na putu do nas – možete ga naručiti, a obavijestit ćemo vas čim bude spreman za preuzimanje.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "Ovaj proizvod trenutačno nije moguće naručiti. Raspitajte se telefonom ili porukom.",
+"Ez a termék jelenleg nem rendelhető.": "Ovaj proizvod trenutačno nije moguće naručiti.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Prije narudžbe uklonite iz košarice stavku koju nije moguće naručiti.",
+"Jelenleg nem rendelhető termék van a kosárban:": "U košarici je proizvod koji trenutačno nije moguće naručiti:",
+"Nem rendelhető tételek törlése": "Ukloni stavke koje nije moguće naručiti",
+"Megnézem a webáruházban ›": "Pogledaj u web-trgovini ›",
+"garancia: {#} hónap": "jamstvo: {#} mjeseci",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Prijenosna mobilna fiskalna blagajna s GPS-om za tržnicu i dostavu."
 }

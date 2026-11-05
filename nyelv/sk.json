@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Kancelárske tlačiarne, multifunkčné zariadenia",
 "{#} × Hőpapírtekercsek": "{#} × Kotúče termopapiera",
 "{#} × Árazócímkék, festékhengerek": "{#} × Cenovky, farbiace valčeky",
-"{#} × Belövőszál {#} db": "{#} × Splinty {#} ks"
+"{#} × Belövőszál {#} db": "{#} × Splinty {#} ks",
+"Szállítás alatt": "Na ceste k nám",
+"Nem rendelhető": "Nedá sa objednať",
+"Állapot": "Stav",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "Produkt je na ceste k nám – môžete si ho objednať a dáme vám vedieť, hneď ako si ho budete môcť prevziať.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "Tento produkt sa momentálne nedá objednať. Informujte sa telefonicky alebo správou.",
+"Ez a termék jelenleg nem rendelhető.": "Tento produkt sa momentálne nedá objednať.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Pred objednaním odstráňte z košíka položku, ktorú nemožno objednať.",
+"Jelenleg nem rendelhető termék van a kosárban:": "V košíku je produkt, ktorý sa momentálne nedá objednať:",
+"Nem rendelhető tételek törlése": "Odstrániť položky, ktoré nemožno objednať",
+"Megnézem a webáruházban ›": "Pozrieť v e-shope ›",
+"garancia: {#} hónap": "záruka: {#} mesiacov",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Prenosná pokladnica s GPS pre trh a rozvoz."
 }

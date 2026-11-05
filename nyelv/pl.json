@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Drukarki biurowe, urządzenia wielofunkcyjne",
 "{#} × Hőpapírtekercsek": "{#} × Rolki papieru termicznego",
 "{#} × Árazócímkék, festékhengerek": "{#} × Etykiety cenowe, wałki barwiące",
-"{#} × Belövőszál {#} db": "{#} × Łączniki do metek {#} szt."
+"{#} × Belövőszál {#} db": "{#} × Łączniki do metek {#} szt.",
+"Szállítás alatt": "W drodze",
+"Nem rendelhető": "Niedostępny do zamówienia",
+"Állapot": "Status",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "Produkt jest w drodze do nas – możesz go zamówić, a powiadomimy Cię, gdy tylko będzie gotowy do odbioru.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "Tego produktu nie można obecnie zamówić. Zapytaj telefonicznie lub w wiadomości.",
+"Ez a termék jelenleg nem rendelhető.": "Tego produktu nie można obecnie zamówić.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Przed złożeniem zamówienia usuń z koszyka pozycję niedostępną do zamówienia.",
+"Jelenleg nem rendelhető termék van a kosárban:": "W koszyku jest produkt, którego nie można obecnie zamówić:",
+"Nem rendelhető tételek törlése": "Usuń pozycje niedostępne do zamówienia",
+"Megnézem a webáruházban ›": "Zobacz w sklepie internetowym ›",
+"garancia: {#} hónap": "gwarancja: {#} miesięcy",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Przenośna mobilna kasa z GPS na targ i do dostaw."
 }

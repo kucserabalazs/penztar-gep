@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × Bürodrucker, Multifunktionsgeräte",
 "{#} × Hőpapírtekercsek": "{#} × Thermopapierrollen",
 "{#} × Árazócímkék, festékhengerek": "{#} × Preisetiketten, Farbrollen",
-"{#} × Belövőszál {#} db": "{#} × Heftfäden, {#} Stk."
+"{#} × Belövőszál {#} db": "{#} × Heftfäden, {#} Stk.",
+"Szállítás alatt": "Unterwegs zu uns",
+"Nem rendelhető": "Nicht bestellbar",
+"Állapot": "Status",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "Das Produkt ist auf dem Weg zu uns – Sie können es bestellen, und wir benachrichtigen Sie, sobald es abholbereit ist.",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "Dieses Produkt ist derzeit nicht bestellbar. Fragen Sie bitte telefonisch oder per Nachricht nach.",
+"Ez a termék jelenleg nem rendelhető.": "Dieses Produkt ist derzeit nicht bestellbar.",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "Bitte entfernen Sie den nicht bestellbaren Artikel vor der Bestellung aus dem Warenkorb.",
+"Jelenleg nem rendelhető termék van a kosárban:": "Ihr Warenkorb enthält ein derzeit nicht bestellbares Produkt:",
+"Nem rendelhető tételek törlése": "Nicht bestellbare Artikel entfernen",
+"Megnézem a webáruházban ›": "Im Webshop ansehen ›",
+"garancia: {#} hónap": "Garantie: {#} Monate",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "Tragbare mobile Registrierkasse mit GPS für Markt und Lieferung."
 }

@@ -2037,5 +2037,17 @@
 "{#} × Irodai nyomtatók és multifunkciós gépek": "{#} × 办公打印机、多功能一体机",
 "{#} × Hőpapírtekercsek": "{#} × 热敏纸卷",
 "{#} × Árazócímkék, festékhengerek": "{#} × 价签、墨轮",
-"{#} × Belövőszál {#} db": "{#} × 吊牌线 {#} 根"
+"{#} × Belövőszál {#} db": "{#} × 吊牌线 {#} 根",
+"Szállítás alatt": "运输中",
+"Nem rendelhető": "暂不可订购",
+"Állapot": "状态",
+"A termék úton van hozzánk – megrendelheti, és értesítjük, amint átvehető.": "该商品正在运往我们这里——您可以先下单，可取货时我们会立即通知您。",
+"Ez a termék jelenleg nem rendelhető. Érdeklődjön telefonon vagy üzenetben.": "该商品目前暂不可订购。请致电或留言咨询。",
+"Ez a termék jelenleg nem rendelhető.": "该商品目前暂不可订购。",
+"A nem rendelhető tételt törölje a kosárból, mielőtt megrendel.": "下单前请将不可订购的商品从购物车中删除。",
+"Jelenleg nem rendelhető termék van a kosárban:": "购物车中有目前暂不可订购的商品：",
+"Nem rendelhető tételek törlése": "删除不可订购的商品",
+"Megnézem a webáruházban ›": "在网店查看 ›",
+"garancia: {#} hónap": "保修：{#} 个月",
+"Hordozható, GPS-es mobil pénztárgép piacokra és kiszállításhoz.": "带 GPS 的便携式移动收银机，适合集市和送货。"
 }
