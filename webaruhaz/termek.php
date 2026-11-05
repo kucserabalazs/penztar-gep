@@ -217,9 +217,9 @@ if (($ogimg ?? '') !== '' && strpos($ogimg, SITE . '/') === 0) {
 <?php else: ?><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="<?= h($canon) ?>">
 <?php endif; ?>
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="../assets/favicon-64.png">
-<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="icon" href="../favicon.ico?v=20261105ik" sizes="any">
+<link rel="icon" type="image/png" href="../assets/favicon-64.png?v=20261105ik">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=20261105ik">
 <meta name="theme-color" content="#082746">
 <?= ptg_kozossegi($title, $desc ?? '', $canon ?? SHOP, $P ? 'product' : 'website', $ogkep) ?>
 <link rel="stylesheet" href="../assets/fonts/betutipusok.css?v=20261105">
