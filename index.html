@@ -1327,6 +1327,8 @@ main#tartalom:focus{outline:none}
   #fomenu.open .dd2>a.it{display:flex!important;align-items:center;gap:10px;width:100%!important;min-height:52px;justify-content:flex-start!important;padding:0 22px!important;margin:0!important;font-size:18px!important;font-weight:600;color:#fff!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
   #fomenu.open .dd2>a.it svg{display:inline!important;width:18px!important;height:18px!important;margin-left:2px}
   #fomenu.open .wrap>a:focus-visible,#fomenu.open .dd2>a.it:focus-visible{outline-offset:-4px}
+  #fomenu.open .kdb{position:static;margin-left:6px;box-shadow:0 0 0 2px #f4d58d}
+  .nezetval .nv-sep{display:none}
 }
 /* nyitott menü / nyelvválasztó alatt a lebegő kosár, az alsó Hívás–Útvonal sáv és a „fel” gomb nem takar */
 html.menu-nyitva .kosar-lebego,html.menu-nyitva .mbar,html.menu-nyitva .fel-gomb,
@@ -1360,7 +1362,8 @@ html.zi-nyitva .kosar-lebego,html.zi-nyitva .mbar,html.zi-nyitva .fel-gomb{visib
 /* animációk szüneteltetve: a felbukkanó szakaszcímek aranyvonala azonnal teljes */
 html.anim-szunet .shead.rv.in .sh2 em::after{animation:none!important;clip-path:inset(0 0 0 0)!important}
 /* kezdőkép: a jelvény ne takarja a címet (a JS szükség szerint kisebbíti a címet) */
-.ht h1{transition:none}
+.ht.jv-lent .lau-m{bottom:auto!important;top:calc(100% + 2px)!important}
+.ht.jv-sor .lau-m{position:static!important;display:block;margin:6px 4px -8px auto}
 </style>
 </head>
 <body>
@@ -1837,7 +1840,7 @@ var t=null;d.addEventListener('mouseenter',function(){if(!mob()){clearTimeout(t)
 })();
 </script>
 <script id="illesztes-js">/* 1) asztali menüsor: ha egy nyelven nem fér ki, fokozatosan tömörebb (szuk1–3)
-   2) telefonon a „Pécs 1982 óta” jelvény ne takarja a címet: ha valamelyik sor alá csúszna, a cím kicsit kisebb lesz */
+   2) telefonon a „Pécs 1982 óta” jelvény ne takarja a címet: ha valamelyik sor alá csúszna, a cím alá kerül */
 (function(){
   var nav=document.getElementById('fomenu'), wrap=nav&&nav.querySelector('.wrap'), mob=matchMedia('(max-width:820px),(max-height:500px) and (max-width:1000px)');
   function tulfolyik(){
@@ -1847,20 +1850,25 @@ var t=null;d.addEventListener('mouseenter',function(){if(!mob()){clearTimeout(t)
     return min<bal||max>jobb;
   }
   function menu(){ if(!wrap) return; nav.classList.remove('szuk1','szuk2','szuk3'); if(mob.matches) return; for(var i=1;i<=3&&tulfolyik();i++) nav.classList.add('szuk'+i); }
-  var ht=document.querySelector('.hero .ht'), jv=ht&&ht.querySelector('.lau-m'), h1=ht&&ht.querySelector('h1');
-  function eltolas(el){ for(var e=el;e&&e!==h1;e=e.parentNode){ if(e.nodeType===1){ var t=getComputedStyle(e).transform; if(t&&t!=='none'){ var m=t.match(/matrix\(([^)]+)\)/); if(m){ var v=m[1].split(','); return +v[4]||0; } } } } return 0; }
-  function utkozik(){
-    var H=ht.getBoundingClientRect(), bw=jv.offsetWidth, bh=jv.offsetHeight, x1=jv.offsetLeft+bw*.1, x2=jv.offsetLeft+bw*.9, y1=jv.offsetTop+bh*.1, y2=jv.offsetTop+bh*.9;
-    var tw=document.createTreeWalker(h1,NodeFilter.SHOW_TEXT,null), n, rg=document.createRange();
-    while((n=tw.nextNode())){ if(!n.nodeValue.trim()) continue; var dx=eltolas(n.parentNode); rg.selectNodeContents(n); var rs=rg.getClientRects();
+  var ht=document.querySelector('.hero .ht'), jv=ht&&ht.querySelector('.lau-m'), h1=ht&&ht.querySelector('h1'), pipak=document.querySelector('.hero ul.ticks');
+  /* a belépő animáció (translateX) nélküli helyzet: a szöveg szülőinek eltolását visszaszámoljuk */
+  function eltolas(el,meddig){ var dx=0; for(var e=el;e&&e!==meddig.parentNode;e=e.parentNode){ if(e.nodeType===1){ var t=getComputedStyle(e).transform; if(t&&t!=='none'){ var m=t.match(/matrix\(([^)]+)\)/); if(m) dx+=(+m[1].split(',')[4]||0); } } } return dx; }
+  function utkozik(gyoker){
+    if(!gyoker) return false;
+    var H=ht.getBoundingClientRect(), bw=jv.offsetWidth, bh=jv.offsetHeight, x1=jv.offsetLeft+bw*.05, x2=jv.offsetLeft+bw*.95, y1=jv.offsetTop+bh*.08, y2=jv.offsetTop+bh*.92;
+    var tw=document.createTreeWalker(gyoker,NodeFilter.SHOW_TEXT,null), n, rg=document.createRange();
+    while((n=tw.nextNode())){ if(!n.nodeValue.trim()) continue; var dx=eltolas(n.parentNode,gyoker); rg.selectNodeContents(n); var rs=rg.getClientRects();
       for(var i=0;i<rs.length;i++){ var r=rs[i]; if(r.width<1) continue; var l=r.left-dx-H.left, rr=r.right-dx-H.left, t=r.top-H.top+r.height*.12, b=r.bottom-H.top-r.height*.12; if(rr>x1&&l<x2&&b>y1&&t<y2) return true; } }
     return false;
   }
   function jelveny(){
-    if(!jv||!h1) return; h1.style.removeProperty('font-size');
-    if(getComputedStyle(jv).display==='none'||!jv.offsetWidth) return;
-    var fs=parseFloat(getComputedStyle(h1).fontSize), also=fs*.74, k=0;
-    while(k<10&&utkozik()){ fs*=.95; if(fs<also) break; h1.style.setProperty('font-size',fs.toFixed(1)+'px','important'); k++; }
+    if(!jv||!h1) return; ht.classList.remove('jv-lent','jv-sor');
+    if(getComputedStyle(jv).display==='none'||!jv.offsetWidth||!utkozik(h1)) return;
+    /* 1. lépés: a jelvény a cím alá, jobbra kerül (a rövid pipás sorok mellé) */
+    ht.classList.add('jv-lent');
+    if(!utkozik(h1)&&!utkozik(pipak)) return;
+    /* 2. lépés: ha ott a pipás sorokkal ütközne, saját sorba kerül a cím alá (semmit nem takar) */
+    ht.classList.remove('jv-lent'); ht.classList.add('jv-sor');
   }
   function mind(){ menu(); jelveny(); }
   var tm=0; function kesobb(){ clearTimeout(tm); tm=setTimeout(mind,120); }

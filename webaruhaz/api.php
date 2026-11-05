@@ -859,7 +859,7 @@ switch ($a) {
     orders_add($rec);   // az adatlapot titkosítva írja ki; a $rec itt olvasható marad a levelekhez
     if ($gw) out(['ok' => true, 'id' => $rec['id'], 'fizetes' => $gw]);   // az értesítők a sikeres fizetés után mennek ki
     mail_shop($rec, $kosar ? 'Új megrendelés a weboldalról' : 'Új ' . $rec['tipus'] . ' a weboldalról');
-    if ($kosar && $tetelek && email_ok($rec['email'])) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolással együtt küldjük.' : ''));
+    if ($kosar && $tetelek && email_ok($rec['email'])) mail_customer($rec, "Megrendelését megkaptuk – {$rec['id']}", 'Köszönjük a megrendelését! Ez automatikus értesítés arról, hogy megrendelését megkaptuk és az alábbi adatokkal rögzítettük. Ez még nem a megrendelés elfogadása: munkatársunk a készlet és az ár ellenőrzése után külön e-mailben igazolja vissza.' . ($fizmod === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt a visszaigazolás után külön e-mailben küldjük.' : ''));
     out(['ok' => true, 'id' => $rec['id']]);
 
   case 'barion-callback':   // a Barion szól, ha egy fizetés állapota megváltozott
@@ -992,7 +992,7 @@ switch ($a) {
     if (!$r['talalt']) out(['error' => 'Ilyen rendelés nincs.'], 404);
     if ($r['restock']) restock($r['restock']);   // a saját zárolásával, a fenti blokk után (egymásba ágyazott zárolás holtpontot okozna)
     $vissza = $r['vissza'];
-    if ($vissza) mail_customer($vissza, "Megrendelés visszaigazolása – {$vissza['id']}", 'Megrendelését visszaigazoljuk: az alábbi tételeket az Ön részére előkészítjük, a megrendelés ezzel elfogadásra került. Amikor a termék átvehető, e-mailben értesítjük.' . (($vissza['fizetes']['mod'] ?? '') === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt külön küldjük.' : ''));
+    if ($vissza) mail_customer($vissza, "Megrendelés visszaigazolása – {$vissza['id']}", 'Megrendelését visszaigazoljuk: az alábbi tételeket az Ön részére előkészítjük, a megrendelés ezzel elfogadásra került. Amikor a termék átvehető, e-mailben értesítjük.' . (($vissza['fizetes']['mod'] ?? '') === 'atutalas' ? ' Az utaláshoz szükséges díjbekérőt külön e-mailben küldjük.' : ''));
     out(['ok' => true, 'visszaigazolva' => $vissza ? $vissza['visszaigazolva'] : null, 'keszletVissza' => (bool)$r['restock']]);
 
   default:

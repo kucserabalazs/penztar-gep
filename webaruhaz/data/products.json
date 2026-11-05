@@ -42,7 +42,12 @@
   "cegjegyzekszam": "02-03-060236",
   "bank": "K&H Bank",
   "szamlaszam": "10402427-24252854-00000000",
-  "cegnevRovid": "Totál Kkt."
+  "cegnevRovid": "Totál Kkt.",
+  "cegnevJogi": "Totál Irodagép és Számítástechnikai Közkereseti Társaság (rövid név: Totál Kkt.)",
+  "cegnevJogiRovid": "Totál Irodagép és Számítástechnikai Kkt.",
+  "cegbirosag": "Pécsi Törvényszék Cégbírósága",
+  "tarhely": "ELIN.hu Kft. · 9024 Győr, Déry T. u. 11. 2. em. 4. · info@elin.hu · +36 1 477 1000 · elin.hu",
+  "email2": "totalkkt@totalkkt.t-online.hu"
  },
  "categories": [
   {
