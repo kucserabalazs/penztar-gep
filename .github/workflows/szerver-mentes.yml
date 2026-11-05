@@ -17,6 +17,8 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: write
 jobs:
   mentes:
     runs-on: ubuntu-latest
@@ -55,12 +57,16 @@ jobs:
             rm -rf "$A"
           fi
           rm -rf "$D" "$U"
-      - name: Titkosított másolat feltöltése (letöltéshez)
+      - name: Titkosított másolat a „tarhely-mentes-titkositott” ágra (letöltéshez)
         if: ${{ github.event.inputs.letoltes == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: tarhely-mentes-titkositott
-          path: |
-            ${{ runner.temp }}/adat.tgz.enc
-            ${{ runner.temp }}/kulcs.enc
-          retention-days: 1
+        run: |
+          set -euo pipefail
+          M="${{ github.event.inputs.nev }}"; M=$(printf '%s' "$M" | tr -cd 'A-Za-z0-9._-'); [ -n "$M" ] || M=$(TZ=Europe/Budapest date +%Y%m%d-%H%M)
+          W="$RUNNER_TEMP/w"; git init -q "$W"; cd "$W"
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          if git fetch -q --depth 1 origin tarhely-mentes-titkositott 2>/dev/null; then git checkout -q -b tarhely-mentes-titkositott FETCH_HEAD; else git checkout -q --orphan tarhely-mentes-titkositott; fi
+          mkdir -p "$M"; cp "$RUNNER_TEMP/adat.tgz.enc" "$RUNNER_TEMP/kulcs.enc" "$M/"
+          printf 'Titkosított tárhelymentés (AES-256, a kulcs RSA-val titkosítva). Csak a tulajdonos privát kulcsával nyitható ki.\n' > README.txt
+          git add -A; git -c user.name=mentes -c user.email=mentes@users.noreply.github.com commit -qm "Titkosított tárhelymentés: $M"
+          git push -q origin tarhely-mentes-titkositott
+          echo "Feltöltve: tarhely-mentes-titkositott/$M"
