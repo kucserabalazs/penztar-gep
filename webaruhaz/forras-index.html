@@ -1412,7 +1412,8 @@ html[dir=rtl] .top .hnyelv{display:none}
 .pcard .pst{font-size:.68rem;font-weight:700;border-radius:999px;padding:4px 8px;white-space:nowrap}
 .pcard .pst.r{background:#e6f4ec;color:#17643b}.pcard .pst.o{background:#fff2dc;color:#8a5200}.pcard .pst.x{background:#eceff3;color:#5f6f80}
 .pcard .pst.sz{background:#e5effa;color:#1b558e}.pcard .pst.e{background:#fff2dc;color:#82500a}
-.pcard .pst.k{display:block;max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pcard .pmeta.pm-kz{flex-wrap:wrap;row-gap:6px}
+.pcard .pst.k{flex:0 0 auto;max-width:100%;white-space:normal;line-height:1.3;border-radius:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .pcard[hidden]{display:none!important}
 @media (max-width:900px){
   .pcard .pmeta{flex-direction:column;align-items:flex-start;gap:4px;margin:6px 0 2px;padding-top:6px}
@@ -2173,7 +2174,7 @@ function pcardHTML(p, sel, i=0){
     ${m&&!m.rend?`<span class="tag navy ptag">${esc(nemRendTxt(p))}</span>`:kov&&!m&&a===1?'<span class="tag red ptag ulast">Utolsó db</span>':(kov&&!m&&a===0?'<span class="tag navy ptag">Elfogyott</span>':(p.akciosAr?'<span class="tag red ptag">Akció</span>':(p.kategoria==='hasznalt'?'<span class="tag ptag hsz">Használt</span>':'')))}
     <a class="pimg" href="${href}" aria-label="${esc(fullName(p))}">${ph?`<img src="${esc(ph)}" alt="${esc(fullName(p))}" loading="lazy">`:miniModel(p)}</a>
     ${tp?`<span class="ptype">${esc(tp)}</span>`:''}<h3>${esc(nb(fullName(p).replace(/^Sam4s/,'SAM4S')))}</h3><p>${esc(p.alcim)}</p>
-    <div class="pmeta"><span class="pprice">${p.ar?`<b class="num">${ft(gross(now(p)))}${p.arTol?'-tól':''}</b><small>bruttó</small><small class="pnet num">${nettoTxt(now(p))}</small>`:'<b>Ár kérésre</b>'}</span>${pst}</div>
+    <div class="pmeta${m?' pm-kz':''}"><span class="pprice">${p.ar?`<b class="num">${ft(gross(now(p)))}${p.arTol?'-tól':''}</b><small>bruttó</small><small class="pnet num">${nettoTxt(now(p))}</small>`:'<b>Ár kérésre</b>'}</span>${pst}</div>
     <a class="btn sm pbtn ${sel?'gold':'line'}" href="${href}">Részletek ${icon('chev','ic','width:14px;height:14px')}</a></article>`;
 }
 function tabContent(p,k){
@@ -3539,6 +3540,32 @@ async function exportClients(){
 async function showClientLog(){ try{ const l=await api('clients-log'); cModal(`<span class="eyebrow">Biztonság</span><h2 class="it-title" style="font-size:1.5rem">Ügyféllista napló</h2><p class="muted">Ki, mikor nyitotta meg, módosította, importálta vagy exportálta a listát.</p><div class="tablewrap"><table class="ptable"><thead><tr><th>Időpont</th><th>Ki</th><th>Mit</th></tr></thead><tbody>${l.slice(0,100).map(x=>`<tr><td class="num" data-l="Időpont">${esc(new Date(x.ido).toLocaleString('hu-HU'))}</td><td data-l="Ki"><b>${esc(x.nev)}</b><br><small class="muted num">${esc(x.ip)}</small></td><td data-l="Mit">${esc(x.mit)}</td></tr>`).join('')}</tbody></table></div>`,820); }catch(err){ toast(err.message); } }
 
 /* ================= útválasztás ================= */
+/* ================= jogi oldalak fordítása: egész bekezdésenként (nyelv/jogi-<nyelv>.json), nem töredékenként ================= */
+const JOGI={src:null,dict:{},orig:new WeakMap()};
+const jogiBase=()=>window.ZEPHYR_I18N_BASE||'../nyelv/';
+async function jogiJson(n){ try{ const r=await fetch(jogiBase()+'jogi-'+n+'.json',{cache:'no-cache'}); return r.ok?await r.json():null; }catch(_){ return null; } }
+function jogiElemek(){ const app=$('#app'), out=[], head=app.querySelector('.pagehead');
+  if(head){ const h1=head.querySelector('h1'); if(h1) out.push(h1); const pp=head.querySelector('p'); if(pp&&pp.textContent.trim()) out.push(pp); }
+  const root=app.querySelector('.aszf')||app.querySelector('.panel'); if(!root) return out;
+  root.querySelectorAll('.atoc a').forEach(a=>out.push(a));
+  root.querySelectorAll('h3,h4,p,li,th,.acim').forEach(e=>{ if(e.closest('.atoc')||(e.matches('p')&&e.closest('li'))||e.closest('.utalas, table.utal')||e.querySelector('h3,h4,p,li')) return; out.push(e); });
+  return out; }
+function jogiKulcs(html){ const s=S(); let t=html.replace(/<svg[\s\S]*?<\/svg>/g,'').replace(/ class="[^"]*"/g,'').replace(/<span><\/span>/g,'______').trim();
+  for(const [a,b] of [[s.cim,'{CIM}'],[s.nyitvatartas,'{NYITVATARTAS}'],[s.email,'{EMAIL}'],[s.email2,'{EMAIL2}'],[s.cegnevJogiRovid||'Totál Irodagép és Számítástechnikai Kkt.','{ELADO}'],[s.cegnev,'{CEGNEV}'],[s.telefon,'{TELEFON}']]) if(a) t=t.split(esc(a)).join(b).split(a).join(b);
+  return t; }
+function jogiKitolt(t){ const s=S(); return t.replace(/\{(CIM|NYITVATARTAS|EMAIL2|EMAIL|ELADO|CEGNEV|TELEFON)\}/g,(m,k)=>esc(({CIM:s.cim,NYITVATARTAS:(window.ZI18N&&ZI18N.lang!=='hu'?ZI18N.t(s.nyitvatartas||''):s.nyitvatartas),EMAIL:s.email,EMAIL2:s.email2,ELADO:s.cegnevJogiRovid||'Totál Irodagép és Számítástechnikai Kkt.',CEGNEV:s.cegnev,TELEFON:s.telefon})[k]||'')); }
+async function jogiFordit(){ const lang=(window.ZI18N&&ZI18N.lang)||'hu', els=jogiElemek(); if(!els.length) return;
+  if(!JOGI.src) JOGI.src=await jogiJson('hu')||{};
+  if(lang!=='hu'&&!(lang in JOGI.dict)) JOGI.dict[lang]=await jogiJson(lang);
+  const d=lang==='hu'?null:JOGI.dict[lang], idOf={}; for(const [id,v] of Object.entries(JOGI.src)) idOf[v.hu]=id;
+  let kell=false;
+  els.forEach(el=>{ if(!el.isConnected) return; if(!JOGI.orig.has(el)) JOGI.orig.set(el,el.innerHTML); const hu=JOGI.orig.get(el), id=idOf[jogiKulcs(hu)];
+    if(!id){ if(el.hasAttribute('data-noi18n')){ el.removeAttribute('data-noi18n'); kell=true; } return; }
+    if(lang==='hu'){ el.innerHTML=hu; el.setAttribute('data-noi18n',''); el.removeAttribute('lang'); return; }
+    if(d&&d[id]){ const svg=(hu.match(/<svg[\s\S]*?<\/svg>/)||[''])[0]; el.innerHTML=(svg?svg+' ':'')+jogiKitolt(d[id]); el.setAttribute('data-noi18n',''); el.setAttribute('lang',lang); }
+    else { el.innerHTML=hu; el.removeAttribute('data-noi18n'); el.setAttribute('lang','hu'); kell=true; } });
+  if(kell) window.ZI18N?.rescan?.(); }
+addEventListener('ptg-lang',()=>{ if(['aszf','impresszum','adatkezeles'].includes(location.hash.slice(1))) jogiFordit(); });
 function afterRender(){ const app=$('#app'); app.style.minHeight=''; window.ragadtFrissit?.(); STAGES.length=0; initStages(app); fitMinis(app); bindForms(app);
   $$('[data-add]',app).forEach(b=>b.onclick=()=>addCart(b.dataset.add)); $$('[data-qv]',app).forEach(b=>b.onclick=()=>openQuickView(b.dataset.qv)); $$('[data-cmp]',app).forEach(b=>b.onclick=()=>toggleCmp(b.dataset.cmp));
   $$('[data-cmprm]',app).forEach(b=>b.onclick=()=>{ toggleCmp(b.dataset.cmprm); route(); });
@@ -3568,7 +3595,7 @@ async function route(){
   else { app.dataset.view='all'; html=pageCategory(''); after=()=>bindCategory(''); }
   if(!shop && h!=='kosar') app.dataset.view='';
   app.toggleAttribute('data-noi18n', h==='admin'||h.startsWith('admin-'));   /* az admin magyar marad */
-  app.innerHTML=html; afterRender(); after();
+  app.innerHTML=html; afterRender(); after(); if(['aszf','impresszum','adatkezeles'].includes(h)){ jogiElemek().forEach(el=>{ JOGI.orig.set(el,el.innerHTML); el.setAttribute('data-noi18n',''); }); jogiFordit(); }
   $$('#navlinks [data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===nav||(a.id==='ddb'&&['penztargep','fiok','irodatechnika'].includes(nav))));
   closeMenus(); if(!document.fullscreenElement && !(shop && h.startsWith('kat-'))) scrollTo(0,0); renderCmpBar();
   const p=h.startsWith('t-')&&prod(h.slice(2))||(h.includes('/')&&prod(h.split('/')[1]));
