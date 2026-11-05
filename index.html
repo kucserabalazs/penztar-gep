@@ -1237,7 +1237,7 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
   .cream{display:flex;flex-direction:column}
   .cream .wrap{order:1;padding-bottom:4px}
   .cream .dz.dzs-jelenet{order:2;position:static!important;display:block;width:100%!important;height:auto!important;max-height:240px;min-width:0;object-fit:contain;margin:0 auto 6px;opacity:.95;-webkit-mask-image:none;mask-image:none}
-  #kapcsolat .shead .szdisz.dz-angyal{position:relative!important;z-index:2;flex:1 1 100%;width:100%!important;height:auto!important;max-height:240px;object-fit:contain;margin:10px 0 -51px!important;top:auto!important;right:auto!important;opacity:.95!important;transform:none;-webkit-mask-image:none;mask-image:none}
+  #kapcsolat .shead .szdisz.dz-angyal{position:relative!important;z-index:2;flex:1 1 100%;width:100%!important;height:auto!important;max-height:240px;object-fit:contain;margin:10px 0 -27px!important;top:auto!important;right:auto!important;opacity:.95!important;transform:none;-webkit-mask-image:none;mask-image:none}
   #gyik .shead .szdisz.lovas{opacity:.95!important}
 }
 </style>
@@ -1252,6 +1252,10 @@ a.mm-it:hover .mm-ic.erm::after,a.mm-it:focus-visible .mm-ic.erm::after{backgrou
 <style id="dzsami-sav-ki">
 /* asztali nézet: a fényreklám fölötti krémszínű sávban nincs dzsámi */
 @media (min-width:761px){ .cream .dz.dzs-jelenet{display:none!important} .cream{min-height:120px!important} }
+</style>
+<style id="dzsami-allas">
+/* asztali nézet: a dzsámi az alatta lévő kártya (üzletfotó / nyitvatartás) arany keretének tetején áll */
+@media (min-width:761px){ #kapcsolat .shead .szdisz.dz-angyal{margin-bottom:calc(-1 * clamp(26px,3vw,40px) - 2px)!important;position:relative;z-index:2} }
 </style>
 </head>
 <body>
