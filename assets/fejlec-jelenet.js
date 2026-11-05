@@ -145,7 +145,6 @@
   el("path", { d: "M-1.9 -14 L1.9 -14 L1.1 -2.6 L-1.1 -2.6 Z", fill: "#fff6d8", stroke: "#7a1c16", "stroke-width": ".9", "stroke-linejoin": "round" }, felkialt);
   el("circle", { cx: 0, cy: 1.6, r: 1.6, fill: "#fff6d8", stroke: "#7a1c16", "stroke-width": ".9" }, felkialt);
   var cseppek = [0, 1, 2].map(function () { return el("path", { d: "M0 -3.2 C1.6 -1 2.2 .4 2.2 1.2 C2.2 2.6 1.2 3.4 0 3.4 C-1.2 3.4 -2.2 2.6 -2.2 1.2 C-2.2 .4 -1.6 -1 0 -3.2 Z", fill: "url(#fj-csepp)", stroke: "#2b5b8a", "stroke-width": ".5", opacity: 0 }, ord); });
-  var csikok = [0, 1, 2, 3].map(function () { return el("path", { fill: "none", stroke: "#f4d58d", "stroke-width": "1.6", "stroke-linecap": "round", opacity: 0 }, ord); });
 
   /* a lovas (betöltés után) */
   var lo = el("g", { opacity: 0 }, gLo), LQ = {}, loKesz = false;
@@ -273,7 +272,12 @@
     por(g.tB2, g.cLe, 6, 18 * K, .8, 1, 1.1);
     for (var q = g.tL0 + .1; q < g.tL1; q += .2) por(q, ordX(g, q) + 6 * g.sd, 2, 6 * K, .5, .6, .7);
     for (q = g.tC0; q < g.tC1; q += .2) por(q, ordX(g, q) - 6 * g.sd, 2, 6 * K, .5, .6, .7);
-    for (q = g.tLovas; q < g.tC1; q += .16) por(q, loX(g, q) - 100 * g.sh, 3, 9 * K, .6, .8, 1);
+    /* a lovas paták porfelhői: pontosan a földet érés pillanatában, a pata helyén */
+    var per = 300 * g.sh / g.vS;
+    Object.keys(LOV).forEach(function (L) {
+      var l = LOV[L], A = l.e ? 42 : 28, sx = l.h.x - Math.sin(A * Math.PI / 180) * (l.l[0] + l.l[1] + l.l[2]);
+      for (var k = 0; ; k++) { var tk = g.tLovas + (k + l.o) * per; if (tk > g.tC1) break; por(tk, loX(g, tk) - (sx - 1625) * g.sh, 2, 7 * K, .55, .7, .85); }
+    });
     g.porok = pf;
     G = g;
   }
@@ -337,12 +341,27 @@
 
   /* ---------------- a kisördög pózai ---------------- */
   function ordogTalaj(g, x) { return gy(x) - 1 - 30.4 * g.sd; }
-  function futPoz(st, ps, kar) {
-    st.labE = { x: 11 * Math.sin(ps), y: 27 - 9 * Math.pow(Math.max(0, Math.cos(ps)), 1.4) };
-    st.labH = { x: -11 * Math.sin(ps), y: 27 - 9 * Math.pow(Math.max(0, -Math.cos(ps)), 1.4) };
+  /* futás: ps = a lépésfázis (radián). Egy lépéspárban: a talp előrenyúl, földet ér (a csípő lesüllyed, a test kissé
+     összenyomódik), a láb hátratol, elrugaszkodik (a csípő megemelkedik, repülő fázis), a lendülő láb sarka a farához csap,
+     a térd előrelendül. A kar a lábbal ellentétesen, behajlított könyökkel dolgozik, a törzs lépésenként ring, a fej kicsit késve biccen. */
+  function futPoz(st, ps, kar, o) {
+    o = o || {};
+    var A = o.A || 12, L = o.L || 11, s1 = Math.sin(ps), c1 = Math.cos(ps);
+    function lab(s, c) {
+      var lendul = Math.max(0, c);                                   /* lendülő (előre haladó) láb */
+      var rug = Math.max(0, -c) * Math.max(0, -s);                   /* hátul elrugaszkodik */
+      return { x: A * s - 4 * Math.sin(2 * Math.max(0, c) * Math.PI / 2) * (s < 0 ? 1 : .2), y: 27 - L * Math.pow(lendul, 1.3) * (.55 + .45 * Math.max(0, -s + .3)) - 2.2 * rug };
+    }
+    st.labE = lab(s1, c1); st.labH = lab(-s1, -c1);
     st.terdE = -1; st.terdH = -1;
-    if (kar) { st.kezE = { x: 10 - 10 * Math.sin(ps), y: -10 - 5 * Math.cos(ps) }; st.kezH = { x: -4 + 10 * Math.sin(ps), y: -10 + 5 * Math.cos(ps) }; st.konyokE = -1; st.konyokH = -1; }
-    return 2.4 * Math.abs(Math.sin(ps));
+    if (kar) {
+      var ka = o.kar || 10;
+      st.kezE = { x: 7 - ka * s1, y: -11 - 4 * c1 - 2.5 * Math.abs(s1) }; st.kezH = { x: -1 + ka * s1, y: -11 + 4 * c1 - 2.5 * Math.abs(s1) }; st.konyokE = -1; st.konyokH = -1;
+    }
+    st.torzsSzog = (o.dol || 14) + 2.6 * Math.sin(2 * ps + .4);
+    st.fejSzog = (st.fejSzog || 0) - 2.2 * Math.sin(2 * ps - .5);
+    var talp = 1 - Math.abs(s1);                                     /* talpon (középállás) = 1 */
+    return { bob: 3 * Math.pow(Math.abs(s1), 1.3) - .6, sqy: 1 - .045 * Math.pow(talp, 3), sqx: 1 + .03 * Math.pow(talp, 3) };
   }
 
   /* =================================================================================================
@@ -378,6 +397,10 @@
     var M = null;
     if (kl) {
       M = kocsiM(g, c, dir, fi);
+      /* zörgés: guruláskor a kocsi apró rezgése, a rakomány meg-megugrik (lopáskor, menekülés közben erősebben) */
+      var gyors = (t >= g.tL0 && t < g.tL1) || (t >= g.tC0 && t < g.tC1), gurul = !tip || t >= g.tL0, rz = gyors ? 1 : .4;
+      if (gurul) { var jit = rz * (.55 * Math.sin(t * 41) + .3 * Math.sin(t * 67 + 1)), Pk = ap(M, { x: 50, y: 61.5 }); M = mm(Rp(jit, Pk.x, Pk.y), M); }
+      DB.forEach(function (d, i) { if (d.benn) d.benn.setAttribute("transform", gurul ? "translate(0 " + f(-rz * 1.4 * Math.pow(Math.max(0, Math.sin(t * (19 + i * 3.7) + i)), 3)) + ")" : ""); });
       kocsi.setAttribute("transform", ms(M));
       var szogE = ut / (KER_R * K) * 180 / Math.PI;
       if (kerek[0]) kerek[0].setAttribute("transform", "rotate(" + f(szogE + hatsoPorog) + " 30 56)");
@@ -389,7 +412,7 @@
 
     /* ---- a kisördög ---- */
     var st = { farokFazis: t * 7, kifejezes: "ravasz", nez: { x: 1, y: 0 }, torzsSzog: 0, fejSzog: 0, tegez: false },
-      ox = 0, oy = 0, dd = 1, lathato = false, kiPar = 0, cseppOp = 0, csikOp = 0, ugras = 0;
+      ox = 0, oy = 0, dd = 1, lathato = false, kiPar = 0, cseppOp = 0, sqx = 1, sqy = 1;
     var terv = null;
     if (t >= g.tL0 && t < g.tL1 + .3) terv = { tip: "lop" };
     else if (t >= g.tC0 && t < g.tC1) terv = { tip: "menekul" };
@@ -401,20 +424,31 @@
       lathato = true;
       if (terv.tip === "fut") {
         var uu = seg(t, terv.t0, terv.t1); ox = lerp(terv.x0, terv.x1, uu); dd = terv.dd;
-        var ps = Math.abs(ox) / (34 * g.sd) * Math.PI;
-        var bob = futPoz(st, ps, true);
-        oy = ordogTalaj(g, ox) - bob * g.sd; st.torzsSzog = 14; st.kifejezes = terv.kif || "ravasz"; st.fejSzog = 4;
-        csikOp = .55;
+        var ps = Math.abs(ox) / (30 * g.sd) * Math.PI;
+        st.fejSzog = 3;
+        var fp = futPoz(st, ps, true, { A: 13.5, L: 14, dol: 16, kar: 14 });
+        oy = ordogTalaj(g, ox) - fp.bob * g.sd; sqx = fp.sqx; sqy = fp.sqy; st.kifejezes = terv.kif || "ravasz";
+        st.farokFazis = t * 11;
+        /* megérkezéskor fékez: az utolsó tizedmásodpercekben lassul, hátradől */
+        var vege = seg(t, terv.t1 - .14, terv.t1);
+        if (vege > 0) st.torzsSzog -= 14 * vege;
       } else if (terv.tip === "fek") {
         var uf = seg(t, terv.t0, terv.t1); dd = terv.dd; ox = terv.x;
-        oy = ordogTalaj(g, ox) + 2 * g.sd * Math.sin(uf * Math.PI);
-        st.torzsSzog = -16 * Math.sin(uf * Math.PI); st.labE = { x: 14, y: 25 }; st.labH = { x: 4, y: 27 }; st.terdE = -1; st.terdH = -1;
-        st.kezE = { x: 4, y: -38 }; st.kezH = { x: -16, y: -30 }; st.konyokE = -1; st.konyokH = 1; st.kifejezes = "rémült";
+        /* csúszva fékez: a talpak előre szaladnak, hátradől, a karjával kalimpál, a végén összerogy és visszaugrik */
+        var cs1 = Math.sin(uf * Math.PI);
+        oy = ordogTalaj(g, ox) + 3 * g.sd * cs1;
+        st.torzsSzog = -22 * cs1; st.labE = { x: 15 - 3 * uf, y: 26 }; st.labH = { x: 6 - 2 * uf, y: 27 }; st.terdE = -1; st.terdH = -1;
+        var ko2 = t * 22;
+        st.kezE = { x: 10 + 12 * Math.cos(ko2), y: -30 + 12 * Math.sin(ko2) }; st.kezH = { x: -10 + 12 * Math.cos(ko2 + 2.4), y: -30 + 12 * Math.sin(ko2 + 2.4) };
+        st.konyokE = -1; st.konyokH = 1; st.kifejezes = "rémült"; st.farokFazis = t * 14;
+        sqy = 1 - .08 * Math.pow(seg(uf, .6, 1) * (1 - seg(uf, .85, 1)) * 4, 1) * .5; sqx = 2 - sqy;
       } else if (terv.tip === "nez") {
         var un = seg(t, terv.t0, terv.t1); ox = terv.x; dd = terv.dd; oy = ordogTalaj(g, ox);
         st.kifejezes = "ravasz"; st.nez = { x: un < .5 ? 1 : .6, y: un < .5 ? -.4 : -1 }; st.fejSzog = -8 - 4 * Math.sin(un * 9);
-        st.kezE = { x: 10, y: 0 }; st.kezH = { x: -6, y: -40 }; st.konyokE = 1; st.konyokH = 1;   /* „hm”: állát vakarja */
-        st.labE = { x: 7, y: 27 }; st.labH = { x: -6, y: 27 };
+        var vak = Math.sin(t * 26) * 1.6;
+        st.kezE = { x: 9, y: -2 }; st.kezH = { x: -4 + vak, y: -42 + Math.abs(vak) }; st.konyokE = 1; st.konyokH = 1;   /* „hm”: az állát vakarja */
+        st.labE = { x: 7, y: 27 }; st.labH = { x: -6, y: 27 }; st.torzsSzog = -3 + 2 * Math.sin(t * 4); st.farokFazis = t * 4;
+        oy -= .6 * Math.abs(Math.sin(t * 4)) * g.sd;
       } else if (terv.tip === "billent") {
         ox = terv.x; dd = terv.dd;
         var H0 = M ? ap(M, FOGAS) : { x: ox, y: 0 };
@@ -437,7 +471,7 @@
         var talaj2 = ordogTalaj(g, ox);
         var targy = { x: s2.veg.x, y: s2.veg.y };
         if (uv < .2) {   /* lehajol */
-          var a1 = eio(uv / .2); oy = talaj2 + 7 * g.sd * a1; st.torzsSzog = 34 * a1;
+          var a1 = eio(uv / .2); oy = talaj2 + 7 * g.sd * a1; st.torzsSzog = 34 * a1; sqy = 1 - .05 * a1; sqx = 1 + .03 * a1;
           st.kezE = lok({ x: lerp(ox - 8 * g.sd * dd, targy.x, a1), y: lerp(oy - 10 * g.sd, targy.y, a1) }); st.kezH = lok({ x: lerp(ox, targy.x + 3, a1), y: lerp(oy - 8 * g.sd, targy.y, a1) });
           st.labE = { x: 10, y: 22 }; st.labH = { x: -8, y: 22 }; st.kifejezes = "ravasz";
         } else if (uv < .45) {   /* a feje fölé emeli */
@@ -446,9 +480,12 @@
           var kp = { x: lerp(targy.x, fent.x, a2), y: lerp(targy.y, fent.y, a2) - Math.sin(a2 * Math.PI) * 6 * g.sd };
           st.kezE = lok({ x: kp.x + 4 * g.sd, y: kp.y + 3 * g.sd }); st.kezH = lok({ x: kp.x - 4 * g.sd, y: kp.y + 3 * g.sd });
           st.labE = { x: 9, y: 24 + 3 * a2 }; st.labH = { x: -8, y: 24 + 3 * a2 }; st.kifejezes = "erőlködik";
+          st.torzsSzog += Math.sin(t * 40) * 1.5 * (1 - a2);   /* nehéz: remeg */
+          sqy = 1 - .05 * (1 - a2) + .04 * Math.sin(a2 * Math.PI); sqx = 2 - sqy;
           tartott = i2; tartPont = kp;
         } else {   /* hátradobja a válla fölött a kocsiba */
           var a3 = seg(uv, .45, .62); oy = talaj2 - Math.sin(a3 * Math.PI) * 3 * g.sd; st.torzsSzog = -8 - 14 * Math.sin(a3 * Math.PI);
+          sqy = 1 + .05 * Math.sin(a3 * Math.PI); sqx = 2 - sqy; st.farokFazis = t * 12;
           st.kezE = { x: lerp(2, -14, eo(a3)), y: lerp(-76, -58, a3) }; st.kezH = { x: lerp(-4, -18, eo(a3)), y: lerp(-74, -52, a3) };
           st.konyokE = 1; st.konyokH = 1; st.labE = { x: 9, y: 27 }; st.labH = { x: -8, y: 27 }; st.kifejezes = "elégedett"; st.nez = { x: -1, y: -.4 };
           if (uv < .5) { tartott = i2; tartPont = vil({ x: -1, y: -72 }); }
@@ -466,18 +503,22 @@
         oy -= Math.abs(Math.sin(us * 10)) * .6 * g.sd;
       } else if (terv.tip === "lop" || terv.tip === "menekul") {
         dd = terv.tip === "lop" ? -1 : 1; ox = ordX(g, t);
-        var psl = Math.abs(ox) / (40 * g.sd) * Math.PI;
-        var bob2 = futPoz(st, psl, false);
-        oy = ordogTalaj(g, ox) - bob2 * g.sd;
+        var menek = terv.tip === "menekul" && t > g.tLovas;
+        var psl = Math.abs(ox) / ((menek ? 24 : 28) * g.sd) * Math.PI;
+        var fp2 = futPoz(st, psl, false, { A: menek ? 11 : 10, L: menek ? 13 : 10, dol: 22 });
+        oy = ordogTalaj(g, ox) - fp2.bob * g.sd; st.farokFazis = t * (menek ? 16 : 11);
         var Hl = M ? ap(M, { x: 9, y: 8 }) : { x: ox, y: oy };
         st.kezE = lok({ x: Hl.x, y: Hl.y }); st.kezH = lok({ x: Hl.x - dd * 2 * g.sd, y: Hl.y + 1.5 * g.sd }); st.konyokE = -1; st.konyokH = -1;
-        st.torzsSzog = 20; csikOp = 1;
-        if (terv.tip === "lop") { st.kifejezes = "ravasz"; st.fejSzog = 6; }
+        if (terv.tip === "lop") { st.kifejezes = "ravasz"; st.fejSzog += 6; st.nez = { x: 1, y: .1 }; }
         else {
           var lu = t - g.tLovas;
           if (lu > -.15 && lu < .5) { kiPar = Math.min(1, (lu + .15) / .12); }
-          if (lu > 0) { st.kifejezes = "rémült"; st.nez = { x: -1, y: -.1 }; st.fejSzog = -14 + 5 * Math.sin(t * 13); cseppOp = 1; }
-          else { st.kifejezes = "ravasz"; st.fejSzog = 6; }
+          if (lu > 0) {   /* rémülten hátra-hátranéz, közben előre is pillant */
+            var hatra = lu < 1.2 || Math.sin(lu * 3.2) > -.35;
+            st.kifejezes = "rémült"; st.nez = hatra ? { x: -1, y: -.15 } : { x: 1, y: 0 }; st.fejSzog += hatra ? -16 + 4 * Math.sin(t * 13) : 4; cseppOp = 1;
+            st.torzsSzog += 4;
+          }
+          else { st.kifejezes = "ravasz"; st.fejSzog += 6; }
         }
       }
     }
@@ -485,7 +526,9 @@
     ord.setAttribute("opacity", lathato ? 1 : 0);
     if (lathato) {
       var kezek = O.rajzol(st);
-      ord.setAttribute("transform", "translate(" + f(ox) + " " + f(oy) + ") scale(" + f(dd * g.sd) + " " + f(g.sd) + ")");
+      /* összenyomás/nyújtás a talp körül (a csípő helye a talajhoz képest megmarad) */
+      var talpY = gy(ox) - 1, emel = (talpY - oy) / g.sd;
+      ord.setAttribute("transform", "translate(" + f(ox) + " " + f(talpY) + ") scale(" + f(dd * g.sd * sqx) + " " + f(g.sd * sqy) + ") translate(0 " + f(-emel) + ")");
       aOrd.setAttribute("cx", f(ox)); aOrd.setAttribute("cy", f(gy(ox) + 1)); aOrd.setAttribute("rx", f(15 * g.sd)); aOrd.setAttribute("ry", f(3 * g.sd)); aOrd.setAttribute("opacity", 1);
       felkialt.setAttribute("opacity", kiPar ? f(kiPar * (t - g.tLovas < .55 ? 1 : 0)) : 0);
       felkialt.setAttribute("transform", "translate(12 -86) scale(" + f(.8 + .5 * kiPar) + ") rotate(10)");
@@ -493,11 +536,6 @@
         var fz = (t * 1.6 + k2 / 3) % 1;
         cs.setAttribute("opacity", f(cseppOp * Math.sin(fz * Math.PI)));
         cs.setAttribute("transform", "translate(" + f(-10 - fz * 22 - k2 * 3) + " " + f(-64 - Math.sin(fz * Math.PI) * 10 + fz * 12 + k2 * 6) + ") rotate(" + f(-40 - fz * 40) + ")");
-      });
-      csikok.forEach(function (cs, k3) {
-        var yy = -46 + k3 * 14, ff = (t * 3 + k3 * .37) % 1;
-        cs.setAttribute("d", "M" + f(-26 - ff * 8) + " " + yy + " h" + f(-12 - 8 * Math.sin(k3 + t * 5)));
-        cs.setAttribute("opacity", f(csikOp * (.35 + .4 * Math.sin(ff * Math.PI))));
       });
     } else aOrd.setAttribute("opacity", 0);
 
