@@ -1,0 +1,56 @@
+# Admin belépési korlátok feloldása a tárhelyen: nullázza a belépési kódok kérésének számlálóját
+# (admin.kodkeres.php – „próbálja újra egy óra múlva”), és a megadott felhasználó hibás-belépés zárolását.
+# Személyes adat nem kerül a naplóba. Indítás: Actions › „Belépési korlát feloldása” › Run workflow.
+name: Belépési korlát feloldása
+on:
+  workflow_dispatch:
+    inputs:
+      felhasznalo:
+        description: "A felhasználó azonosítója (pl. ifj-kucsera-istvan); üresen mindenkié"
+        required: false
+        default: ""
+permissions:
+  contents: read
+jobs:
+  feloldas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: lftp telepítése
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Feloldás
+        env:
+          SFTP_HOST: fw.elin.hu
+          SFTP_PORT: "2253"
+          SFTP_USER: web5109
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          KI: ${{ github.event.inputs.felhasznalo }}
+        run: |
+          set -euo pipefail
+          kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          D="$RUNNER_TEMP/f"; mkdir -p "$D"; chmod 700 "$D"; cd "$D"
+          kapcs "cd $CEL/webaruhaz/data; get -c admin.zarolas.php" >/dev/null 2>&1 || true
+          KI=$(printf '%s' "$KI" | tr -cd 'a-z0-9-')
+          python3 - "$KI" <<'PY'
+          import json, sys, os
+          G = "<?php http_response_code(404); exit; ?>\n"
+          ki = sys.argv[1]
+          # kódkérés-számláló: teljes nullázás
+          open("admin.kodkeres.php", "w").write(G + "{}")
+          # hibás belépések zárolása: a megadott felhasználóé (vagy mindenkié)
+          if os.path.exists("admin.zarolas.php"):
+              t = open("admin.zarolas.php").read(); t = t[t.index("\n") + 1:] if t.startswith("<?php") else t
+              try: z = json.loads(t) or {}
+              except Exception: z = {}
+              if isinstance(z, dict):
+                  if ki: z.pop(ki, None)
+                  else: z = {}
+              else: z = {}
+              open("admin.zarolas.php", "w").write(G + json.dumps(z, ensure_ascii=False))
+          else:
+              open("admin.zarolas.php", "w").write(G + "{}")
+          print("Feloldva:", ki or "mindenki")
+          PY
+          kapcs "cd $CEL/webaruhaz/data; put admin.kodkeres.php; put admin.zarolas.php" >/dev/null
+          rm -rf "$D"; echo "Kész."
