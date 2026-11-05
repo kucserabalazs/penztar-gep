@@ -20,12 +20,16 @@ KI = os.path.join(WEB, "zsolnay-szolo.svg")
 
 T = 10.0
 VB = (0, 0, 1840, 1230)
-G_S, G_X, G_Y = .78, 40, 20                 # a szőlő helye a jelenetben
+G_S, G_X, G_Y = .78, 40, 96                 # a szőlő helye a jelenetben
 D_S, D_X, D_Y = .85, 268, 266               # a sárkányfej helye
 CEL = R.CEL
 P = (G_X + CEL[0] * G_S, G_Y + CEL[1] * G_S)  # az ellopott szem közepe (jelenet)
 GR = CEL[2] * G_S                            # a szem sugara
 SZAJ = (D_X + 942 * D_S, D_Y + 846 * D_S)   # a nyelv töve (a száj)
+SZIL = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "sarkany_sziluett.txt")).read()
+PIVOT = (1208, 800)                         # az állkapocs forgáspontja (sárkány-koordináta)
+ALSO = "840,849 1000,839 1100,819 1190,796 1206,794 1214,900 1236,1062 1262,1130 820,1130 820,849"
+FELSO = "0,0 2000,0 2000,1200 1262,1200 1236,1062 1214,900 1206,794 1190,796 1100,819 1000,839 840,849 820,849 820,1200 0,1200"
 SZEM_K = (1298.5, 448.5); PUP0 = (1286, 441)  # a sárkány szivárványhártyájának közepe, eredeti pupilla (sárkány-koordináta)
 
 def cl(x, a=0., b=1.): return max(a, min(b, x))
@@ -63,15 +67,15 @@ def szolo_svg():
             f'<clipPath id="sz-szemc"><path d="{nyom(r["szem"], 1.2, 20)}"/></clipPath>'
             f'<path fill="url(#sz-bogyo)" d="{nyom(r["szem"], 1.2, 20)}"/>'
             f'<g clip-path="url(#sz-szemc)" fill="url(#sz-csillo)">{fenyek}</g>'
-            f'<path fill="#fbe3e6" d="{nyom(r["feny"], 1, 2)}"/>'
-            f'<path fill="#3a1d1f" fill-rule="evenodd" d="{nyom(r["line"], 1.1, 6)}"/>'
+            f'<path fill="#f1d9cf" d="{nyom(r["feny"], 1, 2)}"/>'
+            f'<path fill="url(#eoz-tinta)" fill-rule="evenodd" d="{nyom(r["line"], 1.1, 6)}"/>'
             f'</g>')
 
 def ellopott_szem():
     """az ellopott szem önálló rajza (a jelenet koordinátáiban, (0,0) körül)"""
     rr = GR
-    return (f'<circle r="{rr:.1f}" fill="url(#sz-bogyo1)" stroke="#3a1d1f" stroke-width="{7.6 * G_S:.1f}"/>'
-            f'<path d="M{-rr * .55:.1f} {-rr * .1:.1f} A{rr * .6:.1f} {rr * .6:.1f} 0 0 1 {-rr * .05:.1f} {-rr * .55:.1f}" fill="none" stroke="#fbe3e6" stroke-width="{rr * .22:.1f}" stroke-linecap="round"/>'
+    return (f'<circle r="{rr:.1f}" fill="url(#sz-bogyo1)" stroke="#1f3a30" stroke-width="{7.6 * G_S:.1f}"/>'
+            f'<path d="M{-rr * .55:.1f} {-rr * .1:.1f} A{rr * .6:.1f} {rr * .6:.1f} 0 0 1 {-rr * .05:.1f} {-rr * .55:.1f}" fill="none" stroke="#f1d9cf" stroke-width="{rr * .22:.1f}" stroke-linecap="round"/>'
             f'<circle cx="{-rr * .45:.1f}" cy="{-rr * .45:.1f}" r="{rr * .1:.1f}" fill="#fff"/>')
 
 # ---------------- a mozgás ----------------
@@ -165,9 +169,18 @@ def fej(t):
     r, y = 0, 0
     r += -2.2 * eio(seg(t, .4, 1.2)) * (1 - eio(seg(t, 2.4, 2.8)))        # odahajol a fürthöz
     r += -1.2 * eio(seg(t, 2.6, 3.0)) * (1 - eio(seg(t, 5.4, 5.8)))
-    if 5.75 <= t < 7.1:                                                     # majszol
-        u = seg(t, 5.75, 7.1); r += 1.6 * abs(math.sin(math.pi * 4.5 * u)) * (1 - u * .4); y += 4 * abs(math.sin(math.pi * 4.5 * u))
+    if 5.9 <= t < 7.0:                                                      # majszol
+        u = seg(t, 5.9, 7.0); r += .8 * abs(math.sin(math.pi * 4.5 * u)) * (1 - u * .4)
     return r, y
+
+def allkapocs(t):
+    """az alsó állkapocs lenyílása (fok): a szem érkezésekor kitátja a száját, majszoláskor jár"""
+    a = 0
+    a += 10 * eio(seg(t, 5.15, 5.55)) * (1 - eio(seg(t, 5.72, 5.9)))
+    if 5.9 <= t < 7.0: a += 2.6 * abs(math.sin(math.pi * 4.5 * seg(t, 5.9, 7.0)))
+    a += 2.2 * math.sin(math.pi * seg(t, 1.35, 2.35)) + 2.0 * math.sin(math.pi * seg(t, 7.05, 7.85))   # nyaláskor is picit
+    a += 2.5 * eio(seg(t, 2.45, 2.75)) * (1 - eio(seg(t, 5.0, 5.15)))                                 # kinyújtott nyelvnél résnyire nyitva
+    return a
 
 def pupilla(t):
     """a pupilla eltolása (sárkány-koordinátában) – a fürtre néz"""
@@ -224,7 +237,7 @@ def sarkany():
     i = s.index("</style>") + 8; j = s.rindex("</svg>")
     b = s[i:j]
     b = re.sub(r'<path id="nyelv"[^>]*/>', "", b)
-    b = b.replace('<g fill="currentColor" fill-rule="evenodd">', '<g fill="url(#eoz-zold)" fill-rule="evenodd">', 1)
+    b = b.replace('<g fill="currentColor" fill-rule="evenodd">', '<g fill="url(#eoz-zold)" stroke="url(#eoz-zold)" stroke-width="2.4" stroke-linejoin="round" fill-rule="evenodd">', 1)
     # szemhéj és pillák: az eredeti CSS helyett SMIL
     b = b.replace('<g id="hej">', '<g id="hej">' + anim(None, lambda t: f"0 {r2(-120 * (1 - hej(t)))}", "translate"), 1)
     b = b.replace('<path id="pillak"', '<path id="pillak" opacity="0"', 1)
@@ -238,20 +251,25 @@ def main():
     fej_g = (f'<g id="fej">'
              + anim(None, lambda t: f"{r2(fej(t)[0])} 1700 900", "rotate")
              + f'<g transform="translate({D_X} {D_Y}) scale({D_S})">'
-             + sarkany()
+             + '<defs><g id="drg-test"><path fill="url(#eoz-mz)" d="' + SZIL + '"/>' + sarkany() + '</g>'
+             + f'<clipPath id="drg-felso"><polygon points="{FELSO}"/></clipPath><clipPath id="drg-also"><polygon points="{ALSO}"/></clipPath></defs>'
+             + '<path fill="url(#eoz-mz)" d="' + SZIL + '"/>'
+             + f'<path fill="#4a1222" d="M905 846L1000 838L1100 818L1195 796L1206 826L1120 868L1000 884L915 860Z"/>'   # a száj belseje (kitátáskor látszik)
+             + '<g clip-path="url(#drg-felso)"><use href="#drg-test"/></g>'
+             + '<g>' + anim(None, lambda t: f"{r2(-allkapocs(t))} {PIVOT[0]} {PIVOT[1]}", "rotate") + '<g clip-path="url(#drg-also)"><use href="#drg-test"/></g></g>'
              # saját, mozgó pupilla az eredeti helyén (az eredetit eltakarjuk)
-             + f'<circle cx="{PUP0[0]}" cy="{PUP0[1]}" r="8.5" fill="var(--ill-hatter,#f6efe2)"/>'
+             + f'<circle cx="{PUP0[0]}" cy="{PUP0[1]}" r="8.5" fill="#dde8d3"/>'
              + f'<circle cx="{PUP0[0]}" cy="{PUP0[1]}" r="7" fill="#123a2c">'
              + anim(None, lambda t: f"{r2(pupilla(t)[0])} {r2(pupilla(t)[1])}", "translate") + '</circle>'
              + f'<circle cx="{PUP0[0] - 2.5}" cy="{PUP0[1] - 2.5}" r="2" fill="#fff">'
              + anim(None, lambda t: f"{r2(pupilla(t)[0])} {r2(pupilla(t)[1])}", "translate") + '</circle>'
              + '</g></g>')
     nyelv_g = ('<g id="nyelv">'
-               + '<path fill="url(#eoz-nyelv)" stroke="#5c1424" stroke-width="3.2" stroke-linejoin="round" d="' + nyelv(0)[0] + '">'
+               + '<path fill="url(#eoz-nyelv)" stroke="#4a1626" stroke-width="3.2" stroke-linejoin="round" d="' + nyelv(0)[0] + '">'
                + anim("d", lambda t: nyelv(t)[0]) + '</path>'
-               + ''.join('<path fill="none" stroke="#5c1424" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" d="' + nyelv(0)[k] + '">'
+               + ''.join('<path fill="none" stroke="#4a1626" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" d="' + nyelv(0)[k] + '">'
                          + anim("d", lambda t, k=k: nyelv(t)[k]) + '</path>'
-                         + '<path fill="none" stroke="#d24a62" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" d="' + nyelv(0)[k] + '">'
+                         + '<path fill="none" stroke="#b45360" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" d="' + nyelv(0)[k] + '">'
                          + anim("d", lambda t, k=k: nyelv(t)[k]) + '</path>' for k in (1, 2))
                + anim("opacity", lambda t: "1" if nyujt(t) > .002 else "0")
                + '</g>')
@@ -270,7 +288,7 @@ def main():
     for k in range(3):
         sziv += (f'<g transform="translate({D_X + 1330 * D_S:.0f} {D_Y + 300 * D_S:.0f})"><g>'
                  + anim(None, lambda t, k=k: f"{r2(szivek(t, k)[0])} {r2(szivek(t, k)[1])}", "translate")
-                 + '<path fill="url(#sz-bogyo1)" stroke="#5c1424" stroke-width="2.5" d="M0 8C-14 -2 -16 -14 -8 -18C-3 -20 0 -16 0 -13C0 -16 3 -20 8 -18C16 -14 14 -2 0 8Z">'
+                 + '<path fill="url(#sz-bogyo1)" stroke="#4a1626" stroke-width="2.5" d="M0 8C-14 -2 -16 -14 -8 -18C-3 -20 0 -16 0 -13C0 -16 3 -20 8 -18C16 -14 14 -2 0 8Z">'
                  + anim(None, lambda t, k=k: r2(szivek(t, k)[2]), "scale") + '</path>'
                  + anim("opacity", lambda t, k=k: r2(szivek(t, k)[3])) + '</g></g>')
     pattanas = (f'<g transform="translate({P[0] + 4:.0f} {P[1] - GR - 6:.0f})">'
@@ -281,21 +299,25 @@ def main():
             '<linearGradient id="eoz-zold" gradientUnits="userSpaceOnUse" x1="500" y1="150" x2="1800" y2="1100">'
             '<stop offset="0" stop-color="#0a3a2b"/><stop offset=".28" stop-color="#125a3f"/><stop offset=".45" stop-color="#2d6e35"/>'
             '<stop offset=".6" stop-color="#0f5240"/><stop offset=".8" stop-color="#164a52"/><stop offset="1" stop-color="#2b3563"/></linearGradient>'
-            '<linearGradient id="eoz-nyelv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ee7b8a"/><stop offset=".5" stop-color="#c62f4a"/><stop offset="1" stop-color="#7d1730"/></linearGradient>'
+            '<linearGradient id="eoz-nyelv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98a8c"/><stop offset=".5" stop-color="#a8404f"/><stop offset="1" stop-color="#6a2033"/></linearGradient>'
             '<linearGradient id="sz-bogyo" gradientUnits="userSpaceOnUse" x1="300" y1="380" x2="720" y2="1290">'
-            '<stop offset="0" stop-color="#b8243c"/><stop offset=".45" stop-color="#8e1430"/><stop offset=".7" stop-color="#a51e3c"/><stop offset="1" stop-color="#6a0d26"/></linearGradient>'
-            '<radialGradient id="sz-csillo" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#f28a8f" stop-opacity=".85"/>'
-            '<stop offset=".35" stop-color="#d0405a" stop-opacity=".35"/><stop offset=".75" stop-color="#5a0a20" stop-opacity="0"/><stop offset="1" stop-color="#3d0716" stop-opacity=".55"/></radialGradient>'
-            '<radialGradient id="sz-bogyo1" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#f08a90"/><stop offset=".35" stop-color="#c4304a"/><stop offset=".8" stop-color="#8a1230"/><stop offset="1" stop-color="#5a0a20"/></radialGradient>'
+            '<stop offset="0" stop-color="#8a3442"/><stop offset=".4" stop-color="#6b2234"/><stop offset=".65" stop-color="#7d3040"/><stop offset="1" stop-color="#4a1626"/></linearGradient>'
+            '<radialGradient id="sz-csillo" cx="34%" cy="28%" r="72%"><stop offset="0" stop-color="#e8b49c" stop-opacity=".75"/>'
+            '<stop offset=".3" stop-color="#b56a6a" stop-opacity=".3"/><stop offset=".72" stop-color="#4a1626" stop-opacity="0"/><stop offset="1" stop-color="#2d0c18" stop-opacity=".5"/></radialGradient>'
+            '<radialGradient id="sz-bogyo1" cx="34%" cy="28%" r="75%"><stop offset="0" stop-color="#d9a28e"/><stop offset=".3" stop-color="#9a4450"/><stop offset=".75" stop-color="#682234"/><stop offset="1" stop-color="#441424"/></radialGradient>'
             '<linearGradient id="sz-level" gradientUnits="userSpaceOnUse" x1="100" y1="130" x2="1060" y2="720">'
-            '<stop offset="0" stop-color="#9cc685"/><stop offset=".4" stop-color="#5f9c5d"/><stop offset=".7" stop-color="#7fae63"/><stop offset="1" stop-color="#3f7a4e"/></linearGradient>'
+            '<stop offset="0" stop-color="#b9cba4"/><stop offset=".4" stop-color="#86a786"/><stop offset=".7" stop-color="#a3b98f"/><stop offset="1" stop-color="#6f9178"/></linearGradient>'
             '<linearGradient id="sz-szar" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2="650" y2="1300">'
-            '<stop offset="0" stop-color="#a48245"/><stop offset=".5" stop-color="#7a5a2c"/><stop offset="1" stop-color="#5e4422"/></linearGradient>'
+            '<stop offset="0" stop-color="#a08a62"/><stop offset=".5" stop-color="#7b6545"/><stop offset="1" stop-color="#5f4c36"/></linearGradient>'
+            '<linearGradient id="eoz-tinta" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1100" y2="1350">'
+            '<stop offset="0" stop-color="#123b2e"/><stop offset=".5" stop-color="#1d3f33"/><stop offset=".8" stop-color="#2a2a3e"/><stop offset="1" stop-color="#3a2236"/></linearGradient>'
+            '<linearGradient id="eoz-mz" gradientUnits="userSpaceOnUse" x1="550" y1="150" x2="1800" y2="1100">'
+            '<stop offset="0" stop-color="#e9efdd"/><stop offset=".35" stop-color="#d6e3cb"/><stop offset=".55" stop-color="#e6e2c4"/><stop offset=".8" stop-color="#cfdccf"/><stop offset="1" stop-color="#d4d6dc"/></linearGradient>'
             '</defs>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{" ".join(map(str, VB))}" role="img" '
            'aria-label="Zsolnay-sárkányfej ellopja a szőlőfürt egyik szemét – mozgó">'
            '<title>Zsolnay-sárkányfej és szőlőfürt</title>'
-           '<style>svg{color:#1d5c43;--ill-hatter:#f6efe2}</style>'
+           '<style>svg{color:#1d5c43;--ill-hatter:#dde8d3}</style>'
            + defs + szolo_svg() + pattanas + nyal_g + fej_g + szem_g + nyelv_g + sziv + '</svg>')
     open(KI, "w", encoding="utf-8").write(svg)
     print("Kész:", KI, len(svg) // 1024, "KB")
