@@ -484,8 +484,8 @@ switch ($a) {
     $b = body(); $u = user((string)($b['id'] ?? '')); if (!$u) out(['error' => 'Ismeretlen felhasználó.'], 404);
     guard_user($u);
     // jelszó nélkül hívható, ezért a munkamenettől független korlát is van: IP-nként óránként 6, felhasználónként óránként 3 kérés
-    if (rate_hit($KOD, 'ip:' . ip_key('kod'), [3600 => 6])) out(['error' => 'Erről a hálózatról túl sok kódkérés érkezett. Próbálja újra egy óra múlva.'], 429);
-    if (rate_hit($KOD, 'start:' . $u['id'], [3600 => 3])) out(['error' => 'Ehhez a hozzáféréshez az elmúlt órában már 3 kódot kértek. Próbálja újra később.'], 429);
+    if (rate_hit($KOD, 'ip:' . ip_key('kod'), [3600 => 15])) out(['error' => 'Erről a hálózatról túl sok kódkérés érkezett. Próbálja újra egy óra múlva.'], 429);
+    if (rate_hit($KOD, 'start:' . $u['id'], [3600 => 6])) out(['error' => 'Ehhez a hozzáféréshez az elmúlt órában már 6 kódot kértek. Próbálja újra később.'], 429);
     $cel = empty($u['hash']) ? 'aktivalas' : 'visszaallitas';
     send_code($u, $cel);
     out(['ok' => true, 'cel' => $cel]);
