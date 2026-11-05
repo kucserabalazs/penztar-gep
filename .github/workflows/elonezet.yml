@@ -1,0 +1,109 @@
+# Előnézet: a „fejlesztes” ág minden módosítása után a penztar-gep.hu/elonezet/ rejtett mappába kerül.
+# Az igazi oldalhoz (a tárhely gyökere, a webáruház, az adatok) NEM nyúl – csak az /elonezet/ mappát írja.
+# - a keresők nem indexelik (X-Robots-Tag: noindex);
+# - az előnézetben nem lehet belépni, rendelni, üzenni (az api.php csak a termékadatokat adja ki);
+# - nincsenek benne bizalmas adatok (admin, rendelések, ügyfelek, beállítások).
+
+name: Előnézet (penztar-gep.hu/elonezet/)
+
+on:
+  push:
+    branches: [fejlesztes]
+  workflow_dispatch:
+
+concurrency:
+  group: penztar-gep-elonezet
+  cancel-in-progress: true
+
+jobs:
+  elonezet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+
+      - name: lftp telepítése
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Előnézeti beállítások
+        run: |
+          set -euo pipefail
+          cat > .htaccess <<'EOF'
+          # ELŐNÉZET – a keresők elől rejtve; a gyökér átirányításai itt nem érvényesek
+          DirectoryIndex index.html index.php
+          AddDefaultCharset utf-8
+          <IfModule mod_headers.c>
+            Header always set X-Robots-Tag "noindex, nofollow"
+            Header always set Cache-Control "no-cache"
+          </IfModule>
+          <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteRule (^|/)\.git(/|$) - [F,L]
+          </IfModule>
+          <IfModule mod_authz_core.c>
+            <FilesMatch "\.(md|py|lock|bak)$">
+              Require all denied
+            </FilesMatch>
+          </IfModule>
+          EOF
+          cat > webaruhaz/.htaccess <<'EOF'
+          # ELŐNÉZET: az api.php csak a termékadatokat adja (belépés, rendelés, üzenet itt nem működik)
+          <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{QUERY_STRING} !(^|&)a=data(&|$)
+            RewriteRule ^api\.php$ - [F,L]
+          </IfModule>
+          EOF
+          # jól látható jelzés, hogy ez előnézet
+          JEL='<div style="position:fixed;left:50%;top:6px;transform:translateX(-50%);z-index:99999;background:#b3261e;color:#fff;font:700 13px/1 system-ui,sans-serif;letter-spacing:.06em;padding:7px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none">ELŐNÉZET – nem az élő oldal</div>'
+          for f in index.html webaruhaz/index.html; do
+            python3 - "$f" "$JEL" <<'PY'
+          import sys
+          p, jel = sys.argv[1], sys.argv[2]
+          s = open(p, encoding="utf-8").read()
+          s = s.replace("<body", "<body data-elonezet", 1)
+          i = s.index(">", s.index("<body")) + 1
+          s = s[:i] + jel + s[i:]
+          open(p, "w", encoding="utf-8").write(s)
+          PY
+          done
+
+      - name: Feltöltés az /elonezet/ mappába
+        env:
+          SFTP_HOST: fw.elin.hu
+          SFTP_PORT: "2253"
+          SFTP_USER: web5109
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          LFTP_ALAP="set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set net:reconnect-interval-base 5; set cmd:fail-exit yes"
+          kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "$LFTP_ALAP; $1; bye"; }
+          CEL=""
+          for c in web5109/web web; do
+            if kapcs "cd $c" >/dev/null 2>&1; then CEL="$c"; break; fi
+          done
+          [ -n "$CEL" ] || { echo "::error::Nem található a weboldal mappája"; exit 1; }
+          kapcs "mkdir -f -p $CEL/elonezet"
+          kapcs "mirror --reverse --delete --parallel=4 --no-perms \
+            --exclude-glob .git/ \
+            --exclude-glob .github/ \
+            --exclude-glob .gitignore \
+            --exclude-glob mentesek/ \
+            --exclude-glob referencia/ \
+            --exclude-glob eszkozok/ \
+            --exclude-glob assets/kategoria-ermek/eredeti/ \
+            --exclude-glob assets/illusztraciok/eredeti/ \
+            --exclude-glob *.md \
+            --exclude-glob webaruhaz/config.local* \
+            --exclude-glob webaruhaz/data/admin.* \
+            --exclude-glob webaruhaz/data/orders.* \
+            --exclude-glob webaruhaz/data/clients* \
+            --exclude-glob webaruhaz/data/feladatok.* \
+            --exclude-glob webaruhaz/data/ertesites.* \
+            --exclude-glob webaruhaz/data/mentesek/ \
+            --exclude-glob webaruhaz/data/products.backup-* \
+            --exclude-glob webaruhaz/data/.lock \
+            --exclude-glob webaruhaz/uploads/ \
+            . $CEL/elonezet"
+          echo "Előnézet frissítve: https://penztar-gep.hu/elonezet/"
