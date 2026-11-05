@@ -1,0 +1,25 @@
+# A tároló rendbetétele: a régi, dátumos „mentes-…” ágak törlése (a teljes történetük a tulajdonos
+# gépén lévő ETALON git-bundle-ben megvan), és az Etalon címke létrehozása az „etalon” ágra.
+name: Tároló rendezése (régi mentés-ágak, Etalon címke)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rendezes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - run: |
+          set -euo pipefail
+          git config user.name "Tároló rendezése"; git config user.email "rendezes@users.noreply.github.com"
+          for b in $(git ls-remote --heads origin 'mentes-20*' | awk '{print $2}' | sed 's|refs/heads/||'); do
+            git push -q origin --delete "$b" && echo "Törölve: $b"
+          done
+          if ! git ls-remote --exit-code --tags origin etalon-2026-11-05 >/dev/null; then
+            git fetch -q origin etalon
+            git tag -a etalon-2026-11-05 -m "ETALON ÁLLAPOT – 2026. november 5." FETCH_HEAD
+            git push -q origin etalon-2026-11-05 && echo "Címke: etalon-2026-11-05"
+          fi
+          echo "Ágak:"; git ls-remote --heads origin | awk '{print $2}' | sed 's|refs/heads/||'

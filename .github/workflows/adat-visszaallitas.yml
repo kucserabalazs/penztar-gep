@@ -1,7 +1,7 @@
 # A tárhely adatainak visszaállítása egy korábbi, a tárhelyen tárolt mentésből
 # (webaruhaz/data/mentesek/<NÉV>/ → webaruhaz/data/, a feltöltött képek → webaruhaz/uploads/,
 #  a config.local.php → webaruhaz/). Visszaállítás előtt a mostani állapotról is mentés készül.
-# A program (kód) visszaállítása külön: a main ágat az „etalon-…” címkére kell állítani (lásd ETALON.md).
+# A program (kód) visszaállítása külön: a main ágat az „etalon” ágra kell állítani (lásd ETALON.md).
 name: Tárhely adatainak visszaállítása
 on:
   workflow_dispatch:
