@@ -3036,7 +3036,7 @@ const keziBdg = p => { const m=kezi(p); return m?`<em class="bdg kz kz-${m.k}${m
 function admDash(){
   const KV=KOVET(), P=DB.products, low=KV?P.filter(p=>p.keszletDb!=null&&p.keszletDb<=1&&!p.rejtett&&!kezi(p)):[], out=KV?P.filter(p=>p.keszletDb===0&&!p.rejtett&&!kezi(p)):[], kz=P.filter(p=>kezi(p)&&!p.rejtett), hid=P.filter(p=>p.rejtett), ask=P.filter(p=>!p.ar&&!p.rejtett), noimg=P.filter(p=>!(p.kepek||[]).length||p.illusztracio), feat=P.filter(p=>p.kiemelt);
   const tile=(n,l,ic,tab,cls='')=>`<button type="button" class="kpi ${cls}" data-tab="${tab}" ${tab==='termekek'?`data-pf="${cls}"`:''}><span class="ki">${icon(ic)}</span><b class="num">${n}</b><span>${l}</span></button>`;
-  const item=p=>`<button type="button" class="fixrow" data-goedit="${esc(p.id)}"><img src="${esc((p.kepek||[])[0]||'')}" alt="" onerror="this.style.visibility='hidden'"><span><b>${esc(fullName(p))}</b>${kezi(p)?`<span class="fx-kz">${keziBdg(p)}</span>`:`<small>${KV&&p.keszletDb===0?'Elfogyott':p.keszletDb!=null&&p.keszletDb<=1?'Utolsó darab':!(p.kepek||[]).length||p.illusztracio?'Nincs valódi fotó':'Ár kérésre'}</small>`}</span>${icon('chev')}</button>`;
+  const item=p=>`<button type="button" class="fixrow" data-goedit="${esc(p.id)}"><img src="${esc((p.kepek||[])[0]||'')}" alt="" onerror="this.style.visibility='hidden'"><span><b>${esc(fullName(p))}</b>${kezi(p)?`<span class="fx-kz">${keziBdg(p)}</span>`:`<small>${KV&&p.keszletDb===0?'Elfogyott':KV&&p.keszletDb!=null&&p.keszletDb<=1?'Utolsó darab':!(p.kepek||[]).length||p.illusztracio?'Nincs valódi fotó':'Ár kérésre'}</small>`}</span>${icon('chev')}</button>`;
   const fix=[...kz,...out,...low.filter(p=>!out.includes(p)),...noimg.filter(p=>!low.includes(p)&&!kz.includes(p))].slice(0,8);
   return `<div class="dash">
    <div class="kpis">${tile('…','új rendelés','bell','rendelesek','orders" id="kpi-orders')}${KV?tile(low.length,'kevés készlet','alert','termekek','low'):tile(kz.length,'kézi állapotú termék','tag','termekek','kezi')}${tile(feat.length,'kiemelt termék','star','termekek','feat')}${tile(hid.length,'rejtett termék','eye','termekek','hid')}</div>
@@ -3784,7 +3784,7 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
   function h(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
   /* --- menüpontok rövid leírása --- */
-  var DESC={attekintes:'Mi a teendő ma?',termekek:'Ár, készlet, fotó',rendelesek:'Vásárlók üzenetei',ugyfelek:'Ügyfélnyilvántartás',szolgaltatasok:'Szerviz árai',gyik:'Kérdések a termékoldalon',feladatok:'Teendők a weboldallal',beallitasok:'Nyitvatartás, szabadság',felhasznalok:'Ki léphet be?',biztonsag:'Jelszó, belépések'};
+  var DESC={attekintes:'Mi a teendő ma?',termekek:'Ár, készlet, állapot, fotó',rendelesek:'Vásárlók üzenetei',ugyfelek:'Ügyfélnyilvántartás',szolgaltatasok:'Szerviz árai',gyik:'Kérdések a termékoldalon',feladatok:'Teendők a weboldallal',beallitasok:'Nyitvatartás, szabadság',felhasznalok:'Ki léphet be?',biztonsag:'Jelszó, belépések'};
 
   /* --- oldalankénti segítség --- */
   var TAB={
@@ -3803,7 +3803,7 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
   /* --- „Hogyan…?” súgó --- */
   var HOW=[
     {ic:'tag',q:'Árat szeretnék módosítani',tab:'termekek',sel:'.pc2:not([hidden]) [data-f="ar"]',l:['Nyissa meg a <b>Termékek</b> oldalt.','Keresse meg a terméket a keresővel.','Írja át az <b>Ár (nettó)</b> mezőt. ÁFA nélküli árat írjon, a vásárló az ÁFÁ-val növelt árat látja.','Nyomja meg alul a sárga <b>Mentés</b> gombot.']},
-    {ic:'box',q:'Készletet (darabszámot) szeretnék módosítani',tab:'termekek',sel:'.pc2:not([hidden]) .step',l:['Nyissa meg a <b>Termékek</b> oldalt.','A <b>Készlet</b> résznél a <b>+</b> és <b>−</b> gombbal állítsa be a darabszámot.','0 = elfogyott. Ha a mezőt üresen hagyja, „rendelésre” jelenik meg.','Nyomja meg a <b>Mentés</b> gombot.']},
+    {ic:'box',q:'Készletet (darabszámot) szeretnék módosítani',kov:1,tab:'termekek',sel:'.pc2:not([hidden]) .step',l:['Nyissa meg a <b>Termékek</b> oldalt.','A <b>Készlet</b> résznél a <b>+</b> és <b>−</b> gombbal állítsa be a darabszámot.','0 = elfogyott. Ha a mezőt üresen hagyja, „rendelésre” jelenik meg.','Nyomja meg a <b>Mentés</b> gombot.']},
     {ic:'box',q:'Ki szeretném kapcsolni a készletnyilvántartást',tab:'termekek',sel:'.kkv',l:['Nyissa meg a <b>Termékek</b> oldalt.','Legfelül a <b>Készletnyilvántartás</b> kapcsolót állítsa <b>Ki</b> állásba.','Nyomja meg a <b>Mentés</b> gombot.'],tip:'Kikapcsolva a weboldal nem mutatja, hány darab van, és azt sem, hogy elfogyott. A darabszámok megmaradnak: visszakapcsoláskor minden a régi szerint működik.'},
     {ic:'tag',q:'Egy terméket elfogyottnak vagy szállítás alattinak jelölnék',tab:'termekek',sel:'.pc2:not([hidden]) .pc2k',l:['A terméknél az <b>Állapot a weboldalon</b> listából válassza az <b>Elfogyott</b> vagy a <b>Szállítás alatt</b> lehetőséget.','Saját szöveghez válassza az <b>Egyedi ok…</b> lehetőséget, és írja be az okot.','Nyomja meg a <b>Mentés</b> gombot.'],tip:'Ha a termék újra kapható, állítsa vissza <b>Automatikus</b> értékre.'},
     {ic:'star',q:'Akciót szeretnék indítani',tab:'termekek',sel:'.pc2:not([hidden]) [data-f="akciosAr"]',l:['A terméknél írja be az új, alacsonyabb árat az <b>Akciós ár</b> mezőbe.','Nyomja meg a <b>Mentés</b> gombot.','Az akció végén törölje ki az akciós árat, és mentsen újra.']},
@@ -3901,9 +3901,9 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
     var own=(typeof ADMIN!=='undefined')&&ADMIN.me&&ADMIN.me.szerep==='tulajdonos';
     panel.innerHTML='<div class="bg" data-sgx></div><div class="box" role="dialog" aria-modal="true" aria-labelledby="sg-h"><div class="top"><div style="flex:1"><h2 id="sg-h">Súgó</h2><small>Válassza ki, mit szeretne csinálni</small></div><button class="x" type="button" data-sgx aria-label="Súgó bezárása">×</button></div><div class="in">'
       +'<div class="alap"><b>A legfontosabb szabály:</b> amit módosít, az csak akkor kerül ki a weboldalra, ha alul megnyomja a sárga <b>Mentés</b> gombot. Ha meggondolta magát, nyomja meg az <b>Elvetés</b> gombot.</div>'
-      +HOW.filter(function(x){ return !x.own||own; }).map(function(x,i){ return '<details><summary><span class="e">'+(typeof icon==='function'?icon(x.ic):'')+'</span>'+h(x.q)+'</summary><div class="lp"><ol>'+x.l.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>'+(x.tip?'<p class="tip">'+x.tip+'</p>':'')+(x.tab?'<button class="go" type="button" data-sggo="'+i+'">Mutasd meg →</button>':'')+'</div></details>'; }).join('')
+      +HOW.filter(function(x){ return (!x.own||own)&&(!x.kov||typeof KOVET!=='function'||KOVET()); }).map(function(x,i){ return '<details><summary><span class="e">'+(typeof icon==='function'?icon(x.ic):'')+'</span>'+h(x.q)+'</summary><div class="lp"><ol>'+x.l.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>'+(x.tip?'<p class="tip">'+x.tip+'</p>':'')+(x.tab?'<button class="go" type="button" data-sggo="'+i+'">Mutasd meg →</button>':'')+'</div></details>'; }).join('')
       +'<p class="end">A mezők melletti <b style="color:#f4d58d">?</b> jelre koppintva megtudja, mit kell oda írni.</p></div></div>';
-    var list=HOW.filter(function(x){ return !x.own||own; });
+    var list=HOW.filter(function(x){ return (!x.own||own)&&(!x.kov||typeof KOVET!=='function'||KOVET()); });
     panel.querySelectorAll('[data-sgx]').forEach(function(x){ x.onclick=closePanel; });
     panel.querySelectorAll('details').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open) panel.querySelectorAll('details').forEach(function(o){ if(o!==d) o.open=false; }); }); });
     panel.querySelectorAll('[data-sggo]').forEach(function(b){ b.onclick=function(){ goTo(list[+b.dataset.sggo]); }; });
@@ -3925,6 +3925,8 @@ F.sort=LS.get('ptg-sort','nev'); F.cond=LS.get('ptg-cond','all');
     root.querySelectorAll('.aside [data-tab], .asheet [data-tab]').forEach(function(b){ if(b.querySelector('.sg-d')||!DESC[b.dataset.tab]) return; var s=b.querySelector('span'); if(!s) return; var d=document.createElement('small'); d.className='sg-d'; d.textContent=DESC[b.dataset.tab]; s.appendChild(d); });
     var sb=root.querySelector('#savebar .sbtxt>span:last-child'); if(sb&&!sb.dataset.sg){ sb.dataset.sg='1'; sb.innerHTML='Van el nem mentett módosítás<small>Nyomja meg a Mentés gombot, hogy kikerüljön az oldalra.</small>'; }
     var tab=ADMIN.tab||'attekintes', main=root.querySelector('.amain'), tt=root.querySelector('.atitle'), c=TAB[tab];
+    /* kikapcsolt készletnyilvántartásnál a Termékek súgója nem beszél darabszámról */
+    if(tab==='termekek'&&typeof KOVET==='function'&&!KOVET()) c={t:c.t,p:'Árat, állapotot és láthatóságot közvetlenül a kártyán állíthat. Szöveghez és fotóhoz nyomja meg a <b>Szerkesztés</b> gombot.',l:['Keresse meg a terméket: írja be a nevét a keresőbe, vagy válasszon kategóriát.','Írja át az árat, vagy válasszon állapotot (pl. <b>Szállítás alatt</b>) az <b>Állapot a weboldalon</b> listából.'].concat(c.l.slice(2))};
     if(main&&tt&&c&&!main.querySelector('.sg-card,.sg-mini')){
       var hid=rd()[tab];
       if(hid){ var m=document.createElement('button'); m.type='button'; m.className='sg-mini'; m.innerHTML='<b>?</b>Segítség'; m.onclick=function(){ var o=rd(); delete o[tab]; wr(o); m.remove(); enhance(); }; tt.appendChild(m); }
