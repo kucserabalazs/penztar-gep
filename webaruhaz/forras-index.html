@@ -2568,7 +2568,7 @@ function bindCheckoutUI(){
   const app=$('#app'), wrap=$('.checkout',app); if(!wrap) return;
   $('#co-elf-torol',wrap)?.addEventListener('click',()=>{ CART=CART.filter(c=>{ const p=prod(c.id); return p&&avail(p)!==0; }); saveCart(); route(); });
   const tot=$('#sum-tot',wrap), veg=$('#co-veg-ossz',wrap), tol=CART.some(c=>{ const p=prod(c.id); return p&&p.ar&&p.arTol; });
-  const sync=()=>{ if(!tot) return; if(tol&&!/-tól$/.test(tot.textContent)) tot.textContent+='-tól'; if(veg&&veg.isConnected) veg.textContent=tot.textContent; };
+  const sync=()=>{ if(!tot) return; if(tol&&/^[\d\s\u00a0\u202f.,]+Ft$/.test(tot.textContent.trim())) tot.textContent=tot.textContent.trim()+'-tól';   /* csak a nyers összeghez fűz; a lefordított alakhoz (pl. „Ab … Ft”) nem */ if(veg&&veg.isConnected) veg.textContent=tot.textContent; };
   if(tot){ sync(); new MutationObserver(sync).observe(tot,{childList:true,characterData:true,subtree:true}); }
   const panel=$('.panel',wrap); if(!panel) return;
   const mo=new MutationObserver(()=>{ if($('form[data-cart]',panel)) return; const msg=$('.msg.ok, .msg.info',panel); if(!msg) return; mo.disconnect();
