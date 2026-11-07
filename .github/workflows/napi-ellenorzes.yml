@@ -1,0 +1,89 @@
+# Napi ellenőrzés: minden reggel végignézi a penztar-gep.hu-t (oldalak, webáruház, fájlok, képek, oldaltérkép,
+# SSL-tanúsítvány, védett fájlok, JavaScript-hibák asztali és mobil nézetben). Csak olvas, semmit nem módosít.
+# Ha HIBÁT talál: e-mail a tulajdonosnak (a tárhely levélküldőjével, a címzett a titkos beállításokból jön),
+# és a futás pirosra vált – erről a GitHub is küld levelet tartalékként. Ha minden rendben, nem küld levelet.
+# Kézi indítás: Actions › „Napi ellenőrzés” › Run workflow.
+name: Napi ellenőrzés
+
+on:
+  schedule:
+    - cron: "17 5 * * *"      # minden nap 05:17 UTC = 06:17 (téli idő) / 07:17 (nyári idő) magyar idő szerint
+  workflow_dispatch:
+    inputs:
+      proba:
+        description: "Próba: a levélküldés útját is kipróbálja (levél nélkül)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: napi-ellenorzes
+  cancel-in-progress: false
+
+jobs:
+  ellenorzes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Böngésző telepítése
+        run: |
+          pip install -q playwright==1.48.0
+          python -m playwright install --with-deps chromium >/dev/null
+      - name: Ellenőrzés
+        id: ell
+        continue-on-error: true
+        run: python3 eszkozok/napi_ellenorzes.py
+      - name: Összefoglaló
+        if: always()
+        run: |
+          { echo '```'; cat jelentes.txt 2>/dev/null || echo "(nincs jelentés)"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: E-mail a tulajdonosnak (csak hiba esetén, vagy próbánál levél nélkül)
+        if: steps.ell.outcome == 'failure' || github.event.inputs.proba == 'true'
+        env:
+          SFTP_HOST: fw.elin.hu
+          SFTP_PORT: "2253"
+          SFTP_USER: web5109
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          PROBA: ${{ steps.ell.outcome != 'failure' && github.event.inputs.proba == 'true' }}
+          FUTAS: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y -qq lftp >/dev/null 2>&1 || (sudo apt-get update -qq && sudo apt-get install -y -qq lftp >/dev/null)
+          # egyszer használható, 10 percig érvényes jegy a tárhelyre (csak a hash-e kerül fel)
+          JEGY=$(openssl rand -hex 32)
+          D="$RUNNER_TEMP/j"; mkdir -p "$D"; chmod 700 "$D"
+          python3 - "$JEGY" "$D/ellenorzes.jegy.php" <<'PY'
+          import hashlib, json, sys, time
+          open(sys.argv[2], "w").write("<?php http_response_code(404); exit; ?>\n" + json.dumps({"hash": hashlib.sha256(sys.argv[1].encode()).hexdigest(), "lejar": int(time.time()) + 600}))
+          PY
+          kapcs() { lftp -u "$SFTP_USER,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; $1; bye"; }
+          CEL=web5109/web; kapcs "cd $CEL" >/dev/null 2>&1 || CEL=web
+          kapcs "cd $CEL/webaruhaz/data; lcd $D; put ellenorzes.jegy.php" >/dev/null
+          rm -rf "$D"
+          N=$(cat hibak.txt 2>/dev/null || echo "?")
+          python3 - "$JEGY" "$N" <<'PY'
+          import json, os, sys, urllib.request
+          jegy, n = sys.argv[1], sys.argv[2]
+          proba = os.environ.get("PROBA") == "true"
+          szoveg = open("jelentes.txt", encoding="utf-8").read() if os.path.exists("jelentes.txt") else "A jelentés nem készült el."
+          szoveg += f"\nA részletes futási napló: {os.environ['FUTAS']}\n\n(Ezt a levelet a weboldal napi automatikus ellenőrzése küldte. Csak hiba esetén érkezik levél.)\n"
+          adat = {"jegy": jegy, "targy": f"PENZTAR-GEP.HU – HIBA A NAPI ELLENŐRZÉSBEN ({n} db)", "szoveg": szoveg, "proba": proba}
+          req = urllib.request.Request("https://penztar-gep.hu/webaruhaz/api.php?a=ellenorzes-jelentes", data=json.dumps(adat).encode(),
+                                       headers={"Content-Type": "application/json", "User-Agent": "PTG-napi-ellenorzes"}, method="POST")
+          try:
+              v = json.loads(urllib.request.urlopen(req, timeout=30).read())
+              print("Levélküldés:", "PRÓBA RENDBEN (levél nem ment ki)" if v.get("proba") else ("ELKÜLDVE" if v.get("ok") else "A tárhely nem tudta elküldeni"))
+          except Exception as e:
+              print("A levél nem ment ki (a GitHub hibaértesítője így is megérkezik):", e)
+          PY
+      - name: Eredmény
+        if: steps.ell.outcome == 'failure'
+        run: |
+          echo "::error::A napi ellenőrzés hibát talált – részletek az összefoglalóban."
+          exit 1

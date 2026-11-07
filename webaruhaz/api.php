@@ -970,6 +970,22 @@ switch ($a) {
      a válaszcím a látogató saját címe. Védelem: rejtett csapdamező, aláírt jegy (legalább 4 mp az űrlap megnyitása után,
      legfeljebb 2 óra), legfeljebb 2 internetes hivatkozás, IP-korlát (10 percenként 3, naponta 10 üzenet).
      A látogatónak NEM küldünk automatikus levelet – így az űrlappal nem lehet idegen címekre levelet küldetni. */
+  case 'ellenorzes-jelentes':   // a napi ellenőrzés (GitHub Actions) hibajelentése a tulajdonos e-mail címére
+    // Védelem: a munkafolyamat SFTP-n egy egyszer használható jegyet tesz a data mappába (csak a hash-ét),
+    // és a jegyet ezzel a kéréssel küldi. Nyilvánosan nem hívható, a címzett a config.local.php-ból jön.
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') out(['error' => 'POST kell.'], 405);
+    $jf = DATA . '/ellenorzes.jegy.php';
+    $b = body(); $jegy = (string)($b['jegy'] ?? '');
+    $j = read_json($jf, null);
+    if (!is_array($j) || empty($j['hash']) || (int)($j['lejar'] ?? 0) < time() || !hash_equals((string)$j['hash'], hash('sha256', $jegy))) out(['error' => 'Érvénytelen jegy.'], 403);
+    @unlink($jf);
+    $cim = owner_email('kucsera-balazs');
+    if ($cim === '') out(['error' => 'Nincs címzett.'], 500);
+    if (!empty($b['proba'])) out(['ok' => true, 'proba' => true]);   // csak az útvonal próbája, levél nélkül
+    $targy = mb_substr(trim((string)($b['targy'] ?? 'Napi ellenőrzés')), 0, 160);
+    $szoveg = mb_substr((string)($b['szoveg'] ?? ''), 0, 30000);
+    out(['ok' => send_mail($cim, $targy, $szoveg)]);
+
   case 'kapcsolat-jegy':
     out(['jegy' => form_ticket()]);
 
